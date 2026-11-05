@@ -1,0 +1,940 @@
+{
+  "academy": {
+    "name_en": "HAKIM OPTICS ACADEMY",
+    "name_ar": "أكاديمية الحكيم التفاعلية لعلوم البصريات",
+    "slogan": "Learn Optometry. Master Vision.",
+    "founder": "د. لقمان بابكر الشيخ",
+    "qualification": "بكالوريوس علوم البصريات – جامعة غرب كردفان",
+    "version": "1.1",
+    "language_policy": "English scientific content followed by Arabic explanation."
+  },
+  "editorial_policy": {
+    "scientific_integrity": "All clinical material is original educational writing informed by traceable references. Verify exact edition, chapter, page or DOI before publication and obtain qualified scientific review.",
+    "ai_policy": "AI is not a scientific reference. It may assist editing only; clinical facts require human verification.",
+    "copyright": "Do not copy protected textbook chapters, question banks or figures without permission. Use original or licensed illustrations and record licenses.",
+    "safety": "Educational content is not patient-specific medical advice. Follow local scope-of-practice rules and urgent referral pathways.",
+    "workflow": [
+      "Draft",
+      "Scientific review",
+      "Editorial review",
+      "Rights and image-license check",
+      "Approval",
+      "Publication and versioning"
+    ]
+  },
+  "departments": [
+    {
+      "code": "GEO",
+      "name_en": "Geometrical Optics",
+      "name_ar": "البصريات الهندسية",
+      "curriculum_topics": [
+        "Light and its properties",
+        "Reflection",
+        "Refraction and Snell's law",
+        "Refractive index",
+        "Total internal reflection",
+        "Spherical mirrors",
+        "Thin lenses",
+        "Lens formula",
+        "Lens power",
+        "Prisms",
+        "Prentice's rule",
+        "Magnification",
+        "Optical aberrations",
+        "Interference and diffraction",
+        "Polarization"
+      ]
+    },
+    {
+      "code": "VIS",
+      "name_en": "Visual Optics",
+      "name_ar": "البصريات البصرية للرؤية",
+      "curriculum_topics": [
+        "Optical components of the eye",
+        "Schematic eye",
+        "Emmetropia",
+        "Ametropia",
+        "Myopia",
+        "Hyperopia",
+        "Astigmatism",
+        "Presbyopia",
+        "Accommodation",
+        "Depth of focus",
+        "Pupil optics",
+        "Retinal image",
+        "Visual resolution",
+        "Ocular aberrations",
+        "Aniseikonia"
+      ]
+    },
+    {
+      "code": "REF",
+      "name_en": "Clinical Refraction",
+      "name_ar": "الانكسار السريري",
+      "curriculum_topics": [
+        "Patient history",
+        "Visual acuity",
+        "Pinhole test",
+        "Retinoscopy",
+        "Autorefraction",
+        "Subjective refraction",
+        "Sphere refinement",
+        "Jackson cross-cylinder",
+        "Binocular balance",
+        "Cycloplegic refraction",
+        "Pediatric refraction",
+        "Near addition",
+        "Presbyopic refraction",
+        "Prescription writing",
+        "Non-tolerance"
+      ]
+    },
+    {
+      "code": "BV",
+      "name_en": "Binocular Vision",
+      "name_ar": "الرؤية الثنائية وتقويم البصر",
+      "curriculum_topics": [
+        "Development of binocular vision",
+        "Sensory fusion",
+        "Motor fusion",
+        "Retinal correspondence",
+        "Suppression",
+        "Stereopsis",
+        "Ocular motility",
+        "Cover tests",
+        "Phoria and tropia",
+        "Prism tests",
+        "Vergence ranges",
+        "Near point of convergence",
+        "AC/A ratio",
+        "Accommodation assessment",
+        "Accommodative insufficiency",
+        "Accommodative excess",
+        "Convergence insufficiency",
+        "Convergence excess",
+        "Amblyopia",
+        "Strabismus"
+      ]
+    },
+    {
+      "code": "CL",
+      "name_en": "Contact Lenses",
+      "name_ar": "العدسات اللاصقة",
+      "curriculum_topics": [
+        "Indications and contraindications",
+        "Pre-fitting assessment",
+        "Corneal anatomy",
+        "Tear film",
+        "Contact lens materials",
+        "Soft lens designs",
+        "RGP lenses",
+        "Lens parameters",
+        "Keratometry",
+        "Corneal topography",
+        "Soft lens fitting",
+        "RGP fitting",
+        "Toric lenses",
+        "Multifocal lenses",
+        "Over-refraction",
+        "Lens care",
+        "Contact lens complications",
+        "Microbial keratitis"
+      ]
+    },
+    {
+      "code": "PED",
+      "name_en": "Pediatric Optometry",
+      "name_ar": "بصريات الأطفال",
+      "curriculum_topics": [
+        "Visual development",
+        "Pediatric history",
+        "Age-appropriate visual acuity",
+        "Cycloplegic refraction",
+        "Emmetropization",
+        "Amblyopia",
+        "Strabismus",
+        "Pediatric accommodation",
+        "Pediatric binocular vision",
+        "Congenital cataract",
+        "Congenital glaucoma",
+        "Pediatric myopia",
+        "Myopia control",
+        "Vision screening",
+        "Childhood red eye",
+        "Photophobia in children"
+      ]
+    },
+    {
+      "code": "OD",
+      "name_en": "Ocular Diseases",
+      "name_ar": "أمراض العين",
+      "curriculum_topics": [
+        "Red eye approach",
+        "Conjunctivitis",
+        "Keratitis",
+        "Corneal ulcer",
+        "Corneal opacity",
+        "Dry eye",
+        "Blepharitis",
+        "Meibomian gland dysfunction",
+        "Cataract",
+        "Glaucoma",
+        "Diabetic retinopathy",
+        "Hypertensive retinopathy",
+        "Macular degeneration",
+        "Retinal detachment",
+        "Uveitis",
+        "Optic neuritis",
+        "Ocular trauma",
+        "Chemical injury",
+        "Chalazion",
+        "Photophobia"
+      ]
+    },
+    {
+      "code": "LV",
+      "name_en": "Low Vision",
+      "name_ar": "ضعف البصر",
+      "curriculum_topics": [
+        "Definitions and classification",
+        "Functional vision assessment",
+        "Low-vision history",
+        "Distance assessment",
+        "Near assessment",
+        "Contrast sensitivity",
+        "Visual fields",
+        "Magnification",
+        "Optical aids",
+        "Electronic aids",
+        "Non-optical aids",
+        "Lighting",
+        "Glare control",
+        "Eccentric viewing",
+        "Pediatric low vision",
+        "Rehabilitation planning"
+      ]
+    },
+    {
+      "code": "DO",
+      "name_en": "Dispensing Optics",
+      "name_ar": "بصريات النظارات والتجهيز",
+      "curriculum_topics": [
+        "Lens materials",
+        "Refractive index",
+        "Abbe value",
+        "Single-vision lenses",
+        "Bifocal lenses",
+        "Progressive lenses",
+        "Occupational lenses",
+        "Lens coatings",
+        "Transposition",
+        "Lensometry",
+        "Pupillary distance",
+        "Optical centre",
+        "Fitting height",
+        "Frame measurements",
+        "Prentice's rule",
+        "Induced prism",
+        "Lens verification",
+        "Troubleshooting"
+      ]
+    },
+    {
+      "code": "CO",
+      "name_en": "Clinical Optometry",
+      "name_ar": "الممارسة السريرية",
+      "curriculum_topics": [
+        "Comprehensive examination",
+        "Clinical history",
+        "External examination",
+        "Pupillary assessment",
+        "Ocular motility",
+        "Anterior segment",
+        "Tonometry principles",
+        "Fundus examination",
+        "Visual fields",
+        "OCT overview",
+        "Clinical reasoning",
+        "Documentation",
+        "Consent",
+        "Confidentiality",
+        "Referral pathways",
+        "Ocular emergencies"
+      ]
+    },
+    {
+      "code": "ANP",
+      "name_en": "Anatomy and Physiology",
+      "name_ar": "تشريح ووظائف الجهاز البصري",
+      "curriculum_topics": [
+        "Orbit",
+        "Eyelids",
+        "Lacrimal apparatus",
+        "Conjunctiva",
+        "Sclera",
+        "Cornea",
+        "Uvea",
+        "Crystalline lens",
+        "Vitreous",
+        "Retinal layers",
+        "Phototransduction",
+        "Optic nerve",
+        "Visual pathway",
+        "Visual cortex",
+        "Extraocular muscles",
+        "Cranial nerve innervation",
+        "Pupillary pathways",
+        "Tear film",
+        "Ocular blood supply",
+        "Accommodation physiology"
+      ]
+    },
+    {
+      "code": "EPH",
+      "name_en": "Ocular Pharmacology",
+      "name_ar": "علم أدوية العين",
+      "curriculum_topics": [
+        "Principles of ocular pharmacology",
+        "Ocular drug administration routes",
+        "Corneal and conjunctival drug penetration",
+        "Topical ophthalmic formulations",
+        "Ophthalmic solutions, suspensions and ointments",
+        "Preservatives in eye drops",
+        "Drug absorption, distribution, metabolism and elimination",
+        "Bioavailability and ocular pharmacokinetics",
+        "Autonomic pharmacology of the eye",
+        "Cholinergic agonists",
+        "Anticholinesterase agents",
+        "Antimuscarinic agents and cycloplegics",
+        "Sympathomimetic agents and mydriatics",
+        "Topical anesthetics",
+        "Diagnostic ophthalmic drugs",
+        "Fluorescein and diagnostic dyes",
+        "Ocular lubricants and tear substitutes",
+        "Ophthalmic antihistamines and mast-cell stabilizers",
+        "Ocular decongestants",
+        "Topical ophthalmic corticosteroids",
+        "Topical ophthalmic non-steroidal anti-inflammatory drugs",
+        "Ocular antibiotics",
+        "Antiviral drugs in eye care",
+        "Antifungal drugs in eye care",
+        "Glaucoma medications: overview",
+        "Prostaglandin analogues",
+        "Beta-adrenergic blockers",
+        "Alpha-2 adrenergic agonists",
+        "Topical carbonic anhydrase inhibitors",
+        "Rho-kinase inhibitors",
+        "Hyperosmotic agents",
+        "Intravitreal pharmacotherapy: overview",
+        "Anti-VEGF therapy",
+        "Ocular drug adverse effects",
+        "Systemic effects of topical ophthalmic drugs",
+        "Contraindications, precautions and drug interactions",
+        "Use of ophthalmic drugs in children",
+        "Ophthalmic drugs in pregnancy and lactation",
+        "Safe prescribing, dispensing and patient counselling",
+        "Medication adherence and eye-drop instillation technique",
+        "Ocular drug toxicity and emergency recognition",
+        "Antimicrobial stewardship in eye care"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "ANP-COR-001",
+      "title_en": "Corneal Anatomy and Physiology",
+      "department_code": "ANP",
+      "level": "Basic",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Identify the corneal layers; explain transparency and refractive function; relate layer dysfunction to clinical signs.",
+      "content_en": "The cornea is the transparent, avascular anterior tissue of the eye. It provides most of the eye's refractive power and forms a protective barrier. Its regular curvature and transparency are essential for a clear retinal image. The classical layers are epithelium, Bowman's layer, stroma, Descemet's membrane and endothelium. The epithelium renews rapidly and provides a barrier; the stroma is the thickest layer and contains regularly arranged collagen lamellae; the endothelium regulates hydration through pump and barrier functions. Corneal transparency depends on avascularity, regular collagen architecture, controlled hydration and a smooth optical surface. The cornea is richly supplied by sensory nerves. Epithelial defects may cause pain, tearing and photophobia; stromal scarring or edema reduces transparency; endothelial dysfunction may cause edema. Assessment may include visual acuity, slit-lamp examination, fluorescein staining, keratometry and topography when indicated.",
+      "content_ar": "القرنية نسيج شفاف غير وعائي في مقدمة العين، وتوفر معظم القوة الانكسارية للعين كما تعمل حاجزاً واقياً. تتكون الطبقات التقليدية من Epithelium وBowman's layer وStroma وDescemet's membrane وEndothelium. تتجدد الظهارة بسرعة وتعمل حاجزاً، بينما تمثل Stroma أسمك طبقة وتحتوي صفائح كولاجينية منتظمة. تساعد Endothelium على تنظيم ترطيب القرنية عبر وظائف المضخة والحاجز. تعتمد الشفافية على غياب الأوعية وانتظام الكولاجين وضبط الترطيب وسلامة السطح. القرنية غنية بالأعصاب الحسية؛ لذلك قد يسبب خدش الظهارة ألماً ودموعاً ورهاب الضوء. الندبات أو الوذمة تقلل الشفافية، وقد يؤدي خلل البطانة إلى Corneal Edema. قد يشمل التقييم Visual Acuity وSlit Lamp وFluorescein وKeratometry وTopography عند الحاجة.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which layer has the principal endothelial pump function?",
+          "options": [
+            "Epithelium",
+            "Stroma",
+            "Endothelium",
+            "Bowman's layer"
+          ],
+          "answer": "Endothelium",
+          "explanation": "Its pump and barrier functions help maintain corneal deturgescence."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "The cornea is richly supplied with sensory nerves.",
+          "options": [],
+          "answer": "True",
+          "explanation": "Corneal sensory innervation explains why small epithelial injuries can be painful."
+        }
+      ],
+      "reference_titles": [
+        "Adler's Physiology of the Eye",
+        "Clinical Procedures in Primary Eye Care",
+        "AAO educational resources"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "GEO-REF-001",
+      "title_en": "Refraction of Light and Snell's Law",
+      "department_code": "GEO",
+      "level": "Basic",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Define refractive index; apply Snell's law; explain bending toward and away from the normal.",
+      "content_en": "Refraction is the change in direction of light as it crosses an interface between media with different refractive indices at oblique incidence. Refractive index is n=c/v, where c is the speed of light in vacuum and v is its speed in the medium. Snell's law is n1 sin(theta1)=n2 sin(theta2), with angles measured from the normal. Light entering a higher-index medium bends toward the normal; entering a lower-index medium bends away. At normal incidence, speed changes but direction does not. Total internal reflection requires travel from higher to lower refractive index and an incidence angle greater than the critical angle. Refractive index varies with wavelength, producing dispersion.",
+      "content_ar": "الانكسار هو تغير اتجاه الضوء عند انتقاله بين وسطين مختلفي معامل الانكسار عند السقوط المائل. معامل الانكسار n=c/v. قانون Snell هو n1 sin(theta1)=n2 sin(theta2)، وتقاس الزوايا من Normal. عند دخول وسط أعلى معامل انكسار ينحني الضوء نحو العمود المقام، وعند دخول وسط أقل ينحني مبتعداً عنه. عند السقوط العمودي تتغير السرعة دون تغير الاتجاه. يتطلب Total Internal Reflection انتقال الضوء من وسط أعلى معامل انكسار إلى وسط أقل، وأن تتجاوز زاوية السقوط Critical Angle. اختلاف معامل الانكسار باختلاف الطول الموجي يؤدي إلى Dispersion.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "When light passes obliquely from air into glass, it generally bends:",
+          "options": [
+            "Away from normal",
+            "Toward normal",
+            "Along interface",
+            "No change"
+          ],
+          "answer": "Toward normal",
+          "explanation": "Glass has a higher refractive index than air."
+        },
+        {
+          "type": "MCQ",
+          "stem": "Total internal reflection requires:",
+          "options": [
+            "Lower to higher index",
+            "Higher to lower index above critical angle",
+            "Normal incidence",
+            "Vacuum only"
+          ],
+          "answer": "Higher to lower index above critical angle",
+          "explanation": "Both direction and angle conditions are necessary."
+        }
+      ],
+      "reference_titles": [
+        "Clinical Optics",
+        "Borish's Clinical Refraction"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "VIS-MYO-001",
+      "title_en": "Myopia: Optical Basis and Clinical Overview",
+      "department_code": "VIS",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Define myopia; distinguish axial and refractive mechanisms; explain minus-lens correction and clinical red flags.",
+      "content_en": "Myopia is a refractive state in which, with accommodation relaxed, parallel rays from a distant object focus in front of the retina. Axial myopia occurs when the eye is relatively long for its optical power; refractive myopia occurs when optical power is relatively high for axial length. A minus (diverging) lens diverges incoming rays so the eye can focus the image on the retina. Assessment includes history, visual acuity, objective and subjective refraction, and ocular health evaluation according to age and risk. Cycloplegic refraction is often important in children. High or progressive myopia requires attention to ocular health. New flashes, numerous floaters, a curtain-like field defect or sudden visual loss require urgent assessment. Myopia management in children is distinct from simply correcting blur and should use evidence-based options selected by a qualified clinician.",
+      "content_ar": "قصر النظر Myopia حالة انكسارية تتجمع فيها الأشعة المتوازية أمام الشبكية عندما تكون Accommodation مرتخية. يحدث Axial Myopia عندما يكون طول العين أكبر نسبياً من قوتها الانكسارية، بينما يحدث Refractive Myopia عندما تكون القوة الانكسارية مرتفعة نسبياً لطول العين. تستخدم العدسة السالبة Minus Lens لتفريق الأشعة قبل دخول العين حتى تتكون الصورة على الشبكية. يشمل التقييم التاريخ وVisual Acuity وObjective وSubjective Refraction وفحص صحة العين. تكون Cycloplegic Refraction مهمة في كثير من حالات الأطفال. يحتاج قصر النظر العالي أو المتزايد إلى اهتمام بصحة الشبكية. ظهور Flashes أو Floaters جديدة بكثرة أو ظل يشبه الستارة أو فقدان مفاجئ للرؤية يستلزم تقييماً عاجلاً. إدارة Myopia لدى الأطفال تختلف عن مجرد تصحيح الزغللة ويجب أن يختارها مختص وفق الدليل العلمي.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "In myopia, distant parallel rays focus:",
+          "options": [
+            "Behind retina",
+            "On retina",
+            "In front of retina",
+            "At pupil"
+          ],
+          "answer": "In front of retina",
+          "explanation": "This is the defining optical feature."
+        },
+        {
+          "type": "MCQ",
+          "stem": "Which lens corrects myopia conventionally?",
+          "options": [
+            "Plus",
+            "Minus",
+            "Plano",
+            "Prism only"
+          ],
+          "answer": "Minus",
+          "explanation": "A diverging lens moves the focal position posteriorly onto the retina."
+        }
+      ],
+      "reference_titles": [
+        "Borish's Clinical Refraction",
+        "International Myopia Institute reports",
+        "AAO educational resources"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "REF-SUB-001",
+      "title_en": "Subjective Refraction: A Structured Approach",
+      "department_code": "REF",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Describe a systematic subjective refraction; explain sphere refinement; identify limitations of patient responses.",
+      "content_en": "Subjective refraction refines an objective estimate using patient responses to determine a clear and comfortable correction. A typical process includes history, presenting visual acuity, objective starting point, sphere refinement, cylinder axis and power refinement, binocular balance when appropriate, and reassessment of acuity and comfort. A common sphere-refinement aim is the maximum plus or least minus that provides best visual acuity, interpreted in context of age, accommodation, binocular status and symptoms. Jackson cross-cylinder may assist cylinder refinement when appropriate. Autorefraction is a starting point, not automatically the final prescription. Reduced or unexplained acuity, pain, photophobia, sudden onset or abnormal ocular findings require further assessment rather than repeated lens changes alone.",
+      "content_ar": "يقوم Subjective Refraction بتنقيح القياس الموضوعي اعتماداً على استجابة المريض للوصول إلى تصحيح واضح ومريح. يتضمن التسلسل عادة التاريخ وPresenting Visual Acuity ونقطة بداية Objective Refraction ثم تنقيح Sphere وCylinder Axis وPower وإجراء Binocular Balance عند الحاجة وإعادة تقييم الرؤية والراحة. من المبادئ الشائعة اختيار Maximum Plus أو Least Minus الذي يحقق أفضل حدة إبصار، مع مراعاة العمر وAccommodation والحالة الثنائية والأعراض. يمكن استخدام Jackson Cross Cylinder لتنقيح السلندر عند ملاءمته. نتيجة Autorefraction نقطة بداية وليست بالضرورة الوصفة النهائية. انخفاض الرؤية غير المفسر أو الألم أو رهاب الضوء أو البداية المفاجئة أو العلامات غير الطبيعية يستلزم تقييماً إضافياً.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "A common sphere-refinement aim is:",
+          "options": [
+            "Maximum minus accepted",
+            "Maximum plus or least minus giving best acuity",
+            "Autorefraction without refinement",
+            "Any power producing one clear response"
+          ],
+          "answer": "Maximum plus or least minus giving best acuity",
+          "explanation": "This avoids unnecessary minus while maintaining best acuity."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "Autorefraction should always be dispensed without subjective refinement.",
+          "options": [],
+          "answer": "False",
+          "explanation": "Objective measurements require clinical interpretation and refinement as appropriate."
+        }
+      ],
+      "reference_titles": [
+        "Borish's Clinical Refraction",
+        "Clinical Procedures in Primary Eye Care"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "BV-ACC-001",
+      "title_en": "Accommodation: Physiology and Clinical Measurement",
+      "department_code": "BV",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Explain accommodation; distinguish amplitude, facility and response; list common assessment approaches.",
+      "content_en": "Accommodation is the change in ocular optical power, mainly through a change in crystalline lens shape, to maintain focus at different distances. In the conventional Helmholtz model, ciliary muscle contraction reduces zonular tension, allowing the lens to become more convex and increase power for near viewing. Amplitude is the maximum accommodative change; facility is the ability to stimulate and relax accommodation repeatedly; response is the actual change produced for a given stimulus. Lag means response is less than stimulus; lead means response exceeds stimulus. Assessment may include near point of accommodation, monocular and binocular facility, dynamic retinoscopy and symptom analysis. Results depend on age, refractive correction, target, working distance and method. Symptoms alone do not establish an accommodative diagnosis.",
+      "content_ar": "Accommodation هي تغير القوة الانكسارية للعين، أساساً عبر تغير شكل Crystalline Lens، للمحافظة على التركيز على مسافات مختلفة. وفق نموذج Helmholtz التقليدي، يؤدي انقباض Ciliary Muscle إلى تقليل شد Zonules فتزداد تحدبات العدسة وقوتها للقريب. Amplitude هي أقصى تغير تكيفي، وFacility هي القدرة على تنشيط وإرخاء Accommodation بصورة متكررة، أما Response فهي الاستجابة الفعلية لمثير معين. Lag يعني أن الاستجابة أقل من المثير، وLead يعني أنها أكبر منه. قد يشمل التقييم Near Point of Accommodation وMonocular/Binocular Facility وDynamic Retinoscopy وتحليل الأعراض. تتأثر النتائج بالعمر والتصحيح وحجم الهدف ومسافة العمل وطريقة القياس. الأعراض وحدها لا تثبت تشخيص اضطراب تكيفي.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Accommodative facility assesses the ability to:",
+          "options": [
+            "Maintain distance fixation",
+            "Repeatedly stimulate and relax accommodation",
+            "Measure corneal curvature",
+            "Measure pupil size"
+          ],
+          "answer": "Repeatedly stimulate and relax accommodation",
+          "explanation": "Facility describes repeated changes in accommodative response."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "Near headache alone diagnoses accommodative excess.",
+          "options": [],
+          "answer": "False",
+          "explanation": "Symptoms are nonspecific and require a pattern of clinical findings."
+        }
+      ],
+      "reference_titles": [
+        "Borish's Clinical Refraction",
+        "Adler's Physiology of the Eye",
+        "Clinical Procedures in Primary Eye Care"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "CL-PRE-001",
+      "title_en": "Contact Lens Pre-fitting Assessment",
+      "department_code": "CL",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "List key history elements; explain corneal and tear-film assessment; identify urgent warning symptoms.",
+      "content_en": "A pre-fitting assessment determines suitability for contact lens wear and informs lens choice, fit, safety and follow-up. History includes goals, previous lens use, wearing schedule, replacement and cleaning habits, overnight wear, water exposure, allergy, ocular and systemic history, medications and handling ability. Examination may include visual acuity, refraction, lids and lashes, conjunctiva, cornea, tear film and corneal measurements where indicated. Teach hand hygiene, avoidance of tap water, adherence to replacement and disinfection schedules, and avoidance of sleeping or swimming in lenses unless specifically advised. Pain, marked redness, photophobia, discharge or reduced vision in a lens wearer requires prompt assessment because microbial keratitis is a concern.",
+      "content_ar": "يحدد Pre-fitting Assessment مدى ملاءمة العدسات اللاصقة ويؤثر في اختيار العدسة وملاءمتها وسلامتها والمتابعة. يشمل التاريخ الهدف من العدسات والخبرة السابقة وساعات الاستخدام وجدول الاستبدال والتنظيف والنوم بالعدسات والتعرض للماء والحساسية والتاريخ العيني والجهازي والأدوية والقدرة على التعامل الصحي. قد يشمل الفحص Visual Acuity وRefraction وفحص الجفون والملتحمة والقرنية وTear Film وقياسات القرنية عند الحاجة. يجب تعليم غسل اليدين وتجنب ماء الصنبور والالتزام بالتطهير والاستبدال وعدم النوم أو السباحة بالعدسات إلا بتوجيه مهني مناسب. الألم والاحمرار الشديد ورهاب الضوء والإفرازات أو انخفاض الرؤية لدى مستخدم العدسات تستلزم تقييماً سريعاً لاحتمال Microbial Keratitis.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which contact lens symptom combination requires urgent assessment?",
+          "options": [
+            "Mild awareness only",
+            "Pain, redness and photophobia",
+            "Normal vision after removal",
+            "Occasional lens awareness"
+          ],
+          "answer": "Pain, redness and photophobia",
+          "explanation": "This can indicate corneal infection or inflammation."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "Tap water is suitable for rinsing contact lenses.",
+          "options": [],
+          "answer": "False",
+          "explanation": "Water may introduce organisms; use recommended sterile lens-care products."
+        }
+      ],
+      "reference_titles": [
+        "Clinical Procedures in Primary Eye Care",
+        "AAO educational resources"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "PED-AMB-001",
+      "title_en": "Amblyopia: Development, Types and Assessment",
+      "department_code": "PED",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Define amblyopia; identify amblyogenic factors; outline assessment and urgency.",
+      "content_en": "Amblyopia is a developmental visual-processing disorder in which best-corrected visual acuity is reduced in one or both eyes and is not fully explained by structural abnormality. It results when normal visual development is disrupted during a sensitive period. Common amblyogenic factors include strabismus, significant anisometropia, high bilateral refractive error and visual deprivation such as a visually significant cataract or ptosis. Assessment is age-appropriate and may include monocular acuity, alignment and motility, cycloplegic refraction, anterior and posterior segment examination and evaluation for structural causes. Management is cause- and age-dependent. Refractive correction is often foundational; occlusion or pharmacological penalization may be considered by a qualified clinician. Suspected deprivation or abnormal red reflex requires prompt ophthalmic assessment.",
+      "content_ar": "Amblyopia اضطراب نمائي في المعالجة البصرية يؤدي إلى انخفاض أفضل Visual Acuity مصححة في عين واحدة أو العينين، ولا يفسره بالكامل خلل تركيبي واضح. ينشأ عندما يتعطل التطور البصري الطبيعي خلال فترة حساسة. تشمل العوامل Strabismus وAnisometropia الكبيرة وHigh Bilateral Refractive Error وVisual Deprivation مثل Cataract المؤثر أو Ptosis الذي يحجب المحور البصري. يعتمد التقييم على العمر وقد يشمل قياس حدة الإبصار لكل عين وAlignment وMotility وCycloplegic Refraction وفحص أجزاء العين لاستبعاد الأسباب التركيبية. يعتمد التدبير على السبب والعمر؛ ويكون تصحيح الانكسار أساسياً في كثير من الحالات، وقد يقرر المختص Occlusion أو Pharmacological Penalization. الاشتباه في الحرمان البصري أو Red Reflex غير طبيعي يستلزم تقييماً عيونياً سريعاً.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which is a recognized amblyogenic factor?",
+          "options": [
+            "Anisometropia",
+            "Normal emmetropia",
+            "Normal pupil response",
+            "Normal symmetric acuity"
+          ],
+          "answer": "Anisometropia",
+          "explanation": "Unequal image clarity during visual development can disrupt cortical development."
+        },
+        {
+          "type": "ClinicalScenario",
+          "stem": "A child has an abnormal red reflex and suspected visual-axis obstruction. What is the priority?",
+          "options": [],
+          "answer": "Prompt ophthalmic assessment",
+          "explanation": "Visual deprivation during development can cause severe visual impairment."
+        }
+      ],
+      "reference_titles": [
+        "AAO Basic and Clinical Science Course",
+        "Clinical Procedures in Primary Eye Care"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "OD-RED-001",
+      "title_en": "Clinical Approach to Red Eye",
+      "department_code": "OD",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Structure a red-eye history; identify red flags; explain why appearance alone is insufficient.",
+      "content_en": "Red eye is a sign, not a diagnosis. Causes range from surface irritation to keratitis, uveitis, acute angle-closure glaucoma, scleritis and trauma. Ask about onset, duration, laterality, pain, photophobia, discharge, itching, reduced vision, halos, headache, nausea, contact lens wear, trauma, chemical exposure and recent surgery. Red flags include reduced acuity, moderate or severe pain, photophobia, corneal opacity or infiltrate, painful red eye in a contact lens wearer, abnormal pupil, severe headache with nausea, trauma, chemical injury and recent surgery. Assessment may include acuity, pupils, motility, corneal inspection, fluorescein and slit-lamp examination. Chemical injury requires immediate copious irrigation before detailed history. Suspected open globe requires protection without pressure and emergency referral.",
+      "content_ar": "Red Eye علامة وليست تشخيصاً. تتراوح الأسباب من تهيج السطح إلى Keratitis وUveitis وAcute Angle-Closure Glaucoma وScleritis والإصابات. يجب السؤال عن البداية والمدة والجهة والألم ورهاب الضوء والإفرازات والحكة وانخفاض الرؤية والهالات والصداع والغثيان والعدسات اللاصقة والإصابة والتعرض الكيميائي والجراحة الحديثة. تشمل علامات الخطر انخفاض Visual Acuity والألم المتوسط أو الشديد وPhotophobia وعتامة القرنية أو Infiltrate والعين الحمراء المؤلمة لدى مستخدم العدسات والحدقة غير الطبيعية والصداع الشديد مع الغثيان والإصابة والحرق الكيميائي والجراحة الحديثة. قد يشمل الفحص حدة الإبصار والحدقة والحركة وفحص القرنية وFluorescein وSlit Lamp. الحرق الكيميائي يتطلب غسلاً فورياً غزيراً قبل أخذ التاريخ التفصيلي. الاشتباه في Open Globe يتطلب حماية دون ضغط وإحالة إسعافية.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which red-eye presentation is most concerning?",
+          "options": [
+            "Mild bilateral itching with normal vision",
+            "Painful red eye with reduced vision and photophobia",
+            "Brief irritation that resolves",
+            "Long-standing mild redness without symptoms"
+          ],
+          "answer": "Painful red eye with reduced vision and photophobia",
+          "explanation": "Pain, reduced vision and photophobia are warning signs."
+        },
+        {
+          "type": "ClinicalScenario",
+          "stem": "A chemical cleaning agent enters the eye. What is the immediate priority?",
+          "options": [],
+          "answer": "Immediate copious irrigation and emergency assessment",
+          "explanation": "Irrigation must not be delayed for routine examination."
+        }
+      ],
+      "reference_titles": [
+        "The Wills Eye Manual",
+        "AAO Preferred Practice Pattern resources",
+        "Clinical Procedures in Primary Eye Care"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "LV-LOW-001",
+      "title_en": "Low Vision: Functional Assessment",
+      "department_code": "LV",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Differentiate visual acuity from functional vision; identify assessment domains; plan goal-directed rehabilitation.",
+      "content_en": "Low vision describes impairment not adequately resolved by standard correction or medical/surgical treatment, while useful vision may remain. Definitions and eligibility thresholds vary by jurisdiction. Functional assessment examines how vision affects reading, face recognition, mobility, orientation, glare, contrast, lighting, work, school and personal goals. History explores cause and stability, previous treatment, current devices, desired tasks and environmental barriers. Assessment may include distance and near acuity, contrast sensitivity, visual fields, reading performance, preferred working distance, glare and task observation. Rehabilitation is individualized and may use optimized refraction, magnifiers, electronic devices, lighting, contrast strategies, orientation and mobility services and accessibility technology. Sudden deterioration or new flashes, floaters, curtain-like shadow or painful red eye requires medical assessment.",
+      "content_ar": "يشير Low Vision إلى ضعف لا يتحسن بصورة كافية بالتصحيح المعتاد أو العلاج الطبي والجراحي، مع احتمال بقاء رؤية مفيدة. تختلف التعريفات والحدود بين الدول. يدرس Functional Assessment تأثير الرؤية في القراءة والتعرف على الوجوه والحركة والتنقل والوهج والتباين والإضاءة والعمل والدراسة والأهداف الشخصية. يستكشف التاريخ سبب الضعف واستقراره والعلاجات والأجهزة الحالية والمهام المطلوبة والعوائق. قد يشمل التقييم Distance/Near Acuity وContrast Sensitivity وVisual Fields وأداء القراءة ومسافة العمل والوهج وملاحظة المهمة. التأهيل فردي وقد يشمل تحسين الانكسار وMagnifiers والأجهزة الإلكترونية والإضاءة والتباين وخدمات Orientation and Mobility وتقنيات الوصول. التدهور المفاجئ أو Flashes أو Floaters جديدة أو ظل يشبه الستارة أو العين الحمراء المؤلمة يستلزم تقييماً طبياً.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "A low-vision assessment should primarily be guided by:",
+          "options": [
+            "Distance acuity alone",
+            "Functional goals and daily tasks",
+            "Device price",
+            "Fixed magnification for everyone"
+          ],
+          "answer": "Functional goals and daily tasks",
+          "explanation": "Rehabilitation is goal-directed and should be tested in real tasks."
+        }
+      ],
+      "reference_titles": [
+        "World Health Organization vision resources",
+        "Clinical Procedures in Primary Eye Care"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "DO-LENS-001",
+      "title_en": "Spectacle Lens Materials and Design Selection",
+      "department_code": "DO",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Distinguish lens material, design and coating; explain refractive-index trade-offs; identify selection factors.",
+      "content_en": "Spectacle lens selection includes material, refractive index, design, surface treatment and frame compatibility. Material properties include refractive index, Abbe value, density, impact resistance and scratch resistance. Higher-index materials may produce thinner lenses for some prescriptions but can have lower Abbe values and greater chromatic aberration. Lens design includes single vision, bifocal, progressive and occupational designs. Coatings are separate features such as anti-reflection and hard coating. Selection considers prescription, centration, frame size, facial measurements, tasks, safety, budget and manufacturer specifications. Verify lens power, cylinder axis, prism when relevant, optical centration, fitting measurements and frame adjustment after dispensing.",
+      "content_ar": "اختيار عدسات النظارات يشمل Material وRefractive Index وDesign وSurface Treatment وملاءمة الإطار. من خصائص المادة معامل الانكسار وAbbe Value والكثافة ومقاومة الصدمات والخدش. قد تنتج المواد عالية المعامل عدسات أرق لبعض الوصفات لكنها قد تمتلك Abbe Value أقل وتزيد Chromatic Aberration. يشمل التصميم Single Vision وBifocal وProgressive وOccupational. أما Coatings فهي خصائص منفصلة مثل Anti-reflection وHard Coating. يراعي الاختيار الوصفة والتمركز وحجم الإطار وقياسات الوجه والمهام والسلامة والميزانية ومواصفات المصنع. بعد التسليم يجب التحقق من القوة وCylinder Axis وPrism عند الحاجة والتمركز والقياسات وضبط الإطار.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "A higher refractive-index material may allow:",
+          "options": [
+            "A thinner lens for some prescriptions",
+            "Zero chromatic aberration",
+            "No centration",
+            "Unlimited impact resistance"
+          ],
+          "answer": "A thinner lens for some prescriptions",
+          "explanation": "Higher index can reduce thickness but does not remove optical trade-offs."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "Material, design and coating are identical terms.",
+          "options": [],
+          "answer": "False",
+          "explanation": "They are separate aspects of lens selection."
+        }
+      ],
+      "reference_titles": [
+        "Clinical Optics",
+        "Borish's Clinical Refraction"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "CO-EXAM-001",
+      "title_en": "Comprehensive Eye Examination: Clinical Workflow",
+      "department_code": "CO",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Organize a comprehensive examination; adapt sequence to risk; document findings and plan.",
+      "content_en": "A comprehensive eye examination integrates history, visual function, refraction, ocular health assessment and clinical decisions. A general workflow includes consent and chief complaint; ocular and medical history; presenting acuity; preliminary tests such as pupils and motility; objective and subjective refraction; binocular vision assessment when indicated; anterior segment examination; intraocular pressure assessment when appropriate and safe; posterior segment and visual field assessment as indicated; integration, documentation, advice and follow-up. The sequence changes in emergencies: chemical exposure requires immediate irrigation; suspected open globe requires protection without pressure and emergency referral; acute visual loss or painful red eye should not be delayed by routine refraction. Records should distinguish reported symptoms, measured signs, interpretation and plan.",
+      "content_ar": "الفحص الشامل يدمج التاريخ والوظيفة البصرية والانكسار وفحص صحة العين والقرار السريري. يتضمن إطاراً عاماً الموافقة والشكوى والتاريخ العيني والطبي وPresenting Acuity والفحوص الأولية مثل الحدقة والحركة وObjective/Subjective Refraction وتقييم Binocular Vision عند الحاجة وفحص الجزء الأمامي وقياس الضغط عندما يكون مناسباً وآمناً وفحص الجزء الخلفي والمجال البصري بحسب الحاجة ثم دمج النتائج والتوثيق والنصائح والمتابعة. يتغير الترتيب في الطوارئ: التعرض الكيميائي يتطلب irrigation فورياً، والاشتباه في Open Globe يتطلب حماية دون ضغط وإحالة إسعافية، ولا ينبغي تأخير فقدان الرؤية الحاد أو العين الحمراء المؤلمة بفحص انكساري روتيني. يجب فصل الأعراض المبلغ عنها عن العلامات المقاسة والتفسير والخطة.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "A comprehensive eye examination is best described as:",
+          "options": [
+            "A fixed sequence never changed",
+            "A structured process adapted to patient risk and presentation",
+            "Refraction only",
+            "Visual acuity only"
+          ],
+          "answer": "A structured process adapted to patient risk and presentation",
+          "explanation": "Clinical sequence must respond to urgency, age, symptoms and findings."
+        }
+      ],
+      "reference_titles": [
+        "Clinical Procedures in Primary Eye Care",
+        "AAO educational resources"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "ANP-VP-001",
+      "title_en": "The Visual Pathway",
+      "department_code": "ANP",
+      "level": "Intermediate",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": "Trace the visual pathway; explain decussation at the chiasm; relate lesion location to broad field patterns.",
+      "content_en": "Retinal photoreceptors signal through retinal circuits to ganglion cells. Ganglion-cell axons form the optic nerve. At the optic chiasm, nasal retinal fibres cross while temporal retinal fibres remain uncrossed. The optic tracts carry information representing the contralateral visual hemifield. Most fibres synapse in the lateral geniculate nucleus; optic radiations project to primary visual cortex around the calcarine fissure. Broad localization principles include optic nerve lesions causing monocular loss, chiasmal lesions classically causing bitemporal field loss, and retrochiasmal lesions often causing homonymous defects. These patterns are not substitutes for formal perimetry or neuro-ophthalmic assessment.",
+      "content_ar": "تنقل Photoreceptors الإشارات عبر دوائر الشبكية إلى Ganglion Cells، وتشكل محاورها Optic Nerve. عند Optic Chiasm تعبر ألياف Nasal Retina بينما تبقى ألياف Temporal Retina في الجهة نفسها. يحمل Optic Tract معلومات نصف المجال البصري المقابل. تتشابك معظم الألياف في Lateral Geniculate Nucleus ثم تنتقل عبر Optic Radiations إلى Primary Visual Cortex حول Calcarine Fissure. من المبادئ العامة أن إصابة Optic Nerve قد تسبب فقداناً أحادي العين، وإصابة Chiasm قد تسبب Bitemporal Field Loss، وإصابة Retrochiasmal قد تسبب Homonymous Defect. هذه أنماط تعليمية لا تغني عن Formal Perimetry أو تقييم Neuro-ophthalmology.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which fibres cross at the optic chiasm?",
+          "options": [
+            "Temporal retinal",
+            "Nasal retinal",
+            "All fibres",
+            "No fibres"
+          ],
+          "answer": "Nasal retinal",
+          "explanation": "Nasal hemiretinal fibres decussate."
+        },
+        {
+          "type": "MCQ",
+          "stem": "A retrochiasmal lesion commonly causes:",
+          "options": [
+            "Monocular blindness only",
+            "Homonymous field defect",
+            "Bitemporal loss in every case",
+            "Loss of accommodation only"
+          ],
+          "answer": "Homonymous field defect",
+          "explanation": "Retrochiasmal pathways carry the contralateral visual hemifield."
+        }
+      ],
+      "reference_titles": [
+        "Adler's Physiology of the Eye",
+        "AAO Basic and Clinical Science Course"
+      ],
+      "review_required": true
+    },
+    {
+      "id": "EPH-PRINC-001",
+      "title_en": "Principles of Ocular Pharmacology",
+      "department_code": "EPH",
+      "level": "Basic",
+      "status": "draft_for_scientific_review",
+      "learning_objectives": [
+        "Define ocular pharmacology and describe its relevance to optometry.",
+        "Identify common routes of ophthalmic drug administration.",
+        "Explain factors that influence ocular drug delivery and bioavailability.",
+        "Recognize why indication, contraindications, adverse effects and referral scope must be considered."
+      ],
+      "content_en": "Ocular pharmacology is the study of drugs used to examine, prevent, diagnose or manage conditions affecting the eye and visual system. Ophthalmic medicines may be administered topically (for example, drops or ointments), orally, intravenously, periocularly or intravitreally. The route is selected according to the target tissue, disease, required drug exposure and the clinician's authorized scope of practice.\n\nTopical delivery is convenient for many anterior-segment conditions, but only a fraction of an instilled drop may reach intraocular tissues. Tear turnover, blinking, nasolacrimal drainage, corneal and conjunctival barriers, formulation, drop volume and instillation technique influence ocular exposure. A drug's concentration in the bottle does not by itself predict the concentration achieved at the target tissue.\n\nOphthalmic products include solutions, suspensions, emulsions, gels and ointments. These formulations differ in stability, comfort, residence time and administration requirements. Preservatives may reduce microbial contamination in multidose containers but can irritate the ocular surface in some patients; preservative-free options may be appropriate in selected circumstances.\n\nSafe use requires confirming the indication, checking allergies and relevant medical history, reviewing concurrent medicines, explaining dose and technique, and recognizing adverse effects. Some topical drugs can produce systemic effects after nasolacrimal absorption. Patients should receive advice appropriate to the specific medicine and local professional regulations. This lesson is an educational overview, not an authorization to prescribe or a substitute for current product information, clinical guidelines or specialist advice.",
+      "content_ar": "علم أدوية العين Ocular Pharmacology هو دراسة الأدوية المستخدمة في فحص أمراض العين والوقاية منها وتشخيصها أو تدبيرها. يمكن إعطاء الأدوية العينية موضعياً مثل القطرات والمراهم، أو عن طريق الفم أو الوريد أو حول العين أو داخل الجسم الزجاجي. يعتمد اختيار الطريق على النسيج المستهدف والمرض والتعرض الدوائي المطلوب وحدود الصلاحيات المهنية للممارس.\n\nيُعد الاستخدام الموضعي مناسباً لكثير من أمراض الجزء الأمامي، لكن جزءاً فقط من القطرة قد يصل إلى الأنسجة داخل العين. يؤثر Tear Turnover والرمش والتصريف عبر Nasolacrimal Duct وحواجز القرنية والملتحمة وتركيب المستحضر وحجم القطرة وطريقة التقطير في التعرض الدوائي. لذلك لا يكفي تركيز الدواء المكتوب على العبوة وحده للتنبؤ بالتركيز الذي يصل إلى النسيج المستهدف.\n\nتشمل المستحضرات Solutions وSuspensions وEmulsions وGels وOintments، وتختلف في الثبات والراحة ومدة بقائها ومتطلبات الاستخدام. قد تقلل المواد الحافظة Preservatives التلوث الميكروبي في العبوات متعددة الجرعات، لكنها قد تسبب تهيج سطح العين لدى بعض المرضى؛ وقد تكون الخيارات الخالية من المواد الحافظة مناسبة في حالات مختارة.\n\nيتطلب الاستخدام الآمن التأكد من دواعي الاستعمال، والتحقق من الحساسية والتاريخ الطبي، ومراجعة الأدوية الأخرى، وشرح الجرعة وطريقة الاستخدام، والانتباه للآثار الجانبية. يمكن لبعض القطرات أن تسبب آثاراً جهازية بعد امتصاصها عبر القناة الدمعية الأنفية. يجب أن تكون النصائح مرتبطة بالدواء المحدد وباللوائح المهنية المحلية. هذا الدرس تعليمي ولا يمنح صلاحية وصف الأدوية، ولا يحل محل النشرة الدوائية الحديثة أو الإرشادات السريرية أو رأي المختص.",
+      "self_assessment": [
+        {
+          "type": "MCQ",
+          "stem": "Which factor can reduce the amount of a topical eye drop reaching intraocular tissues?",
+          "options": [
+            "Tear turnover and nasolacrimal drainage",
+            "The patient's shoe size",
+            "The colour of the medicine carton",
+            "The room's wall colour"
+          ],
+          "answer": "Tear turnover and nasolacrimal drainage",
+          "explanation": "Tear turnover and drainage can remove a substantial portion of an instilled topical dose."
+        },
+        {
+          "type": "TrueFalse",
+          "stem": "The concentration printed on an eye-drop bottle alone determines the drug concentration achieved in the target ocular tissue.",
+          "options": [],
+          "answer": "False",
+          "explanation": "Ocular barriers, drainage, formulation and administration technique all influence delivery."
+        }
+      ],
+      "reference_titles": [
+        "Adler's Physiology of the Eye",
+        "AAO Basic and Clinical Science Course – relevant current pharmacology/clinical modules",
+        "Current official prescribing information for each specific ophthalmic medicine"
+      ],
+      "review_required": true
+    }
+  ],
+  "reference_catalog": [
+    {
+      "title": "Borish's Clinical Refraction",
+      "type": "Textbook",
+      "scope": "Clinical refraction and refractive principles; verify edition and chapter for each citation."
+    },
+    {
+      "title": "Clinical Procedures in Primary Eye Care",
+      "type": "Textbook",
+      "scope": "Clinical examination procedures; verify edition and chapter."
+    },
+    {
+      "title": "Clinical Optics",
+      "type": "Textbook",
+      "scope": "Optical principles and ophthalmic optics; verify edition and chapter."
+    },
+    {
+      "title": "Adler's Physiology of the Eye",
+      "type": "Textbook",
+      "scope": "Ocular physiology; verify edition and chapter."
+    },
+    {
+      "title": "The Wills Eye Manual",
+      "type": "Clinical reference",
+      "scope": "Differential diagnosis and clinical management background; verify current edition."
+    },
+    {
+      "title": "AAO Basic and Clinical Science Course / Preferred Practice Pattern resources",
+      "type": "Professional resources",
+      "scope": "Use the current relevant module or guideline and record its version."
+    },
+    {
+      "title": "International Myopia Institute reports",
+      "type": "Consensus reports",
+      "scope": "Myopia evidence synthesis; cite the exact report and year."
+    },
+    {
+      "title": "World Health Organization vision resources",
+      "type": "Guidelines and public-health resources",
+      "scope": "Vision impairment definitions and public-health context; cite exact publication."
+    }
+  ],
+  "learning_levels": [
+    "Basic",
+    "Intermediate",
+    "Advanced Clinical"
+  ],
+  "assessment_types": [
+    "MCQ",
+    "True/False",
+    "Matching",
+    "Short Answer",
+    "Clinical Scenario",
+    "Image-based"
+  ],
+  "permanent_exam": {
+    "scope": "Comprehensive preparation across all optometry domains.",
+    "modes": [
+      "Department test",
+      "Topic test",
+      "Timed mock exam",
+      "Comprehensive mock exam",
+      "Weakness review"
+    ],
+    "note": "Do not claim official weighting or format without checking the current examination authority."
+  },
+  "clinical_case_template": [
+    "case_id",
+    "title",
+    "age_band",
+    "chief_complaint",
+    "history",
+    "visual_acuity",
+    "refraction",
+    "examination",
+    "special_tests",
+    "key_findings",
+    "working_diagnosis",
+    "differential",
+    "management",
+    "referral_urgency",
+    "questions",
+    "answers",
+    "references",
+    "reviewer",
+    "review_date"
+  ],
+  "offline_and_database_plan": {
+    "offline": "Bundle approved core lessons and essential assets into the PWA; cache the app shell; store progress and attempts in IndexedDB; queue changes for later sync.",
+    "sync": "Supabase supports accounts, backup and cross-device sync when online; opening cached lessons and taking local quizzes must not depend on a live connection.",
+    "security": "Never expose service_role credentials in client code. Enable RLS. Students read published content and their own progress only. Import draft lessons as unpublished until approved."
+  },
+  "import_schema_suggestion": [
+    "departments",
+    "topics",
+    "lessons",
+    "lesson_sections",
+    "questions",
+    "question_options",
+    "references",
+    "lesson_references",
+    "clinical_cases",
+    "media_assets",
+    "profiles",
+    "student_progress",
+    "exam_attempts",
+    "content_reviews"
+  ],
+  "department_count": 12,
+  "curriculum_topic_count": 231,
+  "content_update_log": [
+    {
+      "version": "1.2",
+      "change": "Added Department 12: Ocular Pharmacology (EPH), with 42 curriculum topics and one introductory bilingual lesson.",
+      "note": "Lesson remains unpublished pending scientific review and source verification."
+    }
+  ]
+}
