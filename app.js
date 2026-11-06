@@ -1,7 +1,7 @@
 /**
  * HAKIM OPTICS ACADEMY - Main Application Script
  * Developer / Founder: Dr. Logman Babiker Elsheikh Mohamed
- * Version: 3.1 (Supabase & Admin Dashboard Integration)
+ * Version: 3.2 (Complete Supabase & Admin Management Integration)
  */
 
 // تهيئة اتصال Supabase باستخدام المفتاح العام المعتمد
@@ -28,6 +28,13 @@ async function loadContent() {
         let response = await fetch(CONTENT_URL);
         if (!response.ok) throw new Error("HTTP error! status: " + response.status);
         DB = await response.json();
+        
+        // دمج الدروس المضافة محلياً من قبل المدير إن وجدت
+        let localCustomLessons = JSON.parse(localStorage.getItem("alhakim_custom_lessons") || "[]");
+        if (localCustomLessons.length > 0) {
+            DB.lessons = [...localCustomLessons, ...DB.lessons];
+        }
+
         localStorage.setItem("alhakim_content_cache", JSON.stringify(DB));
     } catch (error) {
         let saved = localStorage.getItem("alhakim_content_cache");
@@ -240,7 +247,6 @@ async function showLesson(id) {
     p[id] = true;
     localStorage.setItem("alhakim_progress", JSON.stringify(p));
 
-    // مزامنة التقدم سحابياً إذا كان Supabase متاحاً
     if (supabaseClient) {
         try {
             let { data: { user } } = await supabaseClient.auth.getUser();
@@ -291,7 +297,7 @@ async function showLesson(id) {
             <button class="primary" onclick="showQuiz('${l.id}')">ابدأ أسئلة وتقييم الدرس ←</button>
             
             <h3 style="margin-top:25px;">Suggested References</h3>
-            <ul>${l.reference_titles.map(r => `<li>${esc(r)}</li>`).join("")}</ul>
+            <ul>${(l.reference_titles || []).map(r => `<li>${esc(r)}</li>`).join("")}</ul>
             
             <div style="margin-top:20px;">
                 <button class="text-btn" onclick="showPage('lessons')">← العودة لقائمة الدروس</button>
@@ -369,9 +375,9 @@ async function answerQuestion(i, choice, answer) {
     }
 }
 
-// Render Admin Dashboard backed by Supabase
+// Render Admin Dashboard backed by Supabase & Content Management Tools
 async function renderAdminDashboard() {
-    pageShell("لوحة تحكم المدير العام", "إدارة المنصة، ومتابعة الطلاب المسجلين والبيانات الحية سحابياً.", `
+    pageShell("لوحة تحكم المدير العام", "إدارة المنصة، ومتابعة الطلاب المسجلين وإضافة الدروس الجديدة.", `
         <div class="content-card">
             <h3>إحصائيات النظام الحية (Supabase)</h3>
             <div id="adminStats" style="display: flex; gap: 15px; flex-wrap: wrap; margin: 15px 0;">
@@ -384,6 +390,21 @@ async function renderAdminDashboard() {
                 <div class="stat" style="flex: 1; min-width: 140px; background: #f4f7fa; padding: 15px; border-radius: 8px; text-align: center;">
                     <b id="statCerts" style="font-size: 24px; color: var(--navy);">...</b><br><small>الشهادات المُصدرة</small>
                 </div>
+            </div>
+
+            <div style="margin-top: 25px; padding: 15px; background: #edf3f9; border-radius: 8px;">
+                <h3 style="margin-top:0;">إضافة درس جديد للمنصة</h3>
+                <form id="addLessonForm" onsubmit="handleAddNewLesson(event)" style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="text" id="newLessonId" placeholder="معرف الدرس (مثل: opt-99)" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <select id="newLessonDept" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="">اختر القسم العلمي</option>
+                        ${DB.departments.map(d => `<option value="${d.code}">${d.name_ar} (${d.code})</option>`).join("")}
+                    </select>
+                    <input type="text" id="newLessonTitleEn" placeholder="عنوان الدرس بالإنجليزية (Title EN)" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <textarea id="newLessonContentEn" placeholder="المحتوى العلمي بالإنجليزية" rows="3" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <textarea id="newLessonContentAr" placeholder="الشرح باللغة العربية" rows="3" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                    <button type="submit" class="primary" style="align-self: flex-start;">حفظ وإضافة الدرس</button>
+                </form>
             </div>
             
             <h3 style="margin-top: 25px;">قائمة الملفات الشخصية المسجلة (Profiles)</h3>
@@ -450,6 +471,35 @@ async function renderAdminDashboard() {
         console.error("Admin fetch error:", err);
         document.getElementById("adminProfilesList").innerHTML = "<p style='color: red;'>حدث خطأ غير متوقع أثناء الاتصال بقاعدة البيانات.</p>";
     }
+}
+
+// Handler for adding a new lesson from admin panel
+function handleAddNewLesson(e) {
+    e.preventDefault();
+    let newLesson = {
+        id: document.getElementById("newLessonId").value.trim(),
+        department_code: document.getElementById("newLessonDept").value,
+        title_en: document.getElementById("newLessonTitleEn").value.trim(),
+        content_en: document.getElementById("newLessonContentEn").value.trim(),
+        content_ar: document.getElementById("newLessonContentAr").value.trim(),
+        level: "Undergraduate",
+        status: "Draft",
+        review_required: true,
+        learning_objectives: ["Understand core clinical concepts."],
+        self_assessment: [],
+        reference_titles: ["Alhakim Optics Clinical Guidelines"]
+    };
+
+    let localCustomLessons = JSON.parse(localStorage.getItem("alhakim_custom_lessons") || "[]");
+    localCustomLessons.push(newLesson);
+    localStorage.setItem("alhakim_custom_lessons", JSON.stringify(localCustomLessons));
+
+    // تحديث الذاكرة الحية
+    DB.lessons.unshift(newLesson);
+    localStorage.setItem("alhakim_content_cache", JSON.stringify(DB));
+
+    alert("تم إضافة الدرس بنجاح إلى النظام!");
+    renderAdminDashboard();
 }
 
 // Global Search Logic
@@ -543,7 +593,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // Welcome Overlay Robust Handlers
     const overlay = document.getElementById("welcomeOverlay");
     const closeWelcome = () => {
         if (overlay) overlay.classList.add("hidden");
