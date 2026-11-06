@@ -1,7 +1,7 @@
 /**
  * HAKIM OPTICS ACADEMY - Main Application Script
  * Developer / Founder: Dr. Logman Babiker Elsheikh Mohamed
- * Version: 3.0 (Supabase & GitHub Pages Integration)
+ * Version: 3.1 (Supabase & Admin Dashboard Integration)
  */
 
 // تهيئة اتصال Supabase باستخدام المفتاح العام المعتمد
@@ -173,6 +173,9 @@ function showPage(page) {
                 <button class="primary" onclick="localStorage.removeItem('alhakim_progress');showPage('progress')">مسح سجل هذا الجهاز</button>
             </div>
         `);
+    } else if (page === "admin") {
+        renderAdminDashboard();
+        return;
     }
 }
 
@@ -237,7 +240,7 @@ async function showLesson(id) {
     p[id] = true;
     localStorage.setItem("alhakim_progress", JSON.stringify(p));
 
-    // مزامنة التقدم سحابياً إذا كان Supabase متاحاً والمتصل مسجلاً
+    // مزامنة التقدم سحابياً إذا كان Supabase متاحاً
     if (supabaseClient) {
         try {
             let { data: { user } } = await supabaseClient.auth.getUser();
@@ -363,6 +366,89 @@ async function answerQuestion(i, choice, answer) {
         let isCorrect = (choice.trim() === answer.trim());
         ex.style.color = isCorrect ? "#21965a" : "#d44";
         ex.textContent = (isCorrect ? "✓ إجابة صحيحة. " : "✕ إجابة غير صحيحة. الإجابة الصحيحة هي: " + answer + ". ") + explainText;
+    }
+}
+
+// Render Admin Dashboard backed by Supabase
+async function renderAdminDashboard() {
+    pageShell("لوحة تحكم المدير العام", "إدارة المنصة، ومتابعة الطلاب المسجلين والبيانات الحية سحابياً.", `
+        <div class="content-card">
+            <h3>إحصائيات النظام الحية (Supabase)</h3>
+            <div id="adminStats" style="display: flex; gap: 15px; flex-wrap: wrap; margin: 15px 0;">
+                <div class="stat" style="flex: 1; min-width: 140px; background: #f4f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                    <b id="statUsers" style="font-size: 24px; color: var(--navy);">...</b><br><small>المستخدمون المسجلون</small>
+                </div>
+                <div class="stat" style="flex: 1; min-width: 140px; background: #f4f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                    <b id="statProgress" style="font-size: 24px; color: var(--navy);">...</b><br><small>سجلات التقدم</small>
+                </div>
+                <div class="stat" style="flex: 1; min-width: 140px; background: #f4f7fa; padding: 15px; border-radius: 8px; text-align: center;">
+                    <b id="statCerts" style="font-size: 24px; color: var(--navy);">...</b><br><small>الشهادات المُصدرة</small>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 25px;">قائمة الملفات الشخصية المسجلة (Profiles)</h3>
+            <div id="adminProfilesList" style="margin-top: 10px; overflow-x: auto;">
+                <p>جارٍ جلب البيانات من قاعدة البيانات...</p>
+            </div>
+            
+            <div style="margin-top: 25px;">
+                <button class="primary" onclick="renderAdminDashboard()">🔄 تحديث البيانات الحية</button>
+            </div>
+        </div>
+    `);
+
+    if (!supabaseClient) {
+        document.getElementById("adminProfilesList").innerHTML = "<div class='notice'>عذراً، الاتصال بقاعدة بيانات Supabase غير مفعل حالياً في المتصفح.</div>";
+        return;
+    }
+
+    try {
+        let { count: usersCount } = await supabaseClient.from('profiles').select('*', { count: 'exact', head: true });
+        let { count: progCount } = await supabaseClient.from('student_progress').select('*', { count: 'exact', head: true });
+        let { count: certsCount } = await supabaseClient.from('certificates').select('*', { count: 'exact', head: true });
+
+        document.getElementById("statUsers").textContent = usersCount !== null ? usersCount : 0;
+        document.getElementById("statProgress").textContent = progCount !== null ? progCount : 0;
+        document.getElementById("statCerts").textContent = certsCount !== null ? certsCount : 0;
+
+        let { data: profiles, error } = await supabaseClient.from('profiles').select('*').order('created_at', { ascending: false }).limit(20);
+        
+        let listContainer = document.getElementById("adminProfilesList");
+        if (error) {
+            listContainer.innerHTML = `<p style="color: red;">خطأ أثناء جلب البيانات: ${esc(error.message)}</p>`;
+            return;
+        }
+
+        if (!profiles || profiles.length === 0) {
+            listContainer.innerHTML = "<p>لا توجد حسابات مسجلة حتى الآن في جدول Profiles.</p>";
+            return;
+        }
+
+        listContainer.innerHTML = `
+            <table style="width: 100%; border-collapse: collapse; text-align: right; font-size: 14px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid #ddd; background: #fafbfc;">
+                        <th style="padding: 10px;">الاسم الكامل</th>
+                        <th style="padding: 10px;">الدور (Role)</th>
+                        <th style="padding: 10px;">التخصص / المؤهل</th>
+                        <th style="padding: 10px;">تاريخ الإنشاء</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${profiles.map(p => `
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding: 10px;"><b>${esc(p.full_name || "بدون اسم")}</b></td>
+                            <td style="padding: 10px;"><span class="tag">${esc(p.role || 'student')}</span></td>
+                            <td style="padding: 10px;">${esc(p.qualification || "غير مسجل")}</td>
+                            <td style="padding: 10px;"><small>${esc(new Date(p.created_at).toLocaleDateString())}</small></td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+        `;
+    } catch (err) {
+        console.error("Admin fetch error:", err);
+        document.getElementById("adminProfilesList").innerHTML = "<p style='color: red;'>حدث خطأ غير متوقع أثناء الاتصال بقاعدة البيانات.</p>";
     }
 }
 
