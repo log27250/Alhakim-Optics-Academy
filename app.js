@@ -1,8 +1,17 @@
 /**
  * HAKIM OPTICS ACADEMY - Main Application Script
  * Developer / Founder: Dr. Logman Babiker Elsheikh Mohamed
- * Version: 2.1 (GitHub Pages Root Path Correction)
+ * Version: 3.0 (Supabase & GitHub Pages Integration)
  */
+
+// تهيئة اتصال Supabase باستخدام المفتاح العام المعتمد
+const SUPABASE_URL = "https://your-supabase-project.supabase.co"; // استبدل برابط مشروعك الفعلي عند الحاجة
+const SUPABASE_ANON_KEY = "Sb_publishable_k0VCQgULXGy_qnjvfyQkjg_M9x43HVc";
+let supabaseClient = null;
+
+if (window.supabase) {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
 
 let DB = null;
 let currentDepartment = null;
@@ -156,7 +165,7 @@ function showPage(page) {
     } else if (page === "progress") {
         let p = JSON.parse(localStorage.getItem("alhakim_progress") || "{}");
         let openedKeys = Object.keys(p);
-        pageShell("تقدمي الدراسي", "يُحفظ تقدمك ودروسك المفتوحة على هذا الجهاز محلياً دون الحاجة لحساب سحابي.", `
+        pageShell("تقدمي الدراسي", "يُحفظ تقدمك ودروسك المفتوحة على هذا الجهاز محلياً (ومزامنتها سحابياً).", `
             <div class="content-card">
                 <h3>الدروس التي فتحتها واستعرضتها: ${openedKeys.length} من ${DB.lessons.length}</h3>
                 <p>${openedKeys.map(id => esc(DB.lessons.find(l => l.id === id)?.title_en || id)).join("، ") || "لم تبدأ استعراض أي درس بعد."}</p>
@@ -218,8 +227,8 @@ function searchTopic(topic, code) {
     }
 }
 
-// Show Specific Lesson Content with Audio TTS support
-function showLesson(id) {
+// Show Specific Lesson Content with Audio TTS support & Supabase Sync
+async function showLesson(id) {
     let l = DB.lessons.find(x => x.id === id);
     if (!l) return;
     currentLesson = l;
@@ -227,6 +236,23 @@ function showLesson(id) {
     let p = JSON.parse(localStorage.getItem("alhakim_progress") || "{}");
     p[id] = true;
     localStorage.setItem("alhakim_progress", JSON.stringify(p));
+
+    // مزامنة التقدم سحابياً إذا كان Supabase متاحاً والمتصل مسجلاً
+    if (supabaseClient) {
+        try {
+            let { data: { user } } = await supabaseClient.auth.getUser();
+            if (user) {
+                await supabaseClient.from('student_progress').upsert({
+                    student_id: user.id,
+                    lesson_id: id,
+                    completed: true,
+                    updated_at: new Date()
+                }, { onConflict: 'student_id,lesson_id' });
+            }
+        } catch (e) {
+            console.log("Offline or sync pending", e);
+        }
+    }
 
     let objectivesHTML = "";
     if (Array.isArray(l.learning_objectives)) {
@@ -319,7 +345,7 @@ function showQuiz(id) {
 }
 
 // Answer Evaluation
-function answerQuestion(i, choice, answer) {
+async function answerQuestion(i, choice, answer) {
     let qElem = document.getElementById("q" + i);
     if (!qElem) return;
     qElem.querySelectorAll(".option").forEach(b => {
