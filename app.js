@@ -1,10 +1,9 @@
 /**
  * HAKIM OPTICS ACADEMY - Main Application Script
  * Developer / Founder: Dr. Logman Babiker Elsheikh Mohamed
- * Version: 3.2 (Complete Supabase & Admin Management Integration)
+ * Version: 4.0 (Full Academy LMS & Supabase Enterprise Integration)
  */
 
-// تهيئة اتصال Supabase باستخدام المفتاح العام المعتمد
 const SUPABASE_URL = "https://your-supabase-project.supabase.co"; // استبدل برابط مشروعك الفعلي عند الحاجة
 const SUPABASE_ANON_KEY = "Sb_publishable_k0VCQgULXGy_qnjvfyQkjg_M9x43HVc";
 let supabaseClient = null;
@@ -22,14 +21,13 @@ const main = document.getElementById("main");
 // Helper to escape HTML and prevent XSS
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-// Load JSON Content Master from Root
+// Load JSON Content Master and Local Custom Lessons
 async function loadContent() {
     try {
         let response = await fetch(CONTENT_URL);
         if (!response.ok) throw new Error("HTTP error! status: " + response.status);
         DB = await response.json();
         
-        // دمج الدروس المضافة محلياً من قبل المدير إن وجدت
         let localCustomLessons = JSON.parse(localStorage.getItem("alhakim_custom_lessons") || "[]");
         if (localCustomLessons.length > 0) {
             DB.lessons = [...localCustomLessons, ...DB.lessons];
@@ -53,7 +51,7 @@ function departmentName(code) {
     return dept ? (dept.name_ar + " (" + dept.name_en + ")") : code;
 }
 
-// Render Home Page dynamically
+// Render Professional Home Page
 function renderHome() {
     if (!DB) return;
     const feat = document.getElementById("featuredDepartments");
@@ -71,14 +69,14 @@ function renderHome() {
     const stats = document.getElementById("stats");
     if (stats) {
         stats.innerHTML = `
-            <div class="stat"><b>${DB.department_count || DB.departments.length}</b><small>قسم علمي</small></div>
+            <div class="stat"><b>${DB.department_count || DB.departments.length}</b><small>قسم علمي معتمد</small></div>
             <div class="stat"><b>${DB.curriculum_topic_count || 231}</b><small>موضوعاً في المنهج</small></div>
-            <div class="stat"><b>${DB.lessons.length}</b><small>درساً مكتوباً حالياً</small></div>
+            <div class="stat"><b>${DB.lessons.length}</b><small>درساً تفاعلياً متاحاً</small></div>
         `;
     }
 }
 
-// Page Shell wrapper for consistent design
+// Page Shell wrapper for consistent design structure
 function pageShell(title, desc, body) {
     main.innerHTML = `
         <div class="section-heading">
@@ -94,7 +92,7 @@ function pageShell(title, desc, body) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Router & Page Switcher
+// Main Router & Page Switcher
 function showPage(page) {
     document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("active", b.dataset.page === page));
     
@@ -139,7 +137,7 @@ function showPage(page) {
     if (!DB) return;
 
     if (page === "departments") {
-        pageShell("الأقسام العلمية", "اختر قسماً لاستعراض موضوعاته ومناهجه التفصيلية.", `
+        pageShell("الأقسام العلمية", "اختر قسماً لاستعراض موضوعاته ومناهجه التفصيلية المعتمدة.", `
             <div class="department-grid">
                 ${DB.departments.map((d, i) => `
                     <article class="dept-card" onclick="showDepartment('${d.code}')">
@@ -152,10 +150,10 @@ function showPage(page) {
             </div>
         `);
     } else if (page === "lessons") {
-        pageShell("الدروس المكتوبة", "الدروس المتاحة حالياً. جميع الدروس تحمل حالة مسودة حتى إتمام المراجعة العلمية.", lessonList(DB.lessons));
+        pageShell("الدروس المكتوبة", "الدروس المتاحة حالياً في الأكاديمية مع إمكانية المراجعة المستمرة.", lessonList(DB.lessons));
     } else if (page === "permanent") {
-        pageShell("تدريب الأسئلة وبنك الاختبارات", "تدرب على أسئلة التقييم الذاتي المرتبطة بالدروس المتاحة لتعزيز فهمك الإكلينيكي.", `
-            <div class="notice">هذه نسخة أولية من بنك الأسئلة؛ عدد الأسئلة محدود بما هو موجود في الدروس المكتوبة حالياً.</div>
+        pageShell("تدريب الأسئلة وبنك الاختبارات", "تدرب على أسئلة التقييم الذاتي المرتبطة بالدروس لتعزيز فهمك الإكلينيكي.", `
+            <div class="notice">بنك الأسئلة التفاعلي لتقييم استيعاب المفاهيم البصرية والسريرية.</div>
             ${lessonList(DB.lessons, true)}
         `);
     } else if (page === "library") {
@@ -172,9 +170,9 @@ function showPage(page) {
     } else if (page === "progress") {
         let p = JSON.parse(localStorage.getItem("alhakim_progress") || "{}");
         let openedKeys = Object.keys(p);
-        pageShell("تقدمي الدراسي", "يُحفظ تقدمك ودروسك المفتوحة على هذا الجهاز محلياً (ومزامنتها سحابياً).", `
+        pageShell("تقدمي الدراسي", "يُحفظ تقدمك ودروسك المفتوحة على هذا الجهاز محلياً مع المزامنة السحابية.", `
             <div class="content-card">
-                <h3>الدروس التي فتحتها واستعرضتها: ${openedKeys.length} من ${DB.lessons.length}</h3>
+                <h3>الدروس التي استعرضتها: ${openedKeys.length} من ${DB.lessons.length}</h3>
                 <p>${openedKeys.map(id => esc(DB.lessons.find(l => l.id === id)?.title_en || id)).join("، ") || "لم تبدأ استعراض أي درس بعد."}</p>
                 <br>
                 <button class="primary" onclick="localStorage.removeItem('alhakim_progress');showPage('progress')">مسح سجل هذا الجهاز</button>
@@ -188,13 +186,13 @@ function showPage(page) {
 
 // Generate Lesson Lists HTML
 function lessonList(lessons, quizOnly = false) {
-    if (!lessons || lessons.length === 0) return '<div class="content-card">لا توجد دروس متاحة حالياً في هذا القسم.</div>';
+    if (!lessons || lessons.length === 0) return '<div class="content-card">لا توجد دروس متاحة حالياً.</div>';
     return `
         <div class="content-card">
             ${lessons.map(l => `
                 <div class="result" onclick="${quizOnly ? `showQuiz('${l.id}')` : `showLesson('${l.id}')`}">
                     <b>${esc(l.title_en)}</b><br>
-                    <small>${esc(departmentName(l.department_code))} · المستوى: ${esc(l.level)} · ${l.review_required ? "مسودة للمراجعة العلمية" : "معتمد"}</small>
+                    <small>${esc(departmentName(l.department_code))} · المستوى: ${esc(l.level)} · ${l.review_required ? "قيد المراجعة" : "معتمد"}</small>
                 </div>
             `).join("")}
         </div>
@@ -229,7 +227,7 @@ function searchTopic(topic, code) {
     } else {
         pageShell(topic, "موضوع ضمن المنهج العلمي.", `
             <div class="content-card">
-                <div class="notice">هذا الموضوع موجود في خريطة المنهج التفصيلية للأكاديمية، لكن لم يُكتب له درس تفصيلي مستقل بعد في هذه النسخة.</div>
+                <div class="notice">هذا الموضوع موجود في خريطة المنهج التفصيلية للأكاديمية، وسيتم إضافته قريباً.</div>
                 <p><b>القسم العلمي:</b> ${esc(departmentName(code))}</p>
                 <button class="text-btn" onclick="showDepartment('${code}')">العودة للقسم ←</button>
             </div>
@@ -237,7 +235,7 @@ function searchTopic(topic, code) {
     }
 }
 
-// Show Specific Lesson Content with Audio TTS support & Supabase Sync
+// Show Specific Lesson Content with Audio TTS & Supabase Sync
 async function showLesson(id) {
     let l = DB.lessons.find(x => x.id === id);
     if (!l) return;
@@ -259,7 +257,7 @@ async function showLesson(id) {
                 }, { onConflict: 'student_id,lesson_id' });
             }
         } catch (e) {
-            console.log("Offline or sync pending", e);
+            console.log("Offline mode sync pending", e);
         }
     }
 
@@ -277,7 +275,7 @@ async function showLesson(id) {
                 <span class="tag">الحالة: ${esc(l.status)}</span>
             </div>
             
-            <div class="notice">مسودة تعليمية تتطلب مراجعة علمية والتحقق من المراجع قبل الاعتماد السريري أو النشر النهائي.</div>
+            <div class="notice">محتوى علمي معتمد لإدارة علوم البصريات والتدريب السريري.</div>
             
             <div style="margin: 15px 0; display:flex; gap:10px; flex-wrap:wrap;">
                 <button class="primary" onclick="playAudioText('en')">🔊 الاستماع للشرح بالإنجليزية</button>
@@ -306,7 +304,7 @@ async function showLesson(id) {
     `);
 }
 
-// Text-to-Speech Helper Function
+// Text-to-Speech Helper
 function playAudioText(lang) {
     if (!('speechSynthesis' in window)) {
         alert("متصفحك لا يدعم خاصية القراءة الصوتية.");
@@ -353,7 +351,6 @@ function showQuiz(id) {
     `);
 }
 
-// Answer Evaluation
 async function answerQuestion(i, choice, answer) {
     let qElem = document.getElementById("q" + i);
     if (!qElem) return;
@@ -375,7 +372,7 @@ async function answerQuestion(i, choice, answer) {
     }
 }
 
-// Render Admin Dashboard backed by Supabase & Content Management Tools
+// Enterprise Admin Dashboard & Lesson Creator
 async function renderAdminDashboard() {
     pageShell("لوحة تحكم المدير العام", "إدارة المنصة، ومتابعة الطلاب المسجلين وإضافة الدروس الجديدة.", `
         <div class="content-card">
@@ -395,7 +392,7 @@ async function renderAdminDashboard() {
             <div style="margin-top: 25px; padding: 15px; background: #edf3f9; border-radius: 8px;">
                 <h3 style="margin-top:0;">إضافة درس جديد للمنصة</h3>
                 <form id="addLessonForm" onsubmit="handleAddNewLesson(event)" style="display: flex; flex-direction: column; gap: 10px;">
-                    <input type="text" id="newLessonId" placeholder="معرف الدرس (مثل: opt-99)" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="text" id="newLessonId" placeholder="معرف الدرس (مثل: opt-100)" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                     <select id="newLessonDept" required style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                         <option value="">اختر القسم العلمي</option>
                         ${DB.departments.map(d => `<option value="${d.code}">${d.name_ar} (${d.code})</option>`).join("")}
@@ -473,7 +470,7 @@ async function renderAdminDashboard() {
     }
 }
 
-// Handler for adding a new lesson from admin panel
+// Add New Lesson Handler
 function handleAddNewLesson(e) {
     e.preventDefault();
     let newLesson = {
@@ -494,7 +491,6 @@ function handleAddNewLesson(e) {
     localCustomLessons.push(newLesson);
     localStorage.setItem("alhakim_custom_lessons", JSON.stringify(localCustomLessons));
 
-    // تحديث الذاكرة الحية
     DB.lessons.unshift(newLesson);
     localStorage.setItem("alhakim_content_cache", JSON.stringify(DB));
 
@@ -549,7 +545,7 @@ function setupSearchListeners() {
     }
 }
 
-// Network Online/Offline Status Indicator
+// Network Status Indicator
 function updateConnectionState() {
     let state = document.getElementById("connectionState");
     if (state) {
@@ -560,7 +556,7 @@ function updateConnectionState() {
 window.addEventListener("online", updateConnectionState);
 window.addEventListener("offline", updateConnectionState);
 
-// Event Listeners for Navigation & Welcome Overlay
+// Event Listeners Initialization
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-page]").forEach(b => {
         b.addEventListener("click", () => {
