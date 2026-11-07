@@ -45,7 +45,7 @@ function showPage(page){document.querySelectorAll('.nav-item').forEach(b=>b.clas
 function lessonList(lessons,quizOnly=false){lessons=(lessons||[]).filter(canViewLesson);return `<div class="lesson-grid">${lessons.map(l=>`<article class="lesson-card" onclick="${quizOnly?`showQuiz('${esc(l.id)}')`:`showLesson('${esc(l.id)}')`}"><span class="tag">${esc(l.level||'Optometry')}</span><h3>${esc(l.title_en)}</h3><p>${esc(departmentName(l.department_code))}</p><small>${l.review_required?'مسودة للمراجعة العلمية':'منشور'}</small><span class="card-arrow">فتح المحاضرة ←</span></article>`).join('')||'<p>لا توجد محاضرات مسجلة حالياً.</p>'}</div>`}
 async function showDepartment(code){const d=DB.departments.find(x=>x.code===code);if(!d)return;const ls=DB.lessons.filter(l=>l.department_code===code&&canViewLesson(l));let examPanel='';if(session){try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}`);const done=new Set(rows.map(x=>String(x.lesson_id)));const eligible=ls.filter(l=>isUuid(l.id)&&l.status==='published');const completed=eligible.filter(l=>done.has(l.id)).length;examPanel=`<div class="exam-progress"><h3>التقدم والامتحان الشامل</h3><p>إكمال الدروس المنشورة المرتبطة بقاعدة الأكاديمية: <b>${completed} / ${eligible.length}</b></p><div class="progress-track"><span style="width:${eligible.length?Math.round(completed/eligible.length*100):0}%"></span></div><button class="primary" ${eligible.length&&completed===eligible.length?'':'disabled'} onclick="startDepartmentExam('${esc(code)}')">بدء الامتحان الشامل · 20 سؤالاً</button><small>شرط الدخول: إكمال جميع الدروس المنشورة. النجاح من 70%.</small></div>`}catch(e){examPanel=`<div class="notice">تعذر تحميل تقدمك: ${esc(e.message)}</div>`}}else{examPanel='<div class="notice">سجّل الدخول لحفظ إنجاز الدروس ودخول الامتحان الشامل.</div>'}pageShell(d.name_en,d.name_ar,`<div class="content-card"><span class="tag">${esc(code)}</span><h3>موضوعات المنهج (${(d.curriculum_topics||[]).length})</h3><div class="topic-list">${(d.curriculum_topics||[]).map(t=>`<button class="result topic-button" onclick="searchTopic('${esc(t.title_en).replace(/'/g,"\\'")}','${esc(code)}')"><b>${esc(t.title_en)}</b><small>${esc(t.title_ar)}</small> <span>فتح ←</span></button>`).join('')}</div><section class="department-lectures"><div class="section-heading"><div><span class="eyebrow">PUBLISHED LECTURES</span><h3>محاضرات هذا القسم</h3><p>المحاضرات المنشورة والمرتبطة بهذا القسم فقط.</p></div><span class="tag">${ls.filter(x=>x.status==='published').length} محاضرة منشورة</span></div>${lessonList(ls.filter(x=>x.status==='published'))}</section><h3>خريطة موضوعات القسم</h3>${examPanel}</div>`)}
 
-function searchTopic(topic,code){const found=DB.lessons.filter(l=>l.department_code===code&&String(l.title_en).toLowerCase().includes(topic.toLowerCase()));if(found.length)showLesson(found[0].id);else pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لم تُسجل له محاضرة كاملة بعد. لن نعرض محتوى غير موثق على أنه محاضرة جاهزة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
+function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
 function inlineFormat(text){return esc(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');}
 function renderLectureMarkdown(raw,rtl=false){
  const lines=String(raw||'').replace(/\r/g,'').split('\n');let out='',list=null,table=[];
@@ -64,17 +64,18 @@ function renderLectureMarkdown(raw,rtl=false){
 function buildLectureSlides(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
  const nodes=[...doc.body.children],slides=[];
- const target=2100,hardLimit=3000;
- let page=[],size=0,lastWasHeading=false;
- const weightOf=node=>Math.max(35,(node.textContent||'').trim().length);
- const emit=()=>{if(page.length){slides.push(page);page=[];size=0;lastWasHeading=false}};
- nodes.forEach(node=>{
-  const heading=node.matches('h2.lecture-h2,h3.lecture-h3,h4');
-  if(heading&&node.matches('h2.lecture-h2')&&page.length)emit();
-  const weight=weightOf(node);
-  if(!heading&&page.length&&size+weight>target&&!lastWasHeading)emit();
-  if(page.length&&size+weight>hardLimit&&!heading&&!lastWasHeading)emit();
-  page.push(node.outerHTML);size+=weight;lastWasHeading=heading;
+ const target=3000,hardLimit=4300;
+ let page=[],size=0;
+ const weightOf=node=>Math.max(45,(node.textContent||'').trim().length);
+ const isHeading=node=>node.matches('h2.lecture-h2,h3.lecture-h3,h4');
+ const emit=()=>{if(page.length){slides.push(page);page=[];size=0}};
+ nodes.forEach((node,index)=>{
+  const heading=isHeading(node),weight=weightOf(node);
+  if(heading&&page.length&&size>target)emit();
+  if(!heading&&page.length&&size+weight>target)emit();
+  if(page.length&&size+weight>hardLimit)emit();
+  page.push(node.outerHTML);size+=weight;
+  if(isHeading(node)&&size>target&&nodes[index+1]&&isHeading(nodes[index+1]))emit();
  });
  emit();
  return slides.length?slides:[['<p>Lecture content is not available.</p>']];
