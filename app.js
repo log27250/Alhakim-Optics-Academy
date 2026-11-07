@@ -62,11 +62,33 @@ function renderLectureMarkdown(raw,rtl=false){
  closeList();flushTable();return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" '+(rtl?'dir="rtl"':'dir="ltr"')+'>'+out+'</div>';
 }
 function buildLectureSlides(html){
- const doc=new DOMParser().parseFromString(html,'text/html'),nodes=[...doc.body.children],groups=[];let current=[];
- for(const node of nodes){if(node.matches('h2.lecture-h2')&&current.length){groups.push(current);current=[]}current.push(node.outerHTML)}
- if(current.length)groups.push(current);const chunks=[];
- groups.forEach(group=>{let part=[];group.forEach(markup=>{part.push(markup);if(part.length>=6){chunks.push(part);part=[]}});if(part.length)chunks.push(part)});
- return chunks.length?chunks:[['<p>Lecture content is not available.</p>']];
+ const doc=new DOMParser().parseFromString(html,'text/html');
+ const nodes=[...doc.body.children],slides=[];
+ const target=2100,hardLimit=3000;
+ let page=[],size=0,pendingHeading='';
+ const textSize=node=>(node.textContent||'').trim().length;
+ const emit=()=>{if(page.length){slides.push(page);page=[];size=0}};
+ const add=(node)=>{
+  const markup=node.outerHTML,weight=Math.max(35,textSize(node));
+  if(page.length&&size+weight>hardLimit)emit();
+  page.push(markup);size+=weight;
+ };
+ nodes.forEach((node,index)=>{
+  const heading=node.matches('h2.lecture-h2,h3.lecture-h3,h4');
+  if(heading){
+   if(node.matches('h2.lecture-h2')&&page.length)emit();
+   if(page.length&&size>target)emit();
+   pendingHeading=node.outerHTML;
+   return;
+  }
+  if(pendingHeading){page.push(pendingHeading);size+=Math.max(35,node.previousElementSibling?.textContent?.length||45);pendingHeading='';}
+  const weight=Math.max(35,textSize(node));
+  if(page.length&&size+weight>target&&node.tagName!=='TABLE'&&!node.querySelector('table'))emit();
+  add(node);
+ });
+ if(pendingHeading)page.push(pendingHeading);
+ emit();
+ return slides.length?slides:[['<p>Lecture content is not available.</p>']];
 }
 function renderLectureDeck(slides){
  const pages=slides.map((s,i)=>'<section class="lecture-slide'+(i===0?' active':'')+'" data-slide="'+i+'" aria-hidden="'+(i!==0)+'"><div class="slide-content">'+s.join('')+'</div></section>').join('');
