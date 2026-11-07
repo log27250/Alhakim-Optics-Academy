@@ -65,28 +65,17 @@ function buildLectureSlides(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
  const nodes=[...doc.body.children],slides=[];
  const target=2100,hardLimit=3000;
- let page=[],size=0,pendingHeading='';
- const textSize=node=>(node.textContent||'').trim().length;
- const emit=()=>{if(page.length){slides.push(page);page=[];size=0}};
- const add=(node)=>{
-  const markup=node.outerHTML,weight=Math.max(35,textSize(node));
-  if(page.length&&size+weight>hardLimit)emit();
-  page.push(markup);size+=weight;
- };
- nodes.forEach((node,index)=>{
+ let page=[],size=0,lastWasHeading=false;
+ const weightOf=node=>Math.max(35,(node.textContent||'').trim().length);
+ const emit=()=>{if(page.length){slides.push(page);page=[];size=0;lastWasHeading=false}};
+ nodes.forEach(node=>{
   const heading=node.matches('h2.lecture-h2,h3.lecture-h3,h4');
-  if(heading){
-   if(node.matches('h2.lecture-h2')&&page.length)emit();
-   if(page.length&&size>target)emit();
-   pendingHeading=node.outerHTML;
-   return;
-  }
-  if(pendingHeading){page.push(pendingHeading);size+=Math.max(35,node.previousElementSibling?.textContent?.length||45);pendingHeading='';}
-  const weight=Math.max(35,textSize(node));
-  if(page.length&&size+weight>target&&node.tagName!=='TABLE'&&!node.querySelector('table'))emit();
-  add(node);
+  if(heading&&node.matches('h2.lecture-h2')&&page.length)emit();
+  const weight=weightOf(node);
+  if(!heading&&page.length&&size+weight>target&&!lastWasHeading)emit();
+  if(page.length&&size+weight>hardLimit&&!heading&&!lastWasHeading)emit();
+  page.push(node.outerHTML);size+=weight;lastWasHeading=heading;
  });
- if(pendingHeading)page.push(pendingHeading);
  emit();
  return slides.length?slides:[['<p>Lecture content is not available.</p>']];
 }
