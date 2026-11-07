@@ -8,3 +8,36 @@
 /* Academy completion, exams and certificates */
 .exam-progress{margin-top:28px;padding:20px;border:1px solid #dce6f1;border-radius:16px;background:#f7faff}.progress-track{height:10px;background:#e2e8f0;border-radius:20px;overflow:hidden;margin:12px 0 18px}.progress-track span{display:block;height:100%;background:#15956b;border-radius:20px}.exam-progress small,.muted{display:block;color:#64748b;margin-top:10px}.exam-question{padding:18px 0;border-bottom:1px solid #e5eaf0}.exam-option{display:flex;gap:10px;align-items:center;padding:10px 12px;margin:8px 0;border:1px solid #dce4ee;border-radius:10px;cursor:pointer}.exam-option input{accent-color:#0b477d}.exam-option:has(input:checked){border-color:#1676b8;background:#eff7ff}.certificate-preview{margin:24px 0;padding:14px;background:#f1f5f9;border-radius:12px}.certificate-inner{max-width:760px;margin:auto;background:#fff;border:8px double #b48b3c;padding:38px 24px;text-align:center;color:#163456}.certificate-inner h2{margin:18px 0;color:#163456}.certificate-inner h3{color:#a0782e}.certificate-qr{width:145px;height:145px;display:block;margin:18px auto}.certificate-note{font-size:12px;color:#64748b}.form-message{white-space:pre-wrap;color:#9b4a13;margin-top:12px}
 @media print{body *{visibility:hidden!important}.certificate-preview,.certificate-preview *{visibility:visible!important}.certificate-preview{position:absolute;inset:0;margin:0;padding:0;background:#fff!important;width:100%;}.certificate-inner{max-width:none;min-height:90vh;display:flex;flex-direction:column;justify-content:center;page-break-inside:avoid}.certificate-preview~button,.certificate-preview~p{display:none!important}}
+
+/* Bilingual lecture layout — structured headings, bullets and tables */
+.lecture-cover{padding:28px 30px;margin:-4px 0 24px;border-radius:18px;background:linear-gradient(120deg,#092b55,#12649a);color:#fff;direction:ltr;text-align:left}
+.lecture-cover h1{font-size:clamp(24px,4vw,34px);line-height:1.35;margin:12px 0;color:#fff}
+.lecture-cover h2{color:#f4cf70;margin:8px 0}
+.lecture-cover p{color:#e3eef8;line-height:1.8}
+.lecture-objectives{background:#f1f7fd;border:1px solid #dbe8f5;border-radius:14px;padding:18px 22px;margin:20px 0}
+.lecture-objectives h2,.lecture-section-title{color:#0b477d;font-size:20px}
+.lecture-section-title{padding:14px 0;border-bottom:2px solid #d9a52d;margin-top:30px}
+.lecture-body{line-height:1.9;font-size:16px;padding:4px 2px 18px}
+.lecture-en{direction:ltr;text-align:left}
+.lecture-ar{direction:rtl;text-align:right;background:#fffaf0;border-radius:14px;padding:20px;margin:18px 0}
+.lecture-body h2.lecture-h2{font-size:22px;color:#0b477d;margin:28px 0 14px;padding:12px 15px;border-left:4px solid #d9a52d;background:#f1f6fb;border-radius:8px}
+.lecture-ar h2.lecture-h2{border-left:0;border-right:4px solid #d9a52d}
+.lecture-body h3.lecture-h3{font-size:18px;color:#12649a;margin:22px 0 10px}
+.lecture-body h4{font-size:16px;color:#183b61;margin:18px 0 8px}
+.lecture-body p{margin:10px 0 14px}
+.lecture-body ul,.lecture-body ol{padding-inline-start:28px;margin:8px 0 18px}
+.lecture-body li{padding:3px 0 3px 5px;margin:2px 0}
+.lecture-body strong{color:#092b55}
+.lecture-body blockquote{margin:14px 0;padding:12px 16px;background:#fff4d8;border-inline-start:4px solid #d9a52d;border-radius:8px}
+.lecture-table-wrap{overflow-x:auto;margin:16px 0 22px}
+.lecture-table{width:100%;border-collapse:collapse;min-width:420px;background:#fff}
+.lecture-table th,.lecture-table td{border:1px solid #dce5ef;padding:11px 13px;text-align:start;vertical-align:top}
+.lecture-table th{background:#eaf2fa;color:#0b3262}
+.lecture-table tr:nth-child(even) td{background:#f8fafc}
+.lecture-body hr{border:0;border-top:1px solid #dce5ef;margin:22px 0}
+.department-lectures{margin:24px 0;padding:20px;border:1px solid #dce8f5;border-radius:16px;background:#f8fbff}
+.department-lectures .section-heading{margin-bottom:12px}
+.department-lectures .section-heading p{margin:4px 0;color:#6b7c90;font-size:13px}
+.topic-button{align-items:center;gap:12px}
+.topic-button small{display:block;color:#74849a;font-size:12px;margin-top:3px}
+@media(max-width:600px){.lecture-cover{padding:20px}.lecture-body{font-size:15px}.lecture-ar{padding:14px}.lecture-body h2.lecture-h2{font-size:19px}}
