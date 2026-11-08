@@ -1,5 +1,5 @@
-/* HAKIM OPTICS ACADEMY — resilient offline cache */
-const CACHE_NAME = 'alhakim-academy-v2-5';
+/* HAKIM OPTICS ACADEMY — network-first updates with offline fallback */
+const CACHE_NAME = 'alhakim-academy-v2-6';
 const CORE = [
   './',
   './index.html',
@@ -21,7 +21,7 @@ self.addEventListener('install', event => {
         const response = await fetch(path, { cache: 'reload' });
         if (response.ok) await cache.put(path, response);
       } catch (_) {
-        // Missing optional assets must not prevent installation.
+        // An unavailable optional asset must not block installation.
       }
     }));
     await self.skipWaiting();
@@ -38,13 +38,48 @@ self.addEventListener('activate', event => {
   })());
 });
 
+async function networkFirst(request, cache) {
+  try {
+    const response = await fetch(request, { cache: 'no-store' });
+    if (response && response.ok) {
+      await cache.put(request, response.clone());
+    }
+    return response;
+  } catch (_) {
+    const cached = await cache.match(request);
+    if (cached) return cached;
+
+    const offline = await cache.match('./offline.html');
+    if (offline) return offline;
+    const home = await cache.match('./index.html');
+    if (home) return home;
+
+    return new Response('Offline', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+    });
+  }
+}
+
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
+    const path = url.pathname;
+    const isNavigation = event.request.mode === 'navigate';
+    const isAppCode = /\\.(?:html?|js|css)$/i.test(path);
+
+    // Always check the network first for pages and application code.
+    // This prevents an old cached app.js from hiding a published update.
+    if (isNavigation || isAppCode) {
+      return networkFirst(event.request, cache);
+    }
+
+    // Images, icons, and other static assets remain cache-first for speed/offline use.
     const cached = await cache.match(event.request);
     if (cached) return cached;
 
@@ -55,10 +90,8 @@ self.addEventListener('fetch', event => {
       }
       return response;
     } catch (_) {
-      const offline = await cache.match('./offline.html');
-      if (offline) return offline;
-      const home = await cache.match('./index.html');
-      if (home) return home;
+      const fallback = await cache.match('./offline.html');
+      if (fallback) return fallback;
       return new Response('Offline', {
         status: 503,
         headers: { 'Content-Type': 'text/plain; charset=utf-8' }
