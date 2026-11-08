@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — resilient offline cache */
-const CACHE_NAME = 'alhakim-academy-v2-4';
+const CACHE_NAME = 'alhakim-academy-v2-5';
 const CORE = [
   './',
   './index.html',
@@ -45,24 +45,30 @@ self.addEventListener('fetch', event => {
 
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(event.request);
-    if (cached) return cached;
-
-    try {
-      const response = await fetch(event.request);
-      if (response && response.ok) {
-        await cache.put(event.request, response.clone());
+    const path = url.pathname;
+    const updateFirst = /\\.(?:html|js|css)$/.test(path) || path.endsWith('/');
+    if (updateFirst) {
+      try {
+        const fresh = await fetch(event.request, { cache: 'no-store' });
+        if (fresh && fresh.ok) await cache.put(event.request, fresh.clone());
+        return fresh;
+      } catch (_) {
+        const cached = await cache.match(event.request);
+        if (cached) return cached;
       }
-      return response;
-    } catch (_) {
-      const offline = await cache.match('./offline.html');
-      if (offline) return offline;
-      const home = await cache.match('./index.html');
-      if (home) return home;
-      return new Response('Offline', {
-        status: 503,
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-      });
+    } else {
+      const cached = await cache.match(event.request);
+      if (cached) return cached;
+      try {
+        const fresh = await fetch(event.request);
+        if (fresh && fresh.ok) await cache.put(event.request, fresh.clone());
+        return fresh;
+      } catch (_) {}
     }
+    const offline = await cache.match('./offline.html');
+    if (offline) return offline;
+    const home = await cache.match('./index.html');
+    if (home) return home;
+    return new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
   })());
 });
