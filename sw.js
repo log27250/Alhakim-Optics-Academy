@@ -71,7 +71,7 @@ self.addEventListener('fetch', event => {
     const cache = await caches.open(CACHE_NAME);
     const path = url.pathname;
     const isNavigation = event.request.mode === 'navigate';
-    const isAppCode = /\\.(?:html?|js|css)$/i.test(path);
+    const isAppCode = /\.(?:html?|js|css)$/i.test(path);
 
     // Always check the network first for pages and application code.
     // This prevents an old cached app.js from hiding a published update.
