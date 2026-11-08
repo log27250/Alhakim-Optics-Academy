@@ -23,9 +23,44 @@ function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a
 function isAdmin(){return profile?.is_admin===true||['admin','super_admin','editor','instructor'].includes(String(session?.user?.app_metadata?.role||'').toLowerCase())}
 function canViewLesson(l){return isAdmin()||String(l?.status||'').toLowerCase()==='published'||(!l?.status&&!l?.review_required)}
 function syncAdminNavigation(){document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!isAdmin();b.setAttribute('aria-hidden',String(!isAdmin()))})}
-async function loadContent(){let local;try{const r=await fetch(CONTENT_URL);if(!r.ok)throw Error('Local content unavailable');local=await r.json()}catch(e){const cache=localStorage.getItem('alhakim_content_cache');if(cache)local=JSON.parse(cache);else local={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0}}DB=local;localStorage.setItem('alhakim_content_cache',JSON.stringify(local));
- try{const[d,t,l,r,lr]=await Promise.all([rest('departments','select=*&order=display_order.asc'),rest('topics','select=*&order=display_order.asc'),rest('lessons','select=*&order=display_order.asc'),rest('references','select=*&order=publication_year.desc'),rest('lesson_references','select=lesson_id,reference_id')]);if(d.length&&t.length){const cloud=normalizeCloud(d,t,l);const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url}));const refsById=new Map(refs.map(x=>[String(x.id),x]));const refsByLesson=new Map();lr.forEach(x=>{const ref=refsById.get(String(x.reference_id));if(ref){if(!refsByLesson.has(String(x.lesson_id)))refsByLesson.set(String(x.lesson_id),[]);refsByLesson.get(String(x.lesson_id)).push(ref)}});cloud.lessons.forEach(x=>{x.reference_titles=refsByLesson.get(String(x.id))||[]});const merged=new Map((local.lessons||[]).map(x=>[String(x.id),x]));cloud.lessons.forEach(x=>merged.set(String(x.id),{...merged.get(String(x.id)),...x}));DB={...local,...cloud,lessons:[...merged.values()],reference_catalog:refs};dataSource='supabase'}}catch(e){console.info('Using bundled curriculum:',e.message)}
- renderHome();connection();}
+async function loadContent(){
+ const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
+ let local=empty;
+ try{const cached=localStorage.getItem('alhakim_content_cache');if(cached)local=JSON.parse(cached)||empty}catch(e){console.warn('Invalid local curriculum cache:',e)}
+ try{const r=await fetch(CONTENT_URL,{cache:'no-store'});if(r.ok){const bundled=await r.json();if(bundled&&Array.isArray(bundled.departments))local=bundled}}catch(e){console.info('Bundled curriculum unavailable; continuing with cloud data or saved cache.')}
+ DB=local;dataSource='local';
+ try{
+  const [d,t,l]=await Promise.all([
+   rest('departments','select=*&order=display_order.asc'),
+   rest('topics','select=*&order=display_order.asc'),
+   rest('lessons','select=*&order=display_order.asc')
+  ]);
+  if(Array.isArray(d)&&Array.isArray(t)&&d.length){
+   const cloud=normalizeCloud(d,t,Array.isArray(l)?l:[]);
+   const merged=new Map((local.lessons||[]).map(x=>[String(x.id),x]));
+   cloud.lessons.forEach(x=>merged.set(String(x.id),{...merged.get(String(x.id)),...x}));
+   DB={...local,...cloud,lessons:[...merged.values()]};
+   dataSource='supabase';
+   try{
+    const [r,lr]=await Promise.all([
+     optionalTable('references?select=*&order=publication_year.desc'),
+     optionalTable('lesson_references?select=lesson_id,reference_id')
+    ]);
+    if(Array.isArray(r)){
+     const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url}));
+     DB.reference_catalog=refs;
+     if(Array.isArray(lr)){
+      const refsById=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
+      lr.forEach(x=>{const ref=refsById.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
+      DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
+     }
+    }
+   }catch(e){console.info('Optional references unavailable:',e.message)}
+   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.warn('Could not save curriculum cache:',e)}
+  }else{throw Error('Cloud returned no published departments or topics')}
+ }catch(e){console.warn('Cloud curriculum load failed; using saved local curriculum:',e.message)}
+ renderHome();connection();
+}
 function departmentName(code){return DB.departments.find(d=>d.code===code)?.name_en||code||'General'}
 function homeButton(){return `<button class="home-return" onclick="renderHome()" aria-label="العودة للرئيسية">⌂ <span>الرئيسية</span></button>`}
 function pageShell(title,desc,body){main.innerHTML=`${homeButton()}<div class="section-heading"><div><span class="eyebrow">ALHAKIM OPTICS ACADEMY</span><h2>${esc(title)}</h2><p>${esc(desc||'')}</p></div></div>${body}`;window.scrollTo({top:0,behavior:'smooth'})}
