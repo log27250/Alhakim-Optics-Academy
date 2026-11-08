@@ -20,21 +20,23 @@ The live Supabase database was queried directly.
 | Unique active final-exam question texts | 100 |
 | Structurally valid active final-exam questions | 100 |
 
-All 45 lessons have published status. Every lesson has at least 10 published questions. The structural checks confirm four options and exactly one correct option per published question.
+All 45 lessons have published status. Every lesson has at least 10 published questions. Each published question has four options and exactly one correct option.
 
-## Editorial quality findings
+## Editorial quality corrections
 
-A targeted review of GEO-037 through GEO-045 found a content-quality issue in the distractors: **20 questions contain generic, off-topic distractor choices**. These questions are structurally valid, but structural validity is not evidence of sound assessment design.
+A targeted review of GEO-037 and GEO-045 identified 20 questions with generic, off-topic distractors. Their 60 incorrect options were replaced with topic-specific alternatives in the live database.
 
-Accordingly:
-- The GEO lesson content and current exam bank are present and published in the live database.
-- The 100-question exam bank passes structural checks.
-- The question bank must not be described as fully editorially approved until the generic distractors in GEO-037–045 are replaced with plausible, topic-specific alternatives and the full set is rechecked.
-- No live lesson, question, option, or exam-bank records were deleted or rewritten as part of this audit.
+Post-correction verification confirmed:
+- 0 questions with duplicate options across GEO-037–045.
+- 0 questions retaining the identified generic distractors.
+- The existing four-option / one-correct-answer structure remained intact.
 
 ## Release status
 
-**Database publication:** Verified.  
-**GitHub audit record:** Published with this commit.  
-**Full academic sign-off:** Pending the distractor-quality correction and final editorial review.
+**Database publication:** Verified — 45 lessons and 452 published lesson questions.  
+**Final-exam bank:** Verified — 100 active, unique, structurally valid questions.  
+**GitHub audit record:** Published on `main`.
 
+**Academic sign-off limitation:** This is a database and targeted assessment-quality audit, not a complete independent textbook-level peer review of every scientific statement. A full academic sign-off should follow a lesson-by-lesson content and answer-key review.
+
+No lesson, question, or exam-bank records were deleted. The live corrections were limited to replacing the 60 identified distractor options.
