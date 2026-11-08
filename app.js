@@ -116,20 +116,17 @@ function renderLectureMarkdown(raw,rtl=false){
 function buildIntegratedBilingualMarkdown(contentEn,contentAr){
  const en=String(contentEn||'').trim(),ar=String(contentAr||'').trim();
  if(!en)return ar||'لم يضف المحتوى العلمي بعد.';
- if(!ar)return en;
- // Pair corresponding content blocks: English teaching paragraph first,
- // followed immediately by its Arabic explanation (not a separate language section).
- const split=s=>s.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
- const enBlocks=split(en),arBlocks=split(ar),out=[];
- const count=Math.max(enBlocks.length,arBlocks.length);
- for(let i=0;i<count;i++){
-  if(enBlocks[i])out.push(enBlocks[i]);
-  if(arBlocks[i]){
-   const block=arBlocks[i];
-   out.push(/^#{1,4}\s/.test(block)?block:('> **شرح للفهم:** '+block.replace(/\n/g,' ')));
-  }
- }
- return out.join('\n\n');
+ // Academy authoring standard: the English scientific lesson contains its
+ // Arabic teaching explanations inline (as in Conjunctiva ANP-006).
+ // Do not append content_ar as a separate translated summary or try to pair
+ // unrelated paragraphs from two independently authored documents.
+ const hasArabicExplanation=/شرح|التوضيح|بالعربي|بالعربية|الفهم|المعنى/.test(en)&&/[\u0600-\u06FF]/.test(en);
+ if(hasArabicExplanation)return en;
+ // Legacy records may store a complete English lesson and a separate Arabic
+ // note. Keep the English source intact and add only a clearly labeled,
+ // concise explanatory note when no inline Arabic teaching exists.
+ if(ar)return en+'\n\n## Arabic Learning Notes – توضيحات للفهم\n\n'+ar;
+ return en;
 }
 function buildLectureSlides(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
