@@ -76,3 +76,13 @@
  .slide-controls button{min-width:82px;padding:10px 12px}
  .lecture-fullscreen .lecture-cover{border-radius:12px}
 }
+
+/* Explicit per-block direction for mixed Arabic/English lecture content */
+.lecture-body{direction:ltr;text-align:left;unicode-bidi:plaintext}
+.lecture-body [dir="ltr"],.lecture-body .lecture-block-ltr{direction:ltr!important;text-align:left!important;unicode-bidi:plaintext}
+.lecture-body [dir="rtl"],.lecture-body .lecture-block-rtl{direction:rtl!important;text-align:right!important;unicode-bidi:plaintext}
+.lecture-body li[dir="ltr"],.lecture-body th[dir="ltr"],.lecture-body td[dir="ltr"]{text-align:left!important}
+.lecture-body li[dir="rtl"],.lecture-body th[dir="rtl"],.lecture-body td[dir="rtl"]{text-align:right!important}
+.lecture-body ul,.lecture-body ol{direction:ltr}
+.lecture-body blockquote[dir="ltr"]{border-inline-start:4px solid #d9a52d;border-inline-end:0}
+.lecture-body blockquote[dir="rtl"]{border-inline-start:0;border-inline-end:4px solid #d9a52d}
