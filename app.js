@@ -25,39 +25,57 @@ function canViewLesson(l){return isAdmin()||String(l?.status||'').toLowerCase()=
 function syncAdminNavigation(){document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!isAdmin();b.setAttribute('aria-hidden',String(!isAdmin()))})}
 async function loadContent(){
  const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
- let local=empty;
+ let local=empty, cloudError=null, topicError=null, lessonError=null;
  try{const cached=localStorage.getItem('alhakim_content_cache');if(cached)local=JSON.parse(cached)||empty}catch(e){console.warn('Invalid local curriculum cache:',e)}
  try{const r=await fetch(CONTENT_URL,{cache:'no-store'});if(r.ok){const bundled=await r.json();if(bundled&&Array.isArray(bundled.departments))local=bundled}}catch(e){console.info('Bundled curriculum unavailable; continuing with cloud data or saved cache.')}
  DB=local;dataSource='local';
  try{
-  const [d,t,l]=await Promise.all([
-   rest('departments','select=*&order=display_order.asc'),
+  // Departments are the essential payload. Load them independently so a failure
+  // in topics or lessons can never force the entire academy back to stale local data.
+  const d=await rest('departments','select=*&order=display_order.asc,code.asc');
+  if(!Array.isArray(d)||!d.length)throw Error('لم تصل بيانات الأقسام المنشورة من قاعدة البيانات.');
+  let t=[],l=[];
+  const results=await Promise.allSettled([
    rest('topics','select=*&order=display_order.asc'),
    rest('lessons','select=*&order=display_order.asc')
   ]);
-  if(Array.isArray(d)&&Array.isArray(t)&&d.length){
-   const cloud=normalizeCloud(d,t,Array.isArray(l)?l:[]);
-   const merged=new Map((local.lessons||[]).map(x=>[String(x.id),x]));
-   cloud.lessons.forEach(x=>merged.set(String(x.id),{...merged.get(String(x.id)),...x}));
-   DB={...local,...cloud,lessons:[...merged.values()]};
-   dataSource='supabase';
-   const [r,lr]=await Promise.all([
-    optionalTable('references','select=*&order=publication_year.desc'),
-    optionalTable('lesson_references','select=lesson_id,reference_id')
-   ]);
-   if(Array.isArray(r)){
-    const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url}));
-    DB.reference_catalog=refs;
-    if(Array.isArray(lr)){
-     const refsById=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
-     lr.forEach(x=>{const ref=refsById.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
-     DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
-    }
+  if(results[0].status==='fulfilled'&&Array.isArray(results[0].value))t=results[0].value;
+  else topicError=results[0].reason?.message||'تعذر تحميل الموضوعات';
+  if(results[1].status==='fulfilled'&&Array.isArray(results[1].value))l=results[1].value;
+  else lessonError=results[1].reason?.message||'تعذر تحميل المحاضرات';
+  const cloud=normalizeCloud(d,t,l);
+  const merged=new Map((local.lessons||[]).map(x=>[String(x.id),x]));
+  cloud.lessons.forEach(x=>merged.set(String(x.id),{...merged.get(String(x.id)),...x}));
+  DB={...local,...cloud,lessons:[...merged.values()]};
+  dataSource='supabase';
+  const [r,lr]=await Promise.all([
+   optionalTable('references','select=*&order=publication_year.desc'),
+   optionalTable('lesson_references','select=lesson_id,reference_id')
+  ]);
+  if(Array.isArray(r)){
+   const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url}));
+   DB.reference_catalog=refs;
+   if(Array.isArray(lr)){
+    const refsById=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
+    lr.forEach(x=>{const ref=refsById.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
+    DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
    }
-   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.warn('Could not save curriculum cache:',e)}
-  }else{throw Error('Cloud returned no departments or topics')}
- }catch(e){console.warn('Cloud curriculum load failed; using saved local curriculum:',e.message)}
+  }
+  try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.warn('Could not save curriculum cache:',e)}
+ }catch(e){
+  cloudError=e.message||String(e);
+  console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
+ }
  renderHome();connection();
+ if(cloudError||topicError||lessonError){
+  const details=[cloudError&&('الأقسام: '+cloudError),topicError&&('الموضوعات: '+topicError),lessonError&&('المحاضرات: '+lessonError)].filter(Boolean).join(' · ');
+  const notice=document.createElement('div');
+  notice.className='notice';
+  notice.style.cssText='margin:16px 0;padding:12px;border:1px solid #d7a94b;border-radius:12px;direction:rtl';
+  notice.innerHTML='<b>تنبيه تحميل المنهج:</b> '+esc(details)+' <button type="button" class="text-btn" id="retryCurriculum" style="margin-inline-start:10px">إعادة المحاولة</button>';
+  main.prepend(notice);
+  document.getElementById('retryCurriculum')?.addEventListener('click',()=>loadContent());
+ }
 }
 function departmentName(code){return DB.departments.find(d=>d.code===code)?.name_en||code||'General'}
 function homeButton(){return `<button class="home-return" onclick="renderHome()" aria-label="العودة للرئيسية">⌂ <span>الرئيسية</span></button>`}
