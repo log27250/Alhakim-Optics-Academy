@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — resilient offline cache */
-const CACHE_NAME = 'alhakim-academy-v2-4';
+const CACHE_NAME = 'alhakim-academy-v2-5';
 const CORE = [
   './',
   './index.html',
