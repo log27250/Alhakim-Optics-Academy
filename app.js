@@ -1,12 +1,13 @@
 /* HAKIM OPTICS ACADEMY v2.1 — public browser key only; never add service_role here. */
 const SUPABASE_URL='https://upmluemrhkadcffcsuzt.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_k0VCQgULXGy_qnjvfyQKkjg_M9x43HVc';
+const SUPABASE_ANON_JWT='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwbWx1ZW1yaGthZGNmZmNzdXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MTMzNDIsImV4cCI6MjEwOTQ4OTM0Mn0.TjDwjDgRVqTyXyFM_TSAsJMyEMcra7N7F71cVi4z4MU';
 const CONTENT_URL='./content/HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json';
 let DB=null,dataSource='local',session=null,profile=null;
 const main=document.getElementById('main');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const first=(o,keys,f='')=>{for(const k of keys)if(o?.[k]!==undefined&&o[k]!==null&&o[k]!=='')return o[k];return f};
-const authHeaders=()=>({apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${session?.access_token||SUPABASE_PUBLISHABLE_KEY}`,'Content-Type':'application/json'});
+const authHeaders=()=>({apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:`Bearer ${session?.access_token||SUPABASE_ANON_JWT}`,'Content-Type':'application/json'});
 async function rest(table,query='select=*'){const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:authHeaders()});if(!r.ok)throw Error(`${table}: ${r.status}`);return r.json()}
 async function optionalTable(table,query='select=*'){try{return await rest(table,query)}catch(e){console.info('Optional table unavailable:',table,e.message);return null}}
 function normalizeCloud(depts,topics,lessons){
