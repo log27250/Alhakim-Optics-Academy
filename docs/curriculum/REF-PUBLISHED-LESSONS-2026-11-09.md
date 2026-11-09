@@ -11,6 +11,11 @@ The following lessons have been created and published in the connected Supabase 
 | REF-003-L01 | Preliminary Visual Assessment | Published |
 | REF-004-L01 | Distance Visual Acuity Testing | Published |
 | REF-005-L01 | Near Visual Acuity Testing | Published |
+| REF-006-L01 | Objective Refraction | Published |
+| REF-007-L01 | Retinoscopy Principles | Published |
+| REF-008-L01 | Static Retinoscopy | Published |
+| REF-009-L01 | Dynamic Retinoscopy | Published |
+| REF-010-L01 | Autorefraction | Published |
 
 ## Editorial standard
 - English is the primary scientific language.
@@ -23,4 +28,4 @@ The following lessons have been created and published in the connected Supabase 
 https://log27250.github.io/Alhakim-Optics-Academy/
 
 ## Scope and quality note
-This release record confirms the database publication of REF-001 through REF-005. It does not claim that all 45 REF topics have been completed. Questions are attached to REF-001; question banks for REF-002 through REF-005 remain to be authored and verified before they are represented as complete.
+This release record confirms publication of REF-001 through REF-010 in Supabase. The REF curriculum contains 45 topics, so 35 topics still need lesson content. A verified ten-question bank is currently attached to REF-001; question banks for the subsequent lessons remain to be authored and checked before they are represented as complete.
