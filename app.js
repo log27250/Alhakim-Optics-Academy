@@ -171,7 +171,7 @@ function buildIntegratedBilingualMarkdown(contentEn,contentAr){
  const marker=/(?:^|\n)#{1,3}\s*(?:Arabic explanation|Arabic learning notes|الشرح العربي|الشرح باللغة العربية)[^\n]*\n/i;
  const match=marker.exec(en);
  if(match){
-  const markerStart=match.index+(en[match.index]==='\n'?1:0);
+  const markerStart=match.index;
   const main=en.slice(0,markerStart).trim();
   const tail=en.slice(markerStart+match[0].length).trim();
   const arabicSections=[];
