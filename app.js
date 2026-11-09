@@ -164,17 +164,48 @@ function renderLectureMarkdown(raw,rtl=false){
 }
 function buildIntegratedBilingualMarkdown(contentEn,contentAr){
  const en=String(contentEn||'').trim(),ar=String(contentAr||'').trim();
- if(!en)return ar||'لم يضف المحتوى العلمي بعد.';
- // Academy authoring standard: the English scientific lesson contains its
- // Arabic teaching explanations inline (as in Conjunctiva ANP-006).
- // Do not append content_ar as a separate translated summary or try to pair
- // unrelated paragraphs from two independently authored documents.
- const hasArabicExplanation=/شرح|التوضيح|بالعربي|بالعربية|الفهم|المعنى/.test(en)&&/[\u0600-\u06FF]/.test(en);
- if(hasArabicExplanation)return en;
- // Legacy records may store a complete English lesson and a separate Arabic
- // note. Keep the English source intact and add only a clearly labeled,
- // concise explanatory note when no inline Arabic teaching exists.
- if(ar)return en+'\n\n## Arabic Learning Notes – توضيحات للفهم\n\n'+ar;
+ if(!en)return en||'لم يضف المحتوى العلمي بعد.';
+ // Legacy lessons sometimes place a complete Arabic explanation section at
+ // the end. Reposition its numbered teaching sections immediately after the
+ // corresponding English section, rather than rendering a detached Arabic block.
+ const marker=/(?:^|\n)#{1,3}\s*(?:Arabic explanation|Arabic learning notes|الشرح العربي|الشرح باللغة العربية)[^\n]*\n/i;
+ const match=marker.exec(en);
+ if(match){
+  const markerStart=match.index+(en[match.index]==='\n'?1:0);
+  const main=en.slice(0,markerStart).trim();
+  const tail=en.slice(markerStart+match[0].length).trim();
+  const arabicSections=[];
+  const re=/(?:^|\n)##\s*(\d+)[.)]?\s*([^\n]*)\n/g;
+  let m,starts=[];
+  while((m=re.exec(tail))!==null)starts.push({index:m.index+(tail[m.index]==='\n'?1:0),number:Number(m[1]),title:m[2].trim(),end:re.lastIndex});
+  for(let i=0;i<starts.length;i++){
+   const x=starts[i],end=i+1<starts.length?starts[i+1].index:tail.length;
+   const body=tail.slice(x.end,end).trim();
+   if(body)arabicSections.push({number:x.number,body});
+  }
+  const lines=main.split('\n'),blocks=[];let current=[];
+  for(const line of lines){
+   if(/^##\s+\d+[.)]?\s+/.test(line)&&current.length){blocks.push(current);current=[];}
+   current.push(line);
+  }
+  if(current.length)blocks.push(current);
+  const firstHeading=(blocks.find(b=>/^##\s+\d+[.)]?\s+/.test(b[0]||''))||[])[0]||'';
+  const hasObjectives=/learning objectives|أهداف التعلم/i.test(firstHeading);
+  const out=[];
+  for(const block of blocks){
+   out.push(block.join('\n'));
+   const h=(block[0]||'').match(/^##\s+(\d+)[.)]?\s+/);
+   if(h){
+    const englishNumber=Number(h[1]);
+    const arabicNumber=hasObjectives?englishNumber-1:englishNumber;
+    const note=arabicSections.find(x=>x.number===arabicNumber);
+    if(note&&arabicNumber>0)out.push('**توضيح وشرح:**\n'+note.body);
+   }
+  }
+  return out.join('\n\n').trim();
+ }
+ // content_ar remains a separate source for language-specific audio; it is
+ // deliberately not appended to the visible lecture as a detached translation.
  return en;
 }
 function buildLectureSlides(html){
