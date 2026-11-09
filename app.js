@@ -139,9 +139,12 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  const source=String(raw||'').trim();
+ const hasMarkdownBlocks=/(^|\n)\s{0,3}#{1,4}\s|(^|\n)\s*[-*]\s/m.test(source);
+ if(hasMarkdownBlocks&&/<(?:h[12]\b|hr\b)/i.test(source)){
+  const normalized=source.replace(/<hr\s*\/?\s*>/gi,'\n---\n').replace(/<h[12]\b[^>]*>([\s\S]*?)<\/h[12]\s*>/gi,'\n## $1\n');
+  return renderLectureMarkdown(normalized,rtl);
+ }
  if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br)(?:\s|>|\/)/i.test(source))return renderLectureHtml(source,rtl);
- const lines=String(raw||'').replace(/\r/g,'').split('\n');let out='',list=null,table=[];
- const blockDir=text=>{const s=String(text||'').replace(/\*\*|__|\*|_|\`/g,'');const ar=(s.match(/[\u0600-\u06FF]/g)||[]).length;const en=(s.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
  const attrs=text=>{const d=blockDir(text);return ' dir="'+d+'" lang="'+(d==='rtl'?'ar':'en')+'" class="lecture-block-'+d+'"'};
  const closeList=()=>{if(list){out+=list==='ul'?'</ul>':'</ol>';list=null}};
  const flushTable=()=>{if(!table.length)return;out+='<div class="lecture-table-wrap"><table class="lecture-table">';table.forEach((row,i)=>{const cells=row.split('|').slice(1,-1).map(x=>x.trim());if(cells.every(x=>/^:?-{3,}:?$/.test(x)))return;out+=i===0?'<thead><tr>':'<tbody><tr>';cells.forEach(c=>out+=i===0?'<th'+attrs(c)+'>'+inlineFormat(c)+'</th>':'<td'+attrs(c)+'>'+inlineFormat(c)+'</td>');out+='</tr>'+(i===0?'</thead>':'')});out+='</tbody></table></div>';table=[]};
