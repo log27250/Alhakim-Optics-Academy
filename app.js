@@ -127,7 +127,7 @@ function renderLectureHtml(raw,rtl=false){
   const children=[...node.childNodes].map(renderNode).join('');
   if(!allowed.has(tag))return children;
   const textContent=node.textContent||'';
-  const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
+  const dir=(textContent.match(/[\u0600-\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
   const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
@@ -138,7 +138,7 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  const source=String(raw||'').trim();
- if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br)(?:\\s|>|\\/)/i.test(source))return renderLectureHtml(source,rtl);
+ if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br)(?:\s|>|\/)/i.test(source))return renderLectureHtml(source,rtl);
  const lines=String(raw||'').replace(/\r/g,'').split('\n');let out='',list=null,table=[];
  const blockDir=text=>{const s=String(text||'').replace(/\*\*|__|\*|_|\`/g,'');const ar=(s.match(/[\u0600-\u06FF]/g)||[]).length;const en=(s.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
  const attrs=text=>{const d=blockDir(text);return ' dir="'+d+'" lang="'+(d==='rtl'?'ar':'en')+'" class="lecture-block-'+d+'"'};
