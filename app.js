@@ -132,6 +132,7 @@ function renderLectureHtml(raw,rtl=false){
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
   if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
+  if(tag==='BR'||tag==='HR')return '<'+tag.toLowerCase()+'>';
   return '<'+tag.toLowerCase()+(['P','LI','TH','TD','BLOCKQUOTE'].includes(tag)?attrs.join(''):'')+'>'+children+'</'+tag.toLowerCase()+'>';
  };
  return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+[...doc.body.childNodes].map(renderNode).join('')+'</div>';
