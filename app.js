@@ -116,7 +116,29 @@ async function showDepartment(code){
 
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
 function inlineFormat(text){return esc(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');}
+function renderLectureHtml(raw,rtl=false){
+ const source=String(raw||'').replace(/\\\\n/g,'\n');
+ const doc=new DOMParser().parseFromString(source,'text/html');
+ const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE']);
+ const renderNode=node=>{
+  if(node.nodeType===Node.TEXT_NODE)return esc(node.nodeValue||'');
+  if(node.nodeType!==Node.ELEMENT_NODE)return '';
+  const tag=node.tagName;
+  const children=[...node.childNodes].map(renderNode).join('');
+  if(!allowed.has(tag))return children;
+  const textContent=node.textContent||'';
+  const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
+  const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
+  if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
+  if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
+  if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
+  return '<'+tag.toLowerCase()+(['P','LI','TH','TD','BLOCKQUOTE'].includes(tag)?attrs.join(''):'')+'>'+children+'</'+tag.toLowerCase()+'>';
+ };
+ return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+[...doc.body.childNodes].map(renderNode).join('')+'</div>';
+}
 function renderLectureMarkdown(raw,rtl=false){
+ const source=String(raw||'').trim();
+ if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br)(?:\\s|>|\\/)/i.test(source))return renderLectureHtml(source,rtl);
  const lines=String(raw||'').replace(/\r/g,'').split('\n');let out='',list=null,table=[];
  const blockDir=text=>{const s=String(text||'').replace(/\*\*|__|\*|_|\`/g,'');const ar=(s.match(/[\u0600-\u06FF]/g)||[]).length;const en=(s.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
  const attrs=text=>{const d=blockDir(text);return ' dir="'+d+'" lang="'+(d==='rtl'?'ar':'en')+'" class="lecture-block-'+d+'"'};
