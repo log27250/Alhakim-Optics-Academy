@@ -183,26 +183,28 @@ function buildIntegratedBilingualMarkdown(contentEn,contentAr){
    const body=tail.slice(x.end,end).trim();
    if(body)arabicSections.push({number:x.number,body});
   }
-  const lines=main.split('\n'),blocks=[];let current=[];
-  for(const line of lines){
-   if(/^##\s+\d+[.)]?\s+/.test(line)&&current.length){blocks.push(current);current=[];}
-   current.push(line);
-  }
-  if(current.length)blocks.push(current);
-  const firstHeading=(blocks.find(b=>/^##\s+\d+[.)]?\s+/.test(b[0]||''))||[])[0]||'';
-  const hasObjectives=/learning objectives|أهداف التعلم/i.test(firstHeading);
-  const out=[];
-  for(const block of blocks){
-   out.push(block.join('\n'));
-   const h=(block[0]||'').match(/^##\s+(\d+)[.)]?\s+/);
-   if(h){
-    const englishNumber=Number(h[1]);
-    const arabicNumber=hasObjectives?englishNumber-1:englishNumber;
+  const lines=main.split('\n'),out=[];
+  const headings=lines.map(line=>line.match(/^##\s+(\d+)[.)]?\s+(.+)$/)).filter(Boolean);
+  const hasObjectives=!!headings.length&&/learning objectives|أهداف التعلم/i.test(headings[0][2]);
+  let sectionNumber=null,sectionLines=[];
+  const flushSection=()=>{
+   if(sectionLines.length)out.push(sectionLines.join('\n'));
+   if(sectionNumber!==null){
+    const arabicNumber=hasObjectives?sectionNumber-1:sectionNumber;
     const note=arabicSections.find(x=>x.number===arabicNumber);
     if(note&&arabicNumber>0)out.push('**توضيح وشرح:**\n'+note.body);
    }
+   sectionLines=[];
+  };
+  for(const line of lines){
+   const h=line.match(/^##\s+(\d+)[.)]?\s+(.+)$/);
+   if(h&&sectionLines.length){flushSection();sectionNumber=Number(h[1]);sectionLines=[line];}
+   else{
+    if(h)sectionNumber=Number(h[1]);
+    sectionLines.push(line);
+   }
   }
-  return out.join('\n\n').trim();
+  flushSection();  return out.join('\n\n').trim();
  }
  // content_ar remains a separate source for language-specific audio; it is
  // deliberately not appended to the visible lecture as a detached translation.
