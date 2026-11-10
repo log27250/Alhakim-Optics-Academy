@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — network-first updates with offline fallback */
-const CACHE_NAME = 'alhakim-academy-v2-27-admin-role-v5';
+const CACHE_NAME = 'alhakim-academy-v2-28-admin-management-v6';
 const CORE = [
   './',
   './index.html',
