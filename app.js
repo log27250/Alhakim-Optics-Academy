@@ -113,6 +113,7 @@ async function loadHomepageSettings(){
  try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
 }
 function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.style.display=\'none\'">':''}
+function founderImage(url,name){return url?homeImage(url,name,'founder-photo'):'<div class="founder-photo founder-photo-placeholder" role="img" aria-label="صورة المؤسس غير مضافة بعد"><span>د. ل</span></div>'}
 function renderHome(){
  document.body.classList.add('home-screen');
  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
@@ -127,7 +128,7 @@ function renderHome(){
   <section class="home-top-search"><div class="home-search-title"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن دورات، مصادر، أو طلب..." autocomplete="off"><button id="searchBtn" aria-label="بحث">⌕</button></div><div class="home-notices"><button aria-label="الإشعارات" title="الإشعارات">♧<i></i></button><button aria-label="حسابي" title="حسابي" onclick="showPage('accounts')">◉</button></div></section>
   <section class="home-identity-row">
    <div class="home-founder" ${s.show_founder===false?'hidden':''}>
-    ${homeImage(s.founder_photo_url,s.founder_name,'founder-photo')}
+    ${founderImage(s.founder_photo_url,s.founder_name)}
     <div><small>المؤسس: والعضو المنتدب</small><h2>${esc(s.founder_name)}</h2><p>${esc(s.founder_title)}</p></div>
    </div>
    <nav class="home-shortcuts">${quick.map((x,i)=>`<button onclick="showPage('${esc(x.page)}')"><span class="shortcut-number">${i+1}</span><span class="shortcut-icon">${esc(x.icon||'▣')}</span><b>${esc(x.label)}</b></button>`).join('')}</nav>
@@ -145,8 +146,9 @@ function renderHome(){
   <section class="home-bottom-links"><span>أكاديمية الحكيم للبصريات</span><span>معاً نحو مستقبل أفضل لعلوم البصريات</span><span>© ${new Date().getFullYear()} ALHAKIM OPTICS ACADEMY</span></section>
   <div id="searchResults" class="search-results home-search-results"></div>
  </div>`;
- document.getElementById('searchBtn').onclick=search;
- document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+ const globalInput=document.getElementById('globalSearch'),globalButton=document.getElementById('searchBtn');
+ if(globalButton)globalButton.onclick=()=>search(globalInput?.value,'searchResults');
+ if(globalInput){globalInput.addEventListener('input',()=>search(globalInput.value,'searchResults'));globalInput.addEventListener('keydown',e=>{if(e.key==='Enter')search(globalInput.value,'searchResults')})}
  window.scrollTo({top:0,behavior:'smooth'});
 }
 function deptCard(d,i){return `<article class="dept-card" onclick="showDepartment('${esc(d.code)}')"><div class="dept-num">DEPARTMENT ${String(i+1).padStart(2,'0')} · ${esc(d.code)}</div><h3>${esc(d.name_en)}</h3><p>${esc(d.name_ar)}</p><small>${(d.curriculum_topics||[]).length} موضوعاً في المنهج</small></article>`}
@@ -360,7 +362,48 @@ async function checkLessonAnswer(questionId,optionId,button){
   ex.innerHTML=`<b>${result.is_correct?'إجابة صحيحة ✓':'إجابة غير صحيحة ✗'}</b><p>الإجابة الصحيحة: ${esc(result.correct_answer)}</p><p>${esc(result.explanation_en||'')}</p>${result.explanation_ar?`<p dir="rtl">${esc(result.explanation_ar)}</p>`:''}`;
  }catch(e){box.dataset.answered='0';buttons.forEach(b=>b.disabled=false);const ex=box.querySelector('.explanation');ex.hidden=false;ex.textContent=e.message}
 }async function renderProgress(){if(!session){pageShell('تقدمي الدراسي','سجّل الدخول لمزامنة إنجازاتك.',`<div class="notice">يلزم تسجيل الدخول لعرض تقدمك السحابي.</div><button class="primary" onclick="showPage('accounts')">تسجيل الدخول</button>`);return}try{const rows=await rest('academy_lesson_completions',`select=lesson_id,completed_at&user_id=eq.${encodeURIComponent(session.user.id)}&order=completed_at.desc`);const ids=new Set(rows.map(x=>String(x.lesson_id)));const completed=DB.lessons.filter(l=>ids.has(l.id));pageShell('تقدمي الدراسي','إنجازات الدروس المسجلة في حسابك على الأكاديمية.',`<div class="content-card"><h3>الدروس المكتملة: ${rows.length}</h3><p>${completed.map(l=>esc(l.title_en)).join('، ')||'لم تسجل إكمال أي درس بعد.'}</p><small>يتم تسجيل الدرس عند الضغط على زر إكمال الدرس، وليس بمجرد فتحه.</small></div>`)}catch(e){pageShell('تقدمي الدراسي','تعذر تحميل التقدم.',`<div class="notice">${esc(e.message)}</div>`)}}
-function search(){const input=document.getElementById('globalSearch');if(!input)return;const q=input.value.trim().toLowerCase(),box=document.getElementById('searchResults');if(!q){box.innerHTML='';return}const results=[];DB.departments.forEach(d=>{if((d.name_en+' '+d.name_ar).toLowerCase().includes(q))results.push({label:d.name_en+' — '+d.name_ar,sub:'قسم علمي',action:`showDepartment('${d.code}')`});(d.curriculum_topics||[]).forEach(t=>{if(t.toLowerCase().includes(q))results.push({label:t,sub:d.name_en,action:`searchTopic('${t.replace(/'/g,"\\'")}','${d.code}')`})})});DB.lessons.filter(canViewLesson).forEach(l=>{if((l.title_en+' '+l.content_en+' '+l.content_ar).toLowerCase().includes(q))results.push({label:l.title_en,sub:'محاضرة · '+departmentName(l.department_code),action:`showLesson('${l.id}')`})});box.innerHTML=results.length?results.slice(0,30).map(r=>`<button class="result search-result" onclick="${r.action}"><b>${esc(r.label)}</b><small>${esc(r.sub)}</small></button>`).join(''):'<div class="result">لا توجد نتائج مطابقة.</div>'}
+function search(queryOverride=null,targetId=null){
+ const input=document.getElementById('globalSearch');
+ const headerInput=document.getElementById('headerSearch');
+ const raw=queryOverride!==null?queryOverride:(input?.value||headerInput?.value||'');
+ const q=String(raw).trim().toLocaleLowerCase();
+ const box=document.getElementById(targetId||(document.activeElement===headerInput?'headerSearchResults':'searchResults'));
+ if(!box)return;
+ if(!q){box.innerHTML='';box.hidden=true;return}
+ const norm=v=>String(v??'').toLocaleLowerCase().normalize('NFKC').replace(/[ً-ٰٟـ]/g,'').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/\s+/g,' ').trim();
+ const nq=norm(q),results=[],seen=new Set();
+ const add=(type,id,label,sub,fields=[])=>{
+  const key=type+':'+id;if(seen.has(key))return;seen.add(key);
+  const hay=norm(fields.join(' '));
+  if(hay.includes(nq)||norm(label).includes(nq))results.push({type,id,label,sub,rank:norm(label).startsWith(nq)?0:1});
+ };
+ (DB?.departments||[]).forEach(d=>add('department',d.code,d.name_en+' — '+d.name_ar,'قسم علمي · '+d.code,[d.name_en,d.name_ar,d.code]));
+ (DB?.departments||[]).forEach(d=>(d.curriculum_topics||[]).forEach(t=>{
+  const title=typeof t==='string'?t:(t.title_en||t.title_ar||t.code||'موضوع');
+  const ar=typeof t==='string'?'':(t.title_ar||'');
+  const id=typeof t==='string'?title:(t.id||t.code||title);
+  add('topic',String(id),title+' '+ar,'موضوع · '+d.name_en,[title,ar,t.code,d.name_en,d.name_ar]);
+ }));
+ (DB?.lessons||[]).filter(canViewLesson).forEach(l=>add('lesson',l.id,l.title_en||l.title_ar||'محاضرة','محاضرة · '+departmentName(l.department_code),[l.title_en,l.title_ar,l.content_en,l.content_ar,l.department_code]));
+ (HOME_COURSES||[]).forEach(c=>add('course',c.id,c.title_ar||c.title_en||'دورة','دورة تدريبية',[c.title_ar,c.title_en,c.description_en,c.description_ar]));
+ (DB?.reference_catalog||[]).forEach(r=>add('reference',r.id,r.title||'مرجع علمي','مرجع علمي',[r.title,r.authors,r.publisher,r.publication_year]));
+ results.sort((a,b)=>a.rank-b.rank||a.label.localeCompare(b.label));
+ box.innerHTML=results.length?results.slice(0,30).map(r=>'<button type="button" class="result search-result" data-search-type="'+esc(r.type)+'" data-search-id="'+esc(r.id)+'"><b>'+esc(r.label)+'</b><small>'+esc(r.sub)+'</small></button>').join(''):'<div class="result">لا توجد نتائج مطابقة في محتوى الأكاديمية.</div>';
+ box.hidden=false;
+ box.querySelectorAll('[data-search-type]').forEach(btn=>btn.addEventListener('click',()=>{
+  const type=btn.dataset.searchType,id=btn.dataset.searchId;
+  box.innerHTML='';box.hidden=true;
+  if(type==='department')showDepartment(id);
+  else if(type==='lesson')showLesson(id);
+  else if(type==='topic'){
+   const dept=(DB?.departments||[]).find(d=>(d.curriculum_topics||[]).some(t=>String(typeof t==='string'?t:(t.id||t.code||t.title_en||t.title_ar))===id));
+   const topic=dept?.curriculum_topics?.find(t=>String(typeof t==='string'?t:(t.id||t.code||t.title_en||t.title_ar))===id);
+   const title=typeof topic==='string'?topic:(topic?.title_en||topic?.title_ar||id);
+   if(dept)searchTopic(title,dept.code);
+  }else if(type==='course')showCourse(id);
+  else if(type==='reference')showPage('library');
+ }));
+}
 async function signIn(email,password){const r=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});const data=await r.json();if(!r.ok)throw Error(data.msg||data.message||'تعذر تسجيل الدخول');session=data;localStorage.setItem('hakim_auth_session',JSON.stringify(data));await loadProfile();}
 async function loadProfile(){if(!session){profile=null;syncAdminNavigation();return}let admin=false;try{admin=(await rpc('is_academy_admin'))===true}catch(e){admin=['admin','super_admin','editor','instructor'].includes(String(session.user?.app_metadata?.role||'').toLowerCase())}profile={role:admin?'admin':'student',is_admin:admin,display_name:session.user?.user_metadata?.full_name||session.user?.user_metadata?.name||''};syncAdminNavigation();return profile;}
 function signOut(){session=null;profile=null;syncAdminNavigation();localStorage.removeItem('hakim_auth_session');showPage('accounts')}
@@ -426,7 +469,7 @@ async function showCourse(id){try{const rows=await rest('course_modules',`select
 async function renderSubscriptions(){try{if(!session){pageShell('الاشتراكات','سجّل الدخول لمراجعة اشتراكاتك.',`<button class="primary" onclick="showPage('accounts')">تسجيل الدخول</button>`);return}const [subs,plans]=await Promise.all([rest('subscriptions',`select=*&user_id=eq.${encodeURIComponent(session.user.id)}&order=created_at.desc`),rest('subscription_plans','select=*&is_active=eq.true&order=price.asc')]);const byId=new Map(plans.map(p=>[p.id,p]));pageShell('اشتراكاتي','خطط الاشتراك وحالة اشتراكك الحالي. الدروس الأساسية متاحة مجاناً؛ الاشتراك خاص بالدورات والشهادات.',`<div class="content-card"><h3>الخطط المتاحة</h3>${plans.map(p=>`<article class="result"><b>${esc(p.name)}</b><small>${esc(p.duration_days)} يوم · ${esc(p.price)} ${esc(p.currency)}</small></article>`).join('')||'<p>لا توجد خطط مفعّلة حالياً.</p>'}<h3>سجل اشتراكاتك</h3>${subs.map(s=>{const p=byId.get(s.plan_id);return `<article class="result"><b>${esc(p?.name||'خطة غير متاحة')}</b><small>${esc(s.status)} · ينتهي: ${esc(s.expires_at||'غير محدد')}</small></article>`}).join('')||'<p>لا توجد اشتراكات مسجلة في حسابك.</p>'}</div>`)}catch(e){pageShell('الاشتراكات','تعذر تحميل بيانات الاشتراك.',`<div class="notice">${esc(e.message)}</div>`)}}
 function connection(){const el=document.getElementById('connectionState');if(el)el.textContent=(navigator.onLine?'● متصل':'● دون اتصال')+' · '+(dataSource==='supabase'?'بيانات سحابية':'بيانات محلية')}
 try{const saved=localStorage.getItem('hakim_auth_session');if(saved)session=JSON.parse(saved)}catch(e){session=null}
-syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>{showPage('home');const q=hs?.value||'';setTimeout(()=>{const inp=document.getElementById('globalSearch');if(inp){inp.value=q;search()}},0)};if(hs)hs.addEventListener('keydown',e=>{if(e.key==='Enter')hsb?.click()});window.addEventListener('online',connection);window.addEventListener('offline',connection);
+syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',connection);window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){if(sessionStorage.getItem('alhakim_welcomed'))overlay.classList.add('hidden');const close=()=>{overlay.classList.add('hidden');sessionStorage.setItem('alhakim_welcomed','1')};document.getElementById('welcomeStart').onclick=close;document.getElementById('welcomeClose').onclick=close}
 loadContent().then(async()=>{await loadHomepageSettings();renderHome();await loadProfile();const token=new URLSearchParams(location.search).get('verify');if(token)await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
