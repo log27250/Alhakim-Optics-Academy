@@ -202,3 +202,5 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 
 /* Clearly visible administrator shortcut on the academy home page */
 #homeAdminEntry.home-admin-entry{display:flex!important;width:100%;min-height:48px;margin:0 0 16px;padding:12px 18px;font-size:15px;}
+
+.admin-top-button{border:0!important;background:#d9a52d!important;color:#092b55!important;border-radius:10px!important;padding:10px 13px!important;font-weight:900!important;white-space:nowrap!important;cursor:pointer!important;box-shadow:0 2px 8px #092b5530!important}.admin-top-button[hidden]{display:none!important}@media(max-width:520px){.admin-top-button{font-size:11px!important;padding:9px 8px!important}.topbar{gap:7px!important;padding:0 9px!important}.top-actions{gap:5px!important}}
