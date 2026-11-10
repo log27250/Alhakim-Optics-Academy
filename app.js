@@ -3,7 +3,7 @@ const SUPABASE_URL='https://upmluemrhkadcffcsuzt.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_k0VCQgULXGy_qnjvfyQKkjg_M9x43HVc';
 const SUPABASE_ANON_JWT='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwbWx1ZW1yaGthZGNmZmNzdXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MTMzNDIsImV4cCI6MjEwOTQ4OTM0Mn0.TjDwjDgRVqTyXyFM_TSAsJMyEMcra7N7F71cVi4z4MU';
 const CONTENT_URL='./content/HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json';
-let DB=null,dataSource='local',session=null,profile=null;
+let DB=null,dataSource='local',session=null,profile=null,deferredInstallPrompt=null;
 const HOME_DEFAULTS={
  logo_url:'./assets/alhakim-logo.png',
  founder_photo_url:'',
@@ -467,7 +467,7 @@ async function adminCourses(){
  if(!adminGuard())return;
  try{
   const rows=await rest('courses','select=*&order=created_at.desc');
-  pageShell('إدارة الدورات','أضف دورة جديدة أو راجع بيانات الدورات وحالة النشر.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><button class="primary" type="button" onclick="adminCourseForm()">＋ إضافة دورة</button></div>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminCourseContent('${esc(c.id)}')">إدارة الوحدات والمحاضرات</button><button class="secondary" onclick="toggleCoursePublish('${esc(c.id)}',${!c.is_published})">${c.is_published?'إيقاف النشر':'نشر الدورة'}</button></div></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`);
+  pageShell('إدارة الدورات','أضف دورة جديدة أو راجع بيانات الدورات وحالة النشر.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><button class="primary" type="button" onclick="adminCourseForm()">＋ إضافة دورة</button></div>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminCourseContent('${esc(c.id)}')">إدارة الوحدات والمحاضرات</button><button class="secondary" onclick="toggleCoursePublish('${esc(c.id)}',${!c.is_published})">${c.is_published?'إيقاف النشر':'نشر الدورة'}</button><button class="secondary" type="button" onclick="deleteCourse('${esc(c.id)}','${esc(c.title_ar||c.title_en||'هذه الدورة')}')">حذف الدورة</button></div></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`);
  }catch(e){pageShell('إدارة الدورات','تعذر تحميل الدورات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
 }
 async function adminCourseContent(courseId){
@@ -501,6 +501,22 @@ async function adminCourseForm(){
  <label>العملة<input id="ac_currency" value="USD" required></label>
  <div class="admin-actions"><button class="primary" type="submit" data-publish="false">حفظ كمسودة</button><button class="secondary" type="submit" data-publish="true">حفظ ونشر</button><button class="secondary" type="button" onclick="adminCourses()">إلغاء</button></div><p id="ac_msg" class="form-message"></p></form>`);
  document.getElementById('adminCourseForm').onsubmit=async e=>{e.preventDefault();if(!adminGuard())return;const publish=e.submitter?.dataset.publish==='true';const msg=document.getElementById('ac_msg');msg.textContent='جارٍ حفظ الدورة…';const payload={title_en:document.getElementById('ac_title_en').value.trim(),title_ar:document.getElementById('ac_title_ar').value.trim()||null,description_en:document.getElementById('ac_desc_en').value.trim()||null,description_ar:document.getElementById('ac_desc_ar').value.trim()||null,price:Number(document.getElementById('ac_price').value),currency:document.getElementById('ac_currency').value.trim().toUpperCase(),is_published:publish};try{const res=await authorizedFetch(SUPABASE_URL+'/rest/v1/courses',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(payload)});const body=await res.json().catch(()=>[]);if(!res.ok)throw Error(body.message||body.details||'تعذر حفظ الدورة');msg.textContent='تم حفظ الدورة بنجاح.';adminCourses()}catch(err){msg.textContent=err.message}}
+}
+async function deleteCourse(id,title){
+ if(!adminGuard())return;
+ if(!confirm('هل تريد حذف الدورة "'+title+'"؟ لن يسمح بالحذف إذا كانت هناك اشتراكات طلاب أو شهادات مرتبطة بها.'))return;
+ try{
+  const [enrollments,certificates]=await Promise.all([
+   rest('course_enrollments','select=id&course_id=eq.'+encodeURIComponent(id)),
+   rest('certificates','select=id&course_id=eq.'+encodeURIComponent(id))
+  ]);
+  if(enrollments.length||certificates.length){alert('لا يمكن حذف هذه الدورة لأنها مرتبطة بسجلات طلاب أو شهادات ('+enrollments.length+' تسجيل، '+certificates.length+' شهادة). أوقف نشرها بدلاً من حذفها حتى لا تضيع سجلات الطلاب.');return}
+  const response=await authorizedFetch(SUPABASE_URL+'/rest/v1/courses?id=eq.'+encodeURIComponent(id),{method:'DELETE',headers:{Prefer:'return=representation'}});
+  const body=await response.json().catch(()=>[]);
+  if(!response.ok)throw Error(body.message||body.details||'تعذر حذف الدورة');
+  if(!Array.isArray(body)||!body.length)throw Error('لم يتم حذف الدورة. تحقق من صلاحية الحذف في قاعدة البيانات.');
+  alert('تم حذف الدورة بنجاح.');adminCourses();
+ }catch(e){alert('تعذر حذف الدورة: '+e.message)}
 }
 async function toggleCoursePublish(id,publish){
  if(!adminGuard())return;
@@ -656,7 +672,15 @@ async function renderSubscriptions(){try{if(!session){pageShell('الاشترا�
 function connection(){const el=document.getElementById('connectionState');if(el)el.textContent=(navigator.onLine?'● متصل':'● دون اتصال')+' · '+(dataSource==='supabase'?'بيانات سحابية':'بيانات محلية')}
 try{const saved=localStorage.getItem('hakim_auth_session');if(saved)session=JSON.parse(saved)}catch(e){session=null}
 document.addEventListener('click',event=>{const account=event.target.closest('#accountBtn, .home-notices button[aria-label="حسابي"]');if(account){event.preventDefault();event.stopImmediatePropagation();showPage('accounts')}},true);
-syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',connection);window.addEventListener('offline',connection);
+function setupPWAInstall(){
+ const button=document.getElementById('installAppButton');if(!button)return;
+ const standalone=()=>window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true;
+ const hide=()=>{button.hidden=true};if(standalone()){hide();return}button.hidden=false;
+ window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstallPrompt=event;button.textContent='تثبيت التطبيق';button.hidden=false});
+ window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;hide();alert('تم تثبيت أكاديمية الحكيم بنجاح.')});
+ button.addEventListener('click',async()=>{if(standalone()){hide();return}if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;if(choice?.outcome==='accepted')hide();deferredInstallPrompt=null;return}const ua=navigator.userAgent||'';if(/iphone|ipad|ipod/i.test(ua)){alert('لتثبيت الأكاديمية على iPhone أو iPad: اضغط زر المشاركة في Safari، ثم اختر إضافة إلى الشاشة الرئيسية ثم اضغط إضافة.')}else{alert('لتثبيت الأكاديمية: افتح قائمة المتصفح ⋮ ثم اختر تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية. إذا لم يظهر الخيار، افتح الرابط باستخدام Chrome وتأكد من اتصالك بالإنترنت.')}});
+}
+setupPWAInstall();syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',connection);window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){if(sessionStorage.getItem('alhakim_welcomed'))overlay.classList.add('hidden');const close=()=>{overlay.classList.add('hidden');sessionStorage.setItem('alhakim_welcomed','1')};document.getElementById('welcomeStart').onclick=close;document.getElementById('welcomeClose').onclick=close}
 loadContent().then(async()=>{await loadHomepageSettings();renderHome();await loadProfile();const token=new URLSearchParams(location.search).get('verify');if(token)await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
