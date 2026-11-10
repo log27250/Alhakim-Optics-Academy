@@ -33,7 +33,22 @@ const main=document.getElementById('main');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const first=(o,keys,f='')=>{for(const k of keys)if(o?.[k]!==undefined&&o[k]!==null&&o[k]!=='')return o[k];return f};
 const authHeaders=()=>({apikey:SUPABASE_ANON_JWT,Authorization:`Bearer ${session?.access_token||SUPABASE_ANON_JWT}`,'Content-Type':'application/json'});
-async function rest(table,query='select=*'){const r=await fetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:authHeaders()});if(!r.ok){const body=await r.json().catch(()=>({}));throw Error(`${table}: ${r.status} ${body.message||body.msg||body.error_description||body.error||''}`.trim())}return r.json()}
+async function refreshAuthSession(){
+ if(!session?.refresh_token)throw Error('انتهت جلسة الدخول. سجّل الخروج ثم ادخل مجدداً بحساب الإدارة.');
+ const r=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refresh_token})});
+ const data=await r.json().catch(()=>({}));
+ if(!r.ok||!data.access_token){session=null;profile=null;localStorage.removeItem('hakim_auth_session');syncAdminNavigation();throw Error('انتهت جلسة الدخول ولم نتمكن من تجديدها. سجّل الدخول مجدداً بحساب الإدارة.')}
+ session=data;localStorage.setItem('hakim_auth_session',JSON.stringify(data));return data;
+}
+async function authorizedFetch(url,options={}){
+ let response=await fetch(url,{...options,headers:{...(options.headers||{}),...authHeaders()}});
+ if(response.status===401&&session?.refresh_token){
+  await refreshAuthSession();
+  response=await fetch(url,{...options,headers:{...(options.headers||{}),...authHeaders()}});
+ }
+ return response;
+}
+async function rest(table,query='select=*'){const r=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:authHeaders()});if(!r.ok){const body=await r.json().catch(()=>({}));throw Error(`${table}: ${r.status} ${body.message||body.msg||body.error_description||body.error||''}`.trim())}return r.json()}
 async function optionalTable(table,query='select=*'){try{return await rest(table,query)}catch(e){console.info('Optional table unavailable:',table,e.message);return null}}
 function normalizeCloud(depts,topics,lessons){
  const topicById=new Map(topics.map(t=>[String(t.id),t]));
@@ -44,7 +59,7 @@ function normalizeCloud(depts,topics,lessons){
  const mapped=lessons.map(l=>{const topic=topicById.get(String(l.topic_id||''));const dept=topic?deptById.get(String(topic.department_id||'')):null;return {...l,id:String(l.id),department_code:String(dept?.code||''),title_en:String(first(l,['title_en'],'Untitled lesson')),learning_objectives:first(l,['learning_objectives'],[]),content_en:String(first(l,['content_en'],'')),content_ar:String(first(l,['content_ar'],'')),reference_titles:first(l,['reference_titles'],[]),self_assessment:first(l,['self_assessment','questions'],[]),review_required:String(l.status||'').toLowerCase()!=='published'}});
  return{departments,lessons:mapped,reference_catalog:[],department_count:departments.length,curriculum_topic_count:topics.length};
 }
-async function rpc(name,args={}){if(!session?.access_token)throw Error('سجّل الدخول أولاً لتنفيذ هذه العملية.');const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:authHeaders(),body:JSON.stringify(args)});const body=await r.json().catch(()=>({}));if(!r.ok)throw Error(body.message||body.details||body.hint||`فشل تنفيذ ${name} (${r.status})`);return body}
+async function rpc(name,args={}){if(!session?.access_token)throw Error('سجّل الدخول أولاً لتنفيذ هذه العملية.');const r=await authorizedFetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:authHeaders(),body:JSON.stringify(args)});const body=await r.json().catch(()=>({}));if(!r.ok)throw Error(body.message||body.details||body.hint||`فشل تنفيذ ${name} (${r.status})`);return body}
 async function publicRpc(name,args={}){const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,'Content-Type':'application/json'},body:JSON.stringify(args)});const body=await r.json().catch(()=>({}));if(!r.ok)throw Error(body.message||body.details||body.hint||`فشل تحميل الأسئلة (${r.status})`);return body}
 function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||''))}
 const ACADEMY_ADMIN_EMAIL='alhakimoptic@gmail.com';
@@ -435,7 +450,7 @@ async function renderAdmin(){
  let stats={questions:0,certificates:0,attempts:0};
  try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}
  pageShell('نافذة إدارة الأكاديمية','مرحباً بك في لوحة تحكم أكاديمية الحكيم. اختر المجال الذي تريد إدارته.',`
- <div class="admin-actions"><button class="primary" onclick="adminInstructorForm()">＋ إضافة محاضر</button><button class="primary" onclick="adminCourseForm()">＋ إضافة دورة</button></div><div class="admin-grid">
+ <div class="admin-grid">
   <button class="quick-card" onclick="adminHomepageSettings()"><b>إدارة الواجهة الرئيسية</b><small>الشعار، الصور، بيانات المؤسس، النصوص، الألوان والاختصارات.</small></button>
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button>
@@ -452,7 +467,7 @@ async function adminCourses(){
  if(!adminGuard())return;
  try{
   const rows=await rest('courses','select=*&order=created_at.desc');
-  pageShell('إدارة الدورات','أضف دورة جديدة أو راجع بيانات الدورات وحالة النشر.',`<div class="content-card"><div class="admin-actions"><button class="primary" onclick="adminCourseForm()">＋ إضافة دورة</button><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminCourseContent('${esc(c.id)}')">إدارة الوحدات والمحاضرات</button><button class="secondary" onclick="toggleCoursePublish('${esc(c.id)}',${!c.is_published})">${c.is_published?'إيقاف النشر':'نشر الدورة'}</button></div></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`);
+  pageShell('إدارة الدورات','أضف دورة جديدة أو راجع بيانات الدورات وحالة النشر.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminCourseContent('${esc(c.id)}')">إدارة الوحدات والمحاضرات</button><button class="secondary" onclick="toggleCoursePublish('${esc(c.id)}',${!c.is_published})">${c.is_published?'إيقاف النشر':'نشر الدورة'}</button></div></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`);
  }catch(e){pageShell('إدارة الدورات','تعذر تحميل الدورات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
 }
 async function adminCourseContent(courseId){
@@ -485,7 +500,7 @@ async function adminCourseForm(){
  <label>السعر<input id="ac_price" type="number" min="0" step="0.01" value="0" required></label>
  <label>العملة<input id="ac_currency" value="USD" required></label>
  <div class="admin-actions"><button class="primary" type="submit" data-publish="false">حفظ كمسودة</button><button class="secondary" type="submit" data-publish="true">حفظ ونشر</button><button class="secondary" type="button" onclick="adminCourses()">إلغاء</button></div><p id="ac_msg" class="form-message"></p></form>`);
- document.getElementById('adminCourseForm').onsubmit=async e=>{e.preventDefault();if(!adminGuard())return;const publish=e.submitter?.dataset.publish==='true';const msg=document.getElementById('ac_msg');msg.textContent='جارٍ حفظ الدورة…';const payload={title_en:document.getElementById('ac_title_en').value.trim(),title_ar:document.getElementById('ac_title_ar').value.trim()||null,description_en:document.getElementById('ac_desc_en').value.trim()||null,description_ar:document.getElementById('ac_desc_ar').value.trim()||null,price:Number(document.getElementById('ac_price').value),currency:document.getElementById('ac_currency').value.trim().toUpperCase(),is_published:publish};try{const res=await fetch(SUPABASE_URL+'/rest/v1/courses',{method:'POST',headers:{...authHeaders(),Prefer:'return=representation'},body:JSON.stringify(payload)});const body=await res.json().catch(()=>[]);if(!res.ok)throw Error(body.message||body.details||'تعذر حفظ الدورة');msg.textContent='تم حفظ الدورة بنجاح.';adminCourses()}catch(err){msg.textContent=err.message}}
+ document.getElementById('adminCourseForm').onsubmit=async e=>{e.preventDefault();if(!adminGuard())return;const publish=e.submitter?.dataset.publish==='true';const msg=document.getElementById('ac_msg');msg.textContent='جارٍ حفظ الدورة…';const payload={title_en:document.getElementById('ac_title_en').value.trim(),title_ar:document.getElementById('ac_title_ar').value.trim()||null,description_en:document.getElementById('ac_desc_en').value.trim()||null,description_ar:document.getElementById('ac_desc_ar').value.trim()||null,price:Number(document.getElementById('ac_price').value),currency:document.getElementById('ac_currency').value.trim().toUpperCase(),is_published:publish};try{const res=await authorizedFetch(SUPABASE_URL+'/rest/v1/courses',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify(payload)});const body=await res.json().catch(()=>[]);if(!res.ok)throw Error(body.message||body.details||'تعذر حفظ الدورة');msg.textContent='تم حفظ الدورة بنجاح.';adminCourses()}catch(err){msg.textContent=err.message}}
 }
 async function toggleCoursePublish(id,publish){
  if(!adminGuard())return;
