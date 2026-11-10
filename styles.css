@@ -194,3 +194,6 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .search-results .search-result:hover{background:#f1f6fa}
 .search-results .search-result b{color:#173c5b}
 .search-results .search-result small{color:#718294}
+
+/* In-academy authentication tabs */
+.auth-tabs{display:flex;gap:10px;margin-bottom:18px}.auth-tabs button{flex:1;padding:11px;border-radius:10px;border:1px solid #d6e1ef;font:inherit;cursor:pointer}.auth-card form[hidden]{display:none!important}.auth-card .notice{margin-top:18px}
