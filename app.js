@@ -372,15 +372,15 @@ async function adminHomepageSettings(useDefaults=false){
  pageShell('إعدادات الواجهة الرئيسية','تحكم في تصميم الصفحة الرئيسية ومحتواها. التغييرات تُنشر للطلاب بعد الحفظ.',`
  <form id="homepageSettingsForm" class="content-card homepage-admin-form">
   <h3>الهوية وصورة المؤسس</h3>
-  <label>رابط شعار الأكاديمية<input id="hs_logo" value="${esc(s.logo_url)}" placeholder="https://..."></label>
-  <label>رابط صورة المؤسس<input id="hs_founder_photo" value="${esc(s.founder_photo_url)}" placeholder="https://..."></label>
+  <label>رابط شعار الأكاديمية<input id="hs_logo" value="${esc(s.logo_url)}" placeholder="https://..."><input type="file" id="hs_logo_file" accept="image/png,image/jpeg,image/webp"></label>
+  <label>رابط صورة المؤسس<input id="hs_founder_photo" value="${esc(s.founder_photo_url)}" placeholder="https://..."><input type="file" id="hs_founder_file" accept="image/png,image/jpeg,image/webp"></label>
   <label>اسم المؤسس<input id="hs_founder_name" value="${esc(s.founder_name)}"></label>
   <label>المؤهل والجامعة<input id="hs_founder_title" value="${esc(s.founder_title)}"></label>
   <h3>البانر الرئيسي</h3>
   <label>عنوان الترحيب<input id="hs_welcome_title" value="${esc(s.welcome_title)}"></label>
   <label>النص الترحيبي<input id="hs_welcome_subtitle" value="${esc(s.welcome_subtitle)}"></label>
-  <label>رابط صورة البانر<input id="hs_hero_image" value="${esc(s.hero_image_url)}"></label>
-  <label>صورة بطاقة الأكاديمية<input id="hs_academy_image" value="${esc(s.academy_card_image_url)}"></label>
+  <label>رابط صورة البانر<input id="hs_hero_image" value="${esc(s.hero_image_url)}"><input type="file" id="hs_hero_file" accept="image/png,image/jpeg,image/webp"></label>
+  <label>صورة بطاقة الأكاديمية<input id="hs_academy_image" value="${esc(s.academy_card_image_url)}"><input type="file" id="hs_academy_file" accept="image/png,image/jpeg,image/webp"></label>
   <h3>ألوان الواجهة</h3><div class="homepage-color-grid">
    <label>لون الخلفية<input type="color" id="hs_bg" value="${esc(s.background_color)}"></label>
    <label>اللون الأساسي<input type="color" id="hs_primary" value="${esc(s.primary_color)}"></label>
@@ -400,6 +400,8 @@ async function adminHomepageSettings(useDefaults=false){
   <p id="hs_message" class="form-message"></p>
  </form>`);
  const form=document.getElementById('homepageSettingsForm');
+ const uploadMap=[['hs_logo_file','hs_logo'],['hs_founder_file','hs_founder_photo'],['hs_hero_file','hs_hero_image'],['hs_academy_file','hs_academy_image']];
+ uploadMap.forEach(([fileId,urlId])=>{const input=document.getElementById(fileId);input?.addEventListener('change',async()=>{const file=input.files?.[0];if(!file)return;const msg=document.getElementById('hs_message');if(file.size>5*1024*1024){msg.textContent='حجم الصورة يجب ألا يتجاوز 5 ميجابايت.';input.value='';return}if(!['image/jpeg','image/png','image/webp'].includes(file.type)){msg.textContent='الصيغ المدعومة: JPG وPNG وWebP.';input.value='';return}msg.textContent='جارٍ رفع الصورة…';try{const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=Date.now()+'-'+crypto.randomUUID()+'.'+ext;const res=await fetch(SUPABASE_URL+'/storage/v1/object/academy-homepage/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':file.type,'x-upsert':'false'},body:file});const body=await res.json().catch(()=>({}));if(!res.ok)throw Error(body.message||body.error||'تعذر رفع الصورة');document.getElementById(urlId).value=SUPABASE_URL+'/storage/v1/object/public/academy-homepage/'+path;msg.textContent='تم رفع الصورة. اضغط حفظ ونشر لتطبيقها على الواجهة.'}catch(err){msg.textContent=err.message}})});
  const read=()=>{
   let articles,links;
   try{articles=JSON.parse(document.getElementById('hs_articles').value);if(!Array.isArray(articles))throw Error('المقالات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة المقالات غير صحيحة: '+e.message)}
