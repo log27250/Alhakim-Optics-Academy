@@ -199,3 +199,6 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .auth-tabs{display:flex;gap:10px;margin-bottom:18px}.auth-tabs button{flex:1;padding:11px;border-radius:10px;border:1px solid #d6e1ef;font:inherit;cursor:pointer}.auth-card form[hidden]{display:none!important}.auth-card .notice{margin-top:18px}
 
 .home-notices{position:relative;z-index:5;display:flex;align-items:center;gap:10px;pointer-events:auto}.home-notices button{position:relative;z-index:6;min-width:42px;min-height:42px;border:1px solid #d7e3f4;border-radius:11px;background:#fff;color:#123c61;font:inherit;font-weight:800;cursor:pointer;pointer-events:auto;touch-action:manipulation}.home-top-search{position:relative;z-index:2}
+
+/* Clearly visible administrator shortcut on the academy home page */
+#homeAdminEntry.home-admin-entry{display:flex!important;width:100%;min-height:48px;margin:0 0 16px;padding:12px 18px;font-size:15px;}
