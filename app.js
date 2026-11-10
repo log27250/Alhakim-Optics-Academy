@@ -52,7 +52,7 @@ function currentAccountEmail(){let email=session?.user?.email||session?.email||s
 function isAdminAccount(){return currentAccountEmail()===ACADEMY_ADMIN_EMAIL}
 function isAdmin(){return isAdminAccount()&&profile?.is_admin===true}
 function canViewLesson(l){return isAdmin()||String(l?.status||'').toLowerCase()==='published'||(!l?.status&&!l?.review_required)}
-function syncAdminNavigation(){const canEnter=isAdminAccount();document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!canEnter;b.setAttribute('aria-hidden',String(!canEnter))});const top=document.getElementById('adminTopButton');if(top){top.hidden=!canEnter;top.onclick=()=>{if(!isAdminAccount())return;showPage('admin')}}let entry=document.getElementById('homeAdminEntry');const holder=document.querySelector('.academy-home');if(canEnter&&holder&&!entry){entry=document.createElement('button');entry.id='homeAdminEntry';entry.className='home-admin-entry';entry.type='button';entry.textContent='⚙ إدارة الأكاديمية';entry.onclick=()=>showPage('admin');holder.insertBefore(entry,holder.firstChild)}else if(!canEnter&&entry)entry.remove()}
+function syncAdminNavigation(){const canEnter=isAdminAccount();document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!canEnter;b.setAttribute('aria-hidden',String(!canEnter))});const top=document.getElementById('adminTopButton');if(top){top.hidden=!canEnter;top.onclick=()=>{if(!isAdminAccount())return;showPage('admin')}}const entry=document.getElementById('homeAdminEntry');if(entry)entry.remove()}
 async function loadContent(){
  const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
  let local=empty, cloudError=null, topicError=null, lessonError=null;
