@@ -534,18 +534,38 @@ async function adminSubscriptions(){
    rest('subscriptions','select=*&order=created_at.desc'),
    rest('profiles','select=id,full_name,email'),
    optionalTable('subscription_plans','select=id,name,duration_days,price,currency'),
-   optionalTable('payments','select=id,user_id,subscription_id,amount,currency,payment_method,payment_reference,status,created_at&order=created_at.desc'),
+   optionalTable('payments','select=id,user_id,subscription_id,amount,currency,payment_method,payment_reference,status,created_at,course_id,proof_path,payer_name,receipt_file_name&order=created_at.desc'),
    optionalTable('course_enrollments','select=id,user_id,course_id,subscription_id,status,enrolled_at')
   ]);
   const um=new Map(users.map(x=>[String(x.id),x])),pm=new Map((plans||[]).map(x=>[String(x.id),x]));
   const payMap=new Map();(payments||[]).forEach(p=>{if(p.subscription_id){if(!payMap.has(String(p.subscription_id)))payMap.set(String(p.subscription_id),[]);payMap.get(String(p.subscription_id)).push(p)}});
   const em=new Map();(enrollments||[]).forEach(e=>{if(e.subscription_id){if(!em.has(String(e.subscription_id)))em.set(String(e.subscription_id),[]);em.get(String(e.subscription_id)).push(e)}});
-  pageShell('إدارة الاشتراكات','راجع الطلبات والمدفوعات وفعّل الاشتراك بعد التأكد من استلام المبلغ فعلياً.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${subs.map(x=>{const u=um.get(String(x.user_id)),p=pm.get(String(x.plan_id)),ps=payMap.get(String(x.id))||[],es=em.get(String(x.id))||[];return `<article class="result"><b>${esc(u?.full_name||'طالب دون اسم')} — ${esc(x.status||'pending')}</b><small>${esc(u?.email||x.user_id)} · الخطة: ${esc(p?.name||x.plan_id||'غير محددة')} (${esc(p?.duration_days||'?')} يوم)</small><small>البداية: ${esc(x.starts_at||'—')} · الانتهاء: ${esc(x.expires_at||'—')}</small>${ps.map(v=>`<div class="notice">الدفع: ${esc(v.amount)} ${esc(v.currency||'')} · ${esc(v.payment_method||'')} · مرجع: ${esc(v.payment_reference||'—')} · الحالة: <b>${esc(v.status||'pending')}</b> <button class="text-btn" onclick="setPaymentStatus('${esc(v.id)}','paid')">تأكيد استلام المبلغ</button> <button class="text-btn" onclick="setPaymentStatus('${esc(v.id)}','rejected')">رفض الدفع</button></div>`).join('')||'<small>لا يوجد سجل دفع مرتبط.</small>'}<small>الدورات المرتبطة: ${es.length}</small><div class="admin-actions"><button class="secondary" onclick="adminAssignCourse('${esc(x.user_id)}','${esc(x.id)}')">إضافة دورة للمشترك</button><button class="secondary" onclick="adminSetSubscription('${esc(x.id)}','active')">تفعيل الاشتراك</button><button class="secondary" onclick="adminSetSubscription('${esc(x.id)}','cancelled')">إلغاء الاشتراك</button><button class="secondary" onclick="adminExtendSubscription('${esc(x.id)}','${esc(x.expires_at||'')}')">تمديد المدة</button></div></article>`}).join('')||'<p>لا توجد اشتراكات مسجلة.</p>'}</div>`);
+  pageShell('إدارة الاشتراكات','راجع الطلبات والمدفوعات وفعّل الاشتراك بعد التأكد من استلام المبلغ فعلياً.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${subs.map(x=>{const u=um.get(String(x.user_id)),p=pm.get(String(x.plan_id)),ps=payMap.get(String(x.id))||[],es=em.get(String(x.id))||[];return `<article class="result"><b>${esc(u?.full_name||'طالب دون اسم')} — ${esc(x.status||'pending')}</b><small>${esc(u?.email||x.user_id)} · الخطة: ${esc(p?.name||x.plan_id||'غير محددة')} (${esc(p?.duration_days||'?')} يوم)</small><small>البداية: ${esc(x.starts_at||'—')} · الانتهاء: ${esc(x.expires_at||'—')}</small>${ps.map(v=>`<div class="notice">الدفع: ${esc(v.amount)} ${esc(v.currency||'')} · ${esc(v.payment_method||'')} · مرجع: ${esc(v.payment_reference||'—')} · الحالة: <b>${esc(v.status||'pending')}</b> <button class="text-btn" onclick="setPaymentStatus('${esc(v.id)}','confirmed')">تأكيد استلام المبلغ</button> <button class="text-btn" onclick="setPaymentStatus('${esc(v.id)}','rejected')">رفض الدفع</button></div>`).join('')||'<small>لا يوجد سجل دفع مرتبط.</small>'}<small>الدورات المرتبطة: ${es.length}</small><div class="admin-actions"><button class="secondary" onclick="adminAssignCourse('${esc(x.user_id)}','${esc(x.id)}')">إضافة دورة للمشترك</button><button class="secondary" onclick="adminSetSubscription('${esc(x.id)}','active')">تفعيل الاشتراك</button><button class="secondary" onclick="adminSetSubscription('${esc(x.id)}','cancelled')">إلغاء الاشتراك</button><button class="secondary" onclick="adminExtendSubscription('${esc(x.id)}','${esc(x.expires_at||'')}')">تمديد المدة</button></div></article>`}).join('')||'<p>لا توجد اشتراكات مسجلة.</p>'}</div>`);
  }catch(e){pageShell('إدارة الاشتراكات','تعذر تحميل الاشتراكات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
 }
+async function adminViewPaymentProof(id){
+ if(!adminGuard())return;
+ try{
+  const p=(await rest('payments','select=proof_path,receipt_file_name&id=eq.'+encodeURIComponent(id)))[0];if(!p||!p.proof_path)throw Error('لا يوجد إيصال.');
+  const r=await authorizedFetch(SUPABASE_URL+'/storage/v1/object/sign/academy-payment-proofs/'+p.proof_path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({expiresIn:300})});
+  const b=await r.json().catch(()=>({}));if(!r.ok)throw Error(b.message||'تعذر فتح الإيصال.');
+  window.open(SUPABASE_URL+'/storage/v1'+b.signedURL,'_blank','noopener');
+ }catch(e){alert(e.message)}
+}
 async function setPaymentStatus(id,status){
- if(!adminGuard()||!confirm(status==='paid'?'تأكيد أنك تحققت من استلام المبلغ فعلياً؟':'تسجيل الدفع كمرفوض؟'))return;
- try{const r=await fetch(SUPABASE_URL+'/rest/v1/payments?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{...authHeaders(),Prefer:'return=minimal'},body:JSON.stringify({status})});if(!r.ok){const b=await r.json().catch(()=>({}));throw Error(b.message||'تعذر تحديث الدفع')}adminSubscriptions()}catch(e){alert(e.message)}
+ if(!adminGuard())return;
+ const next=status==='confirmed'?'confirmed':'rejected';
+ if(!confirm(next==='confirmed'?'تأكيد استلام المبلغ وتفعيل الدورة؟':'رفض الدفع وإلغاء طلب الدورة؟'))return;
+ try{
+  const p=(await rest('payments','select=id,subscription_id,course_id& id=eq.'.replace(' ','')+encodeURIComponent(id)))[0];if(!p)throw Error('طلب الدفع غير موجود.');
+  const r=await authorizedFetch(SUPABASE_URL+'/rest/v1/payments?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({status:next})});if(!r.ok){const b=await r.json().catch(()=>({}));throw Error(b.message||'تعذر تحديث الدفع.')}
+  if(p.subscription_id){
+   const subPatch=next==='confirmed'?{status:'active',starts_at:new Date().toISOString(),expires_at:new Date(Date.now()+365*86400000).toISOString()}:{status:'cancelled'};
+   const sr=await authorizedFetch(SUPABASE_URL+'/rest/v1/subscriptions?id=eq.'+encodeURIComponent(p.subscription_id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify(subPatch)});if(!sr.ok)throw Error('تم تحديث الدفع لكن تعذر تحديث الاشتراك.');
+   if(p.course_id){const er=await authorizedFetch(SUPABASE_URL+'/rest/v1/course_enrollments?subscription_id=eq.'+encodeURIComponent(p.subscription_id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:JSON.stringify({status:next==='confirmed'?'active':'cancelled'})});if(!er.ok)throw Error('تعذر تحديث حالة الالتحاق.')}
+  }
+  adminSubscriptions();
+ }catch(e){alert(e.message)}
 }
 async function adminSetSubscription(id,status){
  if(!adminGuard()||!confirm(status==='active'?'تفعيل الاشتراك؟ تأكد من الدفع قبل الموافقة.':'إلغاء هذا الاشتراك؟'))return;
@@ -671,7 +691,7 @@ async function adminAttempts(){
  }catch(e){pageShell('نتائج الامتحانات','تعذر تحميل النتائج.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
 }
 async function renderCourses(){try{const rows=await rest('courses','select=*&is_published=eq.true&order=created_at.desc');pageShell('الدورات التدريبية','الدورات المنشورة في الأكاديمية.',`<div class="course-grid">${rows.map(c=>`<article class="course-card"><span class="tag">${esc(c.currency||'Course')} · ${esc(c.price??'')}</span><h3>${esc(c.title_en)}</h3><p>${esc(c.description_en||'')}</p><p dir="rtl">${esc(c.description_ar||'')}</p><button class="secondary" onclick="showCourse('${esc(c.id)}')">تفاصيل الدورة</button></article>`).join('')||'<div class="notice">لا توجد دورات منشورة حالياً.</div>'}</div>`)}catch(e){pageShell('الدورات التدريبية','تعذر تحميل الدورات.',`<div class="notice">${esc(e.message)}</div>`)}}
-async function showCourse(id){try{const rows=await rest('course_modules',`select=*&course_id=eq.${encodeURIComponent(id)}&order=display_order.asc`);const course=(await rest('courses',`select=*&id=eq.${encodeURIComponent(id)}`))[0];const modules=await Promise.all(rows.map(async m=>({ ...m,lessons:await rest('course_lessons',`select=*&module_id=eq.${encodeURIComponent(m.id)}&order=display_order.asc`)})));pageShell(course?.title_en||'تفاصيل الدورة',course?.description_en||'',`<div class="content-card">${modules.map(m=>`<section><h3>${esc(m.title_en)}</h3>${m.lessons.map(l=>`<article class="lesson-card"><h4>${esc(l.title_en)}</h4><div class="content-en">${esc(l.content_en||'')}</div><div class="content-ar">${esc(l.content_ar||'')}</div></article>`).join('')}</section>`).join('')||'<div class="notice">لم تضف وحدات لهذه الدورة بعد.</div>'}</div>`)}catch(e){pageShell('تفاصيل الدورة','تعذر تحميل محتوى الدورة.',`<div class="notice">${esc(e.message)}</div>`)}}
+async function showCourse(id){try{const rows=await rest('course_modules',`select=*&course_id=eq.${encodeURIComponent(id)}&order=display_order.asc`);const course=(await rest('courses',`select=*&id=eq.${encodeURIComponent(id)}`))[0];const modules=await Promise.all(rows.map(async m=>({ ...m,lessons:await rest('course_lessons',`select=*&module_id=eq.${encodeURIComponent(m.id)}&order=display_order.asc`)})));pageShell(course?.title_en||'تفاصيل الدورة',course?.description_en||'',`<div class="content-card"><div class="notice">السعر: <b>${esc(course?.price??0)} ${esc(course?.currency||'')}</b></div>${session?'<button class="primary" onclick="startCourseCheckout(\''+esc(id)+'\')">الاشتراك في الدورة</button>':'<button class="primary" onclick="showPage(\'accounts\')">سجّل الدخول للاشتراك</button>'}${modules.map(m=>`<section><h3>${esc(m.title_en)}</h3>${m.lessons.map(l=>`<article class="lesson-card"><h4>${esc(l.title_en)}</h4><div class="content-en">${esc(l.content_en||'')}</div><div class="content-ar">${esc(l.content_ar||'')}</div></article>`).join('')}</section>`).join('')||'<div class="notice">لم تضف وحدات لهذه الدورة بعد.</div>'}</div>`)}catch(e){pageShell('تفاصيل الدورة','تعذر تحميل محتوى الدورة.',`<div class="notice">${esc(e.message)}</div>`)}}
 async function renderSubscriptions(){try{if(!session){pageShell('الاشتراكات','سجّل الدخول لمراجعة اشتراكاتك.',`<button class="primary" onclick="showPage('accounts')">تسجيل الدخول</button>`);return}const [subs,plans]=await Promise.all([rest('subscriptions',`select=*&user_id=eq.${encodeURIComponent(session.user.id)}&order=created_at.desc`),rest('subscription_plans','select=*&is_active=eq.true&order=price.asc')]);const byId=new Map(plans.map(p=>[p.id,p]));pageShell('اشتراكاتي','خطط الاشتراك وحالة اشتراكك الحالي. الدروس الأساسية متاحة مجاناً؛ الاشتراك خاص بالدورات والشهادات.',`<div class="content-card"><h3>الخطط المتاحة</h3>${plans.map(p=>`<article class="result"><b>${esc(p.name)}</b><small>${esc(p.duration_days)} يوم · ${esc(p.price)} ${esc(p.currency)}</small></article>`).join('')||'<p>لا توجد خطط مفعّلة حالياً.</p>'}<h3>سجل اشتراكاتك</h3>${subs.map(s=>{const p=byId.get(s.plan_id);return `<article class="result"><b>${esc(p?.name||'خطة غير متاحة')}</b><small>${esc(s.status)} · ينتهي: ${esc(s.expires_at||'غير محدد')}</small></article>`}).join('')||'<p>لا توجد اشتراكات مسجلة في حسابك.</p>'}</div>`)}catch(e){pageShell('الاشتراكات','تعذر تحميل بيانات الاشتراك.',`<div class="notice">${esc(e.message)}</div>`)}}
 
 async function adminPaymentMethods(){
@@ -709,3 +729,53 @@ setupPWAInstall();syncAdminNavigation();document.querySelectorAll('[data-page]')
 const overlay=document.getElementById('welcomeOverlay');if(overlay){if(sessionStorage.getItem('alhakim_welcomed'))overlay.classList.add('hidden');const close=()=>{overlay.classList.add('hidden');sessionStorage.setItem('alhakim_welcomed','1')};document.getElementById('welcomeStart').onclick=close;document.getElementById('welcomeClose').onclick=close}
 loadContent().then(async()=>{await loadHomepageSettings();renderHome();await loadProfile();await syncOfflineCompletions();const token=new URLSearchParams(location.search).get('verify');if(token)await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
+
+
+async function startCourseCheckout(courseId){
+ if(!session||!session.user||!session.user.id){showPage('accounts');return}
+ try{
+  const result=await Promise.all([
+   rest('courses','select=*&id=eq.'+encodeURIComponent(courseId)+'&is_published=eq.true'),
+   rest('academy_payment_methods','select=*&is_active=eq.true&order=display_order.asc'),
+   rest('course_enrollments','select=id,status&user_id=eq.'+encodeURIComponent(session.user.id)+'&course_id=eq.'+encodeURIComponent(courseId))
+  ]);
+  const course=result[0][0],methods=result[1],enrolled=result[2];
+  if(!course)throw Error('الدورة غير متاحة.');
+  if(enrolled.some(x=>x.status==='active'))throw Error('أنت مسجل بالفعل في هذه الدورة.');
+  if(enrolled.some(x=>x.status==='pending'))throw Error('لديك طلب قيد المراجعة لهذه الدورة.');
+  if(!methods.length)throw Error('لا توجد وسيلة دفع مفعلة حالياً.');
+  let html='<form id="coursePayForm" class="content-card"><h3>'+esc(course.title_ar||course.title_en)+'</h3><p>المبلغ: <b>'+esc(course.price||0)+' '+esc(course.currency||'')+'</b></p><label>وسيلة الدفع<select id="payMethod">'+methods.map(m=>'<option value="'+esc(m.id)+'">'+esc(m.method_name)+'</option>').join('')+'</select></label><div id="payDetails" class="notice"></div><label>اسم صاحب التحويل<input id="payerName" required maxlength="150"></label><label>رقم العملية / مرجع التحويل<input id="payReference" required maxlength="150"></label><label>إيصال الدفع (صورة أو PDF، حد 5MB)<input id="payProof" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required></label><button class="primary" id="paySubmit">إرسال الطلب</button><button type="button" class="secondary" onclick="showCourse(\''+esc(courseId)+'\')">رجوع</button><p id="payMessage" class="form-message"></p></form>';
+  pageShell('طلب الاشتراك','أكمل بيانات التحويل وأرفق الإيصال.',html);
+  const sel=document.getElementById('payMethod'),details=document.getElementById('payDetails');
+  function showDetails(){const m=methods.find(x=>String(x.id)===sel.value);details.innerHTML='<b>'+esc(m.method_name)+'</b><br>صاحب الحساب: '+esc(m.account_name||'—')+'<br>رقم الحساب: '+esc(m.account_number||'—')+'<br>'+esc(m.instructions||'')}
+  sel.onchange=showDetails;showDetails();
+  document.getElementById('coursePayForm').onsubmit=async function(e){
+   e.preventDefault();const button=document.getElementById('paySubmit'),msg=document.getElementById('payMessage');button.disabled=true;msg.textContent='جارٍ إرسال الطلب...';
+   try{
+    const file=document.getElementById('payProof').files[0];if(!file)throw Error('أرفق الإيصال.');
+    const types={'image/jpeg':'jpg','image/png':'png','image/webp':'webp','application/pdf':'pdf'};if(!types[file.type])throw Error('نوع الملف غير مسموح.');if(file.size>5242880)throw Error('حجم الملف أكبر من 5MB.');
+    const path=session.user.id+'/'+crypto.randomUUID()+'.'+types[file.type];
+    const upload=await fetch(SUPABASE_URL+'/storage/v1/object/academy-payment-proofs/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':file.type},body:file});
+    if(!upload.ok){const b=await upload.json().catch(()=>({}));throw Error(b.message||'فشل رفع الإيصال.')}
+    const subRes=await authorizedFetch(SUPABASE_URL+'/rest/v1/subscriptions',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:session.user.id,plan_id:null,status:'pending'})});
+    const subBody=await subRes.json().catch(()=>[]);if(!subRes.ok||!subBody[0])throw Error(subBody.message||'فشل إنشاء طلب الاشتراك.');
+    const subId=subBody[0].id;
+    const enrollRes=await authorizedFetch(SUPABASE_URL+'/rest/v1/course_enrollments',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:session.user.id,course_id:courseId,subscription_id:subId,status:'pending'})});
+    const enrollBody=await enrollRes.json().catch(()=>({}));if(!enrollRes.ok)throw Error(enrollBody.message||'فشل تسجيل طلب الدورة.');
+    const method=methods.find(x=>String(x.id)===sel.value);
+    const payRes=await authorizedFetch(SUPABASE_URL+'/rest/v1/payments',{method:'POST',headers:{Prefer:'return=representation'},body:JSON.stringify({user_id:session.user.id,subscription_id:subId,course_id:courseId,amount:Number(course.price||0),currency:course.currency||'USD',payment_method:method.method_name,payment_reference:document.getElementById('payReference').value.trim(),payer_name:document.getElementById('payerName').value.trim(),proof_path:path,receipt_file_name:file.name,status:'pending'})});
+    const payBody=await payRes.json().catch(()=>({}));if(!payRes.ok)throw Error(payBody.message||'فشل حفظ طلب الدفع.');
+    pageShell('تم إرسال الطلب','طلبك قيد المراجعة.', '<div class="notice">استلمنا طلب الاشتراك وإيصال الدفع. سيتم تفعيل الدورة بعد مراجعة التحويل.</div><button class="primary" onclick="myCourseRequests()">متابعة طلباتي</button>');
+   }catch(err){msg.textContent=err.message;button.disabled=false}
+  };
+ }catch(err){pageShell('طلب الاشتراك','تعذر بدء الطلب.','<div class="notice">'+esc(err.message)+'</div>')}
+}
+async function myCourseRequests(){
+ if(!session||!session.user){showPage('accounts');return}
+ try{
+  const rows=await rest('course_enrollments','select=*&user_id=eq.'+encodeURIComponent(session.user.id)+'&order=enrolled_at.desc');
+  const courses=await rest('courses','select=id,title_en,title_ar');
+  const map=new Map(courses.map(c=>[String(c.id),c.title_ar||c.title_en]));
+  pageShell('طلباتي في الدورات','حالة طلبات الاشتراك.', '<div class="content-card">'+(rows.map(x=>'<article class="result"><b>'+esc(map.get(String(x.course_id))||'دورة')+'</b><small>الحالة: '+esc(x.status||'pending')+'</small></article>').join('')||'<p>لا توجد طلبات.</p>')+'</div>');
+ }catch(e){pageShell('طلباتي','تعذر تحميل الطلبات.','<div class="notice">'+esc(e.message)+'</div>')}
+}
