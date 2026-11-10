@@ -20,6 +20,7 @@ const HOME_DEFAULTS={
   {title:'تأثير الشاشات على صحة العين',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80',description:'إرشادات علمية للتعامل مع إجهاد العين الرقمي.'},
   {title:'دور تقويم البصر في التعليم',image:'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=500&q=80',description:'أهمية الرؤية الوظيفية في التعلم.'}
  ],
+ featured_course_ids:[],
  quick_links:[
   {label:'الأقسام',icon:'▤',page:'departments',visible:true},
   {label:'المراجع',icon:'▣',page:'library',visible:true},
@@ -116,6 +117,7 @@ function renderHome(){
  document.body.classList.add('home-screen');
  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
  const s={...HOME_DEFAULTS,...HOME_SETTINGS};
+ const headerLogo=document.querySelector('.topbar .brand img');if(headerLogo&&s.logo_url)headerLogo.src=s.logo_url;
  document.documentElement.style.setProperty('--home-bg',s.background_color||'#f3f6f7');
  document.documentElement.style.setProperty('--home-primary',s.primary_color||'#123c61');
  document.documentElement.style.setProperty('--home-accent',s.accent_color||'#d6b66c');
@@ -136,7 +138,7 @@ function renderHome(){
    </aside>
    <div class="home-center-column">
     <section class="home-hero-banner">${homeImage(s.hero_image_url,'رحلة تعليمية في علوم البصريات','home-hero-photo')}<div class="home-hero-overlay"><h1>${esc(s.welcome_title)}</h1><p>${esc(s.welcome_subtitle)}</p><button onclick="showPage('departments')">ابدأ رحلتك التعليمية الآن ←</button></div></section>
-    <section class="home-featured-courses" ${s.show_courses===false?'hidden':''}><div class="home-section-heading"><h2>الدورات المميزة</h2><button onclick="showPage('courses')">عرض الكل ←</button></div><div class="home-course-cards">${(HOME_COURSES||[]).slice(0,3).map((c,i)=>`<article class="home-course-card"><div class="course-thumb course-thumb-${i+1}">${i===0?'🎓':i===1?'👁':'📚'}</div><small>دورات أكاديمية الحكيم</small><b>${esc(c.title_ar||c.title_en)}</b><p>${esc(c.description_en||'برنامج تدريبي متخصص في علوم البصريات.')}</p><button onclick="showCourse('${esc(c.id)}')">تفاصيل الدورة</button></article>`).join('')||'<div class="home-course-empty">الدورات التدريبية المميزة ستظهر هنا بعد نشرها من الإدارة.</div>'}</div></section>
+    <section class="home-featured-courses" ${s.show_courses===false?'hidden':''}><div class="home-section-heading"><h2>الدورات المميزة</h2><button onclick="showPage('courses')">عرض الكل ←</button></div><div class="home-course-cards">${((s.featured_course_ids||[]).length?(s.featured_course_ids.map(id=>(HOME_COURSES||[]).find(c=>String(c.id)===String(id))).filter(Boolean)):(HOME_COURSES||[]).slice(0,3)).slice(0,3).map((c,i)=>`<article class="home-course-card"><div class="course-thumb course-thumb-${i+1}">${i===0?'🎓':i===1?'👁':'📚'}</div><small>دورات أكاديمية الحكيم</small><b>${esc(c.title_ar||c.title_en)}</b><p>${esc(c.description_en||'برنامج تدريبي متخصص في علوم البصريات.')}</p><button onclick="showCourse('${esc(c.id)}')">تفاصيل الدورة</button></article>`).join('')||'<div class="home-course-empty">الدورات التدريبية المميزة ستظهر هنا بعد نشرها من الإدارة.</div>'}</div></section>
    </div>
    <aside class="home-articles" ${s.show_articles===false?'hidden':''}><h2>المقالات والبحوث</h2>${(s.articles||[]).slice(0,5).map((x,i)=>`<article class="home-article">${homeImage(x.image,x.title,'')}<div><b>${esc(x.title)}</b><p>${esc(x.description||'مقال علمي من مكتبة الأكاديمية.')}</p></div></article>`).join('')}</aside>
   </section>
@@ -392,6 +394,7 @@ async function adminHomepageSettings(useDefaults=false){
    <label><input type="checkbox" id="hs_show_courses" ${s.show_courses!==false?'checked':''}> الدورات المميزة</label>
    <label><input type="checkbox" id="hs_show_academy" ${s.show_academy_card!==false?'checked':''}> بطاقة الأكاديمية</label>
   </div>
+  <h3>اختيار وترتيب الدورات المميزة</h3><p class="muted">أدخل معرّفات الدورات المنشورة في JSON array بالترتيب المطلوب. اتركها [] لعرض أحدث ثلاث دورات تلقائياً.</p><textarea id="hs_featured_courses" rows="4" dir="ltr">${esc(JSON.stringify(s.featured_course_ids||[],null,2))}</textarea>
   <h3>المقالات والبحوث (JSON)</h3><p class="muted">كل مقال: title و image و description. يمكن إضافة أو حذف عناصر.</p>
   <textarea id="hs_articles" rows="9" dir="ltr">${esc(JSON.stringify(s.articles||[],null,2))}</textarea>
   <h3>الاختصارات الرئيسية (JSON)</h3><p class="muted">الصفحة يجب أن تكون: departments أو library أو courses أو progress أو permanent.</p>
@@ -403,10 +406,11 @@ async function adminHomepageSettings(useDefaults=false){
  const uploadMap=[['hs_logo_file','hs_logo'],['hs_founder_file','hs_founder_photo'],['hs_hero_file','hs_hero_image'],['hs_academy_file','hs_academy_image']];
  uploadMap.forEach(([fileId,urlId])=>{const input=document.getElementById(fileId);input?.addEventListener('change',async()=>{const file=input.files?.[0];if(!file)return;const msg=document.getElementById('hs_message');if(file.size>5*1024*1024){msg.textContent='حجم الصورة يجب ألا يتجاوز 5 ميجابايت.';input.value='';return}if(!['image/jpeg','image/png','image/webp'].includes(file.type)){msg.textContent='الصيغ المدعومة: JPG وPNG وWebP.';input.value='';return}msg.textContent='جارٍ رفع الصورة…';try{const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';const path=Date.now()+'-'+crypto.randomUUID()+'.'+ext;const res=await fetch(SUPABASE_URL+'/storage/v1/object/academy-homepage/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':file.type,'x-upsert':'false'},body:file});const body=await res.json().catch(()=>({}));if(!res.ok)throw Error(body.message||body.error||'تعذر رفع الصورة');document.getElementById(urlId).value=SUPABASE_URL+'/storage/v1/object/public/academy-homepage/'+path;msg.textContent='تم رفع الصورة. اضغط حفظ ونشر لتطبيقها على الواجهة.'}catch(err){msg.textContent=err.message}})});
  const read=()=>{
-  let articles,links;
+  let articles,links,featured;
+  try{featured=JSON.parse(document.getElementById('hs_featured_courses').value);if(!Array.isArray(featured))throw Error('معرفات الدورات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة الدورات المميزة غير صحيحة: '+e.message)}
   try{articles=JSON.parse(document.getElementById('hs_articles').value);if(!Array.isArray(articles))throw Error('المقالات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة المقالات غير صحيحة: '+e.message)}
   try{links=JSON.parse(document.getElementById('hs_quick_links').value);if(!Array.isArray(links))throw Error('الاختصارات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة الاختصارات غير صحيحة: '+e.message)}
-  return {...HOME_DEFAULTS,logo_url:document.getElementById('hs_logo').value.trim(),founder_photo_url:document.getElementById('hs_founder_photo').value.trim(),founder_name:document.getElementById('hs_founder_name').value.trim(),founder_title:document.getElementById('hs_founder_title').value.trim(),welcome_title:document.getElementById('hs_welcome_title').value.trim(),welcome_subtitle:document.getElementById('hs_welcome_subtitle').value.trim(),hero_image_url:document.getElementById('hs_hero_image').value.trim(),academy_card_image_url:document.getElementById('hs_academy_image').value.trim(),background_color:document.getElementById('hs_bg').value,primary_color:document.getElementById('hs_primary').value,accent_color:document.getElementById('hs_accent').value,show_founder:document.getElementById('hs_show_founder').checked,show_articles:document.getElementById('hs_show_articles').checked,show_courses:document.getElementById('hs_show_courses').checked,show_academy_card:document.getElementById('hs_show_academy').checked,articles,quick_links:links};
+  return {...HOME_DEFAULTS,logo_url:document.getElementById('hs_logo').value.trim(),founder_photo_url:document.getElementById('hs_founder_photo').value.trim(),founder_name:document.getElementById('hs_founder_name').value.trim(),founder_title:document.getElementById('hs_founder_title').value.trim(),welcome_title:document.getElementById('hs_welcome_title').value.trim(),welcome_subtitle:document.getElementById('hs_welcome_subtitle').value.trim(),hero_image_url:document.getElementById('hs_hero_image').value.trim(),academy_card_image_url:document.getElementById('hs_academy_image').value.trim(),background_color:document.getElementById('hs_bg').value,primary_color:document.getElementById('hs_primary').value,accent_color:document.getElementById('hs_accent').value,show_founder:document.getElementById('hs_show_founder').checked,show_articles:document.getElementById('hs_show_articles').checked,show_courses:document.getElementById('hs_show_courses').checked,show_academy_card:document.getElementById('hs_show_academy').checked,featured_course_ids:featured,articles,quick_links:links};
  };
  document.getElementById('hs_preview').onclick=()=>{try{HOME_SETTINGS=read();renderHome()}catch(e){document.getElementById('hs_message').textContent=e.message}};
  document.getElementById('hs_reset').onclick=()=>{if(!confirm('استعادة التصميم الافتراضي؟ لن يتم الحفظ إلا بعد الضغط على حفظ ونشر.'))return;HOME_SETTINGS={...HOME_DEFAULTS};adminHomepageSettings(true)};
