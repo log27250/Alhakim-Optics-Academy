@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — network-first updates with offline fallback */
-const CACHE_NAME = 'alhakim-academy-v2-13-live-search';
+const CACHE_NAME = 'alhakim-academy-v2-14-founder-photo';
 const CORE = [
   './',
   './index.html',
@@ -10,7 +10,8 @@ const CORE = [
   './content/HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json',
   './icons/icon-192.png',
   './icons/icon-512.png',
-  './assets/alhakim-logo.png'
+  './assets/alhakim-logo.png',
+  './assets/founder-photo.jpg'
 ];
 
 self.addEventListener('install', event => {
