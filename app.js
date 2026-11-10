@@ -4,6 +4,30 @@ const SUPABASE_PUBLISHABLE_KEY='sb_publishable_k0VCQgULXGy_qnjvfyQKkjg_M9x43HVc'
 const SUPABASE_ANON_JWT='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwbWx1ZW1yaGthZGNmZmNzdXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MTMzNDIsImV4cCI6MjEwOTQ4OTM0Mn0.TjDwjDgRVqTyXyFM_TSAsJMyEMcra7N7F71cVi4z4MU';
 const CONTENT_URL='./content/HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json';
 let DB=null,dataSource='local',session=null,profile=null;
+const HOME_DEFAULTS={
+ logo_url:'./assets/alhakim-logo.png',
+ founder_photo_url:'',
+ founder_name:'د. لقمان بابكر الشيخ',
+ founder_title:'بكالوريوس الشرف علوم البصريات — جامعة غرب كردفان',
+ welcome_title:'مرحباً بك في مستقبل البصريات!',
+ welcome_subtitle:'ابدأ رحلتك التعليمية الآن.',
+ hero_image_url:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=85',
+ academy_card_image_url:'./assets/alhakim-logo.png',
+ background_color:'#f3f6f7',primary_color:'#123c61',accent_color:'#d6b66c',
+ show_founder:true,show_articles:true,show_courses:true,show_academy_card:true,
+ articles:[
+  {title:'أحدث تقنيات تصحيح الإبصار',image:'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=500&q=80',description:'مستجدات وتقنيات حديثة في رعاية البصر.'},
+  {title:'تأثير الشاشات على صحة العين',image:'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80',description:'إرشادات علمية للتعامل مع إجهاد العين الرقمي.'},
+  {title:'دور تقويم البصر في التعليم',image:'https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=500&q=80',description:'أهمية الرؤية الوظيفية في التعلم.'}
+ ],
+ quick_links:[
+  {label:'الأقسام',icon:'▤',page:'departments',visible:true},
+  {label:'المراجع',icon:'▣',page:'library',visible:true},
+  {label:'الدورات التدريبية',icon:'🎓',page:'courses',visible:true},
+  {label:'تقدمي الدراسي',icon:'↗',page:'progress',visible:true}
+ ]
+};
+let HOME_SETTINGS={...HOME_DEFAULTS},HOME_COURSES=[];
 const main=document.getElementById('main');
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const first=(o,keys,f='')=>{for(const k of keys)if(o?.[k]!==undefined&&o[k]!==null&&o[k]!=='')return o[k];return f};
@@ -82,15 +106,49 @@ async function loadContent(){
 function departmentName(code){return DB.departments.find(d=>d.code===code)?.name_en||code||'General'}
 function homeButton(){return `<button class="home-return" onclick="renderHome()" aria-label="العودة للرئيسية">⌂ <span>الرئيسية</span></button>`}
 function pageShell(title,desc,body){main.innerHTML=`${homeButton()}<div class="section-heading"><div><span class="eyebrow">ALHAKIM OPTICS ACADEMY</span><h2>${esc(title)}</h2><p>${esc(desc||'')}</p></div></div>${body}`;window.scrollTo({top:0,behavior:'smooth'})}
-function renderHome(){document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));main.innerHTML=`<section class="hero hero-v2"><div class="hero-copy"><span class="eyebrow">LEARN OPTOMETRY · MASTER VISION</span><h1>مرحباً بك في<br><em>Alhakim Optics Academy</em></h1><p>منصة متخصصة للتعلم المنهجي في علوم البصريات، من الأساسيات العلمية إلى المهارات السريرية والتأهيل المهني.</p><div class="hero-actions"><button class="primary" onclick="showPage('departments')">استكشف المنهج العلمي ←</button><button class="secondary" onclick="showPage('departments')">تصفح المحاضرات</button></div><div class="founder-line">تأسيس وإشراف: <b>د. لقمان بابكر الشيخ</b><small>بكالوريوس علوم البصريات — جامعة غرب كردفان</small></div></div><div class="hero-logo"><img src="./assets/alhakim-logo.png" alt="شعار أكاديمية الحكيم"></div></section>
- <section class="welcome-strip"><div><b>ابدأ رحلتك التعليمية</b><span>اختر القسم أو افتح المحاضرات أو تدرب على الأسئلة.</span></div><button class="text-btn" onclick="showPage('lessons')">عرض المحاضرات ←</button></section>
- <section class="quick-grid"><button class="quick-card" onclick="showPage('departments')"><strong>▦</strong><b>الأقسام العلمية</b><small>استعرض خريطة المنهج</small></button><button class="quick-card" onclick="showPage('lessons')"><strong>▤</strong><b>محاضرات الأقسام</b><small>افتح المحاضرات من قسمها العلمي</small></button><button class="quick-card" onclick="showPage('permanent')"><strong>✎</strong><b>بنك الأسئلة</b><small>اختبر معلوماتك</small></button><button class="quick-card" onclick="showPage('courses')"><strong>▣</strong><b>الدورات التدريبية</b><small>برامج ودورات الأكاديمية</small></button></section>
- <section class="search-panel"><div><span class="eyebrow">ACADEMY SEARCH</span><h2>ماذا تريد أن تتعلم اليوم؟</h2><p>ابحث بالإنجليزية أو العربية في الأقسام والموضوعات والمحاضرات.</p></div><div class="search-box"><input id="globalSearch" placeholder="مثال: Myopia أو Retinoscopy أو قصر النظر" autocomplete="off"><button id="searchBtn">بحث</button></div><div id="searchResults" class="search-results"></div></section>
- <section class="section"><div class="section-heading"><div><span class="eyebrow">LEARNING AREAS</span><h2>الأقسام العلمية</h2></div><button class="text-btn" onclick="showPage('departments')">عرض الكل ←</button></div><div id="featuredDepartments" class="department-grid">${(DB?.departments||[]).slice(0,6).map(deptCard).join('')}</div></section><section class="stats" id="stats"></section><footer>© ALHAKIM OPTICS ACADEMY <span>منصة تعليمية مستقلة — لا تُعد بديلاً عن التدريب السريري أو الإرشادات المهنية.</span></footer>`;
- document.getElementById('stats').innerHTML=`<div class="stat"><b>${DB.department_count??DB.departments.length}</b><small>قسم علمي</small></div><div class="stat"><b>${DB.curriculum_topic_count??DB.departments.reduce((n,d)=>n+(d.curriculum_topics||[]).length,0)}</b><small>موضوعاً في المنهج</small></div><div class="stat"><b>${DB.lessons.length}</b><small>محاضرة/درس مكتوب</small></div>`;
- document.getElementById('searchBtn').onclick=search;document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')search()});window.scrollTo({top:0,behavior:'smooth'});}
+async function loadHomepageSettings(){
+ try{const rows=await rest('academy_homepage_settings','select=settings&id=eq.1');if(rows?.[0]?.settings)HOME_SETTINGS={...HOME_DEFAULTS,...rows[0].settings}}
+ catch(e){console.info('Homepage settings unavailable; using defaults:',e.message)}
+ try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
+}
+function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.style.display=\'none\'">':''}
+function renderHome(){
+ document.body.classList.add('home-screen');
+ document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
+ const s={...HOME_DEFAULTS,...HOME_SETTINGS};
+ document.documentElement.style.setProperty('--home-bg',s.background_color||'#f3f6f7');
+ document.documentElement.style.setProperty('--home-primary',s.primary_color||'#123c61');
+ document.documentElement.style.setProperty('--home-accent',s.accent_color||'#d6b66c');
+ const quick=(s.quick_links||HOME_DEFAULTS.quick_links).filter(x=>x.visible!==false).slice(0,4);
+ main.innerHTML=`
+ <div class="academy-home">
+  <section class="home-top-search"><div class="home-search-title"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن دورات، مصادر، أو طلب..." autocomplete="off"><button id="searchBtn" aria-label="بحث">⌕</button></div><div class="home-notices"><button aria-label="الإشعارات" title="الإشعارات">♧<i></i></button><button aria-label="حسابي" title="حسابي" onclick="showPage('accounts')">◉</button></div></section>
+  <section class="home-identity-row">
+   <div class="home-founder" ${s.show_founder===false?'hidden':''}>
+    ${homeImage(s.founder_photo_url,s.founder_name,'founder-photo')}
+    <div><small>المؤسس: والعضو المنتدب</small><h2>${esc(s.founder_name)}</h2><p>${esc(s.founder_title)}</p></div>
+   </div>
+   <nav class="home-shortcuts">${quick.map((x,i)=>`<button onclick="showPage('${esc(x.page)}')"><span class="shortcut-number">${i+1}</span><span class="shortcut-icon">${esc(x.icon||'▣')}</span><b>${esc(x.label)}</b></button>`).join('')}</nav>
+  </section>
+  <section class="home-columns">
+   <aside class="home-academy-side" ${s.show_academy_card===false?'hidden':''}>
+    <h2>الأكاديمية</h2><article class="academy-brand-card">${homeImage(s.academy_card_image_url||s.logo_url,'الأكاديمية','academy-card-logo')}<b>الأكاديمية<br>للبصريات</b><div class="academy-eye-mark">◉</div></article>
+   </aside>
+   <div class="home-center-column">
+    <section class="home-hero-banner">${homeImage(s.hero_image_url,'رحلة تعليمية في علوم البصريات','home-hero-photo')}<div class="home-hero-overlay"><h1>${esc(s.welcome_title)}</h1><p>${esc(s.welcome_subtitle)}</p><button onclick="showPage('departments')">ابدأ رحلتك التعليمية الآن ←</button></div></section>
+    <section class="home-featured-courses" ${s.show_courses===false?'hidden':''}><div class="home-section-heading"><h2>الدورات المميزة</h2><button onclick="showPage('courses')">عرض الكل ←</button></div><div class="home-course-cards">${(HOME_COURSES||[]).slice(0,3).map((c,i)=>`<article class="home-course-card"><div class="course-thumb course-thumb-${i+1}">${i===0?'🎓':i===1?'👁':'📚'}</div><small>دورات أكاديمية الحكيم</small><b>${esc(c.title_ar||c.title_en)}</b><p>${esc(c.description_en||'برنامج تدريبي متخصص في علوم البصريات.')}</p><button onclick="showCourse('${esc(c.id)}')">تفاصيل الدورة</button></article>`).join('')||'<div class="home-course-empty">الدورات التدريبية المميزة ستظهر هنا بعد نشرها من الإدارة.</div>'}</div></section>
+   </div>
+   <aside class="home-articles" ${s.show_articles===false?'hidden':''}><h2>المقالات والبحوث</h2>${(s.articles||[]).slice(0,5).map((x,i)=>`<article class="home-article">${homeImage(x.image,x.title,'')}<div><b>${esc(x.title)}</b><p>${esc(x.description||'مقال علمي من مكتبة الأكاديمية.')}</p></div></article>`).join('')}</aside>
+  </section>
+  <section class="home-bottom-links"><span>أكاديمية الحكيم للبصريات</span><span>معاً نحو مستقبل أفضل لعلوم البصريات</span><span>© ${new Date().getFullYear()} ALHAKIM OPTICS ACADEMY</span></section>
+  <div id="searchResults" class="search-results home-search-results"></div>
+ </div>`;
+ document.getElementById('searchBtn').onclick=search;
+ document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+ window.scrollTo({top:0,behavior:'smooth'});
+}
 function deptCard(d,i){return `<article class="dept-card" onclick="showDepartment('${esc(d.code)}')"><div class="dept-num">DEPARTMENT ${String(i+1).padStart(2,'0')} · ${esc(d.code)}</div><h3>${esc(d.name_en)}</h3><p>${esc(d.name_ar)}</p><small>${(d.curriculum_topics||[]).length} موضوعاً في المنهج</small></article>`}
-function showPage(page){document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('sidebar').classList.remove('open');if(page==='home'){renderHome();return}
+function showPage(page){document.body.classList.remove('home-screen');document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page===page));document.getElementById('sidebar').classList.remove('open');if(page==='home'){renderHome();return}
  if(page==='departments')pageShell('الأقسام العلمية','اختر قسماً لاستعراض موضوعاته ومحاضراته.',`<div class="department-grid">${DB.departments.map(deptCard).join('')}</div>`);
  if(page==='lessons')pageShell('المحاضرات','جميع المحاضرات المنشورة في الأقسام العلمية.',`<div class="content-card">${lessonList(DB.lessons,false)}</div>`);
 
@@ -306,7 +364,53 @@ function signOut(){session=null;profile=null;syncAdminNavigation();localStorage.
 function renderAccounts(){const user=session?.user;pageShell('الحسابات','إدارة جلسة الدخول واسم الطالب المستخدم في الشهادة.',user?`<div class="content-card"><h3>الحساب الحالي</h3><p>${esc(user.email)}</p><p>الدور: ${isAdmin()?'مدير الأكاديمية':'طالب'}</p><label>الاسم الكامل كما سيظهر في الشهادة<input id="studentFullName" value="${esc(user.user_metadata?.full_name||user.user_metadata?.name||'')}" placeholder="اكتب الاسم الكامل"></label><button class="primary" onclick="saveStudentName()">حفظ الاسم</button><button class="secondary" onclick="signOut()">تسجيل الخروج</button><p id="profileMsg" class="form-message"></p></div>`:`<div class="auth-card"><h3>تسجيل الدخول</h3><form id="loginForm"><label>البريد الإلكتروني<input type="email" id="loginEmail" required autocomplete="username"></label><label>كلمة المرور<input type="password" id="loginPassword" required autocomplete="current-password"></label><button class="primary" type="submit">دخول</button><p id="authMessage" class="form-message"></p></form><div class="notice">تسجيل الدخول عبر Supabase Auth. لا تنشئ حساباً إدارياً من الواجهة العامة.</div></div>`);const f=document.getElementById('loginForm');if(f)f.onsubmit=async e=>{e.preventDefault();const m=document.getElementById('authMessage');m.textContent='جارٍ التحقق…';try{await signIn(document.getElementById('loginEmail').value,document.getElementById('loginPassword').value);renderAccounts()}catch(err){m.textContent=err.message}}}
 async function saveStudentName(){const name=document.getElementById('studentFullName').value.trim();const msg=document.getElementById('profileMsg');if(name.length<4){msg.textContent='أدخل الاسم الكامل.';return}try{const r=await fetch(`${SUPABASE_URL}/auth/v1/user`,{method:'PUT',headers:authHeaders(),body:JSON.stringify({data:{...session.user.user_metadata,full_name:name}})});const body=await r.json();if(!r.ok)throw Error(body.message||'تعذر حفظ الاسم');session.user=body;if(session.refresh_token){const rr=await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`,{method:'POST',headers:{apikey:SUPABASE_PUBLISHABLE_KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:session.refresh_token})});if(rr.ok)session=await rr.json()}localStorage.setItem('hakim_auth_session',JSON.stringify(session));msg.textContent='تم حفظ الاسم بنجاح. يمكنك الآن دخول الامتحان وإصدار الشهادة باسمك.'}catch(e){msg.textContent=e.message}}
 function adminGuard(){return isAdmin()}
-async function renderAdmin(){if(!session){pageShell('نافذة الإدارة','تسجيل الدخول بحساب إداري مطلوب.',`<div class="notice">يرجى تسجيل الدخول بحساب الإدارة.</div><button class="primary" onclick="showPage('accounts')">فتح الحسابات</button>`);return}if(!adminGuard()){pageShell('نافذة الإدارة','هذه النافذة مخصصة لإدارة الأكاديمية.',`<div class="notice">لا يملك هذا الحساب دوراً إدارياً مسجلاً في قاعدة صلاحيات الأكاديمية. يلزم إضافته إلى admin_roles بدور super_admin أو editor أو instructor.</div>`);return}let stats={questions:0,certificates:0,attempts:0};try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}pageShell('لوحة الإدارة','إدارة بنك الأسئلة ومتابعة الشهادات ومحاولات الامتحان.',`<div class="admin-grid"><button class="quick-card" onclick="adminQuestionForm()"><b>إضافة سؤال امتحان</b><small>إضافة سؤال إلى بنك القسم العلمي</small></button><button class="quick-card" onclick="adminCertificates()"><b>الشهادات</b><small>عرض الشهادات الصادرة</small></button><button class="quick-card" onclick="adminAttempts()"><b>محاولات الامتحان</b><small>متابعة نتائج الطلاب</small></button></div><div class="stats"><div class="stat"><b>${stats.questions}</b><small>سؤالاً في البنك</small></div><div class="stat"><b>${stats.attempts}</b><small>محاولة امتحان</small></div><div class="stat"><b>${stats.certificates}</b><small>شهادة صادرة</small></div></div><div class="notice">لا تُفعّل الامتحانات لقسم إلا بعد إدخال العدد الكافي من الأسئلة ومراجعتها علمياً. لا توجد أسئلة افتراضية أو مولّدة تلقائياً.</div>`)}
+async function renderAdmin(){if(!session){pageShell('نافذة الإدارة','تسجيل الدخول بحساب إداري مطلوب.',`<div class="notice">يرجى تسجيل الدخول بحساب الإدارة.</div><button class="primary" onclick="showPage('accounts')">فتح الحسابات</button>`);return}if(!adminGuard()){pageShell('نافذة الإدارة','هذه النافذة مخصصة لإدارة الأكاديمية.',`<div class="notice">لا يملك هذا الحساب دوراً إدارياً مسجلاً في قاعدة صلاحيات الأكاديمية. يلزم إضافته إلى admin_roles بدور super_admin أو editor أو instructor.</div>`);return}let stats={questions:0,certificates:0,attempts:0};try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}pageShell('لوحة الإدارة','إدارة بنك الأسئلة ومتابعة الشهادات ومحاولات الامتحان وإعدادات الواجهة الرئيسية.',`<div class="admin-grid"><button class="quick-card" onclick="adminHomepageSettings()"><b>إعدادات الواجهة الرئيسية</b><small>تعديل الصور والنصوص والألوان والمقالات والدورات والاختصارات</small></button><button class="quick-card" onclick="adminQuestionForm()"><b>إضافة سؤال امتحان</b><small>إضافة سؤال إلى بنك القسم العلمي</small></button><button class="quick-card" onclick="adminCertificates()"><b>الشهادات</b><small>عرض الشهادات الصادرة</small></button><button class="quick-card" onclick="adminAttempts()"><b>محاولات الامتحان</b><small>متابعة نتائج الطلاب</small></button></div><div class="stats"><div class="stat"><b>${stats.questions}</b><small>سؤالاً في البنك</small></div><div class="stat"><b>${stats.attempts}</b><small>محاولة امتحان</small></div><div class="stat"><b>${stats.certificates}</b><small>شهادة صادرة</small></div></div><div class="notice">لا تُفعّل الامتحانات لقسم إلا بعد إدخال العدد الكافي من الأسئلة ومراجعتها علمياً. لا توجد أسئلة افتراضية أو مولّدة تلقائياً.</div>`)}
+async function adminHomepageSettings(){
+ if(!adminGuard())return;
+ await loadHomepageSettings();
+ const s={...HOME_DEFAULTS,...HOME_SETTINGS};
+ pageShell('إعدادات الواجهة الرئيسية','تحكم في تصميم الصفحة الرئيسية ومحتواها. التغييرات تُنشر للطلاب بعد الحفظ.',`
+ <form id="homepageSettingsForm" class="content-card homepage-admin-form">
+  <h3>الهوية وصورة المؤسس</h3>
+  <label>رابط شعار الأكاديمية<input id="hs_logo" value="${esc(s.logo_url)}" placeholder="https://..."></label>
+  <label>رابط صورة المؤسس<input id="hs_founder_photo" value="${esc(s.founder_photo_url)}" placeholder="https://..."></label>
+  <label>اسم المؤسس<input id="hs_founder_name" value="${esc(s.founder_name)}"></label>
+  <label>المؤهل والجامعة<input id="hs_founder_title" value="${esc(s.founder_title)}"></label>
+  <h3>البانر الرئيسي</h3>
+  <label>عنوان الترحيب<input id="hs_welcome_title" value="${esc(s.welcome_title)}"></label>
+  <label>النص الترحيبي<input id="hs_welcome_subtitle" value="${esc(s.welcome_subtitle)}"></label>
+  <label>رابط صورة البانر<input id="hs_hero_image" value="${esc(s.hero_image_url)}"></label>
+  <label>صورة بطاقة الأكاديمية<input id="hs_academy_image" value="${esc(s.academy_card_image_url)}"></label>
+  <h3>ألوان الواجهة</h3><div class="homepage-color-grid">
+   <label>لون الخلفية<input type="color" id="hs_bg" value="${esc(s.background_color)}"></label>
+   <label>اللون الأساسي<input type="color" id="hs_primary" value="${esc(s.primary_color)}"></label>
+   <label>اللون الذهبي<input type="color" id="hs_accent" value="${esc(s.accent_color)}"></label>
+  </div>
+  <h3>إظهار وإخفاء مكونات الواجهة</h3><div class="homepage-toggle-grid">
+   <label><input type="checkbox" id="hs_show_founder" ${s.show_founder!==false?'checked':''}> منطقة المؤسس</label>
+   <label><input type="checkbox" id="hs_show_articles" ${s.show_articles!==false?'checked':''}> المقالات والبحوث</label>
+   <label><input type="checkbox" id="hs_show_courses" ${s.show_courses!==false?'checked':''}> الدورات المميزة</label>
+   <label><input type="checkbox" id="hs_show_academy" ${s.show_academy_card!==false?'checked':''}> بطاقة الأكاديمية</label>
+  </div>
+  <h3>المقالات والبحوث (JSON)</h3><p class="muted">كل مقال: title و image و description. يمكن إضافة أو حذف عناصر.</p>
+  <textarea id="hs_articles" rows="9" dir="ltr">${esc(JSON.stringify(s.articles||[],null,2))}</textarea>
+  <h3>الاختصارات الرئيسية (JSON)</h3><p class="muted">الصفحة يجب أن تكون: departments أو library أو courses أو progress أو permanent.</p>
+  <textarea id="hs_quick_links" rows="8" dir="ltr">${esc(JSON.stringify(s.quick_links||HOME_DEFAULTS.quick_links,null,2))}</textarea>
+  <div class="homepage-admin-actions"><button type="submit" class="primary">حفظ ونشر الإعدادات</button><button type="button" class="secondary" id="hs_preview">معاينة</button><button type="button" class="secondary" id="hs_reset">استعادة الإعدادات الافتراضية</button></div>
+  <p id="hs_message" class="form-message"></p>
+ </form>`);
+ const form=document.getElementById('homepageSettingsForm');
+ const read=()=>{
+  let articles,links;
+  try{articles=JSON.parse(document.getElementById('hs_articles').value);if(!Array.isArray(articles))throw Error('المقالات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة المقالات غير صحيحة: '+e.message)}
+  try{links=JSON.parse(document.getElementById('hs_quick_links').value);if(!Array.isArray(links))throw Error('الاختصارات يجب أن تكون قائمة JSON')}catch(e){throw Error('صيغة الاختصارات غير صحيحة: '+e.message)}
+  return {...HOME_DEFAULTS,logo_url:document.getElementById('hs_logo').value.trim(),founder_photo_url:document.getElementById('hs_founder_photo').value.trim(),founder_name:document.getElementById('hs_founder_name').value.trim(),founder_title:document.getElementById('hs_founder_title').value.trim(),welcome_title:document.getElementById('hs_welcome_title').value.trim(),welcome_subtitle:document.getElementById('hs_welcome_subtitle').value.trim(),hero_image_url:document.getElementById('hs_hero_image').value.trim(),academy_card_image_url:document.getElementById('hs_academy_image').value.trim(),background_color:document.getElementById('hs_bg').value,primary_color:document.getElementById('hs_primary').value,accent_color:document.getElementById('hs_accent').value,show_founder:document.getElementById('hs_show_founder').checked,show_articles:document.getElementById('hs_show_articles').checked,show_courses:document.getElementById('hs_show_courses').checked,show_academy_card:document.getElementById('hs_show_academy').checked,articles,quick_links:links};
+ };
+ document.getElementById('hs_preview').onclick=()=>{try{HOME_SETTINGS=read();renderHome()}catch(e){document.getElementById('hs_message').textContent=e.message}};
+ document.getElementById('hs_reset').onclick=()=>{if(!confirm('استعادة التصميم الافتراضي؟ لن يتم الحفظ إلا بعد الضغط على حفظ ونشر.'))return;HOME_SETTINGS={...HOME_DEFAULTS};adminHomepageSettings()};
+ form.onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('hs_message');msg.textContent='جارٍ حفظ الإعدادات…';try{const settings=read();const r=await fetch(`${SUPABASE_URL}/rest/v1/academy_homepage_settings`,{method:'POST',headers:{...authHeaders(),Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({id:1,settings,updated_by:session.user.id,updated_at:new Date().toISOString()})});const body=await r.json().catch(()=>[]);if(!r.ok)throw Error(body.message||body.details||'تعذر حفظ الإعدادات');HOME_SETTINGS=settings;msg.textContent='تم حفظ ونشر إعدادات الواجهة بنجاح. ستظهر التغييرات لجميع الزوار.';};
+  catch(err){msg.textContent=err.message}};
+}
 function adminQuestionForm(){if(!adminGuard())return;pageShell('إضافة سؤال للامتحان','أدخل سؤالاً موثقاً وحدد أربعة خيارات والإجابة الصحيحة.',`<form id="questionForm" class="content-card"><label>القسم<select id="qDept">${DB.departments.map(d=>`<option value="${esc(d.code)}">${esc(d.code)} — ${esc(d.name_en)}</option>`).join('')}</select></label><label>نص السؤال<textarea id="qStem" required></textarea></label>${[0,1,2,3].map(i=>`<label>الخيار ${i+1}<input id="qOpt${i}" required></label>`).join('')}<label>رمز الإجابة الصحيحة<select id="qCorrect"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label><label>التفسير العلمي<textarea id="qExplain"></textarea></label><label>المستوى<select id="qDifficulty"><option>basic</option><option selected>intermediate</option><option>advanced</option></select></label><button class="primary">حفظ السؤال</button><p id="qMsg" class="form-message"></p></form>`);document.getElementById('questionForm').onsubmit=async e=>{e.preventDefault();const options=['A','B','C','D'].map((v,i)=>({value:v,label:document.getElementById('qOpt'+i).value.trim()}));try{const r=await fetch(`${SUPABASE_URL}/rest/v1/academy_exam_questions`,{method:'POST',headers:{...authHeaders(),Prefer:'return=representation'},body:JSON.stringify({department_code:document.getElementById('qDept').value,question_text:document.getElementById('qStem').value.trim(),options,correct_option:document.getElementById('qCorrect').value,explanation:document.getElementById('qExplain').value.trim(),difficulty:document.getElementById('qDifficulty').value,is_active:true})});if(!r.ok){const b=await r.json();throw Error(b.message||'تعذر حفظ السؤال')}document.getElementById('qMsg').textContent='تم حفظ السؤال.';e.target.reset()}catch(err){document.getElementById('qMsg').textContent=err.message}}}
 async function adminCertificates(){try{const rows=await rest('academy_certificates','select=*&order=issued_at.desc');pageShell('الشهادات الصادرة','سجل الشهادات.',`<div class="content-card">${rows.map(c=>`<article class="result"><b>${esc(c.student_name)}</b><small>${esc(c.certificate_number)} · ${esc(c.department_code)} · ${esc(c.score)}%</small><span>${esc(c.status)}</span>${c.status==='valid'?`<button class="text-btn" onclick="revokeCertificate('${esc(c.id)}')">إلغاء الشهادة</button>`:''}</article>`).join('')||'<p>لا توجد شهادات بعد.</p>'}</div>`)}catch(e){alert(e.message)}}
 async function revokeCertificate(id){const reason=prompt('سبب إلغاء الشهادة:');if(!reason)return;try{await rpc('academy_revoke_certificate',{p_certificate_id:id,p_reason:reason});adminCertificates()}catch(e){alert(e.message)}}
@@ -318,5 +422,5 @@ function connection(){const el=document.getElementById('connectionState');if(el)
 try{const saved=localStorage.getItem('hakim_auth_session');if(saved)session=JSON.parse(saved)}catch(e){session=null}
 syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('menuBtn').onclick=()=>document.getElementById('sidebar').classList.toggle('open');document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');window.addEventListener('online',connection);window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){if(sessionStorage.getItem('alhakim_welcomed'))overlay.classList.add('hidden');const close=()=>{overlay.classList.add('hidden');sessionStorage.setItem('alhakim_welcomed','1')};document.getElementById('welcomeStart').onclick=close;document.getElementById('welcomeClose').onclick=close}
-loadContent().then(async()=>{await loadProfile();const token=new URLSearchParams(location.search).get('verify');if(token)await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
+loadContent().then(async()=>{await loadHomepageSettings();renderHome();await loadProfile();const token=new URLSearchParams(location.search).get('verify');if(token)await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
