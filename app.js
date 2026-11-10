@@ -435,7 +435,7 @@ async function renderAdmin(){
  let stats={questions:0,certificates:0,attempts:0};
  try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}
  pageShell('نافذة إدارة الأكاديمية','مرحباً بك في لوحة تحكم أكاديمية الحكيم. اختر المجال الذي تريد إدارته.',`
- <div class="admin-grid">
+ <div class="admin-actions"><button class="primary" onclick="adminInstructorForm()">＋ إضافة محاضر</button><button class="primary" onclick="adminCourseForm()">＋ إضافة دورة</button></div><div class="admin-grid">
   <button class="quick-card" onclick="adminHomepageSettings()"><b>إدارة الواجهة الرئيسية</b><small>الشعار، الصور، بيانات المؤسس، النصوص، الألوان والاختصارات.</small></button>
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button>
@@ -450,7 +450,27 @@ async function renderAdmin(){
 }
 async function adminCourses(){
  if(!adminGuard())return;
- try{const rows=await rest('courses','select=*&order=created_at.desc');pageShell('إدارة الدورات','جميع الدورات المسجلة وحالة النشر.',`<div class="content-card"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`)}catch(e){pageShell('إدارة الدورات','تعذر تحميل الدورات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
+ try{
+  const rows=await rest('courses','select=*&order=created_at.desc');
+  pageShell('إدارة الدورات','أضف دورة جديدة أو راجع بيانات الدورات وحالة النشر.',`<div class="content-card"><div class="admin-actions"><button class="primary" onclick="adminCourseForm()">＋ إضافة دورة</button><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${rows.map(c=>`<article class="result"><b>${esc(c.title_ar||c.title_en||'دورة دون عنوان')}</b><small>${esc(c.title_en||'')} · ${esc(c.price??'')} ${esc(c.currency||'')} · ${c.is_published?'منشورة':'مسودة'}</small><p>${esc(c.description_en||'')}</p><button class="secondary" onclick="toggleCoursePublish('${esc(c.id)}',${!c.is_published})">${c.is_published?'إيقاف النشر':'نشر الدورة'}</button></article>`).join('')||'<p>لا توجد دورات مسجلة حالياً.</p>'}</div>`);
+ }catch(e){pageShell('إدارة الدورات','تعذر تحميل الدورات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
+}
+async function adminCourseForm(){
+ if(!adminGuard())return;
+ pageShell('إضافة دورة','أدخل بيانات الدورة ثم احفظها كمسودة أو انشرها.',`<form id="adminCourseForm" class="content-card">
+ <label>اسم الدورة بالإنجليزية<input id="ac_title_en" required></label>
+ <label>اسم الدورة بالعربية<input id="ac_title_ar"></label>
+ <label>الوصف بالإنجليزية<textarea id="ac_desc_en"></textarea></label>
+ <label>الوصف بالعربية<textarea id="ac_desc_ar"></textarea></label>
+ <label>السعر<input id="ac_price" type="number" min="0" step="0.01" value="0" required></label>
+ <label>العملة<input id="ac_currency" value="USD" required></label>
+ <div class="admin-actions"><button class="primary" type="submit" data-publish="false">حفظ كمسودة</button><button class="secondary" type="submit" data-publish="true">حفظ ونشر</button><button class="secondary" type="button" onclick="adminCourses()">إلغاء</button></div><p id="ac_msg" class="form-message"></p></form>`);
+ document.getElementById('adminCourseForm').onsubmit=async e=>{e.preventDefault();if(!adminGuard())return;const publish=e.submitter?.dataset.publish==='true';const msg=document.getElementById('ac_msg');msg.textContent='جارٍ حفظ الدورة…';const payload={title_en:document.getElementById('ac_title_en').value.trim(),title_ar:document.getElementById('ac_title_ar').value.trim()||null,description_en:document.getElementById('ac_desc_en').value.trim()||null,description_ar:document.getElementById('ac_desc_ar').value.trim()||null,price:Number(document.getElementById('ac_price').value),currency:document.getElementById('ac_currency').value.trim().toUpperCase(),is_published:publish};try{const res=await fetch(SUPABASE_URL+'/rest/v1/courses',{method:'POST',headers:{...authHeaders(),Prefer:'return=representation'},body:JSON.stringify(payload)});const body=await res.json().catch(()=>[]);if(!res.ok)throw Error(body.message||body.details||'تعذر حفظ الدورة');msg.textContent='تم حفظ الدورة بنجاح.';adminCourses()}catch(err){msg.textContent=err.message}}
+}
+async function toggleCoursePublish(id,publish){
+ if(!adminGuard())return;
+ if(!confirm(publish?'نشر هذه الدورة للطلاب؟':'إيقاف نشر هذه الدورة؟'))return;
+ try{const r=await fetch(SUPABASE_URL+'/rest/v1/courses?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{...authHeaders(),Prefer:'return=minimal'},body:JSON.stringify({is_published:publish})});if(!r.ok){const b=await r.json().catch(()=>({}));throw Error(b.message||'تعذر تحديث الدورة')}adminCourses()}catch(e){alert(e.message)}
 }
 async function adminSubscriptions(){
  if(!adminGuard())return;
@@ -463,16 +483,22 @@ async function adminAccounts(){
 async function adminInstructors(){
  if(!adminGuard())return;
  try{
-  const [roles,users]=await Promise.all([
-   rest('admin_roles','select=id,user_id,role,created_at&role=eq.instructor&order=created_at.desc'),
-   rest('profiles','select=id,full_name,email,created_at')
-  ]);
+  const [roles,users]=await Promise.all([rest('admin_roles','select=id,user_id,role,created_at&role=eq.instructor&order=created_at.desc'),rest('profiles','select=id,full_name,email,created_at')]);
   const byId=new Map(users.map(u=>[String(u.id),u]));
   const rows=roles.map(r=>({role:r,user:byId.get(String(r.user_id))}));
-  pageShell('إدارة المحاضرين','قائمة الحسابات التي مُنحت دور المحاضر في الأكاديمية.',
-   '<div class="content-card"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><div class="notice">تعرض هذه الصفحة المحاضرين الذين لديهم دور instructor في جدول الصلاحيات. إدارة منح وسحب الصلاحيات ستضاف بعد اعتماد آلية التعيين.</div>'+
-   (rows.map(x=>'<article class="result"><b>'+esc(x.user?.full_name||'محاضر دون اسم')+'</b><small>'+esc(x.user?.email||x.role.user_id)+' · تاريخ منح الدور: '+esc(x.role.created_at||'غير محدد')+'</small><small>معرّف الحساب: '+esc(x.role.user_id)+'</small></article>').join('')||'<p>لا يوجد محاضرون مسجلون حالياً.</p>')+'</div>');
- }catch(e){pageShell('إدارة المحاضرين','تعذر تحميل قائمة المحاضرين.','<div class="notice">'+esc(e.message)+'</div><button class="secondary" onclick="renderAdmin()">عودة</button>')}
+  pageShell('إدارة المحاضرين','إدارة صلاحية المحاضر للحسابات المسجلة مسبقاً.',`<div class="content-card"><div class="admin-actions"><button class="primary" onclick="adminInstructorForm()">＋ إضافة محاضر</button><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div>${rows.map(x=>`<article class="result"><b>${esc(x.user?.full_name||'محاضر دون اسم')}</b><small>${esc(x.user?.email||x.role.user_id)} · ${esc(x.role.created_at||'')}</small><small>معرّف الحساب: ${esc(x.role.user_id)}</small><button class="text-btn" onclick="removeInstructor('${esc(x.role.id)}')">سحب صلاحية المحاضر</button></article>`).join('')||'<p>لا يوجد محاضرون مسجلون حالياً.</p>'}</div>`);
+ }catch(e){pageShell('إدارة المحاضرين','تعذر تحميل القائمة.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
+}
+async function adminInstructorForm(){
+ if(!adminGuard())return;
+ try{const [users,roles]=await Promise.all([rest('profiles','select=id,full_name,email&order=full_name.asc'),rest('admin_roles','select=user_id&role=eq.instructor')]);const existing=new Set(roles.map(x=>String(x.user_id)));const candidates=users.filter(u=>!existing.has(String(u.id)));
+ pageShell('إضافة محاضر','اختر حساباً موجوداً لمنحه صلاحية المحاضر. لا يتم إنشاء حساب دخول جديد هنا.',`<form id="instructorGrantForm" class="content-card"><label>الحساب<select id="ig_user" required><option value="">اختر الحساب</option>${candidates.map(u=>`<option value="${esc(u.id)}">${esc(u.full_name||'بدون اسم')} — ${esc(u.email||u.id)}</option>`).join('')}</select></label><div class="notice">إذا لم يظهر الشخص هنا، يجب أن ينشئ حساباً في الأكاديمية أولاً.</div><button class="primary" type="submit" ${candidates.length?'':'disabled'}>منح صلاحية المحاضر</button><button class="secondary" type="button" onclick="adminInstructors()">رجوع</button><p id="ig_msg" class="form-message"></p></form>`);
+ document.getElementById('instructorGrantForm').onsubmit=async e=>{e.preventDefault();if(!adminGuard())return;const uid=document.getElementById('ig_user').value;const msg=document.getElementById('ig_msg');try{const res=await fetch(SUPABASE_URL+'/rest/v1/admin_roles',{method:'POST',headers:{...authHeaders(),Prefer:'return=representation'},body:JSON.stringify({user_id:uid,role:'instructor'})});const b=await res.json().catch(()=>({}));if(!res.ok)throw Error(b.message||b.details||'تعذر منح الصلاحية');adminInstructors()}catch(err){msg.textContent=err.message}}
+ }catch(e){pageShell('إضافة محاضر','تعذر تحميل الحسابات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="adminInstructors()">رجوع</button>`)}
+}
+async function removeInstructor(roleId){
+ if(!adminGuard()||!confirm('هل تريد سحب صلاحية المحاضر من هذا الحساب؟'))return;
+ try{const res=await fetch(SUPABASE_URL+'/rest/v1/admin_roles?id=eq.'+encodeURIComponent(roleId)+'&role=eq.instructor',{method:'DELETE',headers:{...authHeaders(),Prefer:'return=minimal'}});if(!res.ok){const b=await res.json().catch(()=>({}));throw Error(b.message||'تعذر سحب الصلاحية')}adminInstructors()}catch(e){alert(e.message)}
 }
 async function adminHomepageSettings(useDefaults=false){
  if(!adminGuard())return;
