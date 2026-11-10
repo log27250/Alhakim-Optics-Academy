@@ -49,7 +49,7 @@ async function publicRpc(name,args={}){const r=await fetch(`${SUPABASE_URL}/rest
 function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||''))}
 function isAdmin(){return profile?.is_admin===true||['admin','super_admin','editor','instructor'].includes(String(session?.user?.app_metadata?.role||'').toLowerCase())}
 function canViewLesson(l){return isAdmin()||String(l?.status||'').toLowerCase()==='published'||(!l?.status&&!l?.review_required)}
-function syncAdminNavigation(){document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!isAdmin();b.setAttribute('aria-hidden',String(!isAdmin()))})}
+function syncAdminNavigation(){document.querySelectorAll('[data-page="admin"]').forEach(b=>{b.hidden=!isAdmin();b.setAttribute('aria-hidden',String(!isAdmin()))});const holder=document.querySelector('.home-notices');let entry=document.getElementById('homeAdminEntry');if(isAdmin()&&holder&&!entry){entry=document.createElement('button');entry.id='homeAdminEntry';entry.className='home-admin-entry';entry.type='button';entry.textContent='⚙ نافذة الإدارة';entry.onclick=()=>showPage('admin');holder.appendChild(entry)}else if(!isAdmin()&&entry)entry.remove()}
 async function loadContent(){
  const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
  let local=empty, cloudError=null, topicError=null, lessonError=null;
