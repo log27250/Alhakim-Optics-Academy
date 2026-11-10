@@ -438,6 +438,7 @@ async function renderAdmin(){
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button>
   <button class="quick-card" onclick="adminAccounts()"><b>إدارة الحسابات</b><small>عرض حسابات الطلاب المسجلة في الأكاديمية.</small></button>
+  <button class="quick-card" onclick="adminInstructors()"><b>إدارة المحاضرين</b><small>عرض حسابات المحاضرين المسجلين وصلاحياتهم التعليمية.</small></button>
   <button class="quick-card" onclick="adminCertificates()"><b>إدارة الشهادات</b><small>عرض الشهادات الصادرة وإلغاء الشهادة عند الحاجة.</small></button>
   <button class="quick-card" onclick="adminQuestionForm()"><b>بنك الأسئلة</b><small>إضافة سؤال امتحان موثق إلى القسم العلمي.</small></button>
   <button class="quick-card" onclick="adminAttempts()"><b>نتائج الامتحانات</b><small>متابعة محاولات الطلاب ونتائجهم.</small></button>
@@ -456,6 +457,20 @@ async function adminSubscriptions(){
 async function adminAccounts(){
  if(!adminGuard())return;
  try{const rows=await rest('profiles','select=*&order=created_at.desc');pageShell('إدارة الحسابات','حسابات المستخدمين المسجلة في الأكاديمية.',`<div class="content-card"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button>${rows.map(u=>`<article class="result"><b>${esc(u.full_name||'طالب دون اسم')}</b><small>${esc(u.email||'')} · ${esc(u.role||'student')}</small><small>تاريخ التسجيل: ${esc(u.created_at||'')}</small></article>`).join('')||'<p>لا توجد حسابات مسجلة.</p>'}</div>`)}catch(e){pageShell('إدارة الحسابات','تعذر تحميل الحسابات.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">عودة</button>`)}
+}
+async function adminInstructors(){
+ if(!adminGuard())return;
+ try{
+  const [roles,users]=await Promise.all([
+   rest('admin_roles','select=id,user_id,role,created_at&role=eq.instructor&order=created_at.desc'),
+   rest('profiles','select=id,full_name,email,created_at')
+  ]);
+  const byId=new Map(users.map(u=>[String(u.id),u]));
+  const rows=roles.map(r=>({role:r,user:byId.get(String(r.user_id))}));
+  pageShell('إدارة المحاضرين','قائمة الحسابات التي مُنحت دور المحاضر في الأكاديمية.',
+   '<div class="content-card"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><div class="notice">تعرض هذه الصفحة المحاضرين الذين لديهم دور instructor في جدول الصلاحيات. إدارة منح وسحب الصلاحيات ستضاف بعد اعتماد آلية التعيين.</div>'+
+   (rows.map(x=>'<article class="result"><b>'+esc(x.user?.full_name||'محاضر دون اسم')+'</b><small>'+esc(x.user?.email||x.role.user_id)+' · تاريخ منح الدور: '+esc(x.role.created_at||'غير محدد')+'</small><small>معرّف الحساب: '+esc(x.role.user_id)+'</small></article>').join('')||'<p>لا يوجد محاضرون مسجلون حالياً.</p>')+'</div>');
+ }catch(e){pageShell('إدارة المحاضرين','تعذر تحميل قائمة المحاضرين.','<div class="notice">'+esc(e.message)+'</div><button class="secondary" onclick="renderAdmin()">عودة</button>')}
 }
 async function adminHomepageSettings(useDefaults=false){
  if(!adminGuard())return;
