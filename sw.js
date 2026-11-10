@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — network-first updates with offline fallback */
-const CACHE_NAME = 'alhakim-academy-v2-32-course-button-v10';
+const CACHE_NAME = 'alhakim-academy-v2-33-pwa-install-v11';
 const CORE = [
   './',
   './index.html',
