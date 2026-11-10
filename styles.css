@@ -168,3 +168,11 @@ body.home-screen .main{width:100%;max-width:1600px;padding:20px 3.2%;margin:0 au
 .homepage-admin-form input[type=file]{display:block;padding:8px;background:#f7fafc;border:1px dashed #bdcbd7;border-radius:9px;max-width:100%;font-size:13px}
 
 body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bottom:0;z-index:30;width:245px;box-shadow:0 12px 35px #071d3540}
+
+/* Navigation is now fully embedded in the academy homepage: no hamburger or floating drawer */
+.layout{display:block!important}
+.sidebar,.menu-btn{display:none!important}
+.home-return{display:inline-flex;align-items:center;gap:8px;margin:0 0 16px;padding:10px 16px;border:1px solid #d8e4f4;border-radius:12px;background:#fff;color:#123c61;font-weight:800;cursor:pointer;box-shadow:0 2px 8px #102d4b0a}
+.home-return:hover{background:#f0f6fb;border-color:#9bbbd3}
+.section-back{margin-bottom:18px}
+.lecture-back{margin:0 0 18px}
