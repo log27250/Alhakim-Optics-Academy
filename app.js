@@ -53,7 +53,7 @@ async function optionalTable(table,query='select=*'){try{return await rest(table
 function normalizeCloud(depts,topics,lessons){
  const topicById=new Map(topics.map(t=>[String(t.id),t]));
  const topicMap=new Map();
- for(const t of topics){const k=String(t.department_id||'');if(!topicMap.has(k))topicMap.set(k,[]);topicMap.get(k).push({id:String(t.id),code:t.code,title_en:String(first(t,['title_en','title_ar','code'],'Topic')),title_ar:String(first(t,['title_ar'],'')),description_en:String(t.description_en||''),description_ar:String(t.description_ar||''),is_published:t.is_published!==false})}
+ for(const t of topics){const k=String(t.department_id||'');if(!topicMap.has(k))topicMap.set(k,[]);topicMap.get(k).push({id:String(t.id),code:t.code,title_en:String(first(t,['title_en','title_ar','code'],'Topic')),title_ar:String(first(t,['title_ar'],'')),display_order:Number(t.display_order??0),description_en:String(t.description_en||''),description_ar:String(t.description_ar||''),is_published:t.is_published!==false})}
  const deptById=new Map(depts.map(d=>[String(d.id),d]));
  const departments=depts.map(d=>{const id=String(d.id),code=String(d.code||id);return {...d,id,code,name_en:String(first(d,['name_en'],'Untitled department')),name_ar:String(first(d,['name_ar'],'')),curriculum_topics:topicMap.get(id)||[]}});
  const mapped=lessons.map(l=>{const topic=topicById.get(String(l.topic_id||''));const dept=topic?deptById.get(String(topic.department_id||'')):null;return {...l,id:String(l.id),department_code:String(dept?.code||''),title_en:String(first(l,['title_en'],'Untitled lesson')),learning_objectives:first(l,['learning_objectives'],[]),content_en:String(first(l,['content_en'],'')),content_ar:String(first(l,['content_ar'],'')),reference_titles:first(l,['reference_titles'],[]),self_assessment:first(l,['self_assessment','questions'],[]),review_required:String(l.status||'').toLowerCase()!=='published'}});
@@ -180,7 +180,12 @@ function showPage(page){document.body.classList.remove('home-screen');document.q
 function lessonList(lessons,quizOnly=false){lessons=(lessons||[]).filter(canViewLesson);return `<div class="lesson-grid">${lessons.map(l=>`<article class="lesson-card" onclick="${quizOnly?`showQuiz('${esc(l.id)}')`:`showLesson('${esc(l.id)}')`}"><span class="tag">${esc(l.level||'Optometry')}</span><h3>${esc(l.title_en)}</h3><p>${esc(departmentName(l.department_code))}</p><small>${l.review_required?'مسودة للمراجعة العلمية':'منشور'}</small><span class="card-arrow">فتح المحاضرة ←</span></article>`).join('')||'<p>لا توجد محاضرات مسجلة حالياً.</p>'}</div>`}
 async function showDepartment(code){
  const d=DB.departments.find(x=>x.code===code);if(!d)return;
- const ls=DB.lessons.filter(l=>l.department_code===code&&canViewLesson(l)&&String(l.status||'').toLowerCase()==='published');
+ const topicOrder=new Map((d.curriculum_topics||[]).slice().sort((a,b)=>Number(a.display_order??0)-Number(b.display_order??0)).map((t,i)=>[String(t.id),i]));
+ const ls=DB.lessons.filter(l=>l.department_code===code&&canViewLesson(l)&&String(l.status||'').toLowerCase()==='published').slice().sort((a,b)=>{
+  const ai=topicOrder.has(String(a.topic_id))?topicOrder.get(String(a.topic_id)):Number.MAX_SAFE_INTEGER;
+  const bi=topicOrder.has(String(b.topic_id))?topicOrder.get(String(b.topic_id)):Number.MAX_SAFE_INTEGER;
+  return ai-bi||Number(a.display_order??0)-Number(b.display_order??0)||String(a.title_en||'').localeCompare(String(b.title_en||''));
+ });
  const isFinalDepartment=['REF','BV'].includes(code);
  const examCount=isFinalDepartment?100:20;
  const examPanel=session
