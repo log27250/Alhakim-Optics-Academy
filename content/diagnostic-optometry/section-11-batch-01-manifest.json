@@ -13,251 +13,254 @@
       "code": "DO-001-L01",
       "title_en": "Introduction to Diagnostic Optometry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-002-L01",
       "title_en": "Clinical Examination Techniques",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-003-L01",
       "title_en": "Ocular History and Symptom Analysis",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-004-L01",
       "title_en": "External Eye Examination",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-005-L01",
       "title_en": "Slit-Lamp Biomicroscopy",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-006-L01",
       "title_en": "Corneal Examination",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-007-L01",
       "title_en": "Anterior Chamber Assessment",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-008-L01",
       "title_en": "Iris and Pupil Examination",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-009-L01",
       "title_en": "Pupillary Reflex Testing",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-010-L01",
       "title_en": "Relative Afferent Pupillary Defect",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-011-L01",
       "title_en": "Intraocular Pressure Measurement",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-012-L01",
       "title_en": "Goldmann Applanation Tonometry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-013-L01",
       "title_en": "Non-Contact Tonometry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-014-L01",
       "title_en": "Gonioscopy",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-015-L01",
       "title_en": "Fundus Examination",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-016-L01",
       "title_en": "Direct Ophthalmoscopy",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-017-L01",
       "title_en": "Indirect Ophthalmoscopy",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-018-L01",
       "title_en": "Retinal Photography",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-019-L01",
       "title_en": "Optical Coherence Tomography",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-020-L01",
       "title_en": "OCT Interpretation",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-021-L01",
       "title_en": "Fundus Fluorescein Angiography",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-022-L01",
       "title_en": "Corneal Topography",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-023-L01",
       "title_en": "Pachymetry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-024-L01",
       "title_en": "Specular Microscopy",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-025-L01",
       "title_en": "Visual Field Testing Principles",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-026-L01",
       "title_en": "Automated Perimetry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-027-L01",
       "title_en": "Humphrey Visual Field Interpretation",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-028-L01",
       "title_en": "Goldmann Kinetic Perimetry",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-029-L01",
       "title_en": "Color Vision Testing",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     },
     {
       "code": "DO-030-L01",
       "title_en": "Contrast Sensitivity Testing",
       "status": "published",
-      "initial_question_count": 1,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "question_count": 10
     }
   ],
   "validation": {
     "lessons_created": 30,
-    "questions_created": 30,
-    "options_created": 120,
+    "questions_created": 300,
+    "options_created": 1200,
+    "questions_per_lesson": 10,
+    "options_per_question": 4,
+    "exactly_one_correct_answer_per_question": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Counts reflect 30 published lessons with one starter single-choice question and four options each. Question-bank expansion remains in progress."
+    "note": "Supabase verification confirms DO-001 through DO-030 each contain 10 single-choice questions, 4 options per question, and exactly one correct answer per question."
   },
-  "status": "in_progress",
-  "note": "Deployment manifest only; complete lesson content is stored in Supabase. Lessons DO-001 through DO-030 are published. Each currently has one starter MCQ; expand every lesson to a robust question bank before marking this department complete."
+  "status": "question_bank_expanded_for_existing_lessons",
+  "note": "Deployment manifest only; complete lesson content and question bank are stored in Supabase. DO-001 through DO-030 are published and each has 10 verified English single-choice questions. No DO-031 or later lessons currently exist in Supabase; add new lessons only after confirming the approved section syllabus and sequence."
 }
