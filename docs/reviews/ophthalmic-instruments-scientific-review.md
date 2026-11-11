@@ -173,3 +173,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Live rendering of this SVG in the learner interface has not yet been tested. EINS-042–045 still require the same question-level remediation and illustrations.
 
 **Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-042 distractor remediation and illustration
+
+- Replaced all 30 incorrect options across the 10 EINS-042 questions with electrophysiology-specific alternatives covering ERG/VEP/EOG distinctions, dark- and light-adapted ERG, electrode acquisition, artifacts, patient/protocol variables, pattern-reversal VEP, reproducibility, pediatric normative data and trace documentation.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 40 distinct option texts and zero Arabic option text.
+- Added an inline SVG schematic distinguishing retinal ERG responses, occipital VEP recordings and EOG standing-potential assessment. Supabase confirms the figure is present before the references heading.
+- Live rendering remains untested. The stems and keyed answers have not yet undergone a full external expert review; this remediation addresses the repeated/unrelated distractor defect only.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
