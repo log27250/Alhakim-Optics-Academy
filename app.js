@@ -98,7 +98,7 @@ async function loadContent(){
    optionalTable('lesson_references','select=lesson_id,reference_id')
   ]);
   if(Array.isArray(r)){
-   const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url}));
+   const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url,file_path:x.file_path,file_name:x.file_name,file_size:x.file_size,access_license:x.access_license,pdf_updated_at:x.pdf_updated_at}));
    DB.reference_catalog=refs;
    if(Array.isArray(lr)){
     const refsById=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
@@ -341,14 +341,14 @@ function initLectureDeck(){
  deck.addEventListener('touchend',e=>{if(startX===null)return;const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>55)move(dx<0?1:-1);startX=null},{passive:true});
  paint();
 }
-function referenceUrl(ref){if(typeof ref==='object'&&ref)return first(ref,['url','doi','link','href']);return ''}
+function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return SUPABASE_URL+'/storage/v1/object/public/academy-references/'+String(ref.file_path).split('/').map(encodeURIComponent).join('/');return first(ref,['url','doi','link','href'])}return ''}
 function refLabel(ref){return typeof ref==='object'?first(ref,['title','name','citation'],'مرجع علمي'):String(ref)}
 function isDirectReferencePdf(url){return /^https?:\/\//i.test(url||'')&&(/\.pdf(?:[?#].*)?$/i.test(url)||/\/storage\/v1\/object\/(?:public|sign)\//i.test(url))}
 function referenceLink(ref){const id=esc(ref?.id||'');return `<div class="reference-actions"><button class="secondary" type="button" onclick="openAcademyReference('${id}')">فتح المرجع</button><button class="primary" type="button" onclick="downloadAcademyReference('${id}')">تحميل PDF</button></div>`}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
 function openAcademyReference(id){const ref=findAcademyReference(id);if(!ref)return;const url=referenceUrl(ref);const pdf=isDirectReferencePdf(url);const source=/^https?:\/\//i.test(url||'');const details=`<div class="reference-meta"><p><b>Authors:</b> ${esc(ref.authors||'Not specified')}</p><p><b>Year:</b> ${esc(ref.publication_year||'Not specified')}</p><p><b>Publisher:</b> ${esc(ref.publisher||'Not specified')}</p></div>`;const content=pdf?`<iframe class="reference-viewer" src="${esc(url)}#toolbar=1" title="${esc(refLabel(ref))}"></iframe>`:`<div class="notice">هذا السجل يحتوي على بيانات المرجع ورابط الناشر فقط، وليس نسخة الكتاب أو ملف PDF. لا يمكن عرض محتوى كتاب محمي بحقوق النشر من صفحة البيع.</div>${source?`<p><a class="primary reference-source" href="${esc(url)}" target="_blank" rel="noopener noreferrer">زيارة صفحة الناشر الرسمية ↗</a></p>`:''}`;pageShell(refLabel(ref),'بيانات المرجع ومحتواه المتاح',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>${pdf?`<button class="primary" onclick="downloadAcademyReference('${esc(id)}')">تحميل PDF</button>`:''}</div>${details}${content}</div>`)}
 async function downloadAcademyReference(id){const ref=findAcademyReference(id);if(!ref)return;const url=referenceUrl(ref);if(!isDirectReferencePdf(url)){alert('لا يوجد ملف PDF مباشر لهذا المرجع حالياً. الرابط المتوفر صفحة الناشر أو أن المرجع لا يحتوي على رابط. أضف ملف PDF مرخصاً/مفتوح الوصول إلى مكتبة الأكاديمية ليصبح التحميل مباشراً.');return}try{const response=await fetch(url);if(!response.ok)throw Error('تعذر تنزيل الملف.');const blob=await response.blob();if(!blob.size||(!blob.type.includes('pdf')&&!/\.pdf(?:[?#].*)?$/i.test(url)))throw Error('الرابط لا يعيد ملف PDF.');const objectUrl=URL.createObjectURL(blob);const link=document.createElement('a');link.href=objectUrl;link.download=(refLabel(ref).replace(/[\\/:*?"<>|]/g,'_').slice(0,90)||'reference')+'.pdf';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(objectUrl),60000)}catch(e){alert('تعذر التحميل المباشر من المصدر. قد يمنع المصدر التنزيل من داخل الأكاديمية؛ ارفع نسخة PDF مرخصة إلى مكتبة الأكاديمية لضمان التحميل.')}} 
-function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','افتح بيانات المرجع ومحتواه المتاح، أو حمّل ملف PDF عندما يكون متوفراً.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
+function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','المراجع التي تحتوي على ملف PDF فعلي يمكن فتحها داخل الأكاديمية وتحميلها مباشرة.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح داخل الأكاديمية':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureMarkdown(buildIntegratedBilingualMarkdown(l.content_en,l.content_ar));
  const slides=buildLectureSlides(lectureHtml);
  pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>Self-assessment</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
@@ -459,6 +459,7 @@ async function renderAdmin(){
  try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}
  pageShell('نافذة إدارة الأكاديمية','مرحباً بك في لوحة تحكم أكاديمية الحكيم. اختر المجال الذي تريد إدارته.',`
  <div class="admin-grid">
+  <button class="quick-card" onclick="adminReferences()"><b>إدارة ملفات المراجع PDF</b><small>رفع ملفات PDF المرخّصة وربطها بالمراجع الموجودة.</small></button>
   <button class="quick-card" onclick="adminHomepageSettings()"><b>إدارة الواجهة الرئيسية</b><small>الشعار، الصور، بيانات المؤسس، النصوص، الألوان والاختصارات.</small></button>
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button><button class="quick-card" onclick="adminPaymentMethods()"><b>إعدادات وسائل الدفع</b><small>إضافة وتعديل وإيقاف وسائل الدفع وحساباتها.</small></button>
@@ -470,6 +471,32 @@ async function renderAdmin(){
  </div>
  <div class="stats"><div class="stat"><b>${stats.questions}</b><small>سؤالاً في البنك</small></div><div class="stat"><b>${stats.attempts}</b><small>محاولة امتحان</small></div><div class="stat"><b>${stats.certificates}</b><small>شهادة صادرة</small></div></div>
  <div class="notice">تظل الدروس والموضوعات الأساسية متاحة مجاناً. إدارة الاشتراكات تخص الدورات والشهادات فقط.</div>`);
+}
+async function adminReferences(){
+ if(!adminGuard())return;
+ try{
+  const refs=await rest('references','select=*&order=publication_year.desc');
+  pageShell('إدارة ملفات المراجع PDF','ارفع نسخة PDF تملك الأكاديمية حق توزيعها أو نسخة مفتوحة الوصول. الملف سيصبح متاحاً للفتح والتحميل داخل الأكاديمية.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button></div><div class="notice">ارفع ملفات PDF المرخّصة أو مفتوحة الوصول فقط. الحد الأقصى 50 ميجابايت لكل ملف. لا ترفع نسخاً غير مصرح بتوزيعها.</div><div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(r.title)}</h3><p>${esc(r.authors||'')} · ${esc(r.publication_year||'')} · ${esc(r.publisher||'')}</p><p>${r.file_path?'<span class="tag">PDF مرفق: '+esc(r.file_name||'ملف PDF')+'</span>':'<span class="tag">لا يوجد PDF مرفق</span>'}</p><label>ملف PDF<input type="file" accept="application/pdf,.pdf" id="refpdf_${esc(r.id)}"></label><label>مصدر/ترخيص الإتاحة<input type="text" id="reflicense_${esc(r.id)}" value="${esc(r.access_license||'')}" placeholder="Open access / Publisher permission"></label><button class="primary" type="button" onclick="uploadReferencePdf('${esc(r.id)}')">رفع وربط ملف PDF</button></article>`).join('')||'<p>لا توجد مراجع في قاعدة البيانات.</p>'}</div></div>`);
+ }catch(e){pageShell('إدارة ملفات المراجع PDF','تعذر تحميل قائمة المراجع.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">رجوع</button>`)}
+}
+async function uploadReferencePdf(id){
+ if(!adminGuard())return;
+ const input=document.getElementById('refpdf_'+id),license=document.getElementById('reflicense_'+id),file=input?.files?.[0];
+ if(!file){alert('اختر ملف PDF أولاً.');return}
+ if(file.type!=='application/pdf'&&!/\.pdf$/i.test(file.name)){alert('الملف يجب أن يكون بصيغة PDF.');return}
+ if(file.size>50*1024*1024){alert('الحد الأقصى لحجم الملف 50 ميجابايت.');return}
+ if(!confirm('تأكيد رفع هذا الملف؟ يجب أن تكون لديك صلاحية قانونية لإتاحته للطلاب.'))return;
+ const safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/^\.+/,'').slice(-100)||'reference.pdf';
+ const path=id+'/'+Date.now()+'-'+safeName;
+ const btn=input.closest('article')?.querySelector('button');if(btn){btn.disabled=true;btn.textContent='جارٍ الرفع…'}
+ try{
+  const res=await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':'application/pdf','x-upsert':'false'},body:file});
+  const body=await res.json().catch(()=>({}));if(!res.ok)throw Error(body.message||body.error||'فشل رفع ملف PDF');
+  const update=await authorizedFetch(SUPABASE_URL+'/rest/v1/references?id=eq.'+encodeURIComponent(id),{method:'PATCH',headers:{...authHeaders(),'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify({file_path:path,file_name:file.name,file_size:file.size,access_license:(license?.value||'').trim(),pdf_updated_at:new Date().toISOString()})});
+  if(!update.ok){const err=await update.json().catch(()=>({}));throw Error(err.message||'تم رفع الملف لكن تعذر ربطه بسجل المرجع. أعد المحاولة أو تواصل مع الإدارة.')}
+  alert('تم رفع ملف PDF وربطه بالمرجع بنجاح.');await loadContent();adminReferences();
+ }catch(e){alert(e.message||'حدث خطأ أثناء رفع الملف.')}
+ finally{if(btn){btn.disabled=false;btn.textContent='رفع وربط ملف PDF'}}
 }
 async function adminCourses(){
  if(!adminGuard())return;
