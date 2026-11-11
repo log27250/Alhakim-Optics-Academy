@@ -1,0 +1,762 @@
+{
+  "academy": "HAKIM OPTICS ACADEMY",
+  "department": "Low Vision",
+  "department_code": "LV",
+  "artifact": "Final Department Examination",
+  "version": "1.0",
+  "status": "review_pending_scientific_approval",
+  "language": "English only",
+  "question_count": 50,
+  "questions": [
+    {
+      "number": 1,
+      "id": "0077dd45-6fc9-45f0-b854-0c59cfd51719",
+      "question": "What should guide the choice between a handheld and a stand magnifier?",
+      "options": [
+        "Task, working distance, hand control, posture, field of view and patient preference",
+        "Magnification power alone",
+        "The patient's age alone",
+        "The device's purchase price alone"
+      ],
+      "correct_answer": "Task, working distance, hand control, posture, field of view and patient preference",
+      "explanation": "Device selection is individualised and considers the task, physical ability, optical requirements, ergonomics and training.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 2,
+      "id": "00f6787e-c014-4f0e-9ab9-3c762cc5c33b",
+      "question": "A patient with macular disease has central vision loss but useful peripheral vision. Which rehabilitation strategy may be relevant?",
+      "options": [
+        "Eccentric viewing and task-specific magnification after assessment",
+        "Mobility training focused only on peripheral field expansion",
+        "Assume all peripheral vision is absent",
+        "Avoid near tasks altogether"
+      ],
+      "correct_answer": "Eccentric viewing and task-specific magnification after assessment",
+      "explanation": "Central loss may impair detail tasks; eccentric viewing and suitable magnification may improve selected functions when assessed and trained.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 3,
+      "id": "02d41063-3558-4d21-8595-f6c1d3e83ba9",
+      "question": "A student with low vision cannot copy from a distant classroom board but reads digital material comfortably. Which accommodation is most appropriate to trial?",
+      "options": [
+        "Provide accessible digital notes or a closer viewing arrangement",
+        "Lower academic expectations automatically",
+        "Exclude the student from practical learning",
+        "Use smaller print to fit more content"
+      ],
+      "correct_answer": "Provide accessible digital notes or a closer viewing arrangement",
+      "explanation": "Accommodations should address the specific visual demand while preserving educational participation and expected learning outcomes.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 4,
+      "id": "07d439cb-992d-471c-8638-7b35495f4ad7",
+      "question": "Which history question is most useful for identifying a patient-centred rehabilitation goal?",
+      "options": [
+        "Which specific daily task is most difficult and most important for you to improve?",
+        "How many magnifiers have you previously purchased?",
+        "Would you prefer the strongest device available?",
+        "Can your family choose the goal for you?"
+      ],
+      "correct_answer": "Which specific daily task is most difficult and most important for you to improve?",
+      "explanation": "A task-based question identifies meaningful goals and guides assessment and device selection.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 5,
+      "id": "1cb05adb-e008-4c03-957d-bca3030a28cd",
+      "question": "Why can two patients with the same distance visual acuity have very different functional abilities?",
+      "options": [
+        "Their visual fields, contrast sensitivity, scotomas and task demands may differ",
+        "Snellen acuity directly measures every visual function",
+        "Their functional abilities must therefore be identical",
+        "Visual acuity is unrelated to central visual function"
+      ],
+      "correct_answer": "Their visual fields, contrast sensitivity, scotomas and task demands may differ",
+      "explanation": "Visual acuity is only one component of vision. Field, contrast, glare, fixation and task context can substantially alter function.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 6,
+      "id": "1d268a94-d83f-44d5-bf37-c0ecdbc420c1",
+      "question": "Which statement best describes angular magnification?",
+      "options": [
+        "The ratio of the angle subtended at the eye with the device to that without it",
+        "The ratio of object weight to device weight",
+        "The ratio of focal length to pupil diameter",
+        "The ratio of field width to contrast sensitivity"
+      ],
+      "correct_answer": "The ratio of the angle subtended at the eye with the device to that without it",
+      "explanation": "Angular magnification compares the apparent angular size of an object viewed through an optical system with unaided viewing under defined reference conditions.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 7,
+      "id": "1e90b53b-b00e-4b9f-bb31-80ad2049217d",
+      "question": "Why is follow-up essential after low-vision device provision?",
+      "options": [
+        "Visual status, task demands, device use and patient goals may change over time",
+        "A device remains optimal permanently once prescribed",
+        "Follow-up is needed only when acuity improves",
+        "Device training has no effect on outcomes"
+      ],
+      "correct_answer": "Visual status, task demands, device use and patient goals may change over time",
+      "explanation": "Long-term review checks effectiveness, comfort, training, maintenance, changing ocular status and evolving goals.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 8,
+      "id": "2ba313e4-b74b-4488-986e-cace09eca8c8",
+      "question": "When assessing near vision in a patient who struggles with medication labels, which approach is most appropriate?",
+      "options": [
+        "Measure near performance at a documented working distance using relevant print and correction",
+        "Use distance acuity as the only measure",
+        "Test near vision only at an arbitrary distance",
+        "Select a magnifier before assessing the task"
+      ],
+      "correct_answer": "Measure near performance at a documented working distance using relevant print and correction",
+      "explanation": "Near performance depends on print size, working distance, illumination, correction and the actual task.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 9,
+      "id": "2e581ce7-739f-4d07-87ec-2a99f56e99a8",
+      "question": "A patient with glaucoma collides with objects at the sides despite relatively preserved central acuity. Which assessment is particularly important?",
+      "options": [
+        "Visual field assessment",
+        "Near point of convergence only",
+        "Colour vision only",
+        "Accommodation facility only"
+      ],
+      "correct_answer": "Visual field assessment",
+      "explanation": "Glaucoma may cause peripheral field loss that affects obstacle detection and mobility even when central acuity is relatively preserved.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 10,
+      "id": "36f7002d-f5a7-4f8f-aa5a-c5a602d63844",
+      "question": "A patient receives a magnifier but cannot use it effectively at home. What is the most appropriate next step?",
+      "options": [
+        "Reassess the task and environment, then provide hands-on training and retest performance",
+        "Assume non-compliance and discharge the patient",
+        "Increase magnification without observing use",
+        "Replace the device without identifying the problem"
+      ],
+      "correct_answer": "Reassess the task and environment, then provide hands-on training and retest performance",
+      "explanation": "Poor device performance may reflect mismatch, positioning, lighting or insufficient training; reassessment and observed practice identify the barrier.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 11,
+      "id": "37c87bd7-cce6-47c2-9587-59dc07c5f7d5",
+      "question": "What is the primary purpose of eccentric viewing training in a patient with a central scotoma?",
+      "options": [
+        "To use a retinal area away from the damaged foveal region for selected visual tasks",
+        "To restore damaged foveal photoreceptors",
+        "To widen the anatomical visual field",
+        "To eliminate the underlying macular disease"
+      ],
+      "correct_answer": "To use a retinal area away from the damaged foveal region for selected visual tasks",
+      "explanation": "Eccentric viewing trains the patient to use a more functional retinal locus when central fixation is compromised; it does not restore damaged retina.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 12,
+      "id": "37fdd077-4f59-46cb-96ab-9a5b8c041322",
+      "question": "Which situation most clearly warrants referral for ophthalmic assessment rather than routine low-vision device adjustment?",
+      "options": [
+        "New flashes, a sudden increase in floaters and a curtain-like field defect",
+        "A stable preference for a different magnifier handle",
+        "A request for additional reading practice",
+        "A need to adjust the reading lamp position"
+      ],
+      "correct_answer": "New flashes, a sudden increase in floaters and a curtain-like field defect",
+      "explanation": "New flashes, floaters and a curtain-like defect may indicate retinal tear or detachment and require urgent ophthalmic assessment.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 13,
+      "id": "3abb2990-da79-45d9-9adb-1f163db32b01",
+      "question": "Which counselling approach best supports patient autonomy?",
+      "options": [
+        "Provide understandable options, invite preferences and agree on shared goals",
+        "Allow the clinician to set all goals without discussion",
+        "Give unrealistic guarantees about visual recovery",
+        "Exclude family even when the patient requests their involvement"
+      ],
+      "correct_answer": "Provide understandable options, invite preferences and agree on shared goals",
+      "explanation": "Shared decision-making respects the patient's priorities, supports informed choice and avoids unrealistic promises.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 14,
+      "id": "3d2c85fa-8230-4220-9214-4e89f6fa46e5",
+      "question": "A patient with acquired visual impairment withdraws from social activities and reports low mood. What is the most appropriate response?",
+      "options": [
+        "Explore psychosocial impact and arrange appropriate support when indicated",
+        "Focus exclusively on visual acuity",
+        "Dismiss the concern as unrelated to rehabilitation",
+        "Promise that a magnifier will resolve the emotional difficulty"
+      ],
+      "correct_answer": "Explore psychosocial impact and arrange appropriate support when indicated",
+      "explanation": "Visual impairment can affect identity, mood and participation; supportive communication and referral to appropriate services may be needed.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 15,
+      "id": "40c57cf7-6000-4867-b61b-78db99146ee6",
+      "question": "What should a comprehensive rehabilitation plan include?",
+      "options": [
+        "Prioritised goals, interventions, training, referrals and measurable follow-up outcomes",
+        "A device prescription without assessment or review",
+        "Acuity results only",
+        "A fixed plan that cannot be changed"
+      ],
+      "correct_answer": "Prioritised goals, interventions, training, referrals and measurable follow-up outcomes",
+      "explanation": "A rehabilitation plan should link identified needs to goals, interventions, responsible services and outcome review.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 16,
+      "id": "46ec435b-be2a-4b46-bb95-9787026b6dfb",
+      "question": "Which outcome measure is most meaningful when evaluating a patient's goal of reading medication labels?",
+      "options": [
+        "Ability to identify the correct label and instructions accurately under usual conditions",
+        "Change in distance Snellen acuity alone",
+        "The magnifier's nominal power",
+        "The number of devices issued"
+      ],
+      "correct_answer": "Ability to identify the correct label and instructions accurately under usual conditions",
+      "explanation": "Outcome measures should reflect the target activity, accuracy, safety and real-world conditions rather than device provision or acuity alone.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 17,
+      "id": "4860b473-921f-47cd-9ec1-3c8d8ac8b8b0",
+      "question": "A patient recognises enlarged letters but reads very slowly and loses place frequently. Which rehabilitation approach is most appropriate?",
+      "options": [
+        "Structured reading training addressing tracking, fluency, print size and task strategy",
+        "Increase magnification indefinitely without reassessment",
+        "Focus only on distance acuity",
+        "Stop reading tasks permanently"
+      ],
+      "correct_answer": "Structured reading training addressing tracking, fluency, print size and task strategy",
+      "explanation": "Reading rehabilitation combines appropriate print size and device use with strategies and practice to improve speed, accuracy and endurance.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 18,
+      "id": "4da87f8c-296c-4859-b9b3-9622c520eec3",
+      "question": "Which digital accessibility feature is most directly useful when a patient cannot visually resolve small screen text?",
+      "options": [
+        "System-level text enlargement and display scaling",
+        "Reducing font size",
+        "Disabling zoom and contrast settings",
+        "Using colour alone to convey essential information"
+      ],
+      "correct_answer": "System-level text enlargement and display scaling",
+      "explanation": "Text enlargement and display scaling improve access to digital content; screen readers and contrast controls may also be appropriate depending on function.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 19,
+      "id": "5435402f-1e64-4e26-b641-6d1ecd8caa08",
+      "question": "A patient experiences disabling glare outdoors. Which first step best supports an individualised intervention?",
+      "options": [
+        "Characterise the lighting conditions and tasks that provoke symptoms",
+        "Recommend dark sunglasses for continuous indoor and outdoor use without assessment",
+        "Increase magnification automatically",
+        "Discontinue all outdoor activities"
+      ],
+      "correct_answer": "Characterise the lighting conditions and tasks that provoke symptoms",
+      "explanation": "Glare management depends on source, environment, ocular condition and task; filters and environmental changes should be trialled individually.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 20,
+      "id": "56228292-201b-45e1-aa8d-d32d02bc569b",
+      "question": "What does a contrast-sensitivity assessment add to a low-vision evaluation?",
+      "options": [
+        "Information about detecting objects or detail when luminance differences are limited",
+        "A direct measurement of intraocular pressure",
+        "A complete map of retinal anatomy",
+        "A replacement for visual acuity testing"
+      ],
+      "correct_answer": "Information about detecting objects or detail when luminance differences are limited",
+      "explanation": "Contrast sensitivity measures the ability to detect differences in luminance and can explain difficulties not predicted by acuity alone.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 21,
+      "id": "5a3afe93-b8a5-4d6a-ad03-84f67262d2f3",
+      "question": "Which lighting principle is generally appropriate for low-vision reading?",
+      "options": [
+        "Provide adequate, adjustable illumination while controlling glare and reflections",
+        "Maximise brightness regardless of glare",
+        "Use a single fixed light position for every patient",
+        "Reduce all illumination to the lowest possible level"
+      ],
+      "correct_answer": "Provide adequate, adjustable illumination while controlling glare and reflections",
+      "explanation": "Illumination should be sufficient for the task and adjusted for comfort; excessive or poorly positioned light can increase glare.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 22,
+      "id": "6ba8aade-8b27-4d00-a41d-5833fc0b5ca0",
+      "question": "Which finding most strongly supports a low-vision referral rather than simply updating spectacles?",
+      "options": [
+        "Persistent activity limitation after optimal correction and treatable disease review",
+        "A mild refractive error that corrects to normal acuity",
+        "Transient blur after prolonged near work",
+        "A single unreliable acuity measurement"
+      ],
+      "correct_answer": "Persistent activity limitation after optimal correction and treatable disease review",
+      "explanation": "Low-vision care is considered when meaningful functional limitations remain despite appropriate conventional correction and management.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 23,
+      "id": "6f683886-3330-4407-872c-d66f25d6cb90",
+      "question": "A low-vision patient reports difficulty recognising faces across a room. Which assessment is most directly relevant initially?",
+      "options": [
+        "Distance visual acuity under appropriate testing conditions",
+        "Near reading speed alone",
+        "Colour naming alone",
+        "Accommodation amplitude alone"
+      ],
+      "correct_answer": "Distance visual acuity under appropriate testing conditions",
+      "explanation": "Distance acuity is directly relevant to face recognition at a distance, although contrast, lighting and field should also be considered.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 24,
+      "id": "71f590d2-c858-40c0-8336-49f83e2cec6d",
+      "question": "Which professional role is central to safe orientation-and-mobility training?",
+      "options": [
+        "A trained orientation and mobility specialist working with the wider care team",
+        "A device salesperson without mobility training",
+        "A family member acting without assessment",
+        "A refraction-only service"
+      ],
+      "correct_answer": "A trained orientation and mobility specialist working with the wider care team",
+      "explanation": "Orientation and mobility interventions require specialist assessment and training, coordinated with the patient's visual and environmental needs.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 25,
+      "id": "754dca8a-b662-4dd6-8999-e6ed47a0940d",
+      "question": "A patient has sudden painless monocular visual loss beginning 30 minutes ago. What is the most appropriate action?",
+      "options": [
+        "Arrange urgent medical assessment rather than routine device fitting",
+        "Begin magnifier training and review in three months",
+        "Prescribe stronger near spectacles without examination",
+        "Recommend self-monitoring until the next routine visit"
+      ],
+      "correct_answer": "Arrange urgent medical assessment rather than routine device fitting",
+      "explanation": "Sudden visual loss is a potential ocular or systemic emergency and requires urgent assessment; rehabilitation must not delay diagnosis.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 26,
+      "id": "893b33f6-61c6-4980-90ad-663c60f792ee",
+      "question": "A patient struggles to identify medication containers and prepare meals. Which assessment best guides intervention?",
+      "options": [
+        "Observation and task analysis of the relevant activities of daily living",
+        "Distance acuity alone",
+        "A colour vision test alone",
+        "A spectacle prescription without functional assessment"
+      ],
+      "correct_answer": "Observation and task analysis of the relevant activities of daily living",
+      "explanation": "Direct observation identifies task-specific visual, cognitive, motor and environmental barriers and informs practical adaptations.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 27,
+      "id": "8945af5d-beeb-4ee7-afeb-d22399aa10c3",
+      "question": "Which statement best reflects evidence-based low-vision practice?",
+      "options": [
+        "Combine current evidence, clinical expertise and the patient's values and circumstances",
+        "Follow one device protocol for every patient",
+        "Use only the newest technology regardless of evidence",
+        "Replace clinical assessment with published averages"
+      ],
+      "correct_answer": "Combine current evidence, clinical expertise and the patient's values and circumstances",
+      "explanation": "Evidence-based practice integrates research evidence with professional expertise and patient preferences and context.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 28,
+      "id": "8a1356d2-8fe0-4cf0-9be5-23bb97b447a7",
+      "question": "Which statement best distinguishes visual impairment from low vision?",
+      "options": [
+        "Visual impairment is a broad umbrella term; low vision describes substantial functional limitation with usable residual vision",
+        "The terms always have identical definitions in every classification",
+        "Visual impairment refers only to refractive error",
+        "Low vision always means no light perception"
+      ],
+      "correct_answer": "Visual impairment is a broad umbrella term; low vision describes substantial functional limitation with usable residual vision",
+      "explanation": "Visual impairment is an umbrella concept that may involve acuity, field or other visual functions; low-vision definitions depend on the classification and functional context.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 29,
+      "id": "8c3f4997-ebdf-443a-9a75-e7ca7e743aae",
+      "question": "Which is a major functional limitation of a conventional telescope as magnification increases?",
+      "options": [
+        "The field of view generally becomes narrower",
+        "The field of view always becomes wider",
+        "Working distance becomes unlimited",
+        "Image brightness and stability are unaffected in all conditions"
+      ],
+      "correct_answer": "The field of view generally becomes narrower",
+      "explanation": "Higher telescope magnification is generally associated with a narrower field of view and increased demands on alignment and stability.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 30,
+      "id": "914cdcdc-b6a8-4281-88a7-1c4be0183aa9",
+      "question": "The preferred retinal locus is best defined as:",
+      "options": [
+        "A retinal area used consistently for fixation when the fovea is impaired",
+        "The anatomical fovea in every patient",
+        "The point of maximum peripheral field sensitivity",
+        "The optic disc margin"
+      ],
+      "correct_answer": "A retinal area used consistently for fixation when the fovea is impaired",
+      "explanation": "A preferred retinal locus is an extrafoveal retinal area adopted for fixation by some people with central visual loss.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 31,
+      "id": "978830e8-7d31-4c83-92b2-47dc15ba17a4",
+      "question": "A patient has persistent difficulty reading and navigating despite optimal refraction and appropriate treatment of ocular disease. What is the primary purpose of low-vision rehabilitation?",
+      "options": [
+        "Improve functional use of residual vision and participation",
+        "Restore normal acuity in every case",
+        "Replace ophthalmic disease management",
+        "Prescribe the highest available magnification"
+      ],
+      "correct_answer": "Improve functional use of residual vision and participation",
+      "explanation": "Low-vision rehabilitation aims to improve task performance, safety, independence and participation; it does not guarantee restoration of normal acuity.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 32,
+      "id": "980bf42e-1244-4b94-a83b-04ce9416f63c",
+      "question": "A patient with retinitis pigmentosa reports difficulty in dim environments and progressive peripheral field loss. Which adaptation is most relevant?",
+      "options": [
+        "Improve lighting where appropriate and assess mobility safety and field-related strategies",
+        "Prescribe a near magnifier as the only intervention",
+        "Assume central acuity predicts all mobility ability",
+        "Recommend unrestricted night driving"
+      ],
+      "correct_answer": "Improve lighting where appropriate and assess mobility safety and field-related strategies",
+      "explanation": "Retinitis pigmentosa commonly affects peripheral field and may impair low-light function; lighting, safety and mobility needs require individual assessment.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 33,
+      "id": "9ecd95da-5029-4c11-90bf-60bfd720d5e9",
+      "question": "Which is an example of a non-optical low-vision aid?",
+      "options": [
+        "A tactile marking system on household controls",
+        "A high-add spectacle lens",
+        "A Galilean telescope",
+        "A handheld optical magnifier"
+      ],
+      "correct_answer": "A tactile marking system on household controls",
+      "explanation": "Tactile labels support identification without relying on optical magnification.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 34,
+      "id": "a028b56f-6605-4773-ab1e-c7a426b496ae",
+      "question": "Why is multidisciplinary care often valuable in low vision?",
+      "options": [
+        "Different professionals address medical, functional, mobility, educational and psychosocial needs",
+        "One professional can safely provide every specialist intervention",
+        "It removes the need for patient participation",
+        "It guarantees restoration of normal vision"
+      ],
+      "correct_answer": "Different professionals address medical, functional, mobility, educational and psychosocial needs",
+      "explanation": "Low-vision needs span several domains; coordinated care allows appropriate expertise while maintaining patient-centred goals.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 35,
+      "id": "ba9f3648-d260-4eed-abcf-e0fe3aa59e22",
+      "question": "Which principle should guide community-based low-vision rehabilitation?",
+      "options": [
+        "Make services accessible and coordinate support around the person's home and community context",
+        "Require every patient to travel to a tertiary centre regardless of need",
+        "Provide identical devices without assessment",
+        "Exclude local support networks from planning"
+      ],
+      "correct_answer": "Make services accessible and coordinate support around the person's home and community context",
+      "explanation": "Community-based care aims to improve access and continuity while coordinating services around local needs and resources.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 36,
+      "id": "bc35ef64-80bc-40b8-82fa-7fc131b02a86",
+      "question": "A patient needs larger retinal image size to read small print. Which general approach can provide magnification?",
+      "options": [
+        "Increase relative size, reduce viewing distance, or use an optical/electronic system",
+        "Reduce print contrast only",
+        "Increase the viewing distance without changing print size",
+        "Use distance correction alone in every case"
+      ],
+      "correct_answer": "Increase relative size, reduce viewing distance, or use an optical/electronic system",
+      "explanation": "Magnification can be achieved through relative size, relative distance, angular magnification or electronic enlargement.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 37,
+      "id": "bf1d2f1b-1c68-4543-ae02-6e0c0b3c97f0",
+      "question": "A page is moved from 40 cm to 20 cm from the eye, with the same print size. What is the relative distance magnification?",
+      "options": [
+        "2×",
+        "0.5×",
+        "4×",
+        "1×"
+      ],
+      "correct_answer": "2×",
+      "explanation": "Relative distance magnification is the original viewing distance divided by the new distance: 40/20 = 2.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 38,
+      "id": "ca146694-c3a4-4d7d-86ee-252bca9e590c",
+      "question": "Which issue deserves particular attention when planning low-vision care for an older adult?",
+      "options": [
+        "Comorbidity, dexterity, cognition, falls risk and the person's own goals",
+        "Age alone as the basis for device selection",
+        "Assuming all older adults have identical needs",
+        "Avoiding electronic aids solely because of age"
+      ],
+      "correct_answer": "Comorbidity, dexterity, cognition, falls risk and the person's own goals",
+      "explanation": "Older adults have diverse functional and health profiles; device usability, safety, dexterity and individual preferences should be assessed.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 39,
+      "id": "caca197b-59b3-4d65-a008-1cae411cc272",
+      "question": "A patient with advanced glaucoma has reduced peripheral field and difficulty navigating unfamiliar spaces. Which intervention is most relevant?",
+      "options": [
+        "Orientation-and-mobility assessment with environmental and scanning strategies",
+        "Near magnification alone",
+        "A stronger reading addition as the sole intervention",
+        "Colour filters as a replacement for mobility training"
+      ],
+      "correct_answer": "Orientation-and-mobility assessment with environmental and scanning strategies",
+      "explanation": "Glaucomatous field loss can compromise hazard detection and navigation; mobility assessment and training are important.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 40,
+      "id": "d71fb821-8fca-4586-a181-3c16e70ab6b5",
+      "question": "In a child with low vision, which approach is most appropriate?",
+      "options": [
+        "Coordinate visual assessment with developmental, educational and family goals",
+        "Use adult reading goals without modification",
+        "Delay support until formal schooling is completed",
+        "Assume visual acuity alone predicts classroom performance"
+      ],
+      "correct_answer": "Coordinate visual assessment with developmental, educational and family goals",
+      "explanation": "Paediatric low-vision care should consider development, learning environments, family priorities and multidisciplinary support.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 41,
+      "id": "dc7190bc-8194-48ed-8030-df2a2c344b5e",
+      "question": "A patient needs to read a full page while maintaining a relatively wide field of view. Which feature of a video magnifier may help?",
+      "options": [
+        "Adjustable magnification with a movable reading camera or XY table",
+        "A fixed high-power telescope",
+        "A narrow-field high-add spectacle lens only",
+        "A fixed-focus handheld magnifier"
+      ],
+      "correct_answer": "Adjustable magnification with a movable reading camera or XY table",
+      "explanation": "A reading platform or XY table allows controlled movement across text while the display provides adjustable enlargement.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 42,
+      "id": "dd6abc5d-a2c4-4dcd-888e-3b3481ec9d9a",
+      "question": "A patient cannot maintain a steady focal distance with a handheld magnifier because of tremor. Which device may be easier to use?",
+      "options": [
+        "A stand magnifier with an appropriate support and working distance",
+        "A higher-power handheld magnifier in every case",
+        "A distance telescope",
+        "An unmounted high-add spectacle lens"
+      ],
+      "correct_answer": "A stand magnifier with an appropriate support and working distance",
+      "explanation": "A stand magnifier can stabilise the object distance and reduce the need to hold the lens at a precise position.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 43,
+      "id": "e42d84cd-b522-4d08-ae89-4e0cf48a0319",
+      "question": "What is an important advantage of electronic magnification compared with many optical magnifiers?",
+      "options": [
+        "Adjustable magnification, contrast and display settings",
+        "It always restores normal vision",
+        "It eliminates the need for training",
+        "It is suitable for every task and every patient"
+      ],
+      "correct_answer": "Adjustable magnification, contrast and display settings",
+      "explanation": "Electronic systems may offer adjustable enlargement, contrast polarity, brightness and other display options, although usability and access must be assessed.",
+      "difficulty": "basic",
+      "is_active": false
+    },
+    {
+      "number": 44,
+      "id": "e706d74f-47dc-4998-81d7-f47a6186708d",
+      "question": "High-add spectacles used for near tasks generally require:",
+      "options": [
+        "A short working distance and appropriate close-task posture",
+        "A long working distance with no adaptation",
+        "Distance viewing across a room",
+        "No assessment of field of view"
+      ],
+      "correct_answer": "A short working distance and appropriate close-task posture",
+      "explanation": "High near additions provide magnification at close working distances and require instruction about posture, field and working distance.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 45,
+      "id": "e972c025-14ba-4517-8981-70747d9d279c",
+      "question": "A low-vision clinic is reviewing its service outcomes. Which combination is most informative?",
+      "options": [
+        "Patient-reported goal attainment, task performance, device use and safety",
+        "Number of devices dispensed only",
+        "Distance acuity at a single visit only",
+        "Clinic attendance count without functional measures"
+      ],
+      "correct_answer": "Patient-reported goal attainment, task performance, device use and safety",
+      "explanation": "Service evaluation should combine patient-centred and functional outcomes with relevant process and safety measures.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 46,
+      "id": "ef01e981-4ae3-4736-9d67-15e47a6574af",
+      "question": "A printed letter is enlarged from 2 mm to 6 mm in height. What is the relative size magnification?",
+      "options": [
+        "3×",
+        "2×",
+        "4×",
+        "6×"
+      ],
+      "correct_answer": "3×",
+      "explanation": "Relative size magnification is the enlarged dimension divided by the original dimension: 6/2 = 3.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 47,
+      "id": "f2e2b55e-f44e-4c6b-bb73-f22c0d0fdd47",
+      "question": "Equivalent viewing power is primarily used to express:",
+      "options": [
+        "The effective magnifying power of a near-vision system in relation to viewing distance",
+        "The refractive power of the crystalline lens only",
+        "The patient's visual field in degrees",
+        "The illumination level at the reading plane"
+      ],
+      "correct_answer": "The effective magnifying power of a near-vision system in relation to viewing distance",
+      "explanation": "Equivalent viewing power relates the effective near viewing condition to a reference viewing distance; conventions and assumptions must be stated.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 48,
+      "id": "faaf6d40-44c1-434b-93c1-7b427d5329b7",
+      "question": "Which measure best characterises reading performance beyond the smallest print size recognised?",
+      "options": [
+        "Reading speed and accuracy at different print sizes",
+        "Distance acuity alone",
+        "Pupil diameter alone",
+        "Intraocular pressure"
+      ],
+      "correct_answer": "Reading speed and accuracy at different print sizes",
+      "explanation": "Functional reading assessment includes speed, accuracy, endurance and critical print size, not just threshold print recognition.",
+      "difficulty": "intermediate",
+      "is_active": false
+    },
+    {
+      "number": 49,
+      "id": "9d5de3e6-c9f8-494c-bf25-fe221fa3af95",
+      "question": "A patient with central scotoma is being considered for eccentric viewing training. Which finding should be assessed before selecting a training strategy?",
+      "options": [
+        "The location and stability of usable extrafoveal fixation",
+        "The intraocular pressure alone",
+        "The spectacle frame material",
+        "The patient's colour preference"
+      ],
+      "correct_answer": "The location and stability of usable extrafoveal fixation",
+      "explanation": "Eccentric viewing training should be based on assessment of the usable retinal area, fixation behaviour, task demands and the patient's ability to adopt a repeatable strategy.",
+      "difficulty": "advanced",
+      "is_active": false
+    },
+    {
+      "number": 50,
+      "id": "c0b1ed0b-bff2-4d3c-a1f1-05abe7212aeb",
+      "question": "A low-vision service introduces a new electronic magnifier. Which approach best evaluates whether it should be recommended to a particular patient?",
+      "options": [
+        "Compare task performance, usability, access, cost and patient preference with alternatives",
+        "Recommend it because newer technology is always more effective",
+        "Use the maximum magnification setting for every task",
+        "Assess only the device's technical specifications"
+      ],
+      "correct_answer": "Compare task performance, usability, access, cost and patient preference with alternatives",
+      "explanation": "Technology should be selected through individual assessment and comparison under realistic conditions; technical capability alone does not establish functional benefit.",
+      "difficulty": "advanced",
+      "is_active": false
+    }
+  ]
+}
