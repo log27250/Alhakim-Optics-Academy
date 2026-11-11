@@ -432,6 +432,16 @@ function lectureIllustration(l){
   LV:['./assets/low-vision/functional-vision-assessment.svg','Functional vision assessment']
  };
  const specific={
+  'ANP-COR-001':['./assets/anatomy-physiology/anp-cornea-layers.svg','Corneal layers and transparency'],
+  'VIS-MYO-001':['./assets/visual-optics/vis-myopia-focus.svg','Myopic retinal focus and minus-lens correction'],
+  'BV-ACC-001':['./assets/binocular-vision/bv-accommodation.svg','Accommodation mechanism — Helmholtz model'],
+  'CL-PRE-001':['./assets/contact-lenses/cl-pre-fitting-map.svg','Contact lens pre-fitting assessment pathway'],
+  'PED-AMB-001':['./assets/pediatric-optometry/ped-amblyopia-causes.svg','Common amblyogenic factors'],
+  'OD-RED-001':['./assets/ocular-diseases/od-red-eye-redflags.svg','Red-eye triage: urgent warning signs'],
+  'LV-LOW-001':['./assets/low-vision/lv-functional-goals.svg','Functional low-vision assessment goals'],
+  'DO-LENS-001':['./assets/dispensing-optics/do-lens-designs.svg','Single-vision, bifocal and progressive lens designs'],
+  'EPH-PRINC-001':['./assets/ocular-pharmacology/eph-ocular-routes.svg','Common ocular drug delivery routes'],
+
   'GEO-LIGHT-001':['./assets/geometrical-optics/geo-refraction-snell.svg','Light refraction and ray behaviour'],
   'GEO-REFL-001':['./assets/geometrical-optics/geo-reflection-plane-mirror.svg','Reflection at a plane mirror'],
   'GEO-N-001':['./assets/geometrical-optics/geo-refractive-index.svg','Refractive index and light speed'],
