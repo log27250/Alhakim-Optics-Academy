@@ -114,3 +114,12 @@ Review of EINS-031–EINS-045 shows the problem extends beyond repeated distract
 IN PROGRESS — NOT YET ACADEMICALLY APPROVED.
 
 Remaining work: reconstruct and scientifically review EINS-031–EINS-045 question-by-question; complete a full review of all 450 lesson-bank questions; validate the 110-question final exam; review lecture content and references; and test the learner interface.
+
+
+## Progress update — EINS-031 question-bank rebuild
+
+- Rebuilt all 10 questions in EINS-031 (Specular Microscopy and Endothelial Imaging) rather than merely replacing distractors.
+- Replaced generic stems with topic-specific assessment of specular reflection, endothelial cell compensation, acquisition workflow, image limitations, polymegathism, endothelial cell density, pleomorphism, segmentation review, preoperative risk interpretation, and reporting.
+- Replaced all 30 distractors with distinct topic-relevant alternatives; retained one correct option per question and aligned explanations to the revised stems.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 30 distinct incorrect option texts, and zero Arabic assessment content.
+- EINS-032–035 remain to be rebuilt and verified; EINS-031 is a completed question-bank repair only, not a claim of full scientific approval of the department.
