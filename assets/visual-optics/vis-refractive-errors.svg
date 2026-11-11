@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">VISUAL OPTICS • REFRACTIVE ERRORS</title><desc id="desc">Where parallel rays focus relative to the retina</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f5f9ff"/><stop offset="1" stop-color="#e8f2f6"/></linearGradient><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0 0L9 3L0 6Z" fill="#087f8c"/></marker></defs>
+<rect width="1200" height="760" rx="28" fill="url(#bg)"/><rect x="28" y="28" width="1144" height="704" rx="24" fill="#fff" stroke="#c8d9e4" stroke-width="3"/>
+<text x="600" y="88" text-anchor="middle" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#12334a">VISUAL OPTICS • REFRACTIVE ERRORS</text>
+<text x="600" y="132" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" fill="#45677a">Where parallel rays focus relative to the retina</text>
+<rect x="68" y="176" width="1064" height="390" rx="18" fill="#f6fafc" stroke="#d5e3eb" stroke-width="2"/>
+<g transform="translate(115 225)">
+<rect x="0" y="0" width="440" height="270" rx="18" fill="#e9f4f7" stroke="#9bbbc9" stroke-width="2"/>
+<path d="M38 218H402" stroke="#7895a3" stroke-width="3"/>
+<circle cx="220" cy="130" r="74" fill="#d9eef3" stroke="#087f8c" stroke-width="5"/>
+<path d="M146 130Q220 30 294 130Q220 230 146 130Z" fill="#fff" stroke="#087f8c" stroke-width="4"/>
+<path d="M165 130Q220 86 275 130Q220 174 165 130Z" fill="#a8d7e4" stroke="#39879b" stroke-width="3"/>
+<path d="M25 130H148" stroke="#d97706" stroke-width="6" marker-end="url(#arr)"/>
+<path d="M292 130H405" stroke="#087f8c" stroke-width="6" marker-end="url(#arr)"/>
+<text x="220" y="252" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" fill="#31566b">SCHEMATIC / TEACHING DIAGRAM</text>
+</g>
+<g transform="translate(610 215)" font-family="Arial,sans-serif">
+<rect x="0" y="0" width="500" height="34" rx="9" fill="#eaf3f7"/><circle cx="18" cy="17" r="6" fill="#087f8c"/><text x="36" y="24" font-size="19" fill="#173b50">MYOPIA</text><rect x="0" y="42" width="500" height="34" rx="9" fill="#f5f8fa"/><circle cx="18" cy="59" r="6" fill="#087f8c"/><text x="36" y="66" font-size="19" fill="#173b50">HYPEROPIA</text><rect x="0" y="84" width="500" height="34" rx="9" fill="#eaf3f7"/><circle cx="18" cy="101" r="6" fill="#087f8c"/><text x="36" y="108" font-size="19" fill="#173b50">EMMETROPIA</text><rect x="0" y="126" width="500" height="34" rx="9" fill="#f5f8fa"/><circle cx="18" cy="143" r="6" fill="#087f8c"/><text x="36" y="150" font-size="19" fill="#173b50">Focus in front of retina</text><rect x="0" y="168" width="500" height="34" rx="9" fill="#eaf3f7"/><circle cx="18" cy="185" r="6" fill="#087f8c"/><text x="36" y="192" font-size="19" fill="#173b50">Focus behind retina</text><rect x="0" y="210" width="500" height="34" rx="9" fill="#f5f8fa"/><circle cx="18" cy="227" r="6" fill="#087f8c"/><text x="36" y="234" font-size="19" fill="#173b50">Focus on retina</text><rect x="0" y="252" width="500" height="34" rx="9" fill="#eaf3f7"/><circle cx="18" cy="269" r="6" fill="#087f8c"/><text x="36" y="276" font-size="19" fill="#173b50">Optical correction: minus lens</text><rect x="0" y="294" width="500" height="34" rx="9" fill="#f5f8fa"/><circle cx="18" cy="311" r="6" fill="#087f8c"/><text x="36" y="318" font-size="19" fill="#173b50">Optical correction: plus lens</text>
+</g>
+<rect x="68" y="592" width="1064" height="92" rx="14" fill="#eaf5f5" stroke="#b8d9d7" stroke-width="2"/>
+<text x="92" y="630" font-family="Arial,sans-serif" font-size="18" font-weight="700" fill="#075c65">CLINICAL / OPTICAL NOTE</text>
+<text x="92" y="660" font-family="Arial,sans-serif" font-size="18" fill="#244b5a">The retinal plane is the reference: axial or refractive mismatch shifts the focal plane.</text>
+<text x="600" y="715" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#6b8795">HAKIM OPTICS ACADEMY • Original educational vector illustration • Verify against lesson references</text>
+</svg>
