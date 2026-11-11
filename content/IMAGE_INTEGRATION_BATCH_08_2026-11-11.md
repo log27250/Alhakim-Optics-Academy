@@ -5,7 +5,7 @@ Expanded the current lesson illustration plan from one broad lead illustration p
 
 ## Implementation
 - Added a curated sentence-to-figure map for all 19 lesson records in the master curriculum.
-- Configured 52 contextual figure placements across the 19 lessons.
+- Configured 53 contextual figure placements across the 19 lessons.
 - Added six new original geometrical-optics SVG teaching diagrams:
   - electromagnetic spectrum / visible band;
   - ray and beam models;
@@ -19,7 +19,7 @@ Expanded the current lesson illustration plan from one broad lead illustration p
 
 ## Validation
 - JavaScript syntax: PASS (`new Function(app.js)`).
-- All 52 sentence anchors were checked against their corresponding master lesson text: PASS.
+- All 53 sentence anchors were checked against their corresponding master lesson text: PASS.
 - All mapped SVG paths exist in the repository: PASS.
 - Master curriculum currently contains 12 departments and 19 lesson records.
 - No database schema or Supabase content was changed.
