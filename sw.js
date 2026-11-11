@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — offline-first application shell */
-const CACHE_NAME = 'alhakim-academy-v2-47-clinical-hub-v3';
+const CACHE_NAME = 'alhakim-academy-v2-48-clinical-skills-v1';
 const CORE = ['./','./index.html','./styles.css','./app.js','./clinical-cases.js','./manifest.webmanifest','./offline.html','./icon-192.png','./icon-512.png','./assets/founder-photo.jpg'];
 self.addEventListener('install', event => {
  event.waitUntil((async()=>{const cache=await caches.open(CACHE_NAME);await Promise.all(CORE.map(async path=>{try{const r=await fetch(path,{cache:'reload'});if(r.ok)await cache.put(path,r)}catch(_){}}));await self.skipWaiting()})());
