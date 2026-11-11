@@ -63,3 +63,19 @@ These are original educational schematics, not clinical photographs, manufacture
 ## Rendering compatibility
 
 The academy's `renderLectureMarkdown()` and `inlineFormat()` functions in `app.js` recognise HTTPS Markdown image links. The lesson image URLs point to the public repository's `main` branch under `assets/diagnostic-optometry/`.
+
+## Additional device photographs
+
+Verified Wikimedia Commons photographs are embedded immediately after the original SVG illustration in the following lessons. Attribution and license information is printed directly beneath each photograph in the lesson.
+
+| Lesson(s) | Photograph | Placement | Attribution / license |
+|---|---|---|---|
+| DO-005, DO-006, DO-007, DO-008, DO-041 | Slit-lamp ocular examination | Immediately after the lesson SVG, before the next teaching section | OKJaguar, CC BY-SA 4.0 — Wikimedia Commons |
+| DO-011, DO-012 | Goldmann applanation tonometer | Immediately after the lesson SVG, before the next teaching section | Imrankabirhossain, CC BY-SA 4.0 — Wikimedia Commons |
+| DO-013 | Topcon non-contact tonometer | Immediately after the lesson SVG, before the next teaching section | Jochempluim, CC BY-SA 4.0 — Wikimedia Commons |
+| DO-016, DO-017 | Ophthalmoscope instrument | Immediately after the lesson SVG, before the next teaching section | Janee, CC BY-SA 3.0 — Wikimedia Commons |
+| DO-022 | Corneal topographer | Immediately after the lesson SVG, before the next teaching section | Sergio.soto.rondan, CC BY-SA 4.0 — Wikimedia Commons |
+| DO-025, DO-028 | Goldmann kinetic perimeter examination | Immediately after the lesson SVG, before the next teaching section | Evgeniy Aparshin, CC BY 4.0 — Wikimedia Commons |
+| DO-029 | Ishihara colour vision plates | Immediately after the lesson SVG, before the next teaching section | Wellcome Images, CC BY 4.0 — Wikimedia Commons |
+
+The photographs are unchanged. Each lesson includes a source-page attribution and the applicable Creative Commons license. The remaining lessons retain original SVG diagrams for the equipment or test setup; no unverified or incorrectly identified device photograph has been inserted.
