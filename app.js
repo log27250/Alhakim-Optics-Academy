@@ -370,10 +370,10 @@ function lectureAudioText(raw){
 }
 function lectureAudioPanel(lang,raw){
  const text=lectureAudioText(raw),label=lang==='ar'?'الشرح العربي':'المحاضرة الإنجليزية';
- if(!text)return '<section class="lecture-audio-panel unavailable"><b>الصوت — '+label+'</b><p>لا يوجد نص منفصل متاح لهذا المسار الصوتي.</p></section>';
- if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window))return '<section class="lecture-audio-panel unavailable"><b>الصوت — '+label+'</b><p>المتصفح الحالي لا يدعم القراءة الصوتية.</p></section>';
+ if(!text)return '';
+ if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window))return '';
  const id='lectureAudio_'+lang;
- return '<section class="lecture-audio-panel" id="'+id+'" data-lang="'+lang+'"><div class="lecture-audio-title"><b>🔊 الاستماع إلى '+label+'</b><span class="lecture-audio-state" id="'+id+'_state">جاهز للتشغيل</span></div><div class="lecture-audio-actions"><button type="button" data-audio="play">▶ تشغيل</button><button type="button" data-audio="pause">Ⅱ إيقاف مؤقت</button><button type="button" data-audio="resume">▶ متابعة</button><button type="button" data-audio="stop">■ إيقاف</button></div><div class="lecture-audio-actions secondary-actions"><button type="button" data-audio="back">↶ السابق</button><button type="button" data-audio="next">التالي ↷</button><label>سرعة القراءة <select data-audio="rate"><option value="0.75">0.75×</option><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.1">1.1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></label></div><div class="lecture-audio-progress"><span id="'+id+'_progress"></span></div><small id="'+id+'_position">التنقل بين الجمل السابقة والتالية</small></section>';
+ return '<section class="lecture-audio-compact" id="'+id+'" data-lang="'+lang+'"><button type="button" class="lecture-audio-icon" data-audio="toggle" aria-label="إظهار أدوات الصوت" title="الاستماع إلى '+label+'">🔊</button><div class="lecture-audio-popover" hidden><b>'+label+'</b><span class="lecture-audio-state" id="'+id+'_state">جاهز</span><div class="lecture-audio-actions"><button type="button" data-audio="play" aria-label="تشغيل" title="تشغيل">▶</button><button type="button" data-audio="pause" aria-label="إيقاف مؤقت" title="إيقاف مؤقت">Ⅱ</button><button type="button" data-audio="resume" aria-label="متابعة" title="متابعة">⏵</button><button type="button" data-audio="stop" aria-label="إيقاف" title="إيقاف">■</button><button type="button" data-audio="back" aria-label="الجملة السابقة" title="الجملة السابقة">↶</button><button type="button" data-audio="next" aria-label="الجملة التالية" title="الجملة التالية">↷</button></div><label class="lecture-audio-speed">سرعة القراءة <select data-audio="rate"><option value="0.75">بطيئة جداً</option><option value="0.8">بطيئة</option><option value="0.85" selected>طبيعية وواضحة</option><option value="0.9">متوسطة</option><option value="1">عادية</option></select></label><div class="lecture-audio-progress"><span id="'+id+'_progress"></span></div><small id="'+id+'_position">جاهز</small></div></section>';
 }
 function initLectureAudio(){
  document.querySelectorAll('.lecture-audio-panel:not(.unavailable)').forEach(panel=>{
@@ -381,14 +381,14 @@ function initLectureAudio(){
   if(!source)return;
   const sentences=source.split(/(?<=[.!?؟。])\s+/u).map(x=>x.trim()).filter(Boolean);
   const state=document.getElementById(id+'_state'),position=document.getElementById(id+'_position'),progress=document.getElementById(id+'_progress');
-  let index=0,rate=1,active=false;
+  let index=0,rate=0.85,active=false;
   const stop=()=>{speechSynthesis.cancel();active=false};
   const paint=message=>{if(state)state.textContent=message;if(position)position.textContent='الجملة '+(active?Math.min(index+1,sentences.length):index)+' من '+sentences.length;if(progress)progress.style.width=(sentences.length?index/sentences.length*100:0)+'%'};
   const speak=()=>{
    if(index>=sentences.length){active=false;paint('اكتملت المحاضرة');if(progress)progress.style.width='100%';return}
    speechSynthesis.cancel();
-   const utterance=new SpeechSynthesisUtterance(sentences[index]);utterance.lang=lang==='ar'?'ar':'en';utterance.rate=rate;
-   const voice=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith(lang==='ar'?'ar':'en'));if(voice)utterance.voice=voice;
+   const utterance=new SpeechSynthesisUtterance(sentences[index]);utterance.lang=lang==='ar'?'ar':'en';utterance.rate=rate;utterance.pitch=1;utterance.volume=1;
+   const voices=speechSynthesis.getVoices().filter(v=>v.lang.toLowerCase().startsWith(lang==='ar'?'ar':'en'));const voice=voices.find(v=>/natural|neural|google|microsoft/i.test(v.name))||voices.find(v=>v.default)||voices[0];if(voice)utterance.voice=voice;
    utterance.onstart=()=>paint('جاري التشغيل');
    utterance.onend=()=>{if(!active)return;index++;if(index<sentences.length)speak();else{active=false;paint('اكتملت المحاضرة');if(progress)progress.style.width='100%'}};
    utterance.onerror=e=>{if(e.error!=='canceled'&&e.error!=='interrupted'){active=false;paint('تعذر تشغيل الصوت')}};
@@ -396,6 +396,7 @@ function initLectureAudio(){
   };
   panel.addEventListener('click',e=>{
    const button=e.target.closest('button[data-audio]');if(!button)return;
+   if(button.dataset.audio==='toggle'){const pop=panel.querySelector('.lecture-audio-popover');pop.hidden=!pop.hidden;button.setAttribute('aria-expanded',String(!pop.hidden));return;}
    switch(button.dataset.audio){
     case 'play':index=0;active=true;speak();break;
     case 'pause':if(speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();paint('إيقاف مؤقت')}break;
