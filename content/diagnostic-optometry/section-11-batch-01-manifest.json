@@ -1,0 +1,91 @@
+{
+  "academy": "HAKIM OPTICS ACADEMY",
+  "department": {
+    "code": "DO",
+    "name_en": "Diagnostic Optometry",
+    "name_ar": "الفحوصات والتشخيص البصري"
+  },
+  "batch": "01",
+  "source_of_truth": "Supabase public.lessons, public.questions, public.question_options",
+  "status": "initial_content_seed",
+  "language_policy": "English scientific paragraph followed by Arabic explanation; Arabic is explanatory, not literal translation.",
+  "lessons": [
+    {
+      "code": "DO-001-L01",
+      "title_en": "Introduction to Diagnostic Optometry",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-002-L01",
+      "title_en": "Clinical Examination Techniques",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-003-L01",
+      "title_en": "Ocular History and Symptom Analysis",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-004-L01",
+      "title_en": "External Eye Examination",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-005-L01",
+      "title_en": "Slit-Lamp Biomicroscopy",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-006-L01",
+      "title_en": "Corneal Examination",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-007-L01",
+      "title_en": "Anterior Chamber Assessment",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-008-L01",
+      "title_en": "Iris and Pupil Examination",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-009-L01",
+      "title_en": "Pupillary Reflex Testing",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    },
+    {
+      "code": "DO-010-L01",
+      "title_en": "Relative Afferent Pupillary Defect",
+      "status": "published",
+      "questions_currently_seeded": 1,
+      "question_format": "single_choice with four options and explanation"
+    }
+  ],
+  "note": "This file is a deployment manifest. Lesson and assessment records are stored in Supabase and loaded by the academy application. The current batch is an initial seed and requires expansion of each question bank before the department can be considered complete.",
+  "validation": {
+    "lessons_created": 10,
+    "questions_created": 10,
+    "options_created": 40,
+    "verified_in_supabase": true
+  }
+}
