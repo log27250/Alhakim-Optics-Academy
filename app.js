@@ -613,7 +613,7 @@ function renderAccounts(){
  <form id="loginForm"><h3>تسجيل الدخول</h3><label>البريد الإلكتروني<input type="email" id="loginEmail" required autocomplete="username"></label><label>كلمة المرور<input type="password" id="loginPassword" required autocomplete="current-password"></label><button class="primary" type="submit">دخول</button><p id="authMessage" class="form-message" aria-live="polite"></p></form>
  <form id="signupForm" hidden><h3>إنشاء حساب طالب جديد</h3><label>الاسم الكامل<input type="text" id="signupName" required minlength="3" autocomplete="name"></label><label>البريد الإلكتروني<input type="email" id="signupEmail" required autocomplete="email"></label><label>كلمة المرور (8 أحرف على الأقل)<input type="password" id="signupPassword" required minlength="8" autocomplete="new-password"></label><button class="primary" type="submit">إنشاء الحساب</button><p id="signupMessage" class="form-message" aria-live="polite"></p></form>
  <div class="notice">حساب الإدارة محصور في البريد المعتمد للأكاديمية. إنشاء الحسابات العامة يمنح صلاحية طالب فقط.</div></div>`;
- pageShell('الحسابات','سجّل الدخول أو أنشئ حساب طالب جديداً من داخل الأكاديمية.',user?`<div class="content-card"><h3>الحساب الحالي</h3><p>${esc(user.email)}</p><p>الدور: ${isAdmin()?'مدير الأكاديمية':'طالب'}</p><label>الاسم الكامل كما سيظهر في الشهادة<input id="studentFullName" value="${esc(user.user_metadata?.full_name||user.user_metadata?.name||'')}" placeholder="اكتب الاسم الكامل"></label><button class="primary" onclick="saveStudentName()">حفظ الاسم</button><button class="secondary" onclick="signOut()">تسجيل الخروج</button><p id="profileMsg" class="form-message"></p></div>`:formMarkup);
+ pageShell('الحسابات','سجّل الدخول أو أنشئ حساب طالب جديداً من داخل الأكاديمية.',user?`<div class="content-card"><h3>الحساب الحالي</h3><p>${esc(user.email)}</p><p>الدور: ${isAdmin()?'مدير الأكاديمية':'طالب'}</p><label>الاسم الكامل كما سيظهر في الشهادة<input id="studentFullName" value="${esc(user.user_metadata?.full_name||user.user_metadata?.name||'')}" placeholder="اكتب الاسم الكامل"></label><button class="primary" onclick="saveStudentName()">حفظ الاسم</button><button class="secondary" onclick="renderMyStudentPerformance()">لوحة أدائي الدراسي — Student Dashboard</button><button class="secondary" onclick="signOut()">تسجيل الخروج</button><p id="profileMsg" class="form-message"></p></div>`:formMarkup);
  const lf=document.getElementById('loginForm'),sf=document.getElementById('signupForm');
  const loginTab=document.getElementById('showLoginTab'),signupTab=document.getElementById('showSignupTab');
  if(loginTab&&signupTab){loginTab.onclick=()=>{lf.hidden=false;sf.hidden=true};signupTab.onclick=()=>{lf.hidden=true;sf.hidden=false}}
@@ -1018,4 +1018,28 @@ async function adminStudentPerformance(page=1,query=''){
    <small>ملاحظة تقنية: تُحمّل الواجهة حالياً حتى 1,000 حساب و10,000 سجل إكمال و10,000 محاولة في كل طلب؛ يلزم الانتقال إلى تجميع خادمي وصفحات قاعدة بيانات عند تجاوز هذه الحدود.</small>
    </div>`);
  }catch(e){pageShell('لوحة أداء الطلاب','تعذر تحميل إحصاءات الطلاب.',`<div class="content-card"><div class="notice">${esc(e.message||String(e))}</div><button class="secondary" onclick="renderAdmin()">العودة إلى الإدارة</button></div>`);}
+}
+
+async function renderMyStudentPerformance(){
+ if(!session?.user?.id){showPage('accounts');return}
+ const uid=encodeURIComponent(session.user.id);
+ pageShell('لوحة أدائي الدراسي','My Student Dashboard',`<div id="myStudentStats" class="content-card"><p>جارٍ تحميل بياناتك التعليمية…</p><p dir="rtl">يتم الآن تحميل تقدمك ونتائجك المحفوظة.</p></div>`);
+ try{
+  const [done,attempts]=await Promise.all([
+   rest('academy_lesson_completions',`select=lesson_id,completed_at&user_id=eq.${uid}&order=completed_at.desc`),
+   rest('academy_exam_attempts',`select=department_code,total_questions,correct_answers,score,passed,submitted_at,status&user_id=eq.${uid}&order=submitted_at.desc&limit=100`)
+  ]);
+  const lessons=[...new Set((done||[]).map(x=>String(x.lesson_id)))].length;
+  const exams=attempts||[],submitted=exams.filter(x=>x.submitted_at||x.status==='submitted');
+  const questions=submitted.reduce((n,x)=>n+Number(x.total_questions||0),0),correct=submitted.reduce((n,x)=>n+Number(x.correct_answers||0),0);
+  const accuracy=questions?Math.round(correct/questions*100):null;
+  const average=submitted.length?Math.round(submitted.reduce((n,x)=>n+Number(x.score??0),0)/submitted.length):null;
+  const rows=submitted.slice(0,10).map(x=>'<tr><td>'+esc(x.department_code||'—')+'</td><td>'+Number(x.total_questions||0)+'</td><td>'+Number(x.correct_answers||0)+'</td><td>'+esc(x.score===null||x.score===undefined?'—':x.score+'%')+'</td><td>'+((x.passed===true)?'ناجح':(x.passed===false?'لم يجتز':'—'))+'</td><td>'+esc(x.submitted_at?new Date(x.submitted_at).toLocaleDateString():'—')+'</td></tr>').join('');
+  const target=document.getElementById('myStudentStats');if(!target)return;
+  target.innerHTML=`<div class="stats"><div class="stat"><b>${lessons}</b><small>الدروس المكتملة</small></div><div class="stat"><b>${submitted.length}</b><small>الامتحانات المكتملة</small></div><div class="stat"><b>${accuracy===null?'—':accuracy+'%'}</b><small>دقة الإجابات</small></div><div class="stat"><b>${average===null?'—':average+'%'}</b><small>متوسط درجات الامتحانات</small></div></div>
+  <h3 dir="ltr" class="clinical-en">My examination history</h3><h3 dir="rtl" class="clinical-ar">سجل امتحاناتي</h3>
+  <div class="table-wrap"><table class="data-table"><thead><tr><th>القسم</th><th>الأسئلة</th><th>الصحيحة</th><th>الدرجة</th><th>النتيجة</th><th>التاريخ</th></tr></thead><tbody>${rows||'<tr><td colspan="6">لم تسجل أي امتحانات مكتملة بعد.</td></tr>'}</tbody></table></div>
+  <p dir="ltr" class="clinical-en">Only records saved under your account are shown here. Your learning data is private to your account.</p><p dir="rtl" class="clinical-ar">تعرض هذه اللوحة السجلات المحفوظة في حسابك فقط، ولا يستطيع الطلاب الآخرون الاطلاع على تقدمك أو نتائجك.</p>
+  <button class="secondary" onclick="showPage('accounts')">العودة إلى حسابي</button>`;
+ }catch(e){const t=document.getElementById('myStudentStats');if(t)t.innerHTML='<div class="notice">تعذر تحميل بياناتك: '+esc(e.message||String(e))+'</div><button class="secondary" onclick="renderMyStudentPerformance()">إعادة المحاولة</button>'}
 }
