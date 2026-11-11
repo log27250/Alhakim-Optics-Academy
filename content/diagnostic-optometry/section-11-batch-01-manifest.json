@@ -168,14 +168,96 @@
       "initial_question_count": 1,
       "question_type": "single_choice",
       "options_per_question": 4
+    },
+    {
+      "code": "DO-021-L01",
+      "title_en": "Fundus Fluorescein Angiography",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-022-L01",
+      "title_en": "Corneal Topography",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-023-L01",
+      "title_en": "Pachymetry",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-024-L01",
+      "title_en": "Specular Microscopy",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-025-L01",
+      "title_en": "Visual Field Testing Principles",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-026-L01",
+      "title_en": "Automated Perimetry",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-027-L01",
+      "title_en": "Humphrey Visual Field Interpretation",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-028-L01",
+      "title_en": "Goldmann Kinetic Perimetry",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-029-L01",
+      "title_en": "Color Vision Testing",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-030-L01",
+      "title_en": "Contrast Sensitivity Testing",
+      "status": "published",
+      "initial_question_count": 1,
+      "question_type": "single_choice",
+      "options_per_question": 4
     }
   ],
   "validation": {
-    "lessons_created": 20,
-    "questions_created": 20,
-    "options_created": 80,
-    "verified_in_supabase": true
+    "lessons_created": 30,
+    "questions_created": 30,
+    "options_created": 120,
+    "verified_in_supabase": true,
+    "verified_through": "2026-11-11",
+    "note": "Counts reflect 30 published lessons with one starter single-choice question and four options each. Question-bank expansion remains in progress."
   },
   "status": "in_progress",
-  "note": "This is a deployment manifest, not the complete lesson content export. The live academy lesson and assessment records are stored in Supabase. Each lesson currently has one starter MCQ; question banks must be expanded and the remaining department topics populated before marking the department complete."
+  "note": "Deployment manifest only; complete lesson content is stored in Supabase. Lessons DO-001 through DO-030 are published. Each currently has one starter MCQ; expand every lesson to a robust question bank before marking this department complete."
 }
