@@ -259,7 +259,14 @@
     "exactly_one_correct_answer_per_question": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms DO-001 through DO-030 each contain 10 single-choice questions, 4 options per question, and exactly one correct answer per question."
+    "note": "Supabase verification confirms DO-001 through DO-030 each contain 10 single-choice questions, 4 uniquely ordered options per question, and exactly one correct answer per question. Correct-answer positions are distributed across all four positions.",
+    "correct_answer_position_distribution": {
+      "1": 73,
+      "2": 94,
+      "3": 69,
+      "4": 64
+    },
+    "option_order_randomized": true
   },
   "status": "question_bank_expanded_for_existing_lessons",
   "note": "Deployment manifest only; complete lesson content and question bank are stored in Supabase. DO-001 through DO-030 are published and each has 10 verified English single-choice questions. No DO-031 or later lessons currently exist in Supabase; add new lessons only after confirming the approved section syllabus and sequence."
