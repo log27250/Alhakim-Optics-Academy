@@ -387,3 +387,29 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 ### Current release decision
 **NOT FINALLY APPROVED — approval withheld.** Although the database structure, reference coverage, and inline illustration coverage have been checked, the full scientific review of all 450 bank questions and all 110 final-exam items has not been completed. The available SQL tool returns large result sets truncated beyond the output limit; therefore a claim that every question, option, key and explanation was reviewed would be inaccurate. In addition, learner-interface rendering on mobile and desktop has not been exercised in a live browser session. The remaining work requires reviewable batches with full records and live application testing, not a blanket database update.
+
+
+## Follow-up verification — answer-key distribution and bilingual storage (2026-11-11)
+
+### Correct-answer position imbalance corrected
+- A fresh database-wide audit found a serious assessment presentation issue: 413 of 450 lesson-bank correct answers had been displayed in position 1 (32 in position 2, 5 in position 3 and none in position 4).
+- Reordered the four options for all 450 EINS bank questions without changing the option text, keyed answer, question stem or explanation.
+- The correction assigns the correct answer positions evenly by question: position 1 = 113, position 2 = 113, position 3 = 112, position 4 = 112.
+- Post-update verification confirms 450 questions; every question has exactly four options, four distinct display positions numbered 1–4, exactly one correct option, and no malformed option sets.
+- The 110-item final exam already has a balanced key-position distribution: 28, 28, 27 and 27 across positions 1–4, respectively. No final-exam option order was changed.
+
+### Bilingual lesson storage verified
+- Confirmed EINS-001–EINS-010 each contain Arabic characters embedded in `content_en`; their separate `content_ar` fields are empty. This is an existing inline bilingual storage pattern, not evidence that Arabic teaching text is absent.
+- Confirmed 35/45 lessons have a populated separate `content_ar` field. EINS-011–EINS-030 have shorter separate Arabic sections than EINS-031–EINS-045. The consistency and completeness of paragraph-by-paragraph Arabic explanation still need a content-level review; no automated conversion or overwriting was performed.
+
+### Explanation-length review
+- The current audit finds 18/450 bank explanations under 60 characters and 3/110 exam explanations under 60 characters. These are concise rationales and are not automatically incorrect; each must be judged against the concept and question. The prior claim that there were no short explanations under every possible threshold should not be interpreted as a universal content-quality guarantee.
+- The three short final-exam explanations concern approved cleaning materials, repeating poor-quality scans after correcting acquisition problems, and the converging action of a plus spherical lens. Their current rationales are factually consistent but concise.
+
+### Additional question-level screening
+- Retrieved and screened the 30 question records and all 120 options in EINS-006–EINS-008. The reviewed concepts include lensmeter/focimeter use, progressive-lens reference points, back-vertex power, prism measurement centration, autorefractor accommodation effects and limitations, retinoscopy working-distance calculations, reflex interpretation and neutrality.
+- No definite answer-key reversal was identified in this screening. Several incorrect options in these foundational topics are weak or implausible; a dedicated distractor-quality pass remains necessary.
+- The full question-by-question review of the remaining bank items and all 110 final-exam items is not complete. The automated structural audit does not replace this review.
+
+### Current decision
+**NOT FINALLY APPROVED.** The key-position imbalance has been corrected and independently read back successfully. Remaining approval gates are: complete scientific and distractor review of all 450 bank questions and 110 final-exam items; claim-to-reference verification for all 45 lessons; consistency and completeness review of bilingual lesson explanations; and live learner-interface testing on mobile and desktop, including SVG display, RTL/LTR layout, answer selection, scoring and attempt recording. This is an internal review, not external specialist accreditation.
