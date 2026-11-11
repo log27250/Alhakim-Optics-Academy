@@ -22,7 +22,7 @@ function toggleHakimCase(i,button){const box=document.getElementById('hakim-case
 
 function renderClinicalHub(){
 const items=[
-{icon:'📊',title:'Student Performance Dashboard',ar:'لوحة أداء الطالب',desc:'متابعة التقدم والإنجاز ونتائج الاختبارات ونقاط القوة والجوانب التي تحتاج إلى مراجعة.',status:'قيد التجهيز'},
+{icon:'📊',title:'Student Performance Dashboard',ar:'لوحة أداء الطالب',desc:'متابعة التقدم والإنجاز ونتائج الاختبارات ونقاط القوة والجوانب التي تحتاج إلى مراجعة.',status:'متاح الآن',active:true,action:'renderStudentPerformanceDashboard()'},
 {icon:'🩺',title:'Clinical Cases',ar:'الحالات السريرية',desc:'حالات سريرية تعليمية مع تحليل الأعراض والعلامات، والتشخيص التفريقي، والفحوصات، وخطة التدبير والإحالة.',status:'متاح الآن',active:true,action:"showPage('clinical-cases')"},
 {icon:'🖼️',title:'Image-Based Questions',ar:'الأسئلة المعتمدة على الصور',desc:'تدريب على تفسير صور قاع العين والجزء الأمامي والقرنية والمصباح الشقي وصور الأجهزة والنتائج السريرية.',status:'قيد التجهيز'},
 {icon:'📋',title:'OSCE Practical Training',ar:'التدريب العملي بنظام OSCE',desc:'محطات عملية منظمة تشمل خطوات الفحص، والتواصل مع المريض، وتفسير النتائج، وقوائم تقييم الأداء والمهارات.',status:'قيد التجهيز'},
@@ -31,4 +31,44 @@ const items=[
 {icon:'🎯',title:'Binocular Vision Simulator',ar:'محاكي الرؤية الثنائية',desc:'تدريب تفاعلي على الحول والاتزان العضلي، والـ phoria، والـ vergence، والـ accommodation واختبارات الرؤية الثنائية.',status:'قيد التجهيز'}
 ];
 pageShell('المهارات السريرية','سبعة مسارات تدريبية لتطوير مهارات الفحص والتفكير السريري والتطبيق العملي.','<div class="notice"><b>المهارات السريرية:</b> تضم هذه الصفحة المسارات السبعة المعتمدة للأكاديمية. المسارات التي لم تُفعّل بعد ستظهر بوضوح على أنها قيد التجهيز، ولن تُعرض كأنها تعمل قبل اكتمال تطويرها ومراجعتها علمياً.</div><div class="clinical-hub-grid">'+items.map((x,i)=>'<article class="clinical-hub-card"><div class="hub-icon">'+x.icon+'</div><span class="tag">'+(i+1)+'</span><h3>'+x.title+'</h3><b>'+x.ar+'</b><p>'+x.desc+'</p><span class="tag">'+x.status+'</span>'+(x.active?'<br><button class="primary" type="button" onclick="'+x.action+'">ابدأ التدريب ←</button>':'<br><button class="secondary" type="button" disabled aria-disabled="true">قيد التجهيز</button>')+'</article>').join('')+'</div>');
+}
+
+
+async function renderStudentPerformanceDashboard(){
+ if(!session?.user?.id){
+  pageShell('Student Performance Dashboard','لوحة أداء الطالب','<div class="content-card"><h3 dir="ltr" class="clinical-en">Sign in to view your personal learning analytics.</h3><p dir="rtl" class="clinical-ar">سجّل الدخول لعرض إحصاءات تعلمك وإنجازاتك الشخصية.</p><button class="primary" onclick="showPage(\'accounts\')">Sign in / تسجيل الدخول</button></div>');
+  return;
+ }
+ pageShell('Student Performance Dashboard','لوحة أداء الطالب','<div class="notice"><b>Personal learning record / سجل تعلم شخصي:</b><p dir="ltr" class="clinical-en">This dashboard uses learning-completion and practice-session records saved to your signed-in account. It does not invent scores or count a lesson merely because it was opened.</p><p dir="rtl" class="clinical-ar">تعتمد هذه اللوحة على سجلات إكمال الدروس وجلسات التدريب المحفوظة في حسابك. لا تُنشئ درجات افتراضية، ولا تعتبر الدرس مكتملاً لمجرد فتحه.</p></div><div id="studentDashboardContent" class="student-dashboard-grid"><div class="content-card">Loading your progress…<p dir="rtl" class="clinical-ar">جارٍ تحميل تقدمك الدراسي…</p></div></div>');
+ try{
+  const uid=encodeURIComponent(session.user.id);
+  const [completionRows,practiceRows]=await Promise.all([
+   rest('academy_lesson_completions',`select=lesson_id,completed_at&user_id=eq.${uid}&order=completed_at.desc`),
+   rest('practice_sessions',`select=id,total_questions,correct_answers,score_percent,completed_at&user_id=eq.${uid}&order=completed_at.desc`)
+  ]);
+  const uniqueCompleted=[...new Set((completionRows||[]).map(x=>String(x.lesson_id)))];
+  const published=(DB?.lessons||[]).filter(x=>x.status==='published');
+  const completedCount=uniqueCompleted.length;
+  const completionRate=published.length?Math.min(100,Math.round(completedCount/published.length*100)):0;
+  const sessions=practiceRows||[];
+  const totalQ=sessions.reduce((n,x)=>n+Number(x.total_questions||0),0);
+  const totalCorrect=sessions.reduce((n,x)=>n+Number(x.correct_answers||0),0);
+  const accuracy=totalQ?Math.round(totalCorrect/totalQ*100):0;
+  const average=sessions.length?Math.round(sessions.reduce((n,x)=>n+Number(x.score_percent??(Number(x.total_questions)?Number(x.correct_answers||0)/Number(x.total_questions)*100:0)),0)/sessions.length):0;
+  const recentLessons=(completionRows||[]).slice(0,5).map(x=>(DB?.lessons||[]).find(l=>String(l.id)===String(x.lesson_id))).filter(Boolean);
+  const metric=(en,ar,value,detailEn,detailAr)=>'<article class="content-card dashboard-metric"><h3 dir="ltr" class="clinical-en">'+en+'</h3><div class="dashboard-value">'+value+'</div><p dir="ltr" class="clinical-en">'+detailEn+'</p><p dir="rtl" class="clinical-ar">'+ar+' — '+detailAr+'</p></article>';
+  const target=document.getElementById('studentDashboardContent');
+  if(!target)return;
+  target.innerHTML=
+   metric('Completed lessons','الدروس المكتملة',completedCount,'Published lessons: '+published.length,'عدد المحاضرات المنشورة: '+published.length)+
+   metric('Curriculum completion','نسبة إنجاز المنهج',completionRate+'%','Based on completed published lessons','محسوبة من الدروس المنشورة التي أكملت دراستها')+
+   metric('Practice sessions','جلسات التدريب',sessions.length,'Saved sessions in your account','جلسات التدريب المحفوظة في حسابك')+
+   metric('Question accuracy','دقة الإجابات',totalQ?accuracy+'%':'—','Correct answers: '+totalCorrect+' / '+totalQ,'الإجابات الصحيحة: '+totalCorrect+' من '+totalQ)+
+   '<section class="content-card dashboard-wide"><h3 dir="ltr" class="clinical-en">Recent learning activity</h3><h3 dir="rtl" class="clinical-ar">أحدث الأنشطة التعليمية</h3>'+
+   (recentLessons.length?'<ul>'+recentLessons.map(l=>'<li><span dir="ltr" class="clinical-en">'+esc(l.title_en||'Lesson')+'</span>'+(l.title_ar?'<br><span dir="rtl" class="clinical-ar">'+esc(l.title_ar)+'</span>':'')+'</li>').join('')+'</ul>':'<p dir="ltr" class="clinical-en">No completed lessons have been recorded yet.</p><p dir="rtl" class="clinical-ar">لم يتم تسجيل إكمال أي درس حتى الآن. سيظهر نشاطك هنا بعد إكمال الدروس.</p>')+
+   '</section><section class="content-card dashboard-wide"><h3 dir="ltr" class="clinical-en">How your dashboard works</h3><p dir="ltr" class="clinical-en">Lesson completion is counted from saved completion records. Practice accuracy is calculated from submitted answers in recorded practice sessions. Empty records are shown as empty—not as zero performance.</p><p dir="rtl" class="clinical-ar">يُحسب إكمال الدروس من سجلات الإكمال المحفوظة. وتُحسب دقة التدريب من الإجابات المسجلة في جلسات التدريب. إذا لم توجد بيانات، فستظهر على أنها لا توجد بيانات بدلاً من اعتبارها أداءً صفرياً.</p></section>';
+ }catch(e){
+  const target=document.getElementById('studentDashboardContent');
+  if(target)target.innerHTML='<div class="notice"><b>Unable to load dashboard / تعذر تحميل لوحة الأداء</b><p dir="ltr" class="clinical-en">'+esc(e.message||String(e))+'</p><p dir="rtl" class="clinical-ar">تحقق من اتصالك بالإنترنت وتسجيل الدخول، ثم أعد المحاولة.</p><button class="secondary" onclick="renderStudentPerformanceDashboard()">Retry / إعادة المحاولة</button></div>';
+ }
 }
