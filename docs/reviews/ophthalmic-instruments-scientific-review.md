@@ -17,7 +17,7 @@ The latest independent Supabase audit confirms:
 - Arabic assessment fields are empty.
 - No missing or short explanations were found by the current minimum-length check.
 - All 45 lessons contain a references heading.
-- EINS-011–EINS-030 contain separate English and Arabic lesson-content fields. EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format. EINS-001–EINS-010 contain Arabic explanations inline within `content_en` while `content_ar` is empty; this is bilingual, but differs from the separate-field format used in EINS-011–EINS-030.
+- All 45 lessons contain Arabic teaching text in addition to English. EINS-001–EINS-010 store the bilingual text inline in `content_en` with an empty `content_ar`; EINS-011–EINS-030 also contain Arabic within the primary content and have separate Arabic fields; EINS-031–EINS-045 were rebuilt with interleaved English/Arabic paragraphs and retain separate Arabic fields.
 
 These checks establish structural integrity, not by themselves academic approval.
 
@@ -49,7 +49,7 @@ Topics include autokeratometry, phoropters, near-vision testing, pupillometry, P
 
 ### E. Lesson presentation and references
 - Rebuilt EINS-031–EINS-045 teaching content in a consistent bilingual sequence: English scientific paragraph followed by an Arabic explanatory paragraph.
-- EINS-011–EINS-030 retain separate English and Arabic fields; EINS-001–EINS-010 contain Arabic teaching text inline in `content_en`; presentation storage differs from the other lesson ranges.
+- All lesson ranges contain bilingual teaching text, but storage/rendering conventions differ: EINS-001–EINS-010 are inline in `content_en`, EINS-011–EINS-030 also use separate Arabic fields, and EINS-031–EINS-045 use interleaved bilingual paragraphs plus separate Arabic fields.
 - Added references to EINS-011–EINS-045, selected by topic:
   - Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
   - Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
