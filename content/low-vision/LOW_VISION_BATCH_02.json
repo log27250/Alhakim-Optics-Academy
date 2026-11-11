@@ -1,0 +1,2586 @@
+{
+  "department": "Low Vision",
+  "batch": "02",
+  "lessons": [
+    {
+      "id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+      "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+      "code": "LV-011-L01",
+      "title_en": "Reading Performance Assessment",
+      "title_ar": "تقييم أداء القراءة",
+      "level": "intermediate",
+      "content_en": "Reading assessment evaluates speed, accuracy, critical print size, fluency, comprehension, endurance and working distance. Isolated near acuity does not predict continuous reading. Use standardized print or continuous-text passages at controlled sizes and luminance. Record errors, reading speed, smallest print supporting near-maximum speed, symptoms and preferred posture. Optimize refraction, contrast and illumination before magnification trials. Central scotoma, crowding, reduced contrast and poor tracking may impair fluent reading. Confirm any aid with the patient's own reading material.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "نقيّم سرعة القراءة ودقتها وحجم الطباعة الحرج والطلاقة والفهم والتحمل ومسافة العمل. حدة القريب بالحروف المنفردة لا تتنبأ وحدها بالقراءة المتصلة. نسجل الأخطاء والسرعة وأصغر طباعة تحافظ على سرعة قريبة من القصوى والأعراض والوضعية. نصحح الانكسار ونحسن التباين والإضاءة قبل تجربة التكبير. قد تعيق العتمة المركزية والتزاحم وضعف التباين وتتبع السطر القراءة. يجب اختبار الوسيلة بنص يستخدمه المريض فعلياً.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Define critical print size.",
+        "Describe continuous-text testing.",
+        "Identify causes of slow reading.",
+        "Relate findings to rehabilitation."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 11,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "be2c6c7f-51e9-4564-9a59-5bdfb123c46d",
+          "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+          "lesson_id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+          "question_en": "Which measure identifies the smallest print that supports near-maximum reading speed?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Critical print size relates print size to fluent reading speed.",
+          "explanation_ar": "يربط حجم الطباعة الحرج بين حجم الحروف وسرعة القراءة الطليقة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "53cdc113-9e7c-4fae-8ffa-6c24863433fb",
+              "question_id": "be2c6c7f-51e9-4564-9a59-5bdfb123c46d",
+              "option_en": "Critical print size",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "d5cc295c-1cc4-4c97-8265-a78696ac14ee",
+              "question_id": "be2c6c7f-51e9-4564-9a59-5bdfb123c46d",
+              "option_en": "Distance acuity",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "576bd569-c345-4f9f-b863-714a28a305fb",
+              "question_id": "be2c6c7f-51e9-4564-9a59-5bdfb123c46d",
+              "option_en": "Pupil diameter",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "23734ce5-ce8a-4933-b8c2-840477b273a5",
+              "question_id": "be2c6c7f-51e9-4564-9a59-5bdfb123c46d",
+              "option_en": "Intraocular pressure",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "93574132-2112-4353-a867-7fe2f6cad286",
+          "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+          "lesson_id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+          "question_en": "Why is continuous text useful?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Continuous text reveals tracking and crowding problems.",
+          "explanation_ar": "النص المتصل يكشف مشكلات التتبع والتزاحم.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "6428b63c-dfc3-4ad1-98ed-5c8d4cd6cf0f",
+              "question_id": "93574132-2112-4353-a867-7fe2f6cad286",
+              "option_en": "It evaluates connected reading and fluency",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "014562b9-6a2c-4fc1-9d8f-f547de25062b",
+              "question_id": "93574132-2112-4353-a867-7fe2f6cad286",
+              "option_en": "It measures retinal thickness",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "836d6314-0d2f-4c46-8a19-378ace6ac57a",
+              "question_id": "93574132-2112-4353-a867-7fe2f6cad286",
+              "option_en": "It replaces refraction",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "4c23a5b0-1e80-4232-bfed-b161fd676d18",
+              "question_id": "93574132-2112-4353-a867-7fe2f6cad286",
+              "option_en": "It measures colour only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "62af747f-0532-40bf-9c8c-2cc47692a540",
+          "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+          "lesson_id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+          "question_en": "What should be optimized before magnification trials?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Correctable factors can reduce magnification needs.",
+          "explanation_ar": "العوامل القابلة للتعديل قد تقلل الحاجة للتكبير.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "b574a5af-49fa-4d1a-aae5-f473c069971d",
+              "question_id": "62af747f-0532-40bf-9c8c-2cc47692a540",
+              "option_en": "Refraction, contrast and illumination",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "aebaa6a6-8367-4b3e-9d58-517c717f90d6",
+              "question_id": "62af747f-0532-40bf-9c8c-2cc47692a540",
+              "option_en": "Only age",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "f7ae3772-b148-4cb3-b322-65a679d7a4d8",
+              "question_id": "62af747f-0532-40bf-9c8c-2cc47692a540",
+              "option_en": "Only handedness",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "4751237b-7ba2-4913-83a8-3b0eb5169273",
+              "question_id": "62af747f-0532-40bf-9c8c-2cc47692a540",
+              "option_en": "Lens tint alone",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "821879db-b6b2-4008-8868-9f4c502d8815",
+          "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+          "lesson_id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+          "question_en": "A patient reads letters but not sentences. Which may explain this?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Reading requires more than isolated letter recognition.",
+          "explanation_ar": "القراءة تتطلب أكثر من تمييز الحروف المنفردة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "92a044e0-8225-4a1b-b268-d4bbdc95df42",
+              "question_id": "821879db-b6b2-4008-8868-9f4c502d8815",
+              "option_en": "Crowding or central scotoma",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "106fc2c7-59cd-4b0f-8e98-c76e89a5070a",
+              "question_id": "821879db-b6b2-4008-8868-9f4c502d8815",
+              "option_en": "Normal tear film",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "59dea618-10e2-4afc-ab91-9f4c838284d4",
+              "question_id": "821879db-b6b2-4008-8868-9f4c502d8815",
+              "option_en": "Normal colour vision",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "be3a56ba-7408-4375-9e81-046f50d1dbd3",
+              "question_id": "821879db-b6b2-4008-8868-9f4c502d8815",
+              "option_en": "Stable IOP",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "55e368bf-f3a4-43b2-9500-5dc94325fd1a",
+          "topic_id": "1e2cff10-15a4-4e4b-bddf-2d7fb32ec18c",
+          "lesson_id": "6ce10fe6-0ac4-480b-834c-28a5d73a035a",
+          "question_en": "How should a reading aid be verified?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Real-task testing confirms functional benefit.",
+          "explanation_ar": "اختبار المهمة الحقيقية يؤكد الفائدة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "edfec656-82b8-420c-9b2a-dd502dd05b93",
+              "question_id": "55e368bf-f3a4-43b2-9500-5dc94325fd1a",
+              "option_en": "With the patient's real reading material",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "349eb6b3-1b59-4a11-a801-0710f73e765b",
+              "question_id": "55e368bf-f3a4-43b2-9500-5dc94325fd1a",
+              "option_en": "By appearance only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "b514ac84-9f59-41ea-aa9f-6a4698649870",
+              "question_id": "55e368bf-f3a4-43b2-9500-5dc94325fd1a",
+              "option_en": "By maximum power label",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "22921d67-9093-407b-a08c-54737aaa544a",
+              "question_id": "55e368bf-f3a4-43b2-9500-5dc94325fd1a",
+              "option_en": "Without training",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+      "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+      "code": "LV-012-L01",
+      "title_en": "Glare and Photophobia Assessment",
+      "title_ar": "تقييم الوهج ورهاب الضوء",
+      "level": "intermediate",
+      "content_en": "Glare is degradation or discomfort caused by excessive luminance or light scatter; photophobia is abnormal light intolerance. Distinguish discomfort glare from disability glare, which reduces task performance. Ask about sources, settings, onset, pain, redness, headache and effects on daily activities. Examine cornea, tear film, media and retina as indicated. Acute painful photophobia with redness requires prompt medical assessment. Trial environmental changes, brimmed hats, side shields, matte surfaces and filters in real settings. Darker filters are not automatically better because they may reduce useful light.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "الوهج تدهور أو انزعاج بسبب شدة الضوء أو تشتته، ورهاب الضوء هو عدم تحمل الضوء. نفرق بين الوهج المزعج والوهج الذي يقلل الأداء. نسأل عن المصادر والبيئة وبداية الأعراض والألم والاحمرار والصداع وتأثيرها اليومي. نفحص القرنية والدمع والأوساط والشبكية حسب الحاجة. الألم الحاد مع الاحمرار ورهاب الضوء يستدعي تقييماً طبياً عاجلاً. نجرب تعديل البيئة والقبعات والحواجز الجانبية والأسطح غير اللامعة والمرشحات. العدسة الأغمق ليست الأفضل دائماً لأنها قد تقلل الضوء المفيد.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Differentiate glare and photophobia.",
+        "Identify urgent symptoms.",
+        "Explain disability glare.",
+        "Select practical glare controls."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 12,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "da10385e-b9be-4c38-b642-699da5fc5e3d",
+          "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+          "lesson_id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+          "question_en": "Disability glare is best defined as:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Disability glare degrades the ability to see targets.",
+          "explanation_ar": "الوهج المعطل يقلل القدرة على رؤية الأهداف.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "70a92ac1-412b-4496-ac66-0131d07b4e60",
+              "question_id": "da10385e-b9be-4c38-b642-699da5fc5e3d",
+              "option_en": "Glare that reduces visual performance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "511122f6-76be-468f-84ee-ea753294f879",
+              "question_id": "da10385e-b9be-4c38-b642-699da5fc5e3d",
+              "option_en": "A preference for shade",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "38f046ad-67dd-4ab5-9712-ebefdf1516fa",
+              "question_id": "da10385e-b9be-4c38-b642-699da5fc5e3d",
+              "option_en": "Total blindness",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "d963630b-7a47-4166-aee0-1fc42bd174b7",
+              "question_id": "da10385e-b9be-4c38-b642-699da5fc5e3d",
+              "option_en": "A refractive error",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "8f4861bb-7913-4d40-b7d6-df8f4e59a109",
+          "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+          "lesson_id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+          "question_en": "Photophobia means:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Photophobia is abnormal sensitivity or discomfort to light.",
+          "explanation_ar": "رهاب الضوء هو حساسية أو انزعاج غير طبيعي من الضوء.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "93136d5b-9661-462e-92a1-26de3601f49b",
+              "question_id": "8f4861bb-7913-4d40-b7d6-df8f4e59a109",
+              "option_en": "Abnormal light intolerance or discomfort",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "815a2331-645d-482b-b8f4-a5011eb9a948",
+              "question_id": "8f4861bb-7913-4d40-b7d6-df8f4e59a109",
+              "option_en": "Reduced field in all cases",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "8980ba67-55fa-4eae-b057-b45f666c269a",
+              "question_id": "8f4861bb-7913-4d40-b7d6-df8f4e59a109",
+              "option_en": "Normal dark adaptation",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "4224d504-49bd-4c0f-aa50-8b57cba55b15",
+              "question_id": "8f4861bb-7913-4d40-b7d6-df8f4e59a109",
+              "option_en": "Myopia",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "df7538e4-fb8d-450f-815f-566cfcfbb60e",
+          "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+          "lesson_id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+          "question_en": "Which presentation needs prompt medical assessment?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Painful red eye with photophobia may signal urgent ocular disease.",
+          "explanation_ar": "الألم والاحمرار مع رهاب الضوء قد يشيران إلى مرض عاجل.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "d1fffcb2-5545-47cf-a6d8-d9e889db7141",
+              "question_id": "df7538e4-fb8d-450f-815f-566cfcfbb60e",
+              "option_en": "Acute painful photophobia with red eye",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "8cebe4d3-9bb5-48bf-b3cf-94191a479d9f",
+              "question_id": "df7538e4-fb8d-450f-815f-566cfcfbb60e",
+              "option_en": "Stable mild preference for shade",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "d85742b8-1fba-4326-bed4-746cfecd21bd",
+              "question_id": "df7538e4-fb8d-450f-815f-566cfcfbb60e",
+              "option_en": "Glare from glossy paper only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "e3ecbe79-f311-4931-8f7a-5b5c9c35b941",
+              "question_id": "df7538e4-fb8d-450f-815f-566cfcfbb60e",
+              "option_en": "Long-standing mild light sensitivity",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+          "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+          "lesson_id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+          "question_en": "Which statement distinguishes discomfort from disability glare?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "The distinction separates symptoms from functional degradation.",
+          "explanation_ar": "التمييز يفصل الانزعاج عن تدهور الأداء.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "0b4d738b-ec17-4aab-b13d-d1b719abcb55",
+              "question_id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+              "option_en": "Discomfort causes annoyance; disability reduces performance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "d9184d8d-8037-416e-83f7-22192a365ffb",
+              "question_id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+              "option_en": "They are identical",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "3b89b714-9a2d-4124-905b-340e3347e37f",
+              "question_id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+              "option_en": "Discomfort always damages retina",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "8fb16d31-660c-48d7-876b-791a9e7dd1fe",
+              "question_id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+              "option_en": "Disability is psychological only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "d29f297f-fea9-4b10-a210-9f564f6afc41",
+          "topic_id": "46bcfc8a-dae7-489d-9cb1-c032838e3b61",
+          "lesson_id": "4849185a-5c84-4eee-b0cd-de5e5e42bf12",
+          "question_en": "Why not prescribe the darkest filter automatically?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "A dark filter may worsen visibility in low illumination.",
+          "explanation_ar": "المرشح الداكن قد يضعف الرؤية في الإضاءة المنخفضة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "ce27ebbe-6bea-417a-bc13-39239d8c3e0d",
+              "question_id": "d29f297f-fea9-4b10-a210-9f564f6afc41",
+              "option_en": "It may reduce useful light",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "c6d87d5d-4bc4-4aae-90b6-9afc0c2233a4",
+              "question_id": "d29f297f-fea9-4b10-a210-9f564f6afc41",
+              "option_en": "It cures retinal disease",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "31328cc3-a2a3-4e89-8a63-14cae52ebfff",
+              "question_id": "d29f297f-fea9-4b10-a210-9f564f6afc41",
+              "option_en": "It always improves contrast",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "0e0af043-7e1d-44a7-a46b-72d0b7c6f55c",
+              "question_id": "d29f297f-fea9-4b10-a210-9f564f6afc41",
+              "option_en": "It eliminates all glare",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+      "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+      "code": "LV-013-L01",
+      "title_en": "Lighting and Illumination Requirements",
+      "title_ar": "متطلبات الإضاءة",
+      "level": "intermediate",
+      "content_en": "Lighting quality depends on illuminance, luminance, direction, uniformity, contrast, reflections and adaptation. More light is not always better: some patients benefit from task lighting while others experience glare or photophobia. Assess the actual task, working distance, shadows and reflective surfaces. Direct adjustable task lighting onto the material, not into the eyes. Use diffuse ambient lighting for mobility, reduce abrupt luminance transitions and prefer matte finishes. Determine a comfortable effective level by functional trial rather than applying one lux value to everyone.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "تعتمد جودة الإضاءة على الشدة والسطوع والاتجاه والتجانس والتباين والانعكاس والتكيف. زيادة الضوء ليست أفضل دائماً؛ فبعض المرضى يستفيدون من إضاءة المهمة وآخرون يعانون الوهج. نقيم المهمة ومسافة العمل والظلال والأسطح العاكسة. نوجه المصباح إلى المادة لا إلى العين. نستخدم إضاءة منتشرة للحركة ونقلل الانتقال المفاجئ في السطوع ونفضل الأسطح غير اللامعة. نحدد المستوى المناسب بالتجربة الوظيفية لا بقيمة لوكس واحدة للجميع.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Explain lighting variables.",
+        "Match lighting to task.",
+        "Reduce reflections and glare.",
+        "Evaluate comfort and performance."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 13,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "c6210041-9e39-401c-934d-ac62275a1054",
+          "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+          "lesson_id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+          "question_en": "Which factor is part of lighting quality?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Lighting quality includes direction, distribution and reflections.",
+          "explanation_ar": "تشمل جودة الإضاءة الاتجاه والتوزيع والانعكاسات.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "f0ab612c-1534-4d51-ac58-45870d074776",
+              "question_id": "c6210041-9e39-401c-934d-ac62275a1054",
+              "option_en": "Direction and uniformity",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "48976f36-a41a-4d23-9028-f986540427c9",
+              "question_id": "c6210041-9e39-401c-934d-ac62275a1054",
+              "option_en": "Hair colour",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "442d2548-7d56-4129-8911-5f14361c4da3",
+              "question_id": "c6210041-9e39-401c-934d-ac62275a1054",
+              "option_en": "Handedness",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "1e9aac47-bab3-425f-97a2-79c33a9869c7",
+              "question_id": "c6210041-9e39-401c-934d-ac62275a1054",
+              "option_en": "Pupil colour only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "489bf1d0-6b16-4a1e-80bd-c3f85b953ead",
+          "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+          "lesson_id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+          "question_en": "Where should a task lamp be directed?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "This improves target illumination while limiting glare.",
+          "explanation_ar": "هذا يحسن إضاءة الهدف ويقلل الوهج.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "b4680b81-cd40-4136-a9dc-42e166663bb7",
+              "question_id": "489bf1d0-6b16-4a1e-80bd-c3f85b953ead",
+              "option_en": "Onto the task, away from the eyes",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "4d6223e0-cac4-4dab-b0c0-754fc2939028",
+              "question_id": "489bf1d0-6b16-4a1e-80bd-c3f85b953ead",
+              "option_en": "Directly into the eyes",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "a9898de9-c0d1-4650-b6de-ea581c5b4bfc",
+              "question_id": "489bf1d0-6b16-4a1e-80bd-c3f85b953ead",
+              "option_en": "At a glossy mirror",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "16e885e8-ef2a-465c-836a-7e5eb472b082",
+              "question_id": "489bf1d0-6b16-4a1e-80bd-c3f85b953ead",
+              "option_en": "Behind the patient only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "e6725f16-266a-4d8f-94a6-37a6e85f2b08",
+          "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+          "lesson_id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+          "question_en": "Why is brighter lighting not always better?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Optimal lighting is individualized.",
+          "explanation_ar": "الإضاءة المثلى تختلف حسب المريض.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "839bfc6e-3aa7-45d2-bbdf-ff735a97a1d6",
+              "question_id": "e6725f16-266a-4d8f-94a6-37a6e85f2b08",
+              "option_en": "It can worsen glare or photophobia",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "e74b9ad0-f343-4578-930d-fe641be8e7e3",
+              "question_id": "e6725f16-266a-4d8f-94a6-37a6e85f2b08",
+              "option_en": "It always reduces contrast",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "228bd160-7e35-4df9-b73d-9d8899106054",
+              "question_id": "e6725f16-266a-4d8f-94a6-37a6e85f2b08",
+              "option_en": "It causes myopia",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "a4b19bbb-559b-4609-9138-3f04ac45ad4c",
+              "question_id": "e6725f16-266a-4d8f-94a6-37a6e85f2b08",
+              "option_en": "It replaces refraction",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "0c2eee89-b1ec-4845-ada0-0c419cb90443",
+          "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+          "lesson_id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+          "question_en": "Which surface reduces specular reflections?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Matte finishes reduce distracting reflections.",
+          "explanation_ar": "الأسطح غير اللامعة تقلل الانعكاسات المشتتة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "6b7fb979-c4db-4f7c-a3fd-2d503e021aa2",
+              "question_id": "0c2eee89-b1ec-4845-ada0-0c419cb90443",
+              "option_en": "Matte surface",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "db8bbc0d-0b0f-44a7-89e9-b74c4fe6301d",
+              "question_id": "0c2eee89-b1ec-4845-ada0-0c419cb90443",
+              "option_en": "Polished glossy surface",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "76f78b5a-1f22-4f45-a748-33984e323c08",
+              "question_id": "0c2eee89-b1ec-4845-ada0-0c419cb90443",
+              "option_en": "Mirror",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "64941f79-66d9-4f0f-b6c4-a4259f517514",
+              "question_id": "0c2eee89-b1ec-4845-ada0-0c419cb90443",
+              "option_en": "Reflective foil",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+          "topic_id": "876f4fdb-7001-4e94-9271-65aeea509d67",
+          "lesson_id": "063a2cfb-9cba-4631-8460-01daceb968a8",
+          "question_en": "How should illumination be selected?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Functional trials account for individual needs.",
+          "explanation_ar": "التجربة الوظيفية تراعي احتياجات كل مريض.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "627e2c70-6974-4b63-8823-559425cdc6b0",
+              "question_id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+              "option_en": "By task performance and comfort in context",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "3122b3fb-eddc-409a-a703-a7cd5dc892c2",
+              "question_id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+              "option_en": "One lux value for all",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "4b7c4caa-0c05-43ed-b601-9aa69e804a49",
+              "question_id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+              "option_en": "Age alone",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "62c4aaa2-e2e3-4a76-99da-79f3d3eedecc",
+              "question_id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+              "option_en": "Lamp packaging",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+      "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+      "code": "LV-014-L01",
+      "title_en": "Magnification Principles",
+      "title_ar": "مبادئ التكبير",
+      "level": "intermediate",
+      "content_en": "Magnification increases apparent angular size or retinal image size. It is task-specific and should be considered after refraction, illumination and contrast are optimized. Methods include relative distance, relative size, angular and electronic magnification. Higher magnification commonly reduces field of view and may shorten working distance. Consider target size, posture, dexterity, field, endurance and task type. Prescribe the lowest effective magnification and train the patient in focusing and scanning. Magnification does not repair retinal damage or restore lost visual field.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "يزيد التكبير الحجم الزاوي الظاهري أو حجم الصورة الشبكية. وهو مرتبط بالمهمة ويأتي بعد تحسين الانكسار والإضاءة والتباين. تشمل الطرق التكبير بالمسافة والحجم والزاوية والإلكتروني. زيادة التكبير غالباً تضيق المجال وقد تقصر مسافة العمل. نراعي حجم الهدف والوضعية والبراعة والمجال والتحمل وطبيعة المهمة. نختار أقل تكبير فعال وندرب المريض على التركيز والمسح. التكبير لا يصلح تلف الشبكية ولا يعيد المجال المفقود.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Define magnification.",
+        "Compare magnification methods.",
+        "Explain field-of-view trade-offs.",
+        "Apply task-based selection."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 14,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "25f273a2-4a87-4202-a901-57bedbeb0a07",
+          "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+          "lesson_id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+          "question_en": "Magnification primarily makes a target:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Magnification increases apparent target size.",
+          "explanation_ar": "التكبير يزيد الحجم الظاهري للهدف.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "58867228-dd1a-47e1-a0ab-206b1579227b",
+              "question_id": "25f273a2-4a87-4202-a901-57bedbeb0a07",
+              "option_en": "Appear larger",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "14ed7401-12c7-4ced-b3b9-3e778ca6f7ef",
+              "question_id": "25f273a2-4a87-4202-a901-57bedbeb0a07",
+              "option_en": "Regenerate retina",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "9061b09b-0ec7-4b37-acec-c8b18ecc1b2e",
+              "question_id": "25f273a2-4a87-4202-a901-57bedbeb0a07",
+              "option_en": "Expand anatomical field",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "e1acc78c-bad5-4ed8-bdcb-f616382bcd15",
+              "question_id": "25f273a2-4a87-4202-a901-57bedbeb0a07",
+              "option_en": "Treat optic neuropathy",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "7aec9208-d66c-4bdf-87ea-90c18d9457dc",
+          "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+          "lesson_id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+          "question_en": "A common trade-off of higher magnification is:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Higher magnification generally shows a smaller area.",
+          "explanation_ar": "التكبير الأعلى يعرض مساحة أصغر غالباً.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "25df28c0-9be9-4b4d-846a-c485f03437ea",
+              "question_id": "7aec9208-d66c-4bdf-87ea-90c18d9457dc",
+              "option_en": "Reduced field of view",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "2486471a-1e10-4470-b3dc-5090b7f34064",
+              "question_id": "7aec9208-d66c-4bdf-87ea-90c18d9457dc",
+              "option_en": "Wider field always",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "33bce238-ee41-4f2f-9717-724b4a08ded4",
+              "question_id": "7aec9208-d66c-4bdf-87ea-90c18d9457dc",
+              "option_en": "Restored peripheral vision",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "7d86cb04-6b3f-4eb6-b18a-f2d1eccb2492",
+              "question_id": "7aec9208-d66c-4bdf-87ea-90c18d9457dc",
+              "option_en": "No scanning needed",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "238a9e48-911d-4f82-bcd8-c20359eecd46",
+          "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+          "lesson_id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+          "question_en": "What should precede magnification selection?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Correctable factors should be addressed first.",
+          "explanation_ar": "يجب معالجة العوامل القابلة للتصحيح أولاً.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "eb38dcf9-b128-4ff7-8ccf-a34a2ce75f1f",
+              "question_id": "238a9e48-911d-4f82-bcd8-c20359eecd46",
+              "option_en": "Optimize refraction, lighting and contrast",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "59778e7a-9131-43ba-ab75-72132a99f90c",
+              "question_id": "238a9e48-911d-4f82-bcd8-c20359eecd46",
+              "option_en": "Choose strongest device",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "95fa3f8b-b5d6-4046-910a-281fe2fe9868",
+              "question_id": "238a9e48-911d-4f82-bcd8-c20359eecd46",
+              "option_en": "Ignore task",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "c1f71e66-5036-4b16-9001-a4fa84ac6156",
+              "question_id": "238a9e48-911d-4f82-bcd8-c20359eecd46",
+              "option_en": "Measure IOP only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+          "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+          "lesson_id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+          "question_en": "Why choose the lowest effective magnification?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Excess power may impair field and handling.",
+          "explanation_ar": "القوة الزائدة قد تضر المجال وسهولة الاستخدام.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "cb21fb14-cf83-429f-b9d4-e9ad8dc75924",
+              "question_id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+              "option_en": "It may preserve more field and working distance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "dd755bcf-2230-4b35-8811-fae8ce7633a9",
+              "question_id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+              "option_en": "It restores normal acuity",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "c74d0c53-11f7-4324-ba5a-1686f4df6eb5",
+              "question_id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+              "option_en": "It removes scotomas",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "2ab8eb6c-cd26-4312-8345-11de6c9002a8",
+              "question_id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+              "option_en": "It prevents disease",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "e7f0c4f7-f765-4747-b496-ca88bf8ea953",
+          "topic_id": "41c00e54-66c8-4eeb-9e1d-dc06758a8aaf",
+          "lesson_id": "c7090a82-c2cd-4fdd-9e45-233c7435f023",
+          "question_en": "Which factor guides device choice?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Device choice must match the task.",
+          "explanation_ar": "يجب أن تناسب الوسيلة المهمة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "af1d4b8c-3bfa-4227-ab3a-21c314be00c5",
+              "question_id": "e7f0c4f7-f765-4747-b496-ca88bf8ea953",
+              "option_en": "Specific functional task",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "1e54a24e-1ead-4f00-95d9-413256513e4a",
+              "question_id": "e7f0c4f7-f765-4747-b496-ca88bf8ea953",
+              "option_en": "Device colour",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "854bc497-92ee-48e0-abf5-240497ecbc16",
+              "question_id": "e7f0c4f7-f765-4747-b496-ca88bf8ea953",
+              "option_en": "Brand preference",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "53e5a456-56ef-41e0-9c9c-068e57e7444a",
+              "question_id": "e7f0c4f7-f765-4747-b496-ca88bf8ea953",
+              "option_en": "Patient height",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+      "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+      "code": "LV-015-L01",
+      "title_en": "Relative Distance Magnification",
+      "title_ar": "التكبير النسبي بالمسافة",
+      "level": "intermediate",
+      "content_en": "Relative distance magnification occurs when viewing distance is reduced while target size remains constant. Magnification equals original distance divided by new distance; moving from 40 cm to 20 cm gives approximately 2×. It is simple and cost-free but requires adequate focus, near correction when indicated, illumination and comfortable posture. Very close viewing can cause neck strain, restrict the field and make scanning difficult. Trial the method with the patient's actual task and correction.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "يحدث التكبير النسبي بالمسافة عند تقليل مسافة النظر مع ثبات حجم الهدف. القوة تساوي المسافة الأصلية مقسومة على الجديدة؛ الانتقال من 40 إلى 20 سم يعطي نحو 2×. الطريقة بسيطة ومجانية لكنها تتطلب تركيزاً وتصحيحاً قريباً عند الحاجة وإضاءة ووضعية مريحة. الاقتراب الشديد قد يسبب إجهاد الرقبة ويضيق المجال ويصعب المسح. نجرب الطريقة مع المهمة والتصحيح الفعليين.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Define relative distance magnification.",
+        "Calculate distance ratios.",
+        "Identify posture limitations.",
+        "Assess near correction."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 15,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "448dd3e8-d369-45ac-80d3-421dee0138bf",
+          "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+          "lesson_id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+          "question_en": "Relative distance magnification is produced by:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Reducing viewing distance increases angular size.",
+          "explanation_ar": "تقليل المسافة يزيد الحجم الزاوي.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "42cf96bc-64b7-43f7-b55f-37db006670d3",
+              "question_id": "448dd3e8-d369-45ac-80d3-421dee0138bf",
+              "option_en": "Moving the target closer",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "b113ee56-d13e-4fd9-82eb-a33e454b0e67",
+              "question_id": "448dd3e8-d369-45ac-80d3-421dee0138bf",
+              "option_en": "Enlarging print",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "e0cd5cbe-dd54-40d4-bba9-a87bf733c8a4",
+              "question_id": "448dd3e8-d369-45ac-80d3-421dee0138bf",
+              "option_en": "Changing room colour",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "14c3b640-3d85-4173-bc69-4307793ed98e",
+              "question_id": "448dd3e8-d369-45ac-80d3-421dee0138bf",
+              "option_en": "Using a prism",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "2859fdd8-868c-4eb0-8252-702ed49fbf54",
+          "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+          "lesson_id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+          "question_en": "Moving from 40 cm to 20 cm gives approximately:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "40 divided by 20 equals 2.",
+          "explanation_ar": "40 مقسومة على 20 تساوي 2.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "4310a913-68ed-4f2e-bd2e-d94f6a80a6a3",
+              "question_id": "2859fdd8-868c-4eb0-8252-702ed49fbf54",
+              "option_en": "2×",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "9f06aa46-e878-46b4-b744-dcbc271a7538",
+              "question_id": "2859fdd8-868c-4eb0-8252-702ed49fbf54",
+              "option_en": "0.5×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "7ca8da89-d2ae-4a95-a951-f0855f2cafa2",
+              "question_id": "2859fdd8-868c-4eb0-8252-702ed49fbf54",
+              "option_en": "4×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "b9444787-8174-461c-a380-f1f74d0a318d",
+              "question_id": "2859fdd8-868c-4eb0-8252-702ed49fbf54",
+              "option_en": "8×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "c9965469-f6e2-437a-b22c-571289bb2708",
+          "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+          "lesson_id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+          "question_en": "A shorter working distance may require:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Closer viewing increases accommodative demand.",
+          "explanation_ar": "النظر الأقرب يزيد الطلب على المطابقة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "221581d0-cbb9-4842-9a40-4869d2cbdd66",
+              "question_id": "c9965469-f6e2-437a-b22c-571289bb2708",
+              "option_en": "Appropriate near addition",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "aff7f747-8cd9-43fd-95f2-0409ac7a5f9f",
+              "question_id": "c9965469-f6e2-437a-b22c-571289bb2708",
+              "option_en": "Distance prism always",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "79ca26dc-40d3-4083-8cfb-93f3a145d884",
+              "question_id": "c9965469-f6e2-437a-b22c-571289bb2708",
+              "option_en": "No refraction",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "076a12f6-3dba-4ae4-a4c8-b231d830c509",
+              "question_id": "c9965469-f6e2-437a-b22c-571289bb2708",
+              "option_en": "Minus lens automatically",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+          "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+          "lesson_id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+          "question_en": "A limitation of very close viewing is:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Close posture may be uncomfortable and restrict scanning.",
+          "explanation_ar": "الوضعية القريبة قد تكون غير مريحة وتحد المسح.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "d35a448b-c1bc-454b-9f60-14a8479fb369",
+              "question_id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+              "option_en": "Neck strain and restricted field",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "a814580c-bee2-4fac-bc67-efc66a6e26b1",
+              "question_id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+              "option_en": "Need for electronics",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "5c18e264-d757-43e3-afc6-aaad46eae224",
+              "question_id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+              "option_en": "Reduced angular size",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "ed3be089-4bcc-49d2-bf87-d29a481d63d2",
+              "question_id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+              "option_en": "Cannot read print",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "a9ca3f12-43d6-4e24-a523-65f6b1b6bee6",
+          "topic_id": "4cd6f743-d556-4e54-bda4-2cf218272f62",
+          "lesson_id": "203e8f5b-0abf-4b42-b994-d2025b5254b5",
+          "question_en": "What is the best clinical approach?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "A functional trial checks focus and comfort.",
+          "explanation_ar": "التجربة تفحص التركيز والراحة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "7be7b1ae-b2b2-4734-9306-72a3fc608104",
+              "question_id": "a9ca3f12-43d6-4e24-a523-65f6b1b6bee6",
+              "option_en": "Trial with correction and comfortable posture",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "11b79579-9354-4e78-8102-8ed345220013",
+              "question_id": "a9ca3f12-43d6-4e24-a523-65f6b1b6bee6",
+              "option_en": "Recommend closest distance to all",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "8fb71ae5-6481-4854-add2-bd55ae19e561",
+              "question_id": "a9ca3f12-43d6-4e24-a523-65f6b1b6bee6",
+              "option_en": "Ignore symptoms",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "be7d71ad-9011-4df8-8aee-70a2297c8e57",
+              "question_id": "a9ca3f12-43d6-4e24-a523-65f6b1b6bee6",
+              "option_en": "Use only after surgery",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+      "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+      "code": "LV-016-L01",
+      "title_en": "Relative Size Magnification",
+      "title_ar": "التكبير النسبي بالحجم",
+      "level": "intermediate",
+      "content_en": "Relative size magnification enlarges the physical target while viewing distance remains unchanged. Magnification is enlarged linear size divided by original size; doubling print dimensions gives 2×. Examples include large-print books, enlarged labels and digital text. It can support comfortable sustained reading without a close working distance, but enlarged material occupies more space and may require scrolling or page turning. Check character quality, contrast and line length after enlargement.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "يزيد التكبير النسبي بالحجم الأبعاد الفعلية للهدف مع ثبات مسافة النظر. القوة تساوي الحجم الخطي المكبر مقسوماً على الأصلي؛ مضاعفة حجم الحروف تعطي 2×. من أمثلته الكتب والملصقات والنصوص الرقمية المكبرة. قد يريح القراءة الطويلة دون تقريب المادة، لكنه يشغل مساحة أكبر وقد يتطلب تمريراً أو تقليباً. نتحقق من وضوح الحروف والتباين وطول السطر بعد التكبير.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Define relative size magnification.",
+        "Calculate enlargement ratio.",
+        "Identify benefits and limitations.",
+        "Assess print quality."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 16,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "13f8445e-44c8-4ece-9a61-e19fb86e2a8d",
+          "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+          "lesson_id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+          "question_en": "Relative size magnification involves:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "The material itself is enlarged.",
+          "explanation_ar": "تتم زيادة الحجم الفعلي للمادة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "351ed2db-f98f-48f5-a185-6bf6b3d4d72c",
+              "question_id": "13f8445e-44c8-4ece-9a61-e19fb86e2a8d",
+              "option_en": "Increasing physical target size",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "f6a42bdc-82af-4fa8-accf-cb82cc18b12b",
+              "question_id": "13f8445e-44c8-4ece-9a61-e19fb86e2a8d",
+              "option_en": "Moving target closer only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "891fe1ee-4358-49e7-bcc2-05ea3fd0bd0a",
+              "question_id": "13f8445e-44c8-4ece-9a61-e19fb86e2a8d",
+              "option_en": "Increasing light only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "98b26109-bf4a-4585-9363-74113dd76979",
+              "question_id": "13f8445e-44c8-4ece-9a61-e19fb86e2a8d",
+              "option_en": "Using prism",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "101c1b68-da2c-4b18-9fe0-7e61ed517f7a",
+          "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+          "lesson_id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+          "question_en": "Print enlarged from 5 mm to 10 mm provides:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "10 divided by 5 equals 2.",
+          "explanation_ar": "10 مقسومة على 5 تساوي 2.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "9cec9d11-f78d-4313-964e-bcb1be2294f7",
+              "question_id": "101c1b68-da2c-4b18-9fe0-7e61ed517f7a",
+              "option_en": "2×",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "bb4815b0-a532-40dc-94d7-49ceb880349c",
+              "question_id": "101c1b68-da2c-4b18-9fe0-7e61ed517f7a",
+              "option_en": "0.5×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "92d4f1b9-14b3-4b10-bc56-991304b8a7c0",
+              "question_id": "101c1b68-da2c-4b18-9fe0-7e61ed517f7a",
+              "option_en": "5×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "d67ed41d-61d2-4a4c-b2a2-734f68c0f5de",
+              "question_id": "101c1b68-da2c-4b18-9fe0-7e61ed517f7a",
+              "option_en": "10×",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "441ec276-e3fe-4544-be5c-e352d5c031a9",
+          "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+          "lesson_id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+          "question_en": "Which is an example?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Large print increases physical target size.",
+          "explanation_ar": "الطباعة الكبيرة تزيد الحجم الفعلي.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "6a873be9-e6aa-4d38-8377-d14c0a43ecb6",
+              "question_id": "441ec276-e3fe-4544-be5c-e352d5c031a9",
+              "option_en": "Large-print book",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "b318173c-f356-4657-a503-2c52a11cea1c",
+              "question_id": "441ec276-e3fe-4544-be5c-e352d5c031a9",
+              "option_en": "Telescope for distance",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "c5466f30-d782-4013-94fc-d7a8a7f6286a",
+              "question_id": "441ec276-e3fe-4544-be5c-e352d5c031a9",
+              "option_en": "Retinoscope",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "5854ba2b-4c5c-4cc5-8d4a-764be40c9fe7",
+              "question_id": "441ec276-e3fe-4544-be5c-e352d5c031a9",
+              "option_en": "Trial prism",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "c55142b3-6ed7-4b31-a0f1-0d1fa4fb5fe4",
+          "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+          "lesson_id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+          "question_en": "A limitation is that enlarged material:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Larger print may require more pages or scrolling.",
+          "explanation_ar": "الحروف الأكبر قد تتطلب صفحات أو تمريراً أكثر.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "630d39ca-e787-4e07-a3af-e7f7aefd1eaa",
+              "question_id": "c55142b3-6ed7-4b31-a0f1-0d1fa4fb5fe4",
+              "option_en": "Occupies more space",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "b8cfb095-02ed-4b2b-b4cf-56a4ba8a3933",
+              "question_id": "c55142b3-6ed7-4b31-a0f1-0d1fa4fb5fe4",
+              "option_en": "Cannot enlarge letters",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "99969833-f9ba-4b03-bdb4-c200df2143c7",
+              "question_id": "c55142b3-6ed7-4b31-a0f1-0d1fa4fb5fe4",
+              "option_en": "Always causes glare",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "f4b873fd-195b-4663-9f4a-5e613d0e7ef8",
+              "question_id": "c55142b3-6ed7-4b31-a0f1-0d1fa4fb5fe4",
+              "option_en": "Requires surgery",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "34431069-7a32-4a83-9f74-63526f5205f2",
+          "topic_id": "24f878e0-d34b-4bac-9997-b2e3027b771c",
+          "lesson_id": "4739f0dd-048b-41e5-8d5c-4fdd839db419",
+          "question_en": "What should be checked after enlargement?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Poor enlargement may blur or distort text.",
+          "explanation_ar": "التكبير الرديء قد يطمس النص أو يشوهه.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "e28aad69-fced-480d-a123-4bc1ddb13b6a",
+              "question_id": "34431069-7a32-4a83-9f74-63526f5205f2",
+              "option_en": "Contrast and character distortion",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "195ceb55-af2d-456e-bc46-3a25347d3453",
+              "question_id": "34431069-7a32-4a83-9f74-63526f5205f2",
+              "option_en": "Paper weight only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "1611aedc-e4ed-4a7c-bfac-243a1705d318",
+              "question_id": "34431069-7a32-4a83-9f74-63526f5205f2",
+              "option_en": "Printer model",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "e247199d-ee22-4b4f-bade-02c8fbc8f4a1",
+              "question_id": "34431069-7a32-4a83-9f74-63526f5205f2",
+              "option_en": "Page colour only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+      "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+      "code": "LV-017-L01",
+      "title_en": "Angular Magnification",
+      "title_ar": "التكبير الزاوي",
+      "level": "intermediate",
+      "content_en": "Angular magnification is the ratio of the visual angle through an optical system to the visual angle without it under defined conditions. Magnifiers and telescopes increase apparent angular size. Practical benefit depends on power, focal distance, eye position, alignment and residual vision. Higher magnification generally narrows the field and increases positioning demands. Teach focusing and alignment, then verify functional gain during the intended task; nominal device power does not guarantee equivalent reading improvement.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "التكبير الزاوي هو نسبة الزاوية البصرية عبر النظام إلى الزاوية دون النظام وفق شروط محددة. تزيد المكبرات والمناظير الحجم الزاوي الظاهري. تعتمد الفائدة على القوة والمسافة البؤرية وموضع العين والمحاذاة والرؤية المتبقية. زيادة التكبير تضيق المجال غالباً وتزيد متطلبات التموضع. نعلم التركيز والمحاذاة ثم نقيس الفائدة في المهمة؛ فالرقم الاسمي لا يضمن تحسناً مماثلاً في القراءة.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Define angular magnification.",
+        "Explain optical alignment.",
+        "Identify field trade-offs.",
+        "Differentiate nominal and functional gain."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 17,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "b45b7c23-0a28-4d69-a466-be8624936d0f",
+          "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+          "lesson_id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+          "question_en": "Angular magnification compares:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "It quantifies apparent angular enlargement.",
+          "explanation_ar": "يقيس الزيادة الزاوية الظاهرية.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "b2de3687-0643-47cb-82f9-abcbbc617f06",
+              "question_id": "b45b7c23-0a28-4d69-a466-be8624936d0f",
+              "option_en": "Visual angles with and without an optical system",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "342b8c6a-8dd9-4673-a4c5-2a3802abe1cb",
+              "question_id": "b45b7c23-0a28-4d69-a466-be8624936d0f",
+              "option_en": "Eyeball length",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "8aef5fdc-9f00-4f82-b37a-eb131ef9b1f3",
+              "question_id": "b45b7c23-0a28-4d69-a466-be8624936d0f",
+              "option_en": "Retinal cell count",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "16cc623b-e790-4dbb-baa7-886e512ead0b",
+              "question_id": "b45b7c23-0a28-4d69-a466-be8624936d0f",
+              "option_en": "Pupil size",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "c4875198-31f2-4a17-a593-625216da1642",
+          "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+          "lesson_id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+          "question_en": "Higher angular magnification commonly causes:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "The visible area generally decreases as magnification rises.",
+          "explanation_ar": "المساحة المرئية تقل غالباً مع زيادة التكبير.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "e0ccf287-16d1-49fb-816d-c468b89a0e80",
+              "question_id": "c4875198-31f2-4a17-a593-625216da1642",
+              "option_en": "Smaller field of view",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "ffc2ef14-2cbd-4b7c-a039-db73766b14ed",
+              "question_id": "c4875198-31f2-4a17-a593-625216da1642",
+              "option_en": "Wider peripheral field",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "0e799409-ef1e-4d3a-8be8-6e78bddfd02f",
+              "question_id": "c4875198-31f2-4a17-a593-625216da1642",
+              "option_en": "Automatic acuity restoration",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "ffd5a592-0bbe-4e24-a11d-4da134d1a877",
+              "question_id": "c4875198-31f2-4a17-a593-625216da1642",
+              "option_en": "No alignment needs",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "5923e712-aaa0-49b2-8fed-349cae4e4c89",
+          "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+          "lesson_id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+          "question_en": "A telescope requires:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Alignment is needed to bring the target into the optical system.",
+          "explanation_ar": "المحاذاة ضرورية لإدخال الهدف في النظام البصري.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "22319272-26b8-4dfd-b588-9a5094301adb",
+              "question_id": "5923e712-aaa0-49b2-8fed-349cae4e4c89",
+              "option_en": "Alignment and focusing",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "6c813750-a6fd-44dd-9880-f634576b6958",
+              "question_id": "5923e712-aaa0-49b2-8fed-349cae4e4c89",
+              "option_en": "Closing both eyes",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "4f22877b-820c-4c5f-961b-614984542b75",
+              "question_id": "5923e712-aaa0-49b2-8fed-349cae4e4c89",
+              "option_en": "Looking away",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "dff99f28-e800-4f7d-b67b-4b540a846aae",
+              "question_id": "5923e712-aaa0-49b2-8fed-349cae4e4c89",
+              "option_en": "No training",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+          "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+          "lesson_id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+          "question_en": "Why test actual task performance?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Functional gain depends on handling, field and reading speed.",
+          "explanation_ar": "الفائدة تعتمد على الاستخدام والمجال وسرعة القراءة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "0d33de49-4441-46ae-bca9-00b7e5babe0e",
+              "question_id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+              "option_en": "Nominal power does not guarantee functional reading gain",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "7025a015-df59-477e-aa82-fe40dd1ac460",
+              "question_id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+              "option_en": "Labels are always false",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "1d0fa49a-36f7-4848-8b8e-4832bc4cf5d5",
+              "question_id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+              "option_en": "Reading speed is unrelated",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "7dcf8c1b-0db4-45aa-b6d3-25c99e80de74",
+              "question_id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+              "option_en": "All fields are identical",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "60d010fc-599f-42e4-89be-bd43bd6e686e",
+          "topic_id": "2177254e-c875-4e51-a1f2-351c99e53649",
+          "lesson_id": "2092f0a5-78ad-4795-ac0b-12efd599d476",
+          "question_en": "Which factor affects magnifier performance?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Correct positioning is necessary for a clear image.",
+          "explanation_ar": "التموضع الصحيح ضروري لوضوح الصورة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "9fc8e1d8-a772-4c9a-8331-8d52d7fe23de",
+              "question_id": "60d010fc-599f-42e4-89be-bd43bd6e686e",
+              "option_en": "Working distance and eye position",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "75fc823f-3fab-4685-92a8-6fdf39a1ac11",
+              "question_id": "60d010fc-599f-42e4-89be-bd43bd6e686e",
+              "option_en": "Hair colour",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "73cf42ce-3ea2-43e8-b416-0441607dab37",
+              "question_id": "60d010fc-599f-42e4-89be-bd43bd6e686e",
+              "option_en": "Room temperature only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "f142588d-a7cc-4132-b0fb-a0a67b671c34",
+              "question_id": "60d010fc-599f-42e4-89be-bd43bd6e686e",
+              "option_en": "Shoe size",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+      "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+      "code": "LV-018-L01",
+      "title_en": "Equivalent Viewing Power",
+      "title_ar": "قوة المشاهدة المكافئة",
+      "level": "intermediate",
+      "content_en": "Near dioptric demand is approximately the reciprocal of working distance in metres: 25 cm is 4 D, 20 cm is 5 D and 10 cm is 10 D. Shorter working distances increase accommodative demand and may require a stronger near addition depending on age, residual accommodation and refractive correction. These calculations guide assessment but do not constitute a complete prescription. Consider binocular status, field, posture, lens design and tolerance, then verify clarity and reading performance.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "الطلب الديوبتري للقريب يساوي تقريباً مقلوب مسافة العمل بالمتر: 25 سم = 4 ديوبتر، و20 سم = 5، و10 سم = 10. تقصير المسافة يزيد الطلب على المطابقة وقد يتطلب إضافة أقوى حسب العمر والمطابقة المتبقية والتصحيح. الحسابات إرشادية وليست وصفة كاملة. نراعي الرؤية الثنائية والمجال والوضعية وتصميم العدسة والتحمل ثم نتحقق من الوضوح وأداء القراءة.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Relate distance to dioptric demand.",
+        "Calculate near demand.",
+        "Explain near addition.",
+        "Recognize calculation limits."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 18,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "aefa8f89-1c23-4d25-a33b-b45cefa6ed39",
+          "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+          "lesson_id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+          "question_en": "Approximate near demand at 25 cm is:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "1/0.25 m equals 4 D.",
+          "explanation_ar": "واحد على 0.25 متر يساوي 4 ديوبتر.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "a481e7a3-1cdb-468b-9d28-882c189d9474",
+              "question_id": "aefa8f89-1c23-4d25-a33b-b45cefa6ed39",
+              "option_en": "4.00 D",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "f4eb1a89-37ba-418d-82c3-0a1af8dbf627",
+              "question_id": "aefa8f89-1c23-4d25-a33b-b45cefa6ed39",
+              "option_en": "2.00 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "35d6a8f3-c9dd-4600-8f3a-86ad53620f83",
+              "question_id": "aefa8f89-1c23-4d25-a33b-b45cefa6ed39",
+              "option_en": "0.25 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "c3652909-cd95-4205-b316-66e292c3b6d5",
+              "question_id": "aefa8f89-1c23-4d25-a33b-b45cefa6ed39",
+              "option_en": "10.00 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "944c0e88-f2a8-40e3-9c01-4bc990f6da0a",
+          "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+          "lesson_id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+          "question_en": "Approximate demand at 20 cm is:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "1/0.20 m equals 5 D.",
+          "explanation_ar": "واحد على 0.20 متر يساوي 5 ديوبتر.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "e629f141-fcda-41d2-93d3-5ef797b60d4d",
+              "question_id": "944c0e88-f2a8-40e3-9c01-4bc990f6da0a",
+              "option_en": "5.00 D",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "977b129c-0fae-471f-b695-236fb392bf6d",
+              "question_id": "944c0e88-f2a8-40e3-9c01-4bc990f6da0a",
+              "option_en": "2.00 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "0439528e-04b5-4675-9b7b-5c0f735511a0",
+              "question_id": "944c0e88-f2a8-40e3-9c01-4bc990f6da0a",
+              "option_en": "0.50 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "c3b61a41-82da-4b7c-a67b-cfd998c03f4a",
+              "question_id": "944c0e88-f2a8-40e3-9c01-4bc990f6da0a",
+              "option_en": "20.00 D",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "d00c4ae1-de33-4f26-a996-c86212394a24",
+          "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+          "lesson_id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+          "question_en": "When working distance decreases, dioptric demand:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "A closer target requires greater accommodative demand.",
+          "explanation_ar": "الهدف الأقرب يتطلب مطابقة أكبر.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "59f3eadd-a933-45f5-b8ad-f36c42fe2656",
+              "question_id": "d00c4ae1-de33-4f26-a996-c86212394a24",
+              "option_en": "Increases",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "5898fa2f-0077-491f-8613-a8ac23edb5ed",
+              "question_id": "d00c4ae1-de33-4f26-a996-c86212394a24",
+              "option_en": "Becomes zero",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "4b856291-eb9f-4286-aaf9-97f776cd7da0",
+              "question_id": "d00c4ae1-de33-4f26-a996-c86212394a24",
+              "option_en": "Never changes",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "59f18b8c-6e62-4035-8bb1-14fc4b37ce48",
+              "question_id": "d00c4ae1-de33-4f26-a996-c86212394a24",
+              "option_en": "Decreases",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+          "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+          "lesson_id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+          "question_en": "Why is demand not a complete spectacle prescription?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "The final addition depends on residual accommodation and correction.",
+          "explanation_ar": "الإضافة تعتمد على المطابقة المتبقية والتصحيح.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "1ad4d209-570d-4bd2-a80a-ee17f38d0990",
+              "question_id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+              "option_en": "Accommodation and clinical factors must be considered",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "84244838-51fc-4d7d-b753-6bbbeccd7292",
+              "question_id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+              "option_en": "It ignores hair colour",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "af5265be-d5c7-473f-bcb2-8b6bd587b10f",
+              "question_id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+              "option_en": "It measures retinal sensitivity",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "a28b11cf-66a0-41af-8728-b5d9c84d0581",
+              "question_id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+              "option_en": "It replaces refraction",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "8007d7a3-980f-4c8e-8863-ea07f2d5b925",
+          "topic_id": "f2a2a898-26a5-4ed7-9226-fd5046d5b93c",
+          "lesson_id": "43786978-73ee-47dd-ae2a-194609f05d1d",
+          "question_en": "How should the final setup be confirmed?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Clinical verification confirms functional use.",
+          "explanation_ar": "التحقق السريري يؤكد الاستخدام الوظيفي.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "a46a9789-b2a8-42b2-a0bb-90f6052e1b40",
+              "question_id": "8007d7a3-980f-4c8e-8863-ea07f2d5b925",
+              "option_en": "Check clarity, reading and comfort",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "f282dc78-ce7e-41ec-a75e-6a9127167255",
+              "question_id": "8007d7a3-980f-4c8e-8863-ea07f2d5b925",
+              "option_en": "Prescribe without trial",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "fd713e9c-0aa1-4096-8eab-1a584a211a7f",
+              "question_id": "8007d7a3-980f-4c8e-8863-ea07f2d5b925",
+              "option_en": "Same power for all",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "cca6a671-ab29-42a4-b832-b6ca93310819",
+              "question_id": "8007d7a3-980f-4c8e-8863-ea07f2d5b925",
+              "option_en": "Ignore posture",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+      "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+      "code": "LV-019-L01",
+      "title_en": "Optical Magnification Devices",
+      "title_ar": "أجهزة التكبير البصرية",
+      "level": "intermediate",
+      "content_en": "Optical low-vision aids include hand and stand magnifiers, high-add spectacles and telescopes. Selection follows functional assessment and considers task distance, required magnification, field, working distance, posture, dexterity, lighting, binocular status and cost. Hand magnifiers are portable but require focusing control. Stand magnifiers stabilize lens-to-task distance but constrain working distance and field. High-add spectacles are hands-free but require close work. Telescopes assist distance spotting and usually require training. Demonstrate and verify benefit with real tasks.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "تشمل وسائل التكبير المكبرات اليدوية والثابتة والنظارات ذات الإضافة العالية والمناظير. الاختيار يتبع التقييم الوظيفي ويراعي مسافة المهمة والقوة والمجال والوضعية والبراعة والإضاءة والرؤية الثنائية والتكلفة. المكبر اليدوي محمول لكنه يحتاج إلى ضبط التركيز. الثابت يحافظ على مسافة العدسة لكنه يقيد المسافة والمجال. النظارات العالية تترك اليدين حرتين لكنها تتطلب عملاً قريباً. المنظار يساعد في رؤية البعيد ويحتاج غالباً إلى تدريب. يجب إثبات الفائدة في مهام حقيقية.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Classify optical aids.",
+        "Match devices to tasks.",
+        "Identify device limitations.",
+        "Explain training needs."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 19,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "227c57cc-fa0a-4e4e-bdd6-34c603ef57d3",
+          "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+          "lesson_id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+          "question_en": "Which is an optical low-vision aid?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Stand magnifiers are optical aids for near tasks.",
+          "explanation_ar": "المكبر الثابت وسيلة بصرية للقريب.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "23df66dc-d5fc-4c76-b710-1c97a5ce79af",
+              "question_id": "227c57cc-fa0a-4e4e-bdd6-34c603ef57d3",
+              "option_en": "Stand magnifier",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "05986dff-5167-40a2-98f6-429bcc6b7c22",
+              "question_id": "227c57cc-fa0a-4e4e-bdd6-34c603ef57d3",
+              "option_en": "Tonometer",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "948a249a-c407-4a61-9d7a-2940f8b4ac47",
+              "question_id": "227c57cc-fa0a-4e4e-bdd6-34c603ef57d3",
+              "option_en": "Ophthalmoscope",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "6155a1fb-4c63-40d6-b806-9f6c08d1a968",
+              "question_id": "227c57cc-fa0a-4e4e-bdd6-34c603ef57d3",
+              "option_en": "Trial prism",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "1d3e59d2-13b9-45d7-af75-e417453ed747",
+          "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+          "lesson_id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+          "question_en": "A stand magnifier typically provides:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "The stand helps maintain a stable position.",
+          "explanation_ar": "الحامل يساعد على ثبات الموضع.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "1576a3e8-eb7f-4a1e-a768-0416fd792d1d",
+              "question_id": "1d3e59d2-13b9-45d7-af75-e417453ed747",
+              "option_en": "Stable lens-to-task distance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "41c06f69-d6a6-4d97-b7c1-f499493acd43",
+              "question_id": "1d3e59d2-13b9-45d7-af75-e417453ed747",
+              "option_en": "Unlimited field",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "db662a6d-83ba-4aff-99a1-2cbb7261833b",
+              "question_id": "1d3e59d2-13b9-45d7-af75-e417453ed747",
+              "option_en": "No lighting need",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "295d323d-4c0a-4046-967e-f2ee3953d9ad",
+              "question_id": "1d3e59d2-13b9-45d7-af75-e417453ed747",
+              "option_en": "Distance telescope function",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "bcc771cc-037f-4d90-8f51-551c868f2644",
+          "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+          "lesson_id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+          "question_en": "High-add spectacles are characterized by:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "High additions require a short working distance.",
+          "explanation_ar": "الإضافة العالية تتطلب مسافة عمل قصيرة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "d62c454c-846e-4cd3-9202-2fb4a1df2427",
+              "question_id": "bcc771cc-037f-4d90-8f51-551c868f2644",
+              "option_en": "Hands-free near viewing at close distance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "5e884ccb-32f0-4379-8a52-1372e98c7b75",
+              "question_id": "bcc771cc-037f-4d90-8f51-551c868f2644",
+              "option_en": "Distance spotting",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "75ebf604-9a6a-425f-82e0-9a64f106a138",
+              "question_id": "bcc771cc-037f-4d90-8f51-551c868f2644",
+              "option_en": "Wide field at all distances",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "30518b8f-bdd7-4855-ba8f-28860b92eb78",
+              "question_id": "bcc771cc-037f-4d90-8f51-551c868f2644",
+              "option_en": "No target positioning",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "8ef9be3e-c433-4b1c-8570-fe617d6bf9cc",
+          "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+          "lesson_id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+          "question_en": "A telescope is commonly used for:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Telescopes support distance spotting but have restricted fields.",
+          "explanation_ar": "المنظار يساعد في رؤية البعيد لكن مجاله محدود.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "e5daa332-4cb2-4820-86c2-832768f89087",
+              "question_id": "8ef9be3e-c433-4b1c-8570-fe617d6bf9cc",
+              "option_en": "Viewing a distant sign while stationary",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "58c3a012-bf84-498a-84e3-037b65e5cf73",
+              "question_id": "8ef9be3e-c433-4b1c-8570-fe617d6bf9cc",
+              "option_en": "Continuous walking without training",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "ba6e91b7-d775-46ea-aabd-28b6a3f99b83",
+              "question_id": "8ef9be3e-c433-4b1c-8570-fe617d6bf9cc",
+              "option_en": "Near contrast only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "4b148f07-6af5-4345-9645-d8e44963d6d2",
+              "question_id": "8ef9be3e-c433-4b1c-8570-fe617d6bf9cc",
+              "option_en": "Replacing mobility aids",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+          "topic_id": "9c8de2df-181a-40bf-bf04-fa263a1efc75",
+          "lesson_id": "f0c54c31-57dd-4f2f-b29b-8edfe84a587f",
+          "question_en": "What should follow device selection?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Training and verification support successful use.",
+          "explanation_ar": "التدريب والتحقق يدعمان نجاح الاستخدام.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "10aad35d-0f01-4e52-b9ec-5acb6fd5cc3b",
+              "question_id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+              "option_en": "Training and real-task reassessment",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "07ad87b3-934c-4fa3-8a5b-855ae36d899e",
+              "question_id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+              "option_en": "Immediate discharge",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "81d6e2c0-7c46-4faf-a201-e6e9e921a4fe",
+              "question_id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+              "option_en": "Increase power until field disappears",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "a6160748-65af-431e-a572-6659f75aa1ec",
+              "question_id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+              "option_en": "Stop medical follow-up",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+      "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+      "code": "LV-020-L01",
+      "title_en": "Handheld Magnifiers",
+      "title_ar": "المكبرات اليدوية",
+      "level": "intermediate",
+      "content_en": "Handheld magnifiers are portable aids for near tasks such as labels, menus and brief reading. The target must be placed at the appropriate focal distance. Higher-power lenses generally have shorter focal lengths and smaller fields. Built-in illumination may help some users but can create glare or reflections. Assess hand stability, tremor, dexterity, posture and ability to locate focus. Train the patient to position the magnifier and material correctly and scan systematically. Verify performance using the patient's own reading material.\n\nClinical application\nStart with the patient's stated goal and habitual correction. Record baseline performance, optimize reversible factors and test one intervention at a time. Use standardized conditions where possible and repeat measurements to assess consistency.\n\nClinical reasoning\nInterpret findings alongside ocular diagnosis, visual field, contrast sensitivity, cognition, motor ability and environment. A chart result alone does not prove functional success. Refer for medical assessment if active disease, unexplained deterioration or urgent symptoms are suspected.\n\nKey points\n• Assess real tasks, not charts alone.\n• Optimize refraction, contrast and illumination.\n• Match the intervention to the patient's abilities and environment.\n• Train the patient and reassess functional outcomes.",
+      "content_ar": "المكبرات اليدوية وسائل محمولة للمهام القريبة كالملصقات والقوائم والقراءة القصيرة. يجب وضع الهدف عند المسافة البؤرية المناسبة. العدسات الأعلى قوة غالباً ذات بعد بؤري أقصر ومجال أصغر. قد تفيد الإضاءة المدمجة لكنها قد تسبب وهجاً أو انعكاساً. نقيم ثبات اليد والرعشة والبراعة والوضعية والقدرة على تحديد البؤرة. ندرب المريض على التموضع الصحيح والمسح المنظم، ونتحقق باستخدام مادة قراءة حقيقية.\n\nالتطبيق السريري\nابدأ بهدف المريض وبالتصحيح المعتاد. سجل الأداء الأساسي، وحسّن العوامل القابلة للتعديل، واختبر تدخلاً واحداً في كل مرة. استخدم ظروفاً معيارية قدر الإمكان وكرر القياس للتأكد من ثبات النتيجة.\n\nالتفكير السريري\nفسر النتائج مع التشخيص والمجال البصري وحساسية التباين والقدرات المعرفية والحركية والبيئة. نتيجة لوحة الفحص وحدها لا تثبت النجاح الوظيفي. أحِل المريض للتقييم الطبي عند الاشتباه بمرض نشط أو تدهور غير مفسر أو أعراض عاجلة.\n\nنقاط أساسية\n• قيّم المهام الحقيقية لا اللوحات وحدها.\n• حسّن الانكسار والتباين والإضاءة.\n• طابق التدخل مع قدرات المريض وبيئته.\n• درّب المريض وأعد تقييم النتائج الوظيفية.",
+      "learning_objectives": [
+        "Describe handheld magnifier use.",
+        "Explain focal distance.",
+        "Relate power to field.",
+        "Assess handling and illumination."
+      ],
+      "status": "review",
+      "is_free": true,
+      "display_order": 20,
+      "created_at": "2026-11-11T10:11:51.614925+00:00",
+      "updated_at": "2026-11-11T10:11:51.614925+00:00",
+      "questions": [
+        {
+          "id": "377d84cd-0ecb-4afe-87ef-93214e4e7c4a",
+          "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+          "lesson_id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+          "question_en": "Handheld magnifiers are commonly used for:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "They are portable near-task aids.",
+          "explanation_ar": "هي وسائل محمولة للمهام القريبة.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "aaac14f6-7e02-43ac-ae87-6eb28c8d07aa",
+              "question_id": "377d84cd-0ecb-4afe-87ef-93214e4e7c4a",
+              "option_en": "Medication labels",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "2a103cde-8f07-4931-a1fe-146ebb59a9a8",
+              "question_id": "377d84cd-0ecb-4afe-87ef-93214e4e7c4a",
+              "option_en": "Measuring IOP",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "f03bee65-519d-4912-b4c7-12a3fc2d0d0e",
+              "question_id": "377d84cd-0ecb-4afe-87ef-93214e4e7c4a",
+              "option_en": "Fundus examination",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "7018bace-f596-4003-84e0-67dc8e407fe5",
+              "question_id": "377d84cd-0ecb-4afe-87ef-93214e4e7c4a",
+              "option_en": "Distance driving",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "08f7ef97-bbbf-46b6-916c-c56145175900",
+          "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+          "lesson_id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+          "question_en": "A clear image requires:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "The target must be at the appropriate focal plane.",
+          "explanation_ar": "يجب وضع الهدف في المستوى البؤري المناسب.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "cf4ad932-0bfa-4ba5-a47d-d73d689287fa",
+              "question_id": "08f7ef97-bbbf-46b6-916c-c56145175900",
+              "option_en": "Correct focal distance",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "5608a98f-073d-4343-9ff0-0a66dc19e5cc",
+              "question_id": "08f7ef97-bbbf-46b6-916c-c56145175900",
+              "option_en": "Any target distance",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "cddecc7b-ae0e-4530-a688-e3151a6f2022",
+              "question_id": "08f7ef97-bbbf-46b6-916c-c56145175900",
+              "option_en": "Closing the handle",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "378c5200-61b4-4f06-84b1-3b1a7cb261db",
+              "question_id": "08f7ef97-bbbf-46b6-916c-c56145175900",
+              "option_en": "More room noise",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "0273c57a-030c-402d-9f92-54cb28232a78",
+          "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+          "lesson_id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+          "question_en": "Higher power usually produces:",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "medium",
+          "explanation_en": "Higher power generally requires closer positioning and shows less area.",
+          "explanation_ar": "القوة الأعلى تتطلب قرباً أكبر وتعرض مساحة أقل.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "dcb497ae-abb3-4c8e-a254-65dd92f43b19",
+              "question_id": "0273c57a-030c-402d-9f92-54cb28232a78",
+              "option_en": "Shorter focal length and smaller field",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "742b9963-b51d-4f91-a6a2-9faaf3456ea1",
+              "question_id": "0273c57a-030c-402d-9f92-54cb28232a78",
+              "option_en": "Longer focal length and wider field always",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "643ed034-73e1-496e-b152-919899af18e4",
+              "question_id": "0273c57a-030c-402d-9f92-54cb28232a78",
+              "option_en": "No field change",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "95583625-3ceb-4bc8-b1b8-b67a78ee9551",
+              "question_id": "0273c57a-030c-402d-9f92-54cb28232a78",
+              "option_en": "Automatic distance vision",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "cc39ddcb-1ec3-458a-bd2d-7f5dbb1683fb",
+          "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+          "lesson_id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+          "question_en": "Which patient factor matters?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "easy",
+          "explanation_en": "Tremor can make stable focusing difficult.",
+          "explanation_ar": "الرعشة قد تصعب تثبيت التركيز.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "67f1899a-0982-4b94-a0fd-dc16769be44b",
+              "question_id": "cc39ddcb-1ec3-458a-bd2d-7f5dbb1683fb",
+              "option_en": "Hand stability and dexterity",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "2e89ca2a-21d7-4d1a-b626-35f58d91fc3d",
+              "question_id": "cc39ddcb-1ec3-458a-bd2d-7f5dbb1683fb",
+              "option_en": "Hair texture",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "8b92888b-0e82-4401-9019-e3fbdc3d9f7b",
+              "question_id": "cc39ddcb-1ec3-458a-bd2d-7f5dbb1683fb",
+              "option_en": "Foot length",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "561060c4-a75b-44b5-b870-ec5e849987d9",
+              "question_id": "cc39ddcb-1ec3-458a-bd2d-7f5dbb1683fb",
+              "option_en": "Hearing only",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        },
+        {
+          "id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+          "topic_id": "838c786f-e548-4528-b54b-3bc128476fd3",
+          "lesson_id": "ad69856f-ec9a-4def-a6b5-d5cf49f3a4ac",
+          "question_en": "Why trial built-in illumination?",
+          "question_ar": null,
+          "question_type": "single_choice",
+          "difficulty": "hard",
+          "explanation_en": "Lighting response is individual.",
+          "explanation_ar": "الاستجابة للإضاءة فردية.",
+          "is_published": false,
+          "created_at": "2026-11-11T10:11:51.614925+00:00",
+          "options": [
+            {
+              "id": "9c20af42-37e6-4d8b-9156-1cb58f8127a7",
+              "question_id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+              "option_en": "It may help but can cause glare in some users",
+              "option_ar": null,
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "id": "e7d0fb22-2047-44e6-8187-8def7ed204c4",
+              "question_id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+              "option_en": "It always benefits everyone",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "id": "688aa4c4-5c8f-491d-94be-bfd81f4507eb",
+              "question_id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+              "option_en": "It changes prescription permanently",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "id": "d9f9cd8d-af28-4f31-9b2e-7dc6082835b2",
+              "question_id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+              "option_en": "It removes focusing",
+              "option_ar": null,
+              "is_correct": false,
+              "display_order": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
