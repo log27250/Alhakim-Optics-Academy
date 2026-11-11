@@ -183,3 +183,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Live rendering remains untested. The stems and keyed answers have not yet undergone a full external expert review; this remediation addresses the repeated/unrelated distractor defect only.
 
 **Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-043 distractor remediation and illustration
+
+- Replaced all 30 incorrect options across EINS-043 with individually tailored alternatives covering ocular photography purpose, acquisition variables, patient/laterality verification, image artifacts, field-of-view limitations, serial-image metadata, immediate quality review, original-file retention, secure storage and correct patient-record linkage.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 40 distinct option texts and zero Arabic option text.
+- Added an inline SVG schematic for camera/optics, illumination and focus, ocular-field alignment, image review and secure metadata-based archiving. Supabase confirms the SVG is present before the references heading.
+- The SVG is a conceptual workflow diagram, not a photograph of a specific commercial camera. Live learner-interface rendering remains untested; this remediation is not full academic sign-off.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
