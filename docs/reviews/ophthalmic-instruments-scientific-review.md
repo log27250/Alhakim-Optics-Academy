@@ -17,7 +17,7 @@ The latest independent Supabase audit confirms:
 - Arabic assessment fields are empty.
 - No missing or short explanations were found by the current minimum-length check.
 - All 45 lessons contain a references heading.
-- All 45 primary lesson-content fields contain bilingual content; EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format.
+- EINS-011–EINS-030 contain separate English and Arabic lesson-content fields. EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format. EINS-001–EINS-010 have empty `content_ar` fields and still need Arabic scientific explanations.
 
 These checks establish structural integrity, not by themselves academic approval.
 
@@ -49,7 +49,7 @@ Topics include autokeratometry, phoropters, near-vision testing, pupillometry, P
 
 ### E. Lesson presentation and references
 - Rebuilt EINS-031–EINS-045 teaching content in a consistent bilingual sequence: English scientific paragraph followed by an Arabic explanatory paragraph.
-- Retained the existing bilingual teaching format in EINS-001–EINS-030.
+- EINS-011–EINS-030 retain separate English and Arabic fields; EINS-001–EINS-010 still require Arabic content.
 - Added references to EINS-011–EINS-045, selected by topic:
   - Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
   - Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
@@ -57,16 +57,33 @@ Topics include autokeratometry, phoropters, near-vision testing, pupillometry, P
   - ISCEV standards for full-field ERG (2022), VEP (2025) and EOG (2017).
   - Peer-reviewed OCTA artifact references: Spaide RF, Fujimoto JG, Waheed NK. *Retina*. 2015;35(11):2163–2180. doi:10.1097/IAE.0000000000000765; and Anvari P et al. *J Ophthalmic Vis Res*. 2021;16(2):271–286. doi:10.18502/jovr.v16i2.9091.
 
-## 3. Remaining work before academic sign-off
+## 3. Final department examination and additional audit findings
+
+A final-examination question pool was inserted into `academy_exam_questions` for department code `EINS`:
+- 110 active questions covering all 45 lessons.
+- EINS-001–EINS-020 contribute 3 questions each; EINS-021–EINS-045 contribute 2 questions each.
+- All 110 items have four options, a correct answer matching one option, English-only assessment text, and a non-short explanation.
+- The items were assembled from the published lesson question bank.
+
+A lesson-order audit found that EINS-001–EINS-020 all had `lessons.display_order=1`, despite their topics being ordered 1–20. This was corrected by setting each lesson's display_order to its linked topic's display_order. All 45 lessons now have sequential display_order values 1–45.
+
+Additional distractor remediation completed:
+- EINS-021–EINS-025 now have distinct, lesson-specific incorrect options; repeated distractor sets were removed.
+- EINS-009 had two repeated incorrect-option texts; these were replaced with distinct, instrument-relevant distractors.
+- EINS-023 contained one broad stem; it was rewritten to test review of a macular OCT thickness map.
+
+The current audit still finds repeated distractor patterns in EINS-026–EINS-045. These must be remediated before academic approval.
+
+## 4. Remaining work before academic sign-off
 
 The section is **not yet approved**. The following work remains:
-1. Complete a question-by-question scientific review of EINS-001–EINS-010, including distractor plausibility and alignment with each lesson.
-2. Review the remaining question banks across EINS-011–EINS-045 for clinical nuance, distractor plausibility and instrument-specific exceptions. Current structural checks cannot replace this review.
-3. Verify that each reference supports the exact claims made in its lesson and add topic-specific primary standards or peer-reviewed sources where required.
-4. Check lesson rendering in the academy to ensure the interleaved bilingual paragraphs display correctly on mobile and desktop.
-5. Perform a final manual sample audit across all 45 lessons, including calculation-based items, measurement units, device limitations, contraindications, artifacts and clinical interpretation.
+1. Complete a question-by-question scientific review of all 450 lesson-bank questions, including distractor plausibility and alignment with each lesson.
+2. Replace repeated distractor patterns in EINS-026–EINS-045 and then re-run the complete repeated-option audit.
+3. Add Arabic scientific explanations to EINS-001–EINS-010 and standardize the bilingual lesson presentation across all 45 lessons without losing existing content.
+4. Verify that each reference supports the exact claims made in its lesson and add topic-specific standards or peer-reviewed sources where required. Relevant standards identified include ISO 15004-1:2020, ISO 10939:2017, ISO 16971-1:2024, ANSI Z80.10-2014, ANSI Z80.37-2017 and current ISCEV ERG/VEP/EOG standards.
+5. Test the final examination and lesson rendering through the academy interface on mobile and desktop; review question distribution, answer-key display, scoring and attempt recording.
 
-## 4. Approval criteria
+## 5. Approval criteria
 
 Academic approval will be declared only when:
 - Every lesson follows the approved Section 3 teaching format and correct lesson order.
@@ -77,8 +94,8 @@ Academic approval will be declared only when:
 - References are genuine, relevant and support the lesson content.
 - Structural and scientific checks both pass.
 
-## 5. Sign-off status
+## 6. Sign-off status
 
 **IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
 
-The latest Supabase structural checks pass for all 45 lessons, 450 questions and 1,800 options. The assessment language requirement is met, and all lessons now contain bilingual primary teaching content. The full question-by-question scientific audit and final rendering check remain before sign-off.
+The latest structural checks pass for all 45 lessons, 450 lesson-bank questions and 1,800 options. The 110-item final-examination pool passes its current structural and language checks. Lesson order has been corrected, and distractor remediation has been completed for EINS-009 and EINS-021–EINS-025. Academic approval remains blocked by repeated distractors in EINS-026–EINS-045, missing Arabic content in EINS-001–EINS-010, reference-to-claim verification, the full question-by-question scientific audit and live interface testing.
