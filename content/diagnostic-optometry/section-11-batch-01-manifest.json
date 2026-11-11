@@ -380,7 +380,7 @@
     "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms 45 published lessons with 10 single-choice questions each and four options per question. DO-001 through DO-020 and DO-031 through DO-045 have expanded bilingual lecture content; DO-021 through DO-030 remain shorter and require expansion. A 70-question final department exam has been inserted into public.academy_exam_questions under department_code DO; all 70 are unique, have four options, contain the correct answer among the options, and contain no Arabic text. Full scientific review of all lecture and question content remains pending.",
+    "note": "Supabase verification confirms 45 published lessons with 10 single-choice questions each and four options per question. DO-001 through DO-020 and DO-031 through DO-045 have expanded bilingual lecture content; DO-021 through DO-030 remain shorter and require expansion. A separate 70-question final exam is stored in public.academy_exam_questions under department_code DO. The exam covers all 45 lessons (two questions from 25 lessons and one from 20 lessons); all questions are unique, each has four options and the correct answer is present, and no Arabic text appears. Full scientific review remains pending.",
     "expanded_bilingual_lectures": 35,
     "lectures_requiring_expansion": 10,
     "lecture_content_review_status": "partial",
@@ -390,8 +390,9 @@
     "final_exam_table": "public.academy_exam_questions",
     "final_exam_department_code": "DO",
     "final_exam_structure_verified": true,
-    "final_exam_language_policy": "English-only question text, options, and explanations."
+    "final_exam_language_policy": "English-only question text, options, and explanations.",
+    "final_exam_distribution": "All 45 lessons represented; 25 lessons contribute two questions each and 20 lessons contribute one question each."
   },
   "status": "45_lessons_published_70_question_final_exam_created_lecture_expansion_partial",
-  "note": "The department contains 45 published lessons, 450 lesson-bank questions and 1,800 options. A separate 70-question final exam is available under department code DO. Lecture expansion is partial: DO-001 through DO-020 and DO-031 through DO-045 have expanded bilingual content; DO-021 through DO-030 remain to be expanded. Scientific review of all lectures, lesson questions and final-exam questions is still pending."
+  "note": "The department contains 45 published lessons, 450 lesson-bank questions and 1,800 options. A separate 70-question final exam is available under department code DO and samples all 45 lessons. Lecture expansion is partial: DO-001 through DO-020 and DO-031 through DO-045 have expanded bilingual content; DO-021 through DO-030 remain to be expanded. Scientific review of all lectures, lesson questions and final-exam questions is still pending."
 }
