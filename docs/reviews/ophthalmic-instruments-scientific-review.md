@@ -163,3 +163,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - The five inline SVG figures remain present before their references headings; rendering in the live learner interface remains untested.
 
 **Current status: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-041 distractor remediation and illustration
+
+- Replaced all 30 incorrect options across the 10 EINS-041 questions with individually tailored alternatives related to Hess/Lees dissociation, standardized test conditions, suppression and cooperation, chart interpretation, limitations, follow-up comparability, Hering's law and documentation.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 40 distinct option texts, and zero Arabic option text.
+- Added an inline SVG teaching schematic before the references heading. It illustrates separate red/green target presentation and an explicitly non-diagnostic gaze-position plot. This is a conceptual schematic, not a reproduction of a proprietary chart.
+- Live rendering of this SVG in the learner interface has not yet been tested. EINS-042–045 still require the same question-level remediation and illustrations.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
