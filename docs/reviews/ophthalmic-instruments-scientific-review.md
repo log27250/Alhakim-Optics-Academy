@@ -297,3 +297,14 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This internal review does not replace external specialist sign-off. The 35 earlier topics and the 110-question final examination still require full question-by-question review.
 
 **Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Question-level screening — EINS-001–EINS-005 (2026-11-11)
+
+- Retrieved the 50 lesson-bank questions, 200 options, correct-answer flags and explanations through the topic-to-question relationship in Supabase. Lesson records use codes with the `-L01` suffix; their linked topic codes are EINS-001–EINS-005.
+- Screened the stems, keys and explanations for core conceptual accuracy and lesson alignment. The reviewed concepts include accuracy versus precision, calibration versus adjustment, infection control, optical reflection/refraction, OCT interferometry, magnification versus resolution, instrument components, visual-acuity notation and occlusion, logMAR, trial-lens powers, cylinder axis, prism action, centration and vertex distance.
+- The reviewed keyed concepts and explanations were consistent with the intended introductory topics. No answer-key reversal or clearly incorrect scientific claim was identified in this screening pass, so no speculative database edits were made.
+- This was a first-pass content screen, not a full distractor-quality or external specialist review. Some introductory distractors are noticeably weak or implausible and should be improved during the detailed assessment pass.
+- EINS-006–EINS-045, the full distractor plausibility review of EINS-001–EINS-005, and the 110-question final examination remain to be completed.
+
+**Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
