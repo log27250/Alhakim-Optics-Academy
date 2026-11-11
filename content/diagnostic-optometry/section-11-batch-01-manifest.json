@@ -15,7 +15,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-001-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-002-L01",
@@ -23,7 +25,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-002-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-003-L01",
@@ -31,7 +35,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-003-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-004-L01",
@@ -39,7 +45,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-004-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-005-L01",
@@ -47,7 +55,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-005-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-006-L01",
@@ -55,7 +65,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-006-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-007-L01",
@@ -63,7 +75,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-007-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-008-L01",
@@ -71,7 +85,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-008-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-009-L01",
@@ -79,7 +95,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-009-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-010-L01",
@@ -87,7 +105,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-010-illustration.svg",
+      "illustration_position": "After introductory overview, before topic-specific sections"
     },
     {
       "code": "DO-011-L01",
@@ -95,7 +115,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-011-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-012-L01",
@@ -103,7 +125,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-012-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-013-L01",
@@ -111,7 +135,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-013-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-014-L01",
@@ -119,7 +145,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-014-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-015-L01",
@@ -127,7 +155,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-015-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-016-L01",
@@ -135,7 +165,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-016-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-017-L01",
@@ -143,7 +175,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-017-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-018-L01",
@@ -151,7 +185,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-018-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-019-L01",
@@ -159,7 +195,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-019-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-020-L01",
@@ -167,7 +205,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-020-illustration.svg",
+      "illustration_position": "After first numbered core section, before section 2"
     },
     {
       "code": "DO-021-L01",
@@ -175,7 +215,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-021-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-022-L01",
@@ -183,7 +225,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-022-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-023-L01",
@@ -191,7 +235,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-023-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-024-L01",
@@ -199,7 +245,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-024-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-025-L01",
@@ -207,7 +255,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-025-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-026-L01",
@@ -215,7 +265,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-026-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-027-L01",
@@ -223,7 +275,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-027-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-028-L01",
@@ -231,7 +285,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-028-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-029-L01",
@@ -239,7 +295,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-029-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-030-L01",
@@ -247,7 +305,9 @@
       "status": "published",
       "question_type": "single_choice",
       "options_per_question": 4,
-      "question_count": 10
+      "question_count": 10,
+      "illustration": "assets/diagnostic-optometry/do-030-illustration.svg",
+      "illustration_position": "After section 1, before section 2"
     },
     {
       "code": "DO-031-L01",
@@ -255,7 +315,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-031-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-032-L01",
@@ -263,7 +325,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-032-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-033-L01",
@@ -271,7 +335,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-033-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-034-L01",
@@ -279,7 +345,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-034-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-035-L01",
@@ -287,7 +355,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-035-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-036-L01",
@@ -295,7 +365,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-036-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-037-L01",
@@ -303,7 +375,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-037-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-038-L01",
@@ -311,7 +385,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-038-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-039-L01",
@@ -319,7 +395,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-039-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-040-L01",
@@ -327,7 +405,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-040-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-041-L01",
@@ -335,7 +415,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-041-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-042-L01",
@@ -343,7 +425,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-042-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-043-L01",
@@ -351,7 +435,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-043-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-044-L01",
@@ -359,7 +445,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-044-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     },
     {
       "code": "DO-045-L01",
@@ -367,7 +455,9 @@
       "status": "published",
       "question_count": 10,
       "question_type": "single_choice",
-      "options_per_question": 4
+      "options_per_question": 4,
+      "illustration": "assets/diagnostic-optometry/do-045-illustration.svg",
+      "illustration_position": "After section 2 definition/purpose, before section 3"
     }
   ],
   "validation": {
@@ -380,10 +470,10 @@
     "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms 45 published lessons, 450 lesson-bank questions and 1,800 options. All 45 lessons now contain expanded English scientific lecture content followed by Arabic explanatory sections. DO-021 through DO-030 were expanded in this update. The 70-question final exam remains active under department code DO and covers all 45 lessons. Structural checks confirm four options and exactly one correct answer for every lesson-bank question, with English-only question text, options and explanations. A full scientific and editorial review of all lecture content, questions and final-exam items is still pending; expansion does not by itself constitute final academic approval.",
+    "note": "Supabase verification confirms 45 published lessons, 450 lesson-bank questions and 1,800 options. All 45 lessons contain embedded SVG educational illustrations. DO-001 through DO-010 had repeated generic boilerplate removed and replaced with topic-specific teaching, Arabic explanations and lesson-specific objectives. Question structure checks confirm four options and exactly one correct answer for each question; no duplicate question stems or short explanations remain, and question text/options/explanations are English-only. Difficulty distribution is provisionally classified as 159 easy, 253 medium and 38 hard using a stem-complexity heuristic and requires educator validation. The 70-question final exam has 70 unique questions, four options each, a present correct answer, English-only text, and representation from all 45 lessons. Full source-level scientific review and final-exam item-by-item validation remain pending. SVGs are original educational schematics, not actual manufacturer photographs.",
     "expanded_bilingual_lectures": 45,
     "lectures_requiring_expansion": 0,
-    "lecture_content_review_status": "expanded_content_published_scientific_review_pending",
+    "lecture_content_review_status": "partial_scientific_editorial_review_completed_for_DO001_DO010_and_structural_review_for_all_45; full_source_level_validation_pending",
     "question_structure_verified": true,
     "question_language_policy": "English-only questions, options, and explanations; Arabic question and option fields are empty.",
     "final_exam_questions": 70,
@@ -391,8 +481,35 @@
     "final_exam_department_code": "DO",
     "final_exam_structure_verified": true,
     "final_exam_language_policy": "English-only question text, options, and explanations.",
-    "final_exam_distribution": "All 45 lessons represented; 25 lessons contribute two questions each and 20 lessons contribute one question each."
+    "final_exam_distribution": "All 45 lessons represented; 25 lessons contribute two questions each and 20 lessons contribute one question each.",
+    "first_ten_lecture_correction": "Removed repeated generic boilerplate from DO-001 through DO-010 and replaced it with topic-specific sections, clinical application and Arabic explanations; added lesson-specific learning objectives.",
+    "question_review_status": "structural_and_editorial_review_partial",
+    "question_review_changes": "Removed one near-duplicate pupillary-reflex question by replacing it with a pretectal-pathway question; expanded all four previously short explanations; reclassified difficulty labels using a provisional stem-complexity heuristic.",
+    "question_difficulty_distribution": {
+      "easy": 159,
+      "medium": 253,
+      "hard": 38
+    },
+    "question_audit_flags": "85 question stems are concise recall-style items and should receive a further educator-led assessment for cognitive depth; no exact duplicate stems remain.",
+    "short_explanations_remaining": 0,
+    "duplicate_question_stems_remaining": 0,
+    "illustrations_added": 45,
+    "illustrations_embedded": 45,
+    "final_exam_review_status": "structure_verified_scientific_item_by_item_review_pending"
   },
-  "status": "45_lessons_published_all_lectures_expanded_70_question_final_exam_created_scientific_review_pending",
-  "note": "The department contains 45 published lessons, 450 lesson-bank questions and 1,800 options. All 45 lessons now have expanded bilingual lecture content. A separate 70-question final exam remains available under department code DO and samples all 45 lessons. Structural checks have passed; comprehensive scientific and editorial review remains pending."
+  "status": "45_lessons_published_45_illustrations_embedded_450_questions_structurally_verified_70_question_exam_scientific_review_partial",
+  "note": "The section has 45 published lessons, 450 lesson-bank questions and 1,800 options. Forty-five original educational SVG illustrations are embedded at documented positions. The first ten lectures and selected question-quality issues were corrected. Structural checks have passed; comprehensive scientific source validation and photographic device sourcing remain in progress.",
+  "illustrations": {
+    "count": 45,
+    "embedded_in_lessons": 45,
+    "format": "Original SVG educational schematics",
+    "panels": [
+      "Clinical concept illustration",
+      "Equipment or test-setup schematic"
+    ],
+    "not_photographs": true,
+    "placement_guide": "content/diagnostic-optometry/illustration-placement-guide.md",
+    "app_rendering": "Verified app.js Markdown image parser supports HTTPS image links.",
+    "note": "Illustrations are conceptual educational diagrams, not manufacturer-specific photographs or diagnostic images. Photographic device assets require separate source and reuse verification."
+  }
 }
