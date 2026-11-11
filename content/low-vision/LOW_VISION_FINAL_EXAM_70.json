@@ -1,0 +1,917 @@
+{
+  "department": "Low Vision",
+  "question_count": 70,
+  "publication_status": "inactive_pending_review",
+  "questions": [
+    {
+      "options": [
+        "Has not fully met the functional goal",
+        "Is automatically successful",
+        "Requires no further assessment",
+        "Has restored normal vision"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Has not fully met the functional goal. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "If reading speed improves but comprehension falls, the intervention:",
+      "correct_option": "Has not fully met the functional goal"
+    },
+    {
+      "options": [
+        "Alongside optical and electronic aids",
+        "Only after all other rehabilitation fails",
+        "As a replacement for all clinical assessment",
+        "Only for patients with normal vision"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Alongside optical and electronic aids. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "Non-optical strategies should be considered:",
+      "correct_option": "Alongside optical and electronic aids"
+    },
+    {
+      "options": [
+        "Adjustable contrast polarity",
+        "Permanent restoration of central vision",
+        "Automatic correction of retinal disease",
+        "Unlimited field at any magnification"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Adjustable contrast polarity. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "Which feature may be available on an electronic magnifier?",
+      "correct_option": "Adjustable contrast polarity"
+    },
+    {
+      "options": [
+        "A central scotoma",
+        "Isolated colour deficiency only",
+        "A peripheral refractive error only",
+        "Normal central fixation without symptoms"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: A central scotoma. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "Eccentric viewing may help when a patient has:",
+      "correct_option": "A central scotoma"
+    },
+    {
+      "options": [
+        "Enlarge visual interface content",
+        "Convert all images to speech automatically",
+        "Correct refractive error",
+        "Improve retinal blood supply"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Enlarge visual interface content. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "Screen magnification is designed primarily to:",
+      "correct_option": "Enlarge visual interface content"
+    },
+    {
+      "options": [
+        "Assess camera position and writing configuration",
+        "Increase magnification without observing",
+        "Stop all writing tasks",
+        "Reduce contrast to minimum"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Assess camera position and writing configuration. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "A patient can read on CCTV but cannot see the pen while writing. The clinician should:",
+      "correct_option": "Assess camera position and writing configuration"
+    },
+    {
+      "options": [
+        "Move reading material under the camera in a controlled way",
+        "Change the patient's refractive error",
+        "Increase ambient room illumination",
+        "Measure intraocular pressure"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Move reading material under the camera in a controlled way. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "The XY table on a desktop video magnifier is used to:",
+      "correct_option": "Move reading material under the camera in a controlled way"
+    },
+    {
+      "options": [
+        "Bold-line writing paper",
+        "High-plus spectacle lens",
+        "Galilean telescope",
+        "Handheld magnifying lens"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Bold-line writing paper. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "Which is a non-optical low-vision aid?",
+      "correct_option": "Bold-line writing paper"
+    },
+    {
+      "options": [
+        "Reflowable text or OCR with text-to-speech",
+        "Higher magnification only",
+        "Lower contrast",
+        "Disabling navigation features"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Reflowable text or OCR with text-to-speech. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "A student struggles with magnified PDF pages that require horizontal scrolling. A useful alternative may be:",
+      "correct_option": "Reflowable text or OCR with text-to-speech"
+    },
+    {
+      "options": [
+        "Simple stationary targets to more complex functional tasks",
+        "Complex reading to unassessed tasks only",
+        "Walking with a telescope to fine print",
+        "No practice to independent use"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Simple stationary targets to more complex functional tasks. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "Training progression commonly moves from:",
+      "correct_option": "Simple stationary targets to more complex functional tasks"
+    },
+    {
+      "options": [
+        "Observe the patient performing the actual task",
+        "Choose by diagnosis alone",
+        "Select the most expensive option",
+        "Avoid patient preference"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Observe the patient performing the actual task. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "The best way to select a non-optical aid is to:",
+      "correct_option": "Observe the patient performing the actual task"
+    },
+    {
+      "options": [
+        "Train target location and alignment and reconsider magnification",
+        "Increase power immediately",
+        "Use it while walking",
+        "Ignore field restrictions"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Train target location and alignment and reconsider magnification. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "A patient repeatedly loses the classroom board while using a telescope. The best next step is to:",
+      "correct_option": "Train target location and alignment and reconsider magnification"
+    },
+    {
+      "options": [
+        "Optical, electronic, auditory and environmental strategies",
+        "Magnification alone",
+        "Distance acuity alone",
+        "Device cost only"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Optical, electronic, auditory and environmental strategies. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "A comprehensive reading rehabilitation plan should consider:",
+      "correct_option": "Optical, electronic, auditory and environmental strategies"
+    },
+    {
+      "options": [
+        "A narrower field of view",
+        "A wider field in all designs",
+        "No change in target acquisition",
+        "Improved peripheral awareness"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A narrower field of view. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "Increasing telescope magnification usually causes:",
+      "correct_option": "A narrower field of view"
+    },
+    {
+      "options": [
+        "Spoken or braille output",
+        "Larger print only",
+        "A brighter display only",
+        "A wider field of view"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Spoken or braille output. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "A screen reader primarily provides access through:",
+      "correct_option": "Spoken or braille output"
+    },
+    {
+      "options": [
+        "Keep the base in its designed position and achieve the focal plane",
+        "Hold it several centimetres above the page regardless of design",
+        "Look through the side of the lens",
+        "Move the eye rapidly to change lens power"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Keep the base in its designed position and achieve the focal plane. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "The correct use of a stand magnifier generally requires the user to:",
+      "correct_option": "Keep the base in its designed position and achieve the focal plane"
+    },
+    {
+      "options": [
+        "Reading speed, comprehension and comfortable independent use",
+        "The largest number shown on the screen",
+        "The number of menu options",
+        "The device's marketing category"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Reading speed, comprehension and comfortable independent use. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "Which outcome is more meaningful than maximum displayed magnification?",
+      "correct_option": "Reading speed, comprehension and comfortable independent use"
+    },
+    {
+      "options": [
+        "Maintains a relatively fixed lens-to-task distance",
+        "Restores damaged retinal tissue",
+        "Eliminates the need for illumination",
+        "Provides unrestricted distance vision"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Maintains a relatively fixed lens-to-task distance. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "A stand magnifier is particularly helpful for a patient with hand tremor because it:",
+      "correct_option": "Maintains a relatively fixed lens-to-task distance"
+    },
+    {
+      "options": [
+        "The lowest power that meets the distance task",
+        "The highest power the patient can tolerate briefly",
+        "The same power for every patient",
+        "Selected without observing the task"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: The lowest power that meets the distance task. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "The most appropriate initial telescope power is generally:",
+      "correct_option": "The lowest power that meets the distance task"
+    },
+    {
+      "options": [
+        "Restricts peripheral awareness and spatial monitoring",
+        "Improves peripheral awareness excessively",
+        "Blocks all central vision permanently",
+        "Changes refractive error"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Restricts peripheral awareness and spatial monitoring. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "A telescope should not routinely be used while crossing a road because it:",
+      "correct_option": "Restricts peripheral awareness and spatial monitoring"
+    },
+    {
+      "options": [
+        "Not necessarily provide the best reading performance",
+        "Guarantee fluent reading",
+        "Restore the fovea",
+        "Eliminate all field loss"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Not necessarily provide the best reading performance. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "A gaze direction that helps face recognition may:",
+      "correct_option": "Not necessarily provide the best reading performance"
+    },
+    {
+      "options": [
+        "Reliable access and safe understanding of the instructions",
+        "Maximum magnification regardless of usability",
+        "Colour coding alone",
+        "Reading speed without comprehension"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Reliable access and safe understanding of the instructions. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "A patient needs to read medication instructions. The rehabilitation plan should prioritize:",
+      "correct_option": "Reliable access and safe understanding of the instructions"
+    },
+    {
+      "options": [
+        "A device may work briefly but fail during sustained tasks",
+        "It determines retinal anatomy",
+        "It replaces reading comprehension",
+        "It is unrelated to daily function"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: A device may work briefly but fail during sustained tasks. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "Reading endurance should be assessed because:",
+      "correct_option": "A device may work briefly but fail during sustained tasks"
+    },
+    {
+      "options": [
+        "Change its position or angle and reduce reflected glare",
+        "Increase brightness to maximum",
+        "Place it directly in the visual axis",
+        "Use a glossy page"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Change its position or angle and reduce reflected glare. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "A task lamp causes glare despite adequate brightness. The first adjustment may be to:",
+      "correct_option": "Change its position or angle and reduce reflected glare"
+    },
+    {
+      "options": [
+        "Hands-free near magnification",
+        "Distance telescope magnification",
+        "Peripheral field expansion",
+        "A treatment for macular degeneration"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Hands-free near magnification. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "High-addition near spectacles primarily provide:",
+      "correct_option": "Hands-free near magnification"
+    },
+    {
+      "options": [
+        "A camera and monitor",
+        "A telescope eyepiece alone",
+        "A contact lens and mirror",
+        "A retinal electrode array"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A camera and monitor. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "A video magnifier displays an enlarged image using:",
+      "correct_option": "A camera and monitor"
+    },
+    {
+      "options": [
+        "Positive objective and positive ocular lenses",
+        "Negative objective and negative ocular lenses",
+        "A single concave lens",
+        "A mirror without lenses"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Positive objective and positive ocular lenses. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "A Keplerian telescope typically uses:",
+      "correct_option": "Positive objective and positive ocular lenses"
+    },
+    {
+      "options": [
+        "Trial built-in accessibility magnification and display settings",
+        "Require a costly dedicated device immediately",
+        "Avoid digital solutions",
+        "Recommend maximum brightness in all settings"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Trial built-in accessibility magnification and display settings. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "A patient has difficulty reading small print but already owns a smartphone. A reasonable first step is to:",
+      "correct_option": "Trial built-in accessibility magnification and display settings"
+    },
+    {
+      "options": [
+        "Privacy and protection of personal information",
+        "Only the device colour",
+        "The patient's shoe size",
+        "Whether the service increases visual acuity"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Privacy and protection of personal information. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "When using cloud-based assistive services, clinicians should consider:",
+      "correct_option": "Privacy and protection of personal information"
+    },
+    {
+      "options": [
+        "Reassess goals and consider alternative rehabilitation approaches",
+        "Promise normal central vision after more practice",
+        "Continue identical training indefinitely",
+        "Ignore the patient's functional needs"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Reassess goals and consider alternative rehabilitation approaches. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "A patient cannot develop a stable eccentric viewing strategy. The clinician should:",
+      "correct_option": "Reassess goals and consider alternative rehabilitation approaches"
+    },
+    {
+      "options": [
+        "Differ between individuals and between eyes",
+        "Always occupy the same retinal location",
+        "Guarantee normal reading speed",
+        "Be identified from distance acuity alone"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Differ between individuals and between eyes. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "A PRL may:",
+      "correct_option": "Differ between individuals and between eyes"
+    },
+    {
+      "options": [
+        "Assessment of field and fixation behaviour",
+        "Prescribing maximum magnification without testing",
+        "Avoiding all fixation assessment",
+        "Assuming the same strategy works for everyone"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Assessment of field and fixation behaviour. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "Training in eccentric viewing should begin with:",
+      "correct_option": "Assessment of field and fixation behaviour"
+    },
+    {
+      "options": [
+        "Specific functional tasks",
+        "Only the patient's age",
+        "Only the refractive cylinder",
+        "The colour of the iris"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Specific functional tasks. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "A PRL should be evaluated in relation to:",
+      "correct_option": "Specific functional tasks"
+    },
+    {
+      "options": [
+        "The user's task, preference, skills and sensory needs",
+        "The newest device model",
+        "The clinician's preferred operating system",
+        "Maximum number of features"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: The user's task, preference, skills and sensory needs. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "The most appropriate digital accessibility plan is based on:",
+      "correct_option": "The user's task, preference, skills and sensory needs"
+    },
+    {
+      "options": [
+        "Walking and distance mobility",
+        "Stationary near tasks",
+        "Reading at a measured working distance",
+        "Hands-free close work"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Walking and distance mobility. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "High-addition spectacles are generally unsuitable for:",
+      "correct_option": "Walking and distance mobility"
+    },
+    {
+      "options": [
+        "Improving detection of edges and controls",
+        "Restoring central retinal tissue",
+        "Increasing accommodation",
+        "Expanding the visual field"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Improving detection of edges and controls. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "High-contrast markings may be useful for:",
+      "correct_option": "Improving detection of edges and controls"
+    },
+    {
+      "options": [
+        "Evaluated separately",
+        "Assumed to be identical",
+        "Ignored if distance acuity is good",
+        "Measured only by device weight"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Evaluated separately. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "Reading and writing performance with a video magnifier should be:",
+      "correct_option": "Evaluated separately"
+    },
+    {
+      "options": [
+        "Convert image-based text into machine-readable text",
+        "Measure contrast sensitivity",
+        "Determine telescope power",
+        "Diagnose macular degeneration"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Convert image-based text into machine-readable text. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "OCR technology is used to:",
+      "correct_option": "Convert image-based text into machine-readable text"
+    },
+    {
+      "options": [
+        "Reducing magnification or changing layout and navigation settings",
+        "Increasing magnification further",
+        "Disabling all contrast controls",
+        "Increasing screen glare"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Reducing magnification or changing layout and navigation settings. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "If a patient loses words while using very high electronic magnification, the clinician should consider:",
+      "correct_option": "Reducing magnification or changing layout and navigation settings"
+    },
+    {
+      "options": [
+        "Positive objective and negative ocular lenses",
+        "Two negative lenses",
+        "Two positive lenses without an erecting system",
+        "A cylindrical objective and prism only"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Positive objective and negative ocular lenses. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "A Galilean telescope consists optically of:",
+      "correct_option": "Positive objective and negative ocular lenses"
+    },
+    {
+      "options": [
+        "Logical headings and meaningful reading order",
+        "Text embedded only as an unlabelled image",
+        "Colour-only instructions",
+        "Unstructured page layouts"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Logical headings and meaningful reading order. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "Accessible digital documents should ideally include:",
+      "correct_option": "Logical headings and meaningful reading order"
+    },
+    {
+      "options": [
+        "Crowding or reduced visual span",
+        "Improved stereopsis",
+        "Increased accommodation only",
+        "Normal line tracking by definition"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Crowding or reduced visual span. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "A patient recognizes isolated letters but struggles with continuous text. A possible contributor is:",
+      "correct_option": "Crowding or reduced visual span"
+    },
+    {
+      "options": [
+        "Supporting posture and maintaining task position",
+        "Increasing the lens power",
+        "Restoring accommodation",
+        "Expanding retinal sensitivity"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Supporting posture and maintaining task position. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "A reading stand may improve high-addition spectacle use by:",
+      "correct_option": "Supporting posture and maintaining task position"
+    },
+    {
+      "options": [
+        "Auditory information",
+        "Angular magnification",
+        "Retinal image enlargement",
+        "Prismatic correction"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Auditory information. Digital accessibility combines visual and auditory access and requires usable document structure.",
+      "question_text": "A talking clock supports function mainly through:",
+      "correct_option": "Auditory information"
+    },
+    {
+      "options": [
+        "Actual use, training needs and functional outcomes",
+        "Only whether the patient remembers the brand",
+        "Only the device's serial number",
+        "No further review is needed"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Actual use, training needs and functional outcomes. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "Follow-up after prescribing a reading aid should assess:",
+      "correct_option": "Actual use, training needs and functional outcomes"
+    },
+    {
+      "options": [
+        "Uses a functioning retinal area away from the damaged fovea",
+        "Uses the blind spot to read",
+        "Looks through the eyelid",
+        "Moves the target without changing gaze"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Uses a functioning retinal area away from the damaged fovea. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "Eccentric viewing is a strategy in which the patient:",
+      "correct_option": "Uses a functioning retinal area away from the damaged fovea"
+    },
+    {
+      "options": [
+        "A compensatory rehabilitation strategy",
+        "A cure for macular disease",
+        "A surgical procedure",
+        "A type of refractive error"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A compensatory rehabilitation strategy. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "Eccentric viewing is best described as:",
+      "correct_option": "A compensatory rehabilitation strategy"
+    },
+    {
+      "options": [
+        "Glare and comfort as well as visibility",
+        "Colour temperature alone",
+        "Whether it replaces all refractive correction",
+        "Whether it increases lens power"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Glare and comfort as well as visibility. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "Integrated illumination in a stand magnifier should be assessed for:",
+      "correct_option": "Glare and comfort as well as visibility"
+    },
+    {
+      "options": [
+        "Task, portability, controls, endurance and user skills",
+        "Screen colour alone",
+        "Brand popularity only",
+        "Maximum advertised magnification only"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Task, portability, controls, endurance and user skills. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "A digital aid should be selected after assessing:",
+      "correct_option": "Task, portability, controls, endurance and user skills"
+    },
+    {
+      "options": [
+        "Choose the highest power available",
+        "Choose the lowest power that meets the task requirement",
+        "Ignore the patient's working distance",
+        "Select by age alone"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Choose the lowest power that meets the task requirement. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "When selecting a stand magnifier, the preferred starting principle is to:",
+      "correct_option": "Choose the lowest power that meets the task requirement"
+    },
+    {
+      "options": [
+        "A closer working distance",
+        "A farther working distance",
+        "No change in working distance",
+        "A wider field in every case"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: A closer working distance. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "Increasing plus power in a high-addition near spectacle generally requires:",
+      "correct_option": "A closer working distance"
+    },
+    {
+      "options": [
+        "Use reliable labels or tactile systems rather than colour alone",
+        "Depend only on cap colour",
+        "Rely on memory without checking",
+        "Use the smallest possible print"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Use reliable labels or tactile systems rather than colour alone. Non-optical aids modify tasks and environments and must be safe for daily activities.",
+      "question_text": "For medication identification, a safe strategy should:",
+      "correct_option": "Use reliable labels or tactile systems rather than colour alone"
+    },
+    {
+      "options": [
+        "Controlled movement and line navigation",
+        "Rapid uncontrolled movement",
+        "Keeping the page outside the camera view",
+        "Using maximum magnification only"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Controlled movement and line navigation. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "When training a user on an XY table, emphasize:",
+      "correct_option": "Controlled movement and line navigation"
+    },
+    {
+      "options": [
+        "A line guide or typoscope",
+        "A distance telescope",
+        "A darker room",
+        "Removing all page spacing"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A line guide or typoscope. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "Which intervention may support line tracking?",
+      "correct_option": "A line guide or typoscope"
+    },
+    {
+      "options": [
+        "Its labelled magnification",
+        "The patient's independent performance on the intended task",
+        "Its weight alone",
+        "The appearance of the housing"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: The patient's independent performance on the intended task. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "Which outcome best determines whether a stand magnifier is successful?",
+      "correct_option": "The patient's independent performance on the intended task"
+    },
+    {
+      "options": [
+        "Microperimetry where available",
+        "Tonometry alone",
+        "Colour plate testing alone",
+        "Keratometry"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Microperimetry where available. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "Which method may help assess PRL location and stability?",
+      "correct_option": "Microperimetry where available"
+    },
+    {
+      "options": [
+        "Field of view and line tracking",
+        "Colour vision only",
+        "Intraocular pressure",
+        "Distance stereopsis only"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: Field of view and line tracking. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "A patient sees a word clearly through a stand magnifier but cannot read a sentence. The clinician should first reassess:",
+      "correct_option": "Field of view and line tracking"
+    },
+    {
+      "options": [
+        "Meets the patient's real task with acceptable speed, comprehension and comfort",
+        "Has the highest advertised power",
+        "Is newest on the market",
+        "Requires no assessment"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Meets the patient's real task with acceptable speed, comprehension and comfort. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "The best reading aid is the one that:",
+      "correct_option": "Meets the patient's real task with acceptable speed, comprehension and comfort"
+    },
+    {
+      "options": [
+        "Other factors such as field, contrast and eye movements remain important",
+        "PRL always causes diplopia",
+        "The fovea is always structurally normal",
+        "Reading requires no visual span"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Other factors such as field, contrast and eye movements remain important. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "A stable PRL does not necessarily guarantee fluent reading because:",
+      "correct_option": "Other factors such as field, contrast and eye movements remain important"
+    },
+    {
+      "options": [
+        "A habitual eccentric fixation area used after central vision loss",
+        "The anatomical fovea in every patient",
+        "The optic disc",
+        "The blind spot used for all reading"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A habitual eccentric fixation area used after central vision loss. Eccentric viewing is a compensatory strategy that requires individualized assessment and practice.",
+      "question_text": "The preferred retinal locus (PRL) is:",
+      "correct_option": "A habitual eccentric fixation area used after central vision loss"
+    },
+    {
+      "options": [
+        "Reading speed, accuracy and comprehension",
+        "Distance acuity alone",
+        "Colour vision alone",
+        "Intraocular pressure alone"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Reading speed, accuracy and comprehension. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "Reading assessment in low vision should include:",
+      "correct_option": "Reading speed, accuracy and comprehension"
+    },
+    {
+      "options": [
+        "Viewing a stationary classroom board from a known seat",
+        "Walking down stairs",
+        "Driving in unfamiliar traffic",
+        "Scanning a busy moving crowd while walking"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Viewing a stationary classroom board from a known seat. Telescope magnification trades field of view and target acquisition ease.",
+      "question_text": "Which is a suitable distance telescope task?",
+      "correct_option": "Viewing a stationary classroom board from a known seat"
+    },
+    {
+      "options": [
+        "An optimal and stable PRL",
+        "A retinal location",
+        "A possible adaptation",
+        "A finding worth documenting"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: An optimal and stable PRL. PRL is an individual habitual eccentric fixation area and does not guarantee normal function.",
+      "question_text": "A clinician should avoid assuming that every eccentric fixation point is:",
+      "correct_option": "An optimal and stable PRL"
+    },
+    {
+      "options": [
+        "Binocular alignment, comfort and functional field",
+        "Hair colour",
+        "Distance pupil size alone",
+        "Dominant hand only"
+      ],
+      "is_active": false,
+      "difficulty": "advanced",
+      "explanation": "Correct answer: Binocular alignment, comfort and functional field. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "Before prescribing binocular high-addition spectacles, assess:",
+      "correct_option": "Binocular alignment, comfort and functional field"
+    },
+    {
+      "options": [
+        "A starting estimate requiring functional verification",
+        "An automatic final prescription",
+        "A substitute for refraction",
+        "A measure of distance acuity"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: A starting estimate requiring functional verification. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "A near addition calculated from working distance should be considered:",
+      "correct_option": "A starting estimate requiring functional verification"
+    },
+    {
+      "options": [
+        "Cost, size and reduced portability",
+        "Lack of any contrast adjustment",
+        "Inability to enlarge text",
+        "Mandatory internet connection for all models"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Cost, size and reduced portability. Video magnifiers combine camera display and positioning controls; assess each task separately.",
+      "question_text": "A desktop video magnifier may be limited by:",
+      "correct_option": "Cost, size and reduced portability"
+    },
+    {
+      "options": [
+        "A wider field of view",
+        "A longer working distance in all designs",
+        "A smaller usable field of view",
+        "Normal peripheral vision"
+      ],
+      "is_active": false,
+      "difficulty": "intermediate",
+      "explanation": "Correct answer: A smaller usable field of view. Stand designs stabilize the lens-to-task relationship and can reduce hand-control demands.",
+      "question_text": "A high-power stand magnifier is most likely to produce:",
+      "correct_option": "A smaller usable field of view"
+    },
+    {
+      "options": [
+        "Illumination, glare control, posture and contrast",
+        "Only the room temperature",
+        "Only the patient's distance acuity",
+        "The colour of the magnifier housing"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Illumination, glare control, posture and contrast. Reading rehabilitation is measured by speed, accuracy, comprehension and endurance.",
+      "question_text": "Which factor should be optimized during reading rehabilitation?",
+      "correct_option": "Illumination, glare control, posture and contrast"
+    },
+    {
+      "options": [
+        "Camera and display",
+        "Prism and mirror only",
+        "Ultrasound transducer",
+        "Retinal implant in every case"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: Camera and display. Electronic systems should be matched to real tasks, usability and sustained performance.",
+      "question_text": "Electronic magnifiers use which basic system?",
+      "correct_option": "Camera and display"
+    },
+    {
+      "options": [
+        "A short working distance and postural demand",
+        "Loss of all accommodation in every patient",
+        "Inability to use both hands",
+        "Increased peripheral field"
+      ],
+      "is_active": false,
+      "difficulty": "basic",
+      "explanation": "Correct answer: A short working distance and postural demand. Optical power must be balanced against working distance, field and functional posture.",
+      "question_text": "A major limitation of very high-addition spectacles is:",
+      "correct_option": "A short working distance and postural demand"
+    }
+  ]
+}
