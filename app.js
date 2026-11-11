@@ -23,6 +23,7 @@ const HOME_DEFAULTS={
  featured_course_ids:[],
  quick_links:[
   {label:'الأقسام',icon:'▤',page:'departments',visible:true},
+  {label:'المهارات',icon:'🩺',page:'clinical-hub',visible:true},
   {label:'المراجع',icon:'▣',page:'library',visible:true},
   {label:'الدورات التدريبية',icon:'🎓',page:'courses',visible:true},
   {label:'تقدمي الدراسي',icon:'↗',page:'progress',visible:true}
@@ -140,7 +141,7 @@ function renderHome(){
  document.documentElement.style.setProperty('--home-bg',s.background_color||'#f3f6f7');
  document.documentElement.style.setProperty('--home-primary',s.primary_color||'#123c61');
  document.documentElement.style.setProperty('--home-accent',s.accent_color||'#d6b66c');
- const quick=(s.quick_links||HOME_DEFAULTS.quick_links).filter(x=>x.visible!==false).slice(0,4);
+ const quick=(s.quick_links||HOME_DEFAULTS.quick_links).filter(x=>x.visible!==false).slice(0,5);
  main.innerHTML=`
  <div class="academy-home">
   <section class="home-top-search"><div class="home-search-title"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن دورات، مصادر، أو طلب..." autocomplete="off"><button id="searchBtn" aria-label="بحث">⌕</button></div><div class="home-notices"><button aria-label="الإشعارات" title="الإشعارات">♧<i></i></button><button aria-label="حسابي" title="حسابي" onclick="showPage('accounts')">◉</button></div></section>
@@ -175,6 +176,7 @@ function showPage(page){document.body.classList.remove('home-screen');document.q
  if(page==='departments')pageShell('الأقسام العلمية','اختر قسماً لاستعراض موضوعاته ومحاضراته.',`<div class="department-grid">${DB.departments.map(deptCard).join('')}</div>`);
  if(page==='lessons')pageShell('المحاضرات','جميع المحاضرات المنشورة في الأقسام العلمية.',`<div class="content-card">${lessonList(DB.lessons,false)}</div>`);
 
+ if(page==='clinical-hub'&&typeof renderClinicalHub==='function')renderClinicalHub();
  if(page==='clinical-cases'&&typeof renderClinicalCases==='function')renderClinicalCases();
  if(page==='permanent')pageShell('بنك الأسئلة','اختر المحاضرة لعرض أسئلتها المنشورة من قاعدة البيانات.',`<div class="notice">الأسئلة المعروضة هي الأسئلة المنشورة المرتبطة بكل محاضرة. الإجابة والتفسير يظهران بعد اختيارك.</div><div class="content-card">${lessonList(DB.lessons,true)}</div>`);
  if(page==='library')renderLibrary();if(page==='progress')renderProgress();if(page==='courses')renderCourses();if(page==='subscriptions')renderSubscriptions();if(page==='accounts')renderAccounts();if(page==='admin')renderAdmin();}
