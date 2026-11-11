@@ -380,8 +380,13 @@
     "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms all 45 published Diagnostic Optometry lessons (DO-001 through DO-045) contain 10 single-choice questions each, with four uniquely ordered options and exactly one correct answer per question. Correct-answer positions are distributed across all four options."
+    "note": "Supabase verification confirms all 45 published lessons contain 10 single-choice questions each, four uniquely ordered options, and exactly one correct answer per question. All question and option Arabic fields are empty. DO-031 through DO-045 have expanded bilingual lecture content; DO-001 through DO-030 still require expansion to the approved full lecture format and a full scientific review.",
+    "expanded_bilingual_lectures": 15,
+    "lectures_requiring_expansion": 30,
+    "lecture_content_review_status": "partial",
+    "question_structure_verified": true,
+    "question_language_policy": "English-only questions, options, and explanations; Arabic question and option fields are empty."
   },
   "status": "45_lessons_published_question_banks_expanded",
-  "note": "Deployment manifest only; lesson content and question banks are stored in Supabase. DO-001 through DO-045 are published, with 10 English single-choice questions per lesson. The section contains 45 lessons, 450 questions, and 1,800 options. A full scientific content and assessment review remains the next quality-control stage before marking the department complete."
+  "note": "The section currently contains 45 published lessons, 450 questions, and 1,800 options. The question-bank structure has been verified. Lecture expansion is partial: DO-031 through DO-045 have expanded bilingual content, while DO-001 through DO-030 remain shorter lesson texts and must be expanded and scientifically reviewed before the department is marked complete."
 }
