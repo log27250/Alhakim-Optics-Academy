@@ -633,6 +633,7 @@ async function renderAdmin(){
   <button class="quick-card" onclick="adminHomepageSettings()"><b>إدارة الواجهة الرئيسية</b><small>الشعار، الصور، بيانات المؤسس، النصوص، الألوان والاختصارات.</small></button>
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button><button class="quick-card" onclick="adminPaymentMethods()"><b>إعدادات وسائل الدفع</b><small>إضافة وتعديل وإيقاف وسائل الدفع وحساباتها.</small></button>
+  <button class="quick-card" onclick="adminStudentPerformance()"><b>لوحة أداء الطلاب — Student Performance Dashboard</b><small>متابعة إنجازات الطلاب ونتائج الاختبارات والنشاط التعليمي على مستوى الأكاديمية.</small></button>
   <button class="quick-card" onclick="adminAccounts()"><b>إدارة الحسابات</b><small>عرض حسابات الطلاب المسجلة في الأكاديمية.</small></button>
   <button class="quick-card" onclick="adminInstructors()"><b>إدارة المحاضرين</b><small>عرض حسابات المحاضرين المسجلين وصلاحياتهم التعليمية.</small></button>
   <button class="quick-card" onclick="adminCertificates()"><b>إدارة الشهادات</b><small>عرض الشهادات الصادرة وإلغاء الشهادة عند الحاجة.</small></button>
@@ -979,4 +980,42 @@ async function myCourseRequests(){
   const map=new Map(courses.map(c=>[String(c.id),c.title_ar||c.title_en]));
   pageShell('طلباتي في الدورات','حالة طلبات الاشتراك.', '<div class="content-card">'+(rows.map(x=>'<article class="result"><b>'+esc(map.get(String(x.course_id))||'دورة')+'</b><small>الحالة: '+esc(x.status||'pending')+'</small></article>').join('')||'<p>لا توجد طلبات.</p>')+'</div>');
  }catch(e){pageShell('طلباتي','تعذر تحميل الطلبات.','<div class="notice">'+esc(e.message)+'</div>')}
+}
+
+async function adminStudentPerformance(page=1,query=''){
+ if(!adminGuard())return;
+ const perPage=25,offset=(Math.max(1,page)-1)*perPage;
+ const q=String(query||'').trim();
+ try{
+  const [profiles,completions,attempts]=await Promise.all([
+   rest('profiles','select=id,full_name,email,created_at&order=created_at.desc&limit=1000'),
+   rest('academy_lesson_completions','select=user_id,lesson_id,completed_at&order=completed_at.desc&limit=10000'),
+   rest('academy_exam_attempts','select=user_id,total_questions,correct_answers,score,submitted_at,status&order=submitted_at.desc&limit=10000')
+  ]);
+  const all=profiles||[],done=completions||[],exam=attempts||[];
+  const byUser=new Map();
+  for(const p of all)byUser.set(String(p.id),{...p,lessons:new Set(),attempts:0,correct:0,questions:0,latest:null,scoreSum:0,scoreCount:0});
+  for(const x of done){const u=byUser.get(String(x.user_id));if(u){u.lessons.add(String(x.lesson_id));if(x.completed_at&&(!u.latest||x.completed_at>u.latest))u.latest=x.completed_at;}}
+  for(const x of exam){const u=byUser.get(String(x.user_id));if(u){u.attempts++;u.correct+=Number(x.correct_answers||0);u.questions+=Number(x.total_questions||0);if(x.score!==null&&x.score!==undefined){u.scoreSum+=Number(x.score);u.scoreCount++;}if(x.submitted_at&&(!u.latest||x.submitted_at>u.latest))u.latest=x.submitted_at;}}
+  const students=[...byUser.values()].map(u=>({...u,accuracy:u.questions?Math.round(u.correct/u.questions*100):null,average:u.scoreCount?Math.round(u.scoreSum/u.scoreCount):null}));
+  const activeCutoff=Date.now()-30*86400000;
+  const active=students.filter(s=>s.latest&&new Date(s.latest).getTime()>=activeCutoff).length;
+  const avg=students.filter(s=>s.accuracy!==null);
+  const academyAccuracy=avg.length?Math.round(avg.reduce((n,s)=>n+s.accuracy,0)/avg.length):null;
+  const filtered=students.filter(s=>!q||String(s.full_name||'').toLowerCase().includes(q.toLowerCase())||String(s.email||'').toLowerCase().includes(q.toLowerCase()));
+  const pageCount=Math.max(1,Math.ceil(filtered.length/perPage)),current=Math.min(Math.max(1,page),pageCount),shown=filtered.slice((current-1)*perPage,current*perPage);
+  const stat=(n,label)=>'<div class="stat"><b>'+n+'</b><small>'+label+'</small></div>';
+  pageShell('لوحة أداء الطلاب','Student Performance Dashboard — لوحة إدارية لمتابعة أداء جميع الطلاب.',`
+   <div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى نافذة الإدارة</button></div>
+   <div class="stats">${stat(students.length,'حساب طالب ضمن أول 1,000 حساب محمّل')}${stat(active,'نشط خلال آخر 30 يوماً')}${stat(academyAccuracy===null?'—':academyAccuracy+'%','متوسط دقة الإجابات للطلاب ذوي محاولات مسجلة')}${stat(exam.length,'محاولة امتحان محمّلة')}</div>
+   <div class="notice">تُعرض بيانات الطلاب المسجلة فعلياً فقط. النشاط محسوب من آخر إكمال درس أو تسليم امتحان. لا يعني غياب السجل أن الطالب ضعيف الأداء.</div>
+   <label for="adminStudentSearch">البحث باسم الطالب أو البريد الإلكتروني</label><input id="adminStudentSearch" type="search" value="${esc(q)}" placeholder="ابحث عن طالب..." onkeydown="if(event.key==='Enter')adminStudentPerformance(1,this.value)">
+   <button class="primary" onclick="adminStudentPerformance(1,document.getElementById('adminStudentSearch').value)">بحث</button>
+   <div class="table-wrap"><table class="data-table"><thead><tr><th>الطالب</th><th>تاريخ التسجيل</th><th>الدروس المكتملة</th><th>محاولات الامتحان</th><th>دقة الإجابات</th><th>آخر نشاط</th></tr></thead><tbody>
+   ${shown.map(s=>'<tr><td><b>'+esc(s.full_name||'Student')+'</b><br><small>'+esc(s.email||'')+'</small></td><td>'+esc(s.created_at?new Date(s.created_at).toLocaleDateString():'—')+'</td><td>'+s.lessons.size+'</td><td>'+s.attempts+'</td><td>'+(s.accuracy===null?'—':s.accuracy+'%')+'</td><td>'+esc(s.latest?new Date(s.latest).toLocaleDateString():'لا يوجد نشاط مسجل')+'</td></tr>').join('')||'<tr><td colspan="6">لا توجد نتائج مطابقة.</td></tr>'}
+   </tbody></table></div>
+   <div class="admin-actions"><button class="secondary" ${current<=1?'disabled':''} onclick="adminStudentPerformance(${current-1},document.getElementById('adminStudentSearch').value)">السابق</button><span>صفحة ${current} من ${pageCount} — ${filtered.length} طالباً</span><button class="secondary" ${current>=pageCount?'disabled':''} onclick="adminStudentPerformance(${current+1},document.getElementById('adminStudentSearch').value)">التالي</button></div>
+   <small>ملاحظة تقنية: تُحمّل الواجهة حالياً حتى 1,000 حساب و10,000 سجل إكمال و10,000 محاولة في كل طلب؛ يلزم الانتقال إلى تجميع خادمي وصفحات قاعدة بيانات عند تجاوز هذه الحدود.</small>
+   </div>`);
+ }catch(e){pageShell('لوحة أداء الطلاب','تعذر تحميل إحصاءات الطلاب.',`<div class="content-card"><div class="notice">${esc(e.message||String(e))}</div><button class="secondary" onclick="renderAdmin()">العودة إلى الإدارة</button></div>`);}
 }
