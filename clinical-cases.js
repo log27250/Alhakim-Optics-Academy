@@ -22,12 +22,12 @@ function toggleHakimCase(i,button){const box=document.getElementById('hakim-case
 
 function renderClinicalHub(){
 const items=[
+{icon:'📊',title:'Student Performance Dashboard',ar:'لوحة أداء الطالب',desc:'متابعة التقدم والإنجاز ونتائج الاختبارات ونقاط القوة والجوانب التي تحتاج إلى مراجعة.',status:'قيد التجهيز'},
 {icon:'🩺',title:'Clinical Cases',ar:'الحالات السريرية',desc:'حالات سريرية تعليمية مع تحليل الأعراض والعلامات، والتشخيص التفريقي، والفحوصات، وخطة التدبير والإحالة.',status:'متاح الآن',active:true,action:"showPage('clinical-cases')"},
 {icon:'🖼️',title:'Image-Based Questions',ar:'الأسئلة المعتمدة على الصور',desc:'تدريب على تفسير صور قاع العين والجزء الأمامي والقرنية والمصباح الشقي وصور الأجهزة والنتائج السريرية.',status:'قيد التجهيز'},
 {icon:'📋',title:'OSCE Practical Training',ar:'التدريب العملي بنظام OSCE',desc:'محطات عملية منظمة تشمل خطوات الفحص، والتواصل مع المريض، وتفسير النتائج، وقوائم تقييم الأداء والمهارات.',status:'قيد التجهيز'},
 {icon:'👁️',title:'Ocular Anatomy and Diseases Atlas',ar:'أطلس تشريح العين وأمراضها',desc:'مرجع بصري تفاعلي لتراكيب العين ووظائفها وأمراضها، مع صور توضيحية ومقارنات سريرية.',status:'قيد التجهيز'},
 {icon:'🔬',title:'Virtual Refraction Room',ar:'غرفة الانكسار الافتراضية',desc:'بيئة تدريب لمحاكاة خطوات قياس الانكسار الموضوعي والذاتي، واستخدام أدوات الفحص وتفسير النتائج.',status:'قيد التجهيز'},
-{icon:'📊',title:'Student Performance Dashboard',ar:'لوحة أداء الطالب',desc:'متابعة التقدم والإنجاز ونتائج الاختبارات ونقاط القوة والجوانب التي تحتاج إلى مراجعة.',status:'قيد التجهيز'},
 {icon:'🎯',title:'Binocular Vision Simulator',ar:'محاكي الرؤية الثنائية',desc:'تدريب تفاعلي على الحول والاتزان العضلي، والـ phoria، والـ vergence، والـ accommodation واختبارات الرؤية الثنائية.',status:'قيد التجهيز'}
 ];
 pageShell('المهارات السريرية','سبعة مسارات تدريبية لتطوير مهارات الفحص والتفكير السريري والتطبيق العملي.','<div class="notice"><b>المهارات السريرية:</b> تضم هذه الصفحة المسارات السبعة المعتمدة للأكاديمية. المسارات التي لم تُفعّل بعد ستظهر بوضوح على أنها قيد التجهيز، ولن تُعرض كأنها تعمل قبل اكتمال تطويرها ومراجعتها علمياً.</div><div class="clinical-hub-grid">'+items.map((x,i)=>'<article class="clinical-hub-card"><div class="hub-icon">'+x.icon+'</div><span class="tag">'+(i+1)+'</span><h3>'+x.title+'</h3><b>'+x.ar+'</b><p>'+x.desc+'</p><span class="tag">'+x.status+'</span>'+(x.active?'<br><button class="primary" type="button" onclick="'+x.action+'">ابدأ التدريب ←</button>':'<br><button class="secondary" type="button" disabled aria-disabled="true">قيد التجهيز</button>')+'</article>').join('')+'</div>');
