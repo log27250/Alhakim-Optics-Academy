@@ -17,7 +17,7 @@ The latest independent Supabase audit confirms:
 - Arabic assessment fields are empty.
 - No missing or short explanations were found by the current minimum-length check.
 - All 45 lessons contain a references heading.
-- EINS-011–EINS-030 contain separate English and Arabic lesson-content fields. EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format. EINS-001–EINS-010 have empty `content_ar` fields and still need Arabic scientific explanations.
+- EINS-011–EINS-030 contain separate English and Arabic lesson-content fields. EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format. EINS-001–EINS-010 contain Arabic explanations inline within `content_en` while `content_ar` is empty; this is bilingual, but differs from the separate-field format used in EINS-011–EINS-030.
 
 These checks establish structural integrity, not by themselves academic approval.
 
@@ -49,7 +49,7 @@ Topics include autokeratometry, phoropters, near-vision testing, pupillometry, P
 
 ### E. Lesson presentation and references
 - Rebuilt EINS-031–EINS-045 teaching content in a consistent bilingual sequence: English scientific paragraph followed by an Arabic explanatory paragraph.
-- EINS-011–EINS-030 retain separate English and Arabic fields; EINS-001–EINS-010 still require Arabic content.
+- EINS-011–EINS-030 retain separate English and Arabic fields; EINS-001–EINS-010 contain Arabic teaching text inline in `content_en`; presentation storage differs from the other lesson ranges.
 - Added references to EINS-011–EINS-045, selected by topic:
   - Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
   - Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
@@ -70,7 +70,7 @@ A lesson-order audit found that EINS-001–EINS-020 all had `lessons.display_ord
 Additional distractor remediation completed:
 - EINS-021–EINS-025 now have distinct, lesson-specific incorrect options; repeated distractor sets were removed.
 - EINS-009 had two repeated incorrect-option texts; these were replaced with distinct, instrument-relevant distractors.
-- EINS-023 contained one broad stem; it was rewritten to test review of a macular OCT thickness map.
+- EINS-023 contained one broad stem; it was rewritten to test review of a macular OCT thickness map. EINS-008's retinoscopy reflex-direction explanation was clarified in English and Arabic to state the far-point relationship for with, against and neutral reflexes.
 
 The current audit still finds repeated distractor patterns in EINS-026–EINS-045. These must be remediated before academic approval.
 
@@ -79,7 +79,7 @@ The current audit still finds repeated distractor patterns in EINS-026–EINS-04
 The section is **not yet approved**. The following work remains:
 1. Complete a question-by-question scientific review of all 450 lesson-bank questions, including distractor plausibility and alignment with each lesson.
 2. Replace repeated distractor patterns in EINS-026–EINS-045 and then re-run the complete repeated-option audit.
-3. Add Arabic scientific explanations to EINS-001–EINS-010 and standardize the bilingual lesson presentation across all 45 lessons without losing existing content.
+3. Standardize the bilingual lesson presentation/storage across all 45 lessons without losing the existing Arabic explanations embedded in EINS-001–EINS-010 or the separate Arabic content in EINS-011–EINS-030.
 4. Verify that each reference supports the exact claims made in its lesson and add topic-specific standards or peer-reviewed sources where required. Relevant standards identified include ISO 15004-1:2020, ISO 10939:2017, ISO 16971-1:2024, ANSI Z80.10-2014, ANSI Z80.37-2017 and current ISCEV ERG/VEP/EOG standards.
 5. Test the final examination and lesson rendering through the academy interface on mobile and desktop; review question distribution, answer-key display, scoring and attempt recording.
 
@@ -98,4 +98,4 @@ Academic approval will be declared only when:
 
 **IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
 
-The latest structural checks pass for all 45 lessons, 450 lesson-bank questions and 1,800 options. The 110-item final-examination pool passes its current structural and language checks. Lesson order has been corrected, and distractor remediation has been completed for EINS-009 and EINS-021–EINS-025. Academic approval remains blocked by repeated distractors in EINS-026–EINS-045, missing Arabic content in EINS-001–EINS-010, reference-to-claim verification, the full question-by-question scientific audit and live interface testing.
+The latest structural checks pass for all 45 lessons, 450 lesson-bank questions and 1,800 options. The 110-item final-examination pool passes its current structural and language checks. Lesson order has been corrected, and distractor remediation has been completed for EINS-009 and EINS-021–EINS-025. Academic approval remains blocked by repeated distractors in EINS-026–EINS-045, inconsistent bilingual content storage/presentation across lesson ranges, reference-to-claim verification, the full question-by-question scientific audit and live interface testing.
