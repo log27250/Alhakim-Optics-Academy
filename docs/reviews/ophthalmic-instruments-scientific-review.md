@@ -269,3 +269,16 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This internal review is not external specialist sign-off. Remaining work includes EINS-001–EINS-040 question-level review, final-exam question-level review, lesson/reference verification and live interface testing.
 
 **Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Question-level audit — EINS-036–EINS-037 (2026-11-11)
+
+- Retrieved all 20 question records, their 80 options, keyed-answer flags and explanations from Supabase.
+- Found template-style stems and repeated correct-answer paragraphs that did not directly answer the question (for example, generic prompts about the instrument's “clinical task” paired with a broad lesson paragraph).
+- Rewrote all 10 EINS-036 items to assess optical axial-length technologies, optical-path conversion, fixation/alignment, scan quality, media-opacity limitations, repeatability, IOL biometric inputs and documentation.
+- Rewrote all 10 EINS-037 items to assess total internal reflection, gonioscopy lens optics and designs, controlled examination technique, inadvertent indentation, appositional versus synechial closure, imaging's complementary role and clinical documentation.
+- Replaced the keyed correct option and explanation for every rewritten item so that each answer directly resolves its stem. Existing incorrect options were retained only where they remained clearly incorrect and distinct.
+- Supabase read-back confirms for each topic: 10 questions, 40 options, 10 keyed correct options, 10 distinct stems and 40 distinct option texts.
+- This is a substantive internal question-level repair, not independent external specialist approval. EINS-038–EINS-040 still require the same question-level audit; EINS-001–EINS-035 also remain in the full question-by-question review queue.
+
+**Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
