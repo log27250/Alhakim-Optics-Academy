@@ -308,3 +308,31 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - EINS-006–EINS-045, the full distractor plausibility review of EINS-001–EINS-005, and the 110-question final examination remain to be completed.
 
 **Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Final quality-control pass — 2026-11-11
+
+### Database-wide structural verification
+- The EINS lesson bank contains 45 topics with 10 questions each (450 questions total).
+- Each of the 45 topics has 40 answer options and 10 keyed correct options (1,800 options total); each topic has 10 distinct question stems.
+- All assessment text remains English-only in the inspected lesson-bank fields.
+- The EINS final examination contains 110 active records. Structural checks confirm 110 distinct stems, four options per item, a matching correct-option value for every item, no missing keys, and no Arabic assessment text.
+- Four short exam stems are concise recall prompts, not structural defects.
+- The 110-item exam has 15 previously templated explanations containing a generic “relevant lesson point” wrapper. All 15 wrappers were removed and the explanations rewritten as direct clinical rationales.
+- Twelve exam items with generic or misaligned stems were rewritten to match their keyed answer; three additional mismatched stems (gonioscopy clinical role, optical-biometry limitations, prism base direction) were also corrected. Read-back confirmed the updated wording.
+- The final examination has not yet received a full independent subject-matter review of every distractor and clinical nuance.
+
+### Lesson content and figures
+- All 45 lessons contain substantive bilingual content in the stored lesson content; explicit reference headings are present in the sampled early lessons.
+- Fifteen inline SVG educational schematics are present in EINS-031–EINS-045. No inline SVG was found in EINS-001–EINS-030 in this audit.
+- SVG placement was previously verified before the references in EINS-036–EINS-045, but rendering has not been tested in the live student interface or across mobile/desktop clients.
+- The lesson bank and examination remain structurally complete, but structural counts do not prove every scientific statement, citation, distractor or display behavior is correct.
+
+### Remaining approval gates
+1. Complete a question-by-question scientific and distractor review of EINS-001–EINS-035 (the earlier passes were partial screens or distractor repairs, not a complete academic audit).
+2. Complete a full item-by-item scientific audit of all 110 final-exam questions, including every option and explanation.
+3. Verify each lesson's references against the specific claims it supports; a bibliography alone is not evidence that every claim is sourced.
+4. Add and verify appropriately placed instructional figures for EINS-001–EINS-030 if the department standard requires figures in every lesson.
+5. Test lesson rendering, inline SVG, bilingual/RTL display and final-exam behavior in the live application on mobile and desktop.
+
+**Approval decision: NOT FINALLY APPROVED.** The department is structurally populated and the listed database repairs are deployed, but academic approval is withheld until all five gates above are completed. This report records an internal quality-control review and is not external specialist accreditation.
