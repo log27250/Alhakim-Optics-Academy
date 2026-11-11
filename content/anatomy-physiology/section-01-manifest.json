@@ -1,0 +1,41 @@
+{
+  "academy": "HAKIM OPTICS ACADEMY",
+  "section_number": 1,
+  "department": {
+    "code": "ANP",
+    "name_en": "Anatomy and Physiology",
+    "name_ar": "التشريح ووظائف الأعضاء"
+  },
+  "source_of_truth": "Supabase public.lessons",
+  "lesson_count": 45,
+  "illustration_assets": {
+    "count": 45,
+    "embedded_links": 45,
+    "format": "Original SVG educational schematics",
+    "directory": "assets/anatomy-physiology/",
+    "one_per_lecture": true
+  },
+  "photographic_assets": {
+    "distinct_lectures": 14,
+    "placements": 17,
+    "types": [
+      "slit-lamp ocular examination",
+      "normal fundus photograph",
+      "direct ophthalmoscope",
+      "Goldmann applanation tonometer",
+      "non-contact tonometer"
+    ],
+    "licensing": "Wikimedia Commons CC BY-SA 4.0, CC BY-SA 3.0 and CC0 1.0; attribution text is embedded beneath each photograph."
+  },
+  "validation": {
+    "database_audit_date": "2026-11-11",
+    "published_lessons": 45,
+    "lessons_with_illustration_links": 45,
+    "lessons_with_photographic_references": 14,
+    "illustration_and_photo_placement_status": "embedded; final per-lecture placement and live rendering audit pending",
+    "content_integrity_status": "requires final review after image insertion to confirm no original lecture text was displaced",
+    "app_rendering_status": "Markdown image syntax supported by existing app.js renderer; responsive CSS previously verified; live academy rendering not tested in this pass"
+  },
+  "placement_guide": "content/anatomy-physiology/illustration-placement-guide.md",
+  "status": "45_original_illustrations_embedded_14_lectures_with_licensed_photographic_references_content_integrity_and_live_rendering_audit_pending"
+}
