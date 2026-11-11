@@ -77,8 +77,7 @@ The current audit still finds repeated distractor patterns in EINS-026–EINS-04
 ## 4. Remaining work before academic sign-off
 
 The section is **not yet approved**. The following work remains:
-1. Complete a question-by-question scientific review of all 450 lesson-bank questions, including distractor plausibility and alignment with each lesson.
-2. Replace repeated distractor patterns in EINS-026–EINS-045 and then re-run the complete repeated-option audit.
+1. Complete a question-by-question scientific review of all 450 lesson-bank questions, including distractor plausibility and alignment with each lesson.2. Replace repeated distractor patterns in EINS-026–EINS-045 and then re-run the complete repeated-option audit.
 3. Standardize the bilingual lesson presentation/storage across all 45 lessons without losing the existing Arabic explanations embedded in EINS-001–EINS-010 or the separate Arabic content in EINS-011–EINS-030.
 4. Verify that each reference supports the exact claims made in its lesson and add topic-specific standards or peer-reviewed sources where required. Relevant standards identified include ISO 15004-1:2020, ISO 10939:2017, ISO 16971-1:2024, ANSI Z80.10-2014, ANSI Z80.37-2017 and current ISCEV ERG/VEP/EOG standards.
 5. Test the final examination and lesson rendering through the academy interface on mobile and desktop; review question distribution, answer-key display, scoring and attempt recording.
@@ -157,8 +156,7 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 ## Progress update — EINS-036–040 distractor remediation
 
-- Replaced all 150 incorrect answer options across EINS-036–040 with topic-specific alternatives. The revised distractors cover optical biometry acquisition and signal interpretation; gonioscopy optics, lens handling and angle assessment; fundus lens image formation and examination technique; prism optics, base direction and measurement conditions; and synoptophore functions, setup and interpretation.
-- Supabase verification for each of the five topics confirms 10 questions, 40 options, 10 keyed correct options, 10 distinct question stems, 30 distinct incorrect-option texts, and zero Arabic assessment text.
+- Replaced all 150 incorrect answer options across EINS-036–040 with topic-specific alternatives. The revised distractors cover optical biometry acquisition and signal interpretation; gonioscopy optics, lens handling and angle assessment; fundus lens image formation and examination technique; prism optics, base direction and measurement conditions; and synoptophore functions, setup and interpretation.- Supabase verification for each of the five topics confirms 10 questions, 40 options, 10 keyed correct options, 10 distinct question stems, 30 distinct incorrect-option texts, and zero Arabic assessment text.
 - This closes the repeated-distractor defect recorded in the previous progress update. It does not establish that every keyed answer and stem is scientifically optimal: several stems and correct-answer concepts remain repetitive or template-like and still require question-by-question reconstruction and expert review.
 - The five inline SVG figures remain present before their references headings; rendering in the live learner interface remains untested.
 
@@ -238,7 +236,6 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - The revised correct answer identifies the light rise as the increase in standing potential during light adaptation relative to the preceding dark trough. The explanation links the light-peak/dark-trough relationship to the Arden ratio and cautions that interpretation must follow the validated protocol and laboratory reference limits.
 - Supabase read-back verified the revised stem, explanation and four options, with exactly one correct answer.
 - The other nine items were retained; no unsupported edits were made.
-
 ### Scope and limitations
 - This pass substantively reviewed EINS-041 and EINS-042 only. EINS-043–045 and EINS-001–040 still require the same question-level review.
 - Structural counts and unique option text do not alone establish scientific validity. The final examination, lesson claims/references and live learner-interface rendering remain unvalidated.
@@ -317,8 +314,7 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Each of the 45 topics has 40 answer options and 10 keyed correct options (1,800 options total); each topic has 10 distinct question stems.
 - All assessment text remains English-only in the inspected lesson-bank fields.
 - The EINS final examination contains 110 active records. Structural checks confirm 110 distinct stems, four options per item, a matching correct-option value for every item, no missing keys, and no Arabic assessment text.
-- Four short exam stems are concise recall prompts, not structural defects.
-- The 110-item exam has 15 previously templated explanations containing a generic “relevant lesson point” wrapper. All 15 wrappers were removed and the explanations rewritten as direct clinical rationales.
+- Four short exam stems are concise recall prompts, not structural defects.- The 110-item exam has 15 previously templated explanations containing a generic “relevant lesson point” wrapper. All 15 wrappers were removed and the explanations rewritten as direct clinical rationales.
 - Twelve exam items with generic or misaligned stems were rewritten to match their keyed answer; three additional mismatched stems (gonioscopy clinical role, optical-biometry limitations, prism base direction) were also corrected. Read-back confirmed the updated wording.
 - The final examination has not yet received a full independent subject-matter review of every distractor and clinical nuance.
 
@@ -397,7 +393,6 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - The correction assigns the correct answer positions evenly by question: position 1 = 113, position 2 = 113, position 3 = 112, position 4 = 112.
 - Post-update verification confirms 450 questions; every question has exactly four options, four distinct display positions numbered 1–4, exactly one correct option, and no malformed option sets.
 - The 110-item final exam already has a balanced key-position distribution: 28, 28, 27 and 27 across positions 1–4, respectively. No final-exam option order was changed.
-
 ### Bilingual lesson storage verified
 - Confirmed EINS-001–EINS-010 each contain Arabic characters embedded in `content_en`; their separate `content_ar` fields are empty. This is an existing inline bilingual storage pattern, not evidence that Arabic teaching text is absent.
 - Confirmed 35/45 lessons have a populated separate `content_ar` field. EINS-011–EINS-030 have shorter separate Arabic sections than EINS-031–EINS-045. The consistency and completeness of paragraph-by-paragraph Arabic explanation still need a content-level review; no automated conversion or overwriting was performed.
@@ -476,7 +471,6 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 5. Obtain an independent optometry/ophthalmic-instrument specialist review if the academy intends to represent the section as externally academically accredited.
 
 **Latest decision: NOT FINALLY APPROVED.** All 450 bank items and all 110 exam items have now received batch-wise internal screening; structural checks pass and the documented answer-position and content repairs are deployed. Final approval remains withheld because source-to-claim verification, the remaining distractor-strengthening pass, bilingual content review, live interface testing and any desired external specialist sign-off are still open.
-
 
 ## Additional content-reference and explanation remediation — 2026-11-11
 
@@ -558,10 +552,21 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 
 ## Targeted pupil-assessment distractor refinement — EINS-014 — 2026-11-11
-
 - Replaced all 30 incorrect options across the 10 EINS-014 questions with alternatives specific to pupil physiology, infrared pupil-boundary detection, pupil diameter versus pupillary distance, clinical pupil examination, swinging-flashlight testing, automated pupillometry limitations, near response, serial measurement conditions and anisocoria assessment.
 - No stems, explanations, keyed answers or correct-option flags were changed.
 - Supabase read-back confirms 10 questions, 40 options, 10 correct options, 40 distinct option texts and no empty options. Each question therefore retains four distinct choices and one keyed answer.
 - This focused revision improves the relevance of distractors; the item set still requires full lesson/reference-based scientific validation and independent specialist review.
 
 **Approval status remains NOT FINALLY APPROVED.**
+
+## Targeted near-vision distance-measurement distractor refinement — EINS-015-L01 — 2026-11-11
+
+- Reviewed all 10 questions in the lesson **PD Meter: Monocular and Binocular Measurements**, including stems, four options, keyed answers, explanations and the associated lesson content.
+- Replaced 30 weak or overly obvious incorrect options with alternatives within pupillary-distance measurement, monocular versus binocular reference points, near convergence, digital detection methods, fixation and alignment, documentation, measurement artifacts and spectacle-lens centration.
+- No question stems, explanations, correct-option flags or keyed answers were changed.
+- Before editing, captured all 40 option records in a dedicated backup table: `_backup_eins015_l01_options_20261111`.
+- Supabase read-back confirms 10 questions; each has exactly four options, four distinct option texts and exactly one correct option. All 10 keyed answer texts are unchanged from the backup.
+- This is a focused distractor refinement for EINS-015-L01 only. The remaining EINS-015 lessons and the wider 450-item bank still require the full semantic and source-based review.
+
+**Approval status remains NOT FINALLY APPROVED.**
+
