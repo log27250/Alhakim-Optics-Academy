@@ -413,3 +413,29 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 ### Current decision
 **NOT FINALLY APPROVED.** The key-position imbalance has been corrected and independently read back successfully. Remaining approval gates are: complete scientific and distractor review of all 450 bank questions and 110 final-exam items; claim-to-reference verification for all 45 lessons; consistency and completeness review of bilingual lesson explanations; and live learner-interface testing on mobile and desktop, including SVG display, RTL/LTR layout, answer selection, scoring and attempt recording. This is an internal review, not external specialist accreditation.
+
+
+## Final-examination item review and remediation — 2026-11-11
+
+### Full item-level review completed
+- Retrieved and inspected all 110 active EINS final-examination records in reviewable batches, including each stem, four options, keyed answer and explanation.
+- The review identified multiple weak distractor sets in which options referred to unrelated ophthalmic tests, and several explanations that merely repeated the keyed option without teaching the underlying principle.
+- Reworked 50 examination items to improve distractor relevance, correct scientific wording, clarify clinical limitations and expand answer rationales. Changes covered slit-lamp technique, colour arrangement and anomaloscopy, near addition and near-vision notation, potential acuity, pachymetry, pupillometry/PD, OCT/OCTA, fundus imaging, electrophysiology, B-scan/A-scan, keratometry, retinoscopy, prism testing, synoptophore, infection control, calibration and portable-device technique.
+- Added N notation to the list of commonly used near-vision notation systems, avoiding an unnecessarily restrictive list.
+- Corrected the near-vision reading-distance item and the explanation of the indirect ophthalmoscopic image; expanded rationales for Amsler-grid interpretation, OCTA limitations, electrophysiology acquisition, IOL biometry and several other topics.
+- Updated the portable-device item stem to make its scope specific rather than asking a broad, underspecified question.
+- Rechecked all revised items after writing. The final read-back confirms each revised item has four distinct options and the keyed answer exactly matches one option.
+
+### Answer-position distribution restored and verified
+- Revisions to answer text altered the distribution of keyed positions. The 110 exam option arrays were therefore reordered without changing the question wording, option wording, keyed answer or explanation.
+- Final verified distribution: position 1 = 28; position 2 = 28; position 3 = 27; position 4 = 27.
+- The 450-question lesson bank was separately rebalanced and verified at position 1 = 113; position 2 = 113; position 3 = 112; position 4 = 112.
+- Database-wide post-check: 110 active exam items, 110 distinct stems, four distinct options per item, zero key mismatches and zero malformed option arrays. One concise exam explanation remains for the straightforward converging action of a plus spherical lens; it was expanded during this pass, and a final recount is required.
+
+### Lesson-bank screening progress
+- Retrieved and screened all 30 question stems, options, keys and explanations in EINS-011–EINS-013. The concepts reviewed include autokeratometry limitations and repeatability, corneal astigmatism, phoropter fogging and subjective refinement, Jackson cross-cylinder use, binocular balance, near-vision notation, test distance, illumination and functional reading assessment.
+- The retrieved records show that some explanations append the same broad lesson summary to multiple items, and several distractors in these early topics are weaker or less closely related than desired. This is not yet a full distractor-reconstruction pass for EINS-011–EINS-013.
+- The remaining bank topics EINS-014–EINS-045 still require the same complete item-by-item review. Previous topic-specific repairs do not substitute for that full audit.
+
+### Updated approval decision
+**NOT FINALLY APPROVED.** The 110-item final exam has now undergone an internal item-level review and targeted remediation, and its structure and answer-position distribution pass the current database checks. The lesson bank has not yet completed a full question-by-question scientific and distractor audit across all 450 items. Sentence-level reference verification, bilingual content completeness/consistency, and live learner-interface testing on mobile and desktop (including SVG, RTL/LTR, scoring and attempt recording) also remain open. This is an internal academic-quality review, not external specialist accreditation.
