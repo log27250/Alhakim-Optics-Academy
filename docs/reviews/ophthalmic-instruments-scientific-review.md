@@ -223,3 +223,23 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Remaining department-level work includes full question-by-question review of all 450 items, final-exam content and UI validation, lesson/reference verification, bilingual presentation standardization and mobile/desktop rendering tests.
 
 **Department sign-off remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Question-level audit — EINS-041–EINS-042 (2026-11-11)
+
+### EINS-041 — Hess Screen, Lees Screen and Diplopia Charts
+- Retrieved and reviewed all 10 stems, keyed answers, explanations and 40 options against the lesson's stated purpose, dissociation principle, acquisition conditions, subjective limitations, chart interpretation, Hering's law, repeatability and documentation.
+- The sampled question set is aligned with the lesson and has one defensible keyed answer per item. Distractors are distinguishable and relevant; no stem or key change was justified in this pass.
+- This is an internal content review, not external specialist sign-off.
+
+### EINS-042 — ERG, VEP and EOG
+- Retrieved and reviewed all 10 stems, keyed answers, explanations and 40 options against the lesson's distinction between retinal ERG, cortical VEP and EOG standing-potential assessment; adaptation protocols; electrode acquisition; artifacts; fixation and refractive clarity; reproducibility; age-appropriate norms; and trace documentation.
+- Found a substantive duplication: two questions independently tested the same action for non-reproducible traces. Replaced the later duplicate with an EOG light-rise question and four EOG/ERG/VEP-specific options.
+- The revised correct answer identifies the light rise as the increase in standing potential during light adaptation relative to the preceding dark trough. The explanation links the light-peak/dark-trough relationship to the Arden ratio and cautions that interpretation must follow the validated protocol and laboratory reference limits.
+- Supabase read-back verified the revised stem, explanation and four options, with exactly one correct answer.
+- The other nine items were retained; no unsupported edits were made.
+
+### Scope and limitations
+- This pass substantively reviewed EINS-041 and EINS-042 only. EINS-043–045 and EINS-001–040 still require the same question-level review.
+- Structural counts and unique option text do not alone establish scientific validity. The final examination, lesson claims/references and live learner-interface rendering remain unvalidated.
+- Department status remains **IN PROGRESS — NOT YET ACADEMICALLY APPROVED**.
