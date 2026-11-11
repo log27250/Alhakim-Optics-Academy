@@ -511,3 +511,15 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 ### Approval status
 **NOT FINALLY APPROVED.** The internal database quality checks and explanation/reference improvements are now complete for this pass. Approval remains blocked by (a) sentence-level source-to-claim verification across 45 lessons, (b) final semantic distractor/one-best-answer validation of every bank item by a qualified reviewer, (c) bilingual field normalization and RTL/LTR visual verification, and (d) real learner-interface testing on mobile and desktop, including SVG rendering, answer selection, scoring, attempt persistence and progress recording. No external specialist accreditation is claimed.
+
+
+## Foundational question distractor strengthening — 2026-11-11
+
+- Reworked weak distractors in the foundational bank topics EINS-001–EINS-010, focusing on measurement accuracy/precision, calibration and verification, optical principles, visual acuity testing conditions, trial-frame errors, lensmeter technique, autorefractor limitations, retinoscopy, keratometry and corneal topography/tomography.
+- Replaced several implausible distractors (for example, unrelated room or equipment details) with alternatives tied to the same measurement domain.
+- During the pass, identified and corrected two potential multi-answer defects introduced while improving distractors: a visual-acuity testing-distance option that duplicated the intended angular-size concept, and a trial-frame error item whose revised options had accidentally described multiple errors. The final wording now restores one keyed best answer in each item.
+- Corrected the refraction distractor in EINS-002 so a true statement about speed change at normal incidence is not inadvertently presented as a false alternative.
+- Final structural verification after these edits: 450 bank questions, zero malformed option/key records, zero explanations under 60 characters; answer-position counts remain 113/113/112/112. The 110-item final exam remains structurally clean with zero key/option defects and answer positions 28/28/27/27.
+- This is a targeted strengthening pass, not a formal psychometric analysis or a substitute for independent review of distractor functioning with actual student response data.
+
+**Approval status remains NOT FINALLY APPROVED** pending sentence-level source mapping, full semantic review by a qualified subject specialist, bilingual RTL/LTR normalization and visual QA, and live learner-interface testing on mobile and desktop.
