@@ -1,0 +1,1689 @@
+{
+  "batch": 5,
+  "status": "review",
+  "lessons": [
+    {
+      "code": "LV-041-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "الرعاية متعددة التخصصات لضعف البصر",
+      "title_en": "Multidisciplinary Low Vision Care",
+      "topic_id": "cb69823c-1fa7-4d20-b45e-8d6c9e00f76b",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "A coordinated plan with shared patient-centred goals",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "A device prescription without assessment",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Family advice replacing specialist care",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Every discipline for every patient",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Multidisciplinary Low Vision Care: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "An ophthalmologist for ocular disease management",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Family advice replacing specialist care",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Every discipline for every patient",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "A device prescription without assessment",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Multidisciplinary Low Vision Care: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "An occupational therapist for daily task adaptation",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Every discipline for every patient",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "A device prescription without assessment",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Family advice replacing specialist care",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Multidisciplinary Low Vision Care: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "A mobility specialist for safe travel training",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "A device prescription without assessment",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Family advice replacing specialist care",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Every discipline for every patient",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Multidisciplinary Low Vision Care: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "A named coordinator and clear responsibilities",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Family advice replacing specialist care",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Every discipline for every patient",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "A device prescription without assessment",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Multidisciplinary Low Vision Care: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "الرعاية متعددة التخصصات تعني تعاون اختصاصيي البصريات وطب العيون والعلاج الوظيفي والتوجيه والحركة والتعليم والدعم النفسي والاجتماعي بحسب احتياج الشخص. اختصاصي البصريات يقيّم الرؤية الوظيفية ويختار الوسائل البصرية، بينما يتابع طبيب العيون المرض العضوي. يركز العلاج الوظيفي على أنشطة الحياة اليومية وتعديل البيئة، ويعالج اختصاصي التوجيه والحركة سلامة التنقل. يجب وضع أهداف مشتركة وتحديد مسؤوليات كل عضو والحصول على موافقة المريض قبل تبادل معلوماته. سريرياً، المريض الذي يعاني صعوبة قراءة ملصقات الأدوية والتنقل يحتاج خطة تجمع الوسائل البصرية والتدريب وتقييم السلامة، وليس جهاز تكبير فقط.",
+      "content_en": "Multidisciplinary low vision care integrates optometry, ophthalmology, occupational therapy, orientation and mobility, rehabilitation, education, psychology and social services according to the person's needs. The optometrist contributes functional vision assessment, refraction, optical-device selection and monitoring, while ophthalmology evaluates and manages ocular disease. Occupational therapists address daily tasks and environmental adaptation; orientation-and-mobility specialists address safe travel; educators and assistive-technology professionals support learning and access. Team membership is individualized rather than automatically involving every discipline. A coordinated plan uses shared goals, clear referrals, consent-based information exchange and a named coordinator. Clinical application: for a person with central field loss who cannot read medication labels and has stopped travelling independently, combine magnification and labeling strategies with task training and mobility assessment. Clinical reasoning: a device-only approach will not address all participation barriers. Document responsibilities, timelines and outcomes.",
+      "display_order": 41,
+      "learning_objectives": [
+        "Identify team roles",
+        "coordinate referrals and shared goals",
+        "evaluate outcomes across functional domains."
+      ]
+    },
+    {
+      "code": "LV-042-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "مسارات الإحالة في ضعف البصر",
+      "title_en": "Low Vision Referral Pathways",
+      "topic_id": "27855088-42d7-4ed4-b88a-1ef15c971557",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Urgent medical assessment for sudden visual loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Routine rehabilitation for acute painful red eye",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Referral based only on uncorrected acuity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Omitting the patient's priority goals",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Low Vision Referral Pathways: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Urgent medical assessment for sudden visual loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Routine rehabilitation for acute painful red eye",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Referral based only on uncorrected acuity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Omitting the patient's priority goals",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Low Vision Referral Pathways: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Urgent medical assessment for sudden visual loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Routine rehabilitation for acute painful red eye",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Referral based only on uncorrected acuity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Omitting the patient's priority goals",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Low Vision Referral Pathways: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Urgent medical assessment for sudden visual loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Routine rehabilitation for acute painful red eye",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Referral based only on uncorrected acuity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Omitting the patient's priority goals",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Low Vision Referral Pathways: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Urgent medical assessment for sudden visual loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Routine rehabilitation for acute painful red eye",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Referral based only on uncorrected acuity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Omitting the patient's priority goals",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Low Vision Referral Pathways: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "مسارات الإحالة تربط خدمة ضعف البصر بطب العيون والرعاية الأولية والتأهيل والتعليم والخدمات المجتمعية. تتم الإحالة عندما تستمر صعوبات الوظيفة البصرية رغم العلاج المناسب وتصحيح الانكسار، أو عندما تتأثر القراءة والتنقل والعناية الذاتية والعمل. أما فقدان البصر المفاجئ أو ألم واحمرار العين أو ومضات مع ستارة في المجال البصري فتحتاج تقييماً طبياً عاجلاً ولا تُعامل كإحالة تأهيل روتينية. يجب أن تتضمن الإحالة تاريخ الحالة والتشخيص والعلاج وحدّة البصر المصححة والمجال البصري والمهام المتأثرة وأهداف المريض. يمكن أن يتزامن التأهيل مع علاج المرض، لكن لا يجوز أن يؤخر التعامل مع العلامات العاجلة.",
+      "content_en": "Referral pathways connect low vision services with ophthalmology, primary care, rehabilitation, education and community support. Referral should be considered when visual function remains restricted despite appropriate medical treatment and optimal refractive correction, or when reading, mobility, self-care, work or learning is affected. New sudden visual loss, painful red eye, flashes with a curtain-like field defect, acute diplopia or other ocular emergencies require urgent medical assessment rather than routine rehabilitation referral. A useful referral summarizes onset and course, ocular diagnoses and treatment, best-corrected acuity, visual fields when available, contrast or near-task findings, relevant comorbidities, communication needs and the patient's priority goals. Clinical application: distinguish stable chronic macular impairment from sudden new distortion or loss. Clinical reasoning: rehabilitation can proceed alongside ongoing disease care, but it must not delay investigation of potentially treatable or urgent pathology.",
+      "display_order": 42,
+      "learning_objectives": [
+        "Differentiate routine and urgent referrals",
+        "prepare clinically useful referral information",
+        "coordinate parallel care."
+      ]
+    },
+    {
+      "code": "LV-043-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "مقاييس النتائج في ضعف البصر",
+      "title_en": "Outcome Measures in Low Vision",
+      "topic_id": "27d2f0c6-d9ad-4be8-adfa-99ec82df9fb7",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Task-specific reading speed and accuracy",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Counting devices purchased",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Acuity as the only outcome",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Changing illumination between assessments",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Outcome Measures in Low Vision: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Repeat testing under comparable conditions",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity as the only outcome",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Changing illumination between assessments",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Counting devices purchased",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Outcome Measures in Low Vision: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Functional gain despite unchanged chart acuity",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Changing illumination between assessments",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Counting devices purchased",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Acuity as the only outcome",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Outcome Measures in Low Vision: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Patient-reported participation and independence",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Counting devices purchased",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Acuity as the only outcome",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Changing illumination between assessments",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Outcome Measures in Low Vision: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Actual device use and task performance",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity as the only outcome",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Changing illumination between assessments",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Counting devices purchased",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Outcome Measures in Low Vision: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "قياس النتائج يحدد هل حقق التأهيل تحسناً في الأنشطة المهمة للمريض. تشمل المقاييس سرعة القراءة ودقتها وزمن إنجاز المهمة والاستقلال في أنشطة الحياة اليومية والثقة أثناء التنقل واستخدام الأجهزة وتحقيق الأهداف. يجب تسجيل ظروف القياس الأساسية وإعادة التقييم بمواد وإضاءة ومسافة متقاربة. قد يتحسن الأداء الوظيفي دون تغير حدة البصر، كما أن امتلاك الجهاز لا يثبت فائدته. عند تفسير التغير يجب مراعاة أثر التعلم والتعب وتباين الاختبار والبيئة. اختر مقياساً مرتبطاً مباشرة بالهدف والتدخل.",
+      "content_en": "Outcome measurement evaluates whether rehabilitation improves activities that matter to the patient. Measures may include task-specific performance (reading speed, accuracy, completion time), visual function questionnaires, independence in activities of daily living, mobility confidence, device use, participation and goal attainment. Record baseline conditions and repeat assessments using comparable materials, print size, illumination, working distance and assistance. A change in acuity is not required for meaningful functional improvement; a patient may read faster or manage medication more safely without a change in chart acuity. Conversely, device ownership does not prove benefit. Consider test-retest variability, learning effects, fatigue and environmental influences when interpreting change. Clinical application: define a measurable reading goal before prescribing a magnifier. Clinical reasoning: select measures that correspond directly to the intervention and the patient's priority rather than relying on one global score.",
+      "display_order": 43,
+      "learning_objectives": [
+        "Choose task-linked measures",
+        "standardize repeat testing",
+        "distinguish functional gain from device ownership or acuity change."
+      ]
+    },
+    {
+      "code": "LV-044-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "دراسات الحالات السريرية في ضعف البصر",
+      "title_en": "Low Vision Clinical Case Studies",
+      "topic_id": "d1d8961d-1ea7-43b4-98a5-3417d4a0249f",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Build a problem list before selecting an aid",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Acuity predicts all functional ability",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore patient priorities",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Low Vision Clinical Case Studies: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Peripheral field loss may impair obstacle detection",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity predicts all functional ability",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore patient priorities",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Low Vision Clinical Case Studies: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Central scotoma may require eccentric viewing",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Ignore patient priorities",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Acuity predicts all functional ability",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Low Vision Clinical Case Studies: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Match intervention to task-specific deficit",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Acuity predicts all functional ability",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore patient priorities",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Low Vision Clinical Case Studies: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Include safety and referral considerations",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity predicts all functional ability",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore patient priorities",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Low Vision Clinical Case Studies: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "تحليل الحالة السريرية يربط شكوى المريض بنوع القصور البصري ومتطلبات المهمة والبيئة. ابدأ بتحديد النشاط ذي الأولوية، وتاريخ الأعراض واستقرارها، والتاريخ العيني والعلاج والانكسار ووظيفة المجال المركزي والمحيطي والتباين والوهج والقراءة والعوامل الصحية والمعرفية. ضع قائمة بالمشكلات قبل اختيار الجهاز. المريض ذو حدة بصر بعيدة مقبولة ومجال بصري شديد الضيق قد يحتاج تدريب المسح البصري والتنقل لا نظارة أقوى. أما المصاب بعتمة مركزية فقد يستفيد من الرؤية اللامركزية والتكبير والوسائل الإلكترونية. يجب توضيح سبب ملاءمة التدخل للعجز الوظيفي.",
+      "content_en": "Clinical case analysis links the patient's complaint to the visual impairment, task demands and environmental context. Begin by identifying the priority activity, onset and stability of symptoms, ocular history, current treatment, refractive status, central and peripheral field function, contrast, glare, reading performance and relevant health or cognitive factors. Formulate a problem list rather than jumping directly to a device. For each problem, identify modifiable contributors, intervention options, safety concerns and measurable outcomes. A person with preserved distance acuity but severe field constriction may need scanning and mobility strategies rather than stronger distance spectacles. A person with central scotoma may benefit from eccentric viewing, magnification and electronic access. Clinical reasoning should state why an intervention matches the functional deficit and when referral is needed.",
+      "display_order": 44,
+      "learning_objectives": [
+        "Construct a problem list",
+        "match interventions to deficits",
+        "justify referral and outcome selection."
+      ]
+    },
+    {
+      "code": "LV-045-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل القائم على الدليل لضعف البصر",
+      "title_en": "Evidence-Based Low Vision Rehabilitation",
+      "topic_id": "e9c7c199-d69d-4183-be2e-a4a863184e83",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Integrate research, expertise and patient preferences",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Apply every study identically",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Choose maximum magnification regardless of usability",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Device ownership proves effectiveness",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Evidence-Based Low Vision Rehabilitation: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Appraise study bias and outcome relevance",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Choose maximum magnification regardless of usability",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Device ownership proves effectiveness",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Apply every study identically",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Evidence-Based Low Vision Rehabilitation: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Trial devices in real task conditions",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Device ownership proves effectiveness",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Apply every study identically",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Choose maximum magnification regardless of usability",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Evidence-Based Low Vision Rehabilitation: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Consider field of view, posture and portability",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Apply every study identically",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Choose maximum magnification regardless of usability",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Device ownership proves effectiveness",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Evidence-Based Low Vision Rehabilitation: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Revise interventions that fail to meet goals",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Choose maximum magnification regardless of usability",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Device ownership proves effectiveness",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Apply every study identically",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Evidence-Based Low Vision Rehabilitation: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "يجمع التأهيل القائم على الدليل بين أفضل الأبحاث المتاحة والخبرة السريرية وقيم المريض وأهدافه وظروفه. عند تقييم دراسة يجب النظر إلى تصميمها والعينة والتدخل والمقارنة والنتائج والمتابعة واحتمال التحيز. لا تُنقل نتائج البحث آلياً إلى مريض تختلف حالته أو قدراته أو إمكاناته. استخدم الدليل لدعم القرار المشترك واشرح الفوائد والحدود والتدريب والتكلفة والبدائل. اختبر الجهاز في ظروف القراءة الحقيقية وقارن الأداء قبل التدريب وبعده. أقوى تكبير ليس بالضرورة الأفضل إذا كان مجال الرؤية أو الوضعية أو الراحة أو سهولة الحمل تمنع استخدامه.",
+      "content_en": "Evidence-based low vision rehabilitation combines the best available research, clinical expertise and the patient's values, goals and circumstances. Evidence should be appraised for study design, population, intervention fidelity, comparator, outcome relevance, follow-up and risk of bias. Findings from a controlled study may not transfer directly to a patient with different ocular disease, cognition, dexterity, language or access to technology. Use evidence to inform—not replace—individual assessment and shared decision-making. Explain expected benefits, limitations, training requirements, costs and alternatives. Monitor real-world use and revise interventions when they do not improve the target task. Clinical application: trial a device under the patient's actual reading conditions and document performance before and after training. Clinical reasoning: the most powerful magnifier is not necessarily the most effective option if field of view, posture, comfort or portability prevents use.",
+      "display_order": 45,
+      "learning_objectives": [
+        "Appraise evidence",
+        "integrate patient preferences",
+        "evaluate real-world effectiveness and revise care."
+      ]
+    },
+    {
+      "code": "LV-046-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التدريب على التقنيات المساعدة",
+      "title_en": "Assistive Technology Training",
+      "topic_id": "87153b06-9b0f-4187-a4ee-31a3af986ba0",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Progress from orientation to independent task use",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Provide device without training",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Assume all users operate interfaces identically",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore technical support",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Assistive Technology Training: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Assess dexterity, cognition, language and goals",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume all users operate interfaces identically",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore technical support",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Provide device without training",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Assistive Technology Training: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Teach screen-reader navigation and privacy",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Ignore technical support",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Provide device without training",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Assume all users operate interfaces identically",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Assistive Technology Training: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Practice troubleshooting and maintenance",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Provide device without training",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Assume all users operate interfaces identically",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore technical support",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Assistive Technology Training: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Verify performance in a realistic setting",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume all users operate interfaces identically",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore technical support",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Provide device without training",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Assistive Technology Training: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "تشمل التقنيات المساعدة الأدوات البصرية والإلكترونية والرقمية وغير البصرية التي تسهّل الوصول للمعلومات والمهام. يراعي التقييم أهداف المستخدم وبقايا الرؤية والسمع والإدراك والمهارة اليدوية واللغة والخبرة السابقة والتكلفة والدعم الفني. يبدأ التدريب بالتعرف على الجهاز ثم الوظائف الأساسية والتطبيق على المهام وحل المشكلات والاستخدام المستقل. في قارئ الشاشة يتعلم المستخدم التنقل وضبط سرعة الصوت والعناوين والنماذج والخصوصية، وفي المكبر الإلكتروني يتعلم التكبير والتباين والتركيز والوضعية المناسبة. لا يكفي أن يكون الجهاز مناسباً تقنياً؛ يجب التأكد من قدرة الشخص على أداء المهمة فعلياً.",
+      "content_en": "Assistive technology includes optical, electronic, digital and non-visual tools that improve access to information and tasks. Assessment should consider the user's goals, residual vision, hearing, cognition, dexterity, language, device familiarity, portability, cost and technical support. Training should progress from orientation to core functions, task-specific practice, troubleshooting and independent use. For screen readers, teach navigation, speech rate adjustment, headings, forms and privacy considerations; for electronic magnification, teach magnification, contrast modes, focus, image capture and ergonomic positioning. Confirm that the person can repeat the target task in a realistic setting and knows where to obtain support. Clinical reasoning: a device that is technically suitable may fail if training, maintenance or accessibility compatibility is overlooked.",
+      "display_order": 46,
+      "learning_objectives": [
+        "Assess user-device fit",
+        "deliver progressive task-based training",
+        "verify independent performance."
+      ]
+    },
+    {
+      "code": "LV-047-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "تعديل البيئة لضعف البصر",
+      "title_en": "Environmental Modification for Low Vision",
+      "topic_id": "da98393c-470a-4bc3-9290-8d39593f74c5",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Adjustable task lighting that reduces glare",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Direct unshielded light for everyone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Increase clutter",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Frequently change furniture locations",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Environmental Modification for Low Vision: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "High-contrast edges and labelled controls",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Increase clutter",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Frequently change furniture locations",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Direct unshielded light for everyone",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Environmental Modification for Low Vision: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Consistent storage and removal of trip hazards",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Frequently change furniture locations",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Direct unshielded light for everyone",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Increase clutter",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Environmental Modification for Low Vision: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Test changes during the actual task",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Direct unshielded light for everyone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Increase clutter",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Frequently change furniture locations",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Environmental Modification for Low Vision: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Brighter illumination is not always better",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Increase clutter",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Frequently change furniture locations",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Direct unshielded light for everyone",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Environmental Modification for Low Vision: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "تعديل البيئة يقلل المتطلبات البصرية ويحسن السلامة دون أن يغير بالضرورة القدرة البصرية للعين. قيّم كمية الإضاءة واتجاهها ومصادر الوهج والتباين والفوضى والعلامات والسلالم واختلاف مستويات الأرضية وأماكن تخزين الأشياء. استخدم إضاءة مهمة قابلة للتعديل تقلل الظلال والانعكاسات، وحسّن تباين الحواف والمفاتيح، وضع ملصقات واضحة، وثبّت أماكن الأدوات وأزل مسببات التعثر. الإضاءة الأقوى ليست دائماً الأفضل؛ فقد تزيد الوهج إذا كانت مباشرة أو غير مناسبة. اختبر التعديلات أثناء المهمة الفعلية وراعِ التكلفة وتفضيلات المنزل.",
+      "content_en": "Environmental modification reduces visual demands and improves safety without necessarily changing the eye's visual capacity. Assess illumination quantity and direction, glare sources, contrast between objects and backgrounds, clutter, signage, stairs, floor transitions and frequently used storage locations. Provide adjustable task lighting positioned to reduce shadows and reflections; increase contrast at edges and controls; use large, uncluttered labels; maintain consistent object locations; and remove trip hazards. Avoid assuming that brighter light is always better: excessive or poorly directed illumination can increase glare, while insufficient light reduces detail and contrast. Test modifications with the patient during the actual task and consider household preferences, affordability and cultural context. Clinical application: improve contrast between a dark step edge and surrounding floor while ensuring the marking itself does not create a misleading hazard.",
+      "display_order": 47,
+      "learning_objectives": [
+        "Assess environmental barriers",
+        "tailor lighting and contrast",
+        "verify safety and usability in context."
+      ]
+    },
+    {
+      "code": "LV-048-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل المجتمعي لضعف البصر",
+      "title_en": "Community-Based Low Vision Rehabilitation",
+      "topic_id": "bc6b7437-1447-4cca-bd2a-a43311a265ba",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Link local support with specialist referral",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Replace diagnosis with community screening",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use identical programmes in all settings",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "End specialist follow-up",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Community-Based Low Vision Rehabilitation: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Map transport, language and affordability barriers",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Use identical programmes in all settings",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "End specialist follow-up",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Replace diagnosis with community screening",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Community-Based Low Vision Rehabilitation: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Promote participation and empowerment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "End specialist follow-up",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Replace diagnosis with community screening",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Use identical programmes in all settings",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Community-Based Low Vision Rehabilitation: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Support continuity within community workers' training",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Replace diagnosis with community screening",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use identical programmes in all settings",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "End specialist follow-up",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Community-Based Low Vision Rehabilitation: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Retain specialist care for complex needs",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Use identical programmes in all settings",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "End specialist follow-up",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Replace diagnosis with community screening",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Community-Based Low Vision Rehabilitation: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "يقرّب التأهيل المجتمعي الدعم من منزل الشخص ومدرسته ومكان عمله، ويربط الخدمة السريرية بالموارد المحلية. قد يشارك فيه العاملون المجتمعيون والرعاية الأولية ومنظمات الإعاقة والمعلمون والأسرة واختصاصيو التأهيل. تشمل المبادئ المشاركة وإمكانية الوصول والتمكين والدمج والإحالة عند الحاجة. تساعد البرامج في اكتشاف الاحتياجات وتدريب الاستخدام الأساسي للأجهزة وربط الأشخاص بخدمات الحركة والتعليم والعمل. لكنها لا تستبدل التشخيص المتخصص أو علاج أمراض العين أو التقييم الفردي. يجب تخطيط الخدمات وفق النقل واللغة والتكلفة ومسارات الإحالة.",
+      "content_en": "Community-based rehabilitation brings appropriate support closer to the person's home, school and workplace and links clinical services with local resources. It may involve trained community workers, primary-care teams, disability organizations, educators, families and rehabilitation specialists. Core principles include participation, accessibility, empowerment, inclusion and referral back to specialist services when needed. Community programmes can identify unmet needs, support basic device use, facilitate accessible information and connect people with mobility, education or livelihood services. They should not replace specialist diagnosis, management of ocular disease or individualized clinical assessment. Programme planning should map local resources, transport barriers, language needs, affordability and referral routes. Clinical application: coordinate follow-up for a rural patient who cannot travel frequently. Clinical reasoning: continuity depends on realistic service access, not merely issuing a clinic-based plan.",
+      "display_order": 48,
+      "learning_objectives": [
+        "Explain community rehabilitation principles",
+        "map local resources",
+        "maintain specialist referral and continuity."
+      ]
+    },
+    {
+      "code": "LV-049-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل التعليمي والمهني",
+      "title_en": "Educational and Vocational Rehabilitation",
+      "topic_id": "8af5e741-5440-411a-acfb-f2e056025b0b",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Assess actual reading, screen and mobility demands",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Exclude learners from practical subjects",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use identical accommodations for all",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore workplace safety",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Educational and Vocational Rehabilitation: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Provide accessible digital materials when appropriate",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Use identical accommodations for all",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore workplace safety",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Exclude learners from practical subjects",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Educational and Vocational Rehabilitation: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Link accommodations to functional needs",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Ignore workplace safety",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Exclude learners from practical subjects",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Use identical accommodations for all",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Educational and Vocational Rehabilitation: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Coordinate while respecting confidentiality",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Exclude learners from practical subjects",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use identical accommodations for all",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignore workplace safety",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Educational and Vocational Rehabilitation: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Modify access rather than automatically lowering expectations",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Use identical accommodations for all",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignore workplace safety",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Exclude learners from practical subjects",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Educational and Vocational Rehabilitation: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "يهدف التأهيل التعليمي والمهني إلى المحافظة على الوصول والمشاركة والأداء، وليس افتراض أن ضعف البصر يمنع الدراسة أو العمل. قيّم المتطلبات الفعلية مثل القراءة واستخدام الشاشة ورؤية السبورة والكتابة والمهام الدقيقة والتنقل والسلامة. قد تشمل التسهيلات ملفات رقمية ميسّرة والتكبير أو قارئ الشاشة والمواد كبيرة الخط والتباين المناسب والمقعد والإضاءة والوقت الإضافي عند تبريره وتعديل طريقة أداء المهمة. نسّق مع الطالب أو العامل والمؤسسة مع احترام السرية والأنظمة. يجب أن تكون التوصيات محددة ومرتبطة بالاحتياج الوظيفي المثبت.",
+      "content_en": "Educational and vocational rehabilitation aims to maintain access, participation and performance rather than assuming that visual impairment prevents study or work. Assess the actual visual demands: reading volume, screen use, board viewing, handwriting, precision tasks, mobility, time pressure and workplace safety. Possible accommodations include accessible digital documents, screen magnification or readers, enlarged or high-contrast materials, suitable seating and lighting, extra time when justified, accessible examinations, task redesign and mobility support. Coordinate with the learner or worker and relevant institutions while respecting confidentiality and local regulations. Recommendations should be specific, practical and linked to documented functional needs. Clinical reasoning: a student who cannot copy from a distant board may perform well with digital materials or a closer viewing position; the solution should address the task, not lower expectations automatically.",
+      "display_order": 49,
+      "learning_objectives": [
+        "Analyze task demands",
+        "recommend practical accommodations",
+        "coordinate with educational and workplace stakeholders."
+      ]
+    },
+    {
+      "code": "LV-050-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "المتابعة والإدارة طويلة الأمد لضعف البصر",
+      "title_en": "Follow-up and Long-Term Management in Low Vision",
+      "topic_id": "21bddc67-03e9-46af-9403-382a689d7857",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Review goals and real-world device use",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume a device remains optimal forever",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Review Snellen acuity only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Wait despite sudden deterioration",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Follow-up and Long-Term Management: Which approach best reflects the central principle?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "A coordinated, individualized plan should address functional goals and barriers identified during assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Reassess when ocular status or demands change",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Review Snellen acuity only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Wait despite sudden deterioration",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Assume a device remains optimal forever",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Follow-up and Long-Term Management: Which professional or service is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Professional roles should match the person's needs and the competence of each service."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Investigate sudden symptoms medically",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Wait despite sudden deterioration",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Assume a device remains optimal forever",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Review Snellen acuity only",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Follow-up and Long-Term Management: Which finding should most strongly influence management?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Clinical decisions must account for functional impact, context and safety; urgent changes require appropriate escalation."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Check comfort, maintenance and training needs",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume a device remains optimal forever",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Review Snellen acuity only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Wait despite sudden deterioration",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Follow-up and Long-Term Management: Which action best supports safe patient-centred practice?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Interventions should be tested in realistic tasks, with appropriate training and follow-up."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Update strategies as function changes",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Review Snellen acuity only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Wait despite sudden deterioration",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Assume a device remains optimal forever",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Follow-up and Long-Term Management: Which outcome or decision is most appropriate?",
+          "is_published": false,
+          "question_type": "single_choice",
+          "explanation_ar": "يُبنى القرار على تقييم احتياج المريض والوظيفة البصرية الفعلية، مع اختيار التدخل المناسب وتدريب المريض وقياس النتيجة في ظروف واقعية. لا يكفي الاعتماد على قياس واحد أو توفير الجهاز دون التأكد من فائدته.",
+          "explanation_en": "Meaningful outcomes are based on functional performance and patient priorities, not a single measurement."
+        }
+      ],
+      "content_ar": "قد تتغير احتياجات ضعف البصر بسبب تطور المرض أو العلاج أو التقدم في العمر أو تغير الصحة والمهام والتقنية. تراجع المتابعة حالة العين والعلامات التحذيرية والتغير الانكساري والأهداف الوظيفية وفاعلية الجهاز واستخدامه الفعلي وراحته وصيانته والحاجة إلى تدريب إضافي. أعد تقييم المهام بطرق قابلة للمقارنة واسأل عن الفائدة في الحياة اليومية. الأعراض الجديدة أو المفاجئة تحتاج تقييماً طبياً مناسباً. حدّث خطة التأهيل عند تغير الرؤية أو البيئة أو الأهداف، ولا تفترض أن الجهاز الناجح سابقاً سيظل الأفضل دائماً.",
+      "content_en": "Low vision needs may change because of ocular disease progression, treatment, ageing, health changes, task demands or technology. Follow-up should review ocular status and red flags, refractive changes, functional goals, device effectiveness, actual use, comfort, maintenance, training needs and psychosocial adjustment. Reassess priority tasks using comparable methods and ask whether the intervention remains useful in daily life. New or sudden symptoms require appropriate medical evaluation. Update the rehabilitation plan when vision, environment or goals change; avoid assuming that a previously successful device remains optimal indefinitely. Encourage patients to seek review when function deteriorates or a device becomes difficult to use. Clinical application: a patient with progressive field loss may need revised mobility strategies even if the original magnifier still supports reading. Clinical reasoning: long-term care is dynamic and should be driven by measured function and patient priorities.",
+      "display_order": 50,
+      "learning_objectives": [
+        "Monitor ocular and functional change",
+        "reassess device effectiveness",
+        "update individualized long-term plans."
+      ]
+    }
+  ],
+  "published": false,
+  "department": "Low Vision",
+  "lesson_range": "41-50"
+}
