@@ -141,7 +141,14 @@ function renderHome(){
  document.documentElement.style.setProperty('--home-bg',s.background_color||'#f3f6f7');
  document.documentElement.style.setProperty('--home-primary',s.primary_color||'#123c61');
  document.documentElement.style.setProperty('--home-accent',s.accent_color||'#d6b66c');
- const quick=(s.quick_links||HOME_DEFAULTS.quick_links).filter(x=>x.visible!==false).slice(0,5);
+ // Preserve the Clinical Skills shortcut even when legacy homepage settings are loaded from Supabase.
+ const configuredLinks=Array.isArray(s.quick_links)?s.quick_links:HOME_DEFAULTS.quick_links;
+ const skillsDefault=HOME_DEFAULTS.quick_links.find(x=>x.page==='clinical-hub');
+ const configuredSkills=configuredLinks.find(x=>x.page==='clinical-hub');
+ const quickSource=configuredLinks.filter(x=>x.page!=='clinical-hub');
+ const departmentIndex=quickSource.findIndex(x=>x.page==='departments');
+ quickSource.splice(departmentIndex>=0?departmentIndex+1:1,0,{...skillsDefault,...(configuredSkills||{}),visible:true});
+ const quick=quickSource.filter(x=>x.visible!==false).slice(0,5);
  main.innerHTML=`
  <div class="academy-home">
   <section class="home-top-search"><div class="home-search-title"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن دورات، مصادر، أو طلب..." autocomplete="off"><button id="searchBtn" aria-label="بحث">⌕</button></div><div class="home-notices"><button aria-label="الإشعارات" title="الإشعارات">♧<i></i></button><button aria-label="حسابي" title="حسابي" onclick="showPage('accounts')">◉</button></div></section>
