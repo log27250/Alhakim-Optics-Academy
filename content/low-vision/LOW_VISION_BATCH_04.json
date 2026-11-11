@@ -1,0 +1,1629 @@
+{
+  "department": "Low Vision",
+  "batch": 4,
+  "lesson_range": "31-40",
+  "status": "review",
+  "published": false,
+  "lessons": [
+    {
+      "code": "LV-031-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التوجيه والحركة",
+      "title_en": "Orientation and Mobility",
+      "topic_id": "223fc051-f813-4c10-a275-108cdde48e95",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Prompt specialist mobility and safety assessment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Stronger near addition only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Routine review after two years",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Colour filter trial only",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Repeated falls and traffic near-misses indicate need for:",
+          "is_published": false,
+          "explanation_ar": "التوجيه هو الوعي بالموقع والعلاقات المكانية، أما الحركة فهي الانتقال الآمن. فقدان المجال أو ضعف التكيف مع الإضاءة قد يسبب صعوبات التنقل.",
+          "explanation_en": "Falls and near-misses are safety red flags requiring timely referral."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Mesopic function and dark adaptation",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Near phoria only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Colour discrimination in daylight only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Accommodation amplitude",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Dusk-related travel difficulty should prompt assessment of:",
+          "is_published": false,
+          "explanation_ar": "التوجيه هو الوعي بالموقع والعلاقات المكانية، أما الحركة فهي الانتقال الآمن. فقدان المجال أو ضعف التكيف مع الإضاءة قد يسبب صعوبات التنقل.",
+          "explanation_en": "Dim illumination and adaptation problems can increase mobility risk."
+        },
+        {
+          "options": [
+            {
+              "option_en": "A qualified orientation and mobility specialist",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Any optical dispenser",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "A family member without training",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "A visual acuity chart technician",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Who should provide long-cane mobility training?",
+          "is_published": false,
+          "explanation_ar": "التوجيه هو الوعي بالموقع والعلاقات المكانية، أما الحركة فهي الانتقال الآمن. فقدان المجال أو ضعف التكيف مع الإضاءة قد يسبب صعوبات التنقل.",
+          "explanation_en": "Long-cane travel instruction requires specialist assessment and training."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Peripheral visual field assessment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Near point of convergence",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Colour naming test",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Accommodation facility",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "A patient collides with objects at the sides despite good central acuity. Which test is essential?",
+          "is_published": false,
+          "explanation_ar": "التوجيه هو الوعي بالموقع والعلاقات المكانية، أما الحركة فهي الانتقال الآمن. فقدان المجال أو ضعف التكيف مع الإضاءة قد يسبب صعوبات التنقل.",
+          "explanation_en": "Peripheral field loss can impair obstacle detection while central acuity remains good."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Awareness of position and spatial relationships",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Measurement of refraction",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Training only with a long cane",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Assessment of colour vision",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Orientation differs from mobility because orientation is:",
+          "is_published": false,
+          "explanation_ar": "التوجيه هو الوعي بالموقع والعلاقات المكانية، أما الحركة فهي الانتقال الآمن. فقدان المجال أو ضعف التكيف مع الإضاءة قد يسبب صعوبات التنقل.",
+          "explanation_en": "Orientation is spatial awareness; mobility is safe movement."
+        }
+      ],
+      "content_ar": "التوجيه هو إدراك الموقع والعلاقات المكانية، والحركة هي الانتقال الآمن. قد يتأثر تمييز العلامات واكتشاف العوائق وتقدير العمق والتكيف مع الإضاءة. قيّم السلالم والأرصفة والطرق والوهج والإضاءة الخافتة والسقوط. قد يشمل التأهيل تحسين التباين والإضاءة والمسح البصري وتعديل البيئة والتدريب المتخصص. تدريب العصا الطويلة يجب أن يقوم به اختصاصي مؤهل. تطبيق سريري: حدد موضع التعثر في مسار محدد ووثق الحوادث الوشيكة. التفكير السريري: فقدان المجال المركزي يصعب قراءة اللافتات، والمحيطي يضعف اكتشاف العوائق.",
+      "content_en": "Orientation is awareness of one's position and spatial relationships; mobility is safe and efficient movement. Visual impairment can affect landmark recognition, obstacle detection, depth judgement, route planning and adaptation to lighting changes. Assess indoor and outdoor routes, stairs, kerbs, crossings, unfamiliar environments, glare, dim illumination, falls and near misses. Acuity alone cannot predict travel safety because field loss and contrast impairment may be more disabling than reduced resolution.\n\nInterventions include optimized refraction, contrast enhancement, task lighting, systematic scanning, environmental modification and specialist orientation-and-mobility training. Long-cane and guide-dog training require qualified specialists. Clinical application: identify the exact task failure on a route and document near misses. Clinical reasoning: central field loss may impair sign recognition; peripheral field loss may impair obstacle detection. Key points: assess function and safety, not acuity alone.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-032-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "أنشطة الحياة اليومية",
+      "title_en": "Activities of Daily Living",
+      "topic_id": "cfa874ed-1e80-4a6c-97c7-be8ee121a525",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Safe, repeatable performance of a priority task",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Magnifier power prescribed",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Snellen acuity alone",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Number of devices purchased",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "A meaningful ADL outcome is:",
+          "is_published": false,
+          "explanation_ar": "تقييم أنشطة الحياة اليومية يجب أن يركز على المهمة الفعلية وسلامتها، مع تحديد العائق البصري وتكييف البيئة.",
+          "explanation_en": "Functional independence and safety are the relevant outcomes."
+        },
+        {
+          "options": [
+            {
+              "option_en": "A contrasting placemat",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Dimmer illumination",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "A stronger cylinder correction",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "A red filter for every task",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "A clear glass is difficult to see on a pale table. Recommend:",
+          "is_published": false,
+          "explanation_ar": "تقييم أنشطة الحياة اليومية يجب أن يركز على المهمة الفعلية وسلامتها، مع تحديد العائق البصري وتكييف البيئة.",
+          "explanation_en": "A contrasting background improves object detection."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Analyze the task step by step",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Measure distance acuity only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Prescribe maximum magnification immediately",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ask only whether the patient cooks",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Best way to assess difficulty preparing food?",
+          "is_published": false,
+          "explanation_ar": "تقييم أنشطة الحياة اليومية يجب أن يركز على المهمة الفعلية وسلامتها، مع تحديد العائق البصري وتكييف البيئة.",
+          "explanation_en": "Task analysis locates the specific visual and environmental barrier."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Use verified large-print or tactile identification",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Rely on package colour alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Transfer tablets to unlabelled containers",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Stop treatment without advice",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Two medicine packages look similar. Safest strategy?",
+          "is_published": false,
+          "explanation_ar": "تقييم أنشطة الحياة اليومية يجب أن يركز على المهمة الفعلية وسلامتها، مع تحديد العائق البصري وتكييف البيئة.",
+          "explanation_en": "Reliable labelled identification is essential; colour alone is unsafe."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Medication management",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Bathing",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Dressing",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Eating",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Which is an instrumental activity of daily living?",
+          "is_published": false,
+          "explanation_ar": "تقييم أنشطة الحياة اليومية يجب أن يركز على المهمة الفعلية وسلامتها، مع تحديد العائق البصري وتكييف البيئة.",
+          "explanation_en": "Medication management is an instrumental daily activity involving organization and identification."
+        }
+      ],
+      "content_ar": "تشمل الأنشطة اللبس والاستحمام والطعام، وكذلك الطبخ وإدارة الأدوية والتسوق وقراءة الملصقات. حلل خطوات النشاط وحدد صغر التفاصيل أو ضعف التباين أو البقعة المركزية أو ضيق المجال أو الوهج أو الإضاءة أو المهارة اليدوية. قد تساعد الإضاءة والعلامات عالية التباين والملصقات الكبيرة أو الملموسة والتعليمات الصوتية. لا تعتمد على لون الدواء وحده. تطبيق سريري: حدد أهم الأنشطة وضع أهدافاً قابلة للقياس. التفكير السريري: تحسن قراءة لوحة الفحص لا يضمن أداء الأنشطة اليومية بأمان.",
+      "content_en": "Activities of daily living include basic tasks such as dressing, bathing and eating, and instrumental tasks such as cooking, medication management, shopping, reading labels and using a telephone. Visual demands differ by task. Analyze each activity into steps and identify reduced resolution, contrast loss, central scotoma, field restriction, glare, poor illumination or dexterity as possible barriers. Adaptations include task lighting, high-contrast markings, tactile or large-print labels, audio instructions and accessible phones. Medication identity must not rely on colour alone or unlabelled containers. Clinical application: select priority activities and define measurable task goals. Clinical reasoning: improved chart acuity does not guarantee safer cooking or medication use. Key points: assessment is task-centred and safety-focused.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-033-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل في أمراض البقعة",
+      "title_en": "Rehabilitation in Macular Disease",
+      "topic_id": "99bb6175-089b-464f-b773-96c6113a6f11",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Reading speed and accuracy with meaningful text",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Nominal power alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Distance acuity only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Pupil diameter",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Best comparison of near aids uses:",
+          "is_published": false,
+          "explanation_ar": "أمراض البقعة تؤثر غالباً في الرؤية المركزية والقراءة. يجب مقارنة وسائل التكبير بالأداء الفعلي ومراجعة أي أعراض جديدة.",
+          "explanation_en": "Functional reading measures demonstrate real task benefit."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Restricts the field of view",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Restores photoreceptors",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Eliminates central scotoma",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Always improves contrast",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Excessive magnification may reduce reading because it:",
+          "is_published": false,
+          "explanation_ar": "أمراض البقعة تؤثر غالباً في الرؤية المركزية والقراءة. يجب مقارنة وسائل التكبير بالأداء الفعلي ومراجعة أي أعراض جديدة.",
+          "explanation_en": "Higher magnification can show fewer letters at once."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Central distortion or scotoma symptoms",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Peripheral kinetic field",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Intraocular pressure",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Colour deficiency",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Amsler grid primarily evaluates:",
+          "is_published": false,
+          "explanation_ar": "أمراض البقعة تؤثر غالباً في الرؤية المركزية والقراءة. يجب مقارنة وسائل التكبير بالأداء الفعلي ومراجعة أي أعراض جديدة.",
+          "explanation_en": "Amsler grid is a central field screening aid, not a complete retinal assessment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Prompt ophthalmic assessment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Annual review only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Magnification increase without examination",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Stopping spectacles",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "New central distortion in a macular patient requires:",
+          "is_published": false,
+          "explanation_ar": "أمراض البقعة تؤثر غالباً في الرؤية المركزية والقراءة. يجب مقارنة وسائل التكبير بالأداء الفعلي ومراجعة أي أعراض جديدة.",
+          "explanation_en": "New distortion may signal active retinal disease."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Metamorphopsia",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Isolated peripheral field loss only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Improved dark adaptation",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Hearing loss",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Which symptom is characteristic of macular dysfunction?",
+          "is_published": false,
+          "explanation_ar": "أمراض البقعة تؤثر غالباً في الرؤية المركزية والقراءة. يجب مقارنة وسائل التكبير بالأداء الفعلي ومراجعة أي أعراض جديدة.",
+          "explanation_en": "Metamorphopsia is distortion associated with macular pathology."
+        }
+      ],
+      "content_ar": "تؤثر أمراض البقعة في التفاصيل المركزية والقراءة والتعرف على الوجوه. قد تظهر تشوهات أو اختفاء أجزاء من الكلمات أو بقعة مركزية. يشمل التقييم الحدة والتباين والمجال المركزي وسرعة القراءة ودقتها. شبكة أمسلر لا تغني عن فحص الشبكية. التشوه الجديد أو الفقد المفاجئ يستلزم تقييماً عاجلاً. يشمل التأهيل التكبير وتحسين التباين والإضاءة وتدريب الرؤية اللامركزية لبعض الحالات. التكبير الزائد يقلل مجال الرؤية. تطبيق سريري: قارن الوسائل باستخدام نص حقيقي. التفكير السريري: وازن حجم الحروف مع عددها الظاهر.",
+      "content_en": "Macular disorders can impair central detail, reading, face recognition and visual endurance. Symptoms include metamorphopsia, missing letters and central scotoma. Assess best-corrected distance and near acuity, contrast sensitivity, central field, reading speed and accuracy, glare and real-world goals. An Amsler grid may document central distortion but does not replace retinal examination or imaging. New distortion or sudden central loss requires prompt ophthalmic assessment. Rehabilitation may include optimized refraction, near additions, optical or electronic magnification, contrast enhancement, controlled illumination and eccentric viewing training in selected patients. Excessive magnification can reduce field of view and reading efficiency. Clinical application: compare aids using meaningful text and reading performance. Clinical reasoning: balance print size against the number of letters visible at once. Key points: address central function and investigate new symptoms.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-034-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل في الجلوكوما",
+      "title_en": "Rehabilitation in Glaucoma",
+      "topic_id": "702d8fea-3167-41d5-b378-6cca15666fa4",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Complement ongoing glaucoma treatment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Replace pressure-lowering therapy",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Stop field monitoring",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Reverse optic nerve damage",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Low-vision rehabilitation in glaucoma should:",
+          "is_published": false,
+          "explanation_ar": "الجلوكوما قد تسبب فقدان المجال مع بقاء الحدة المركزية جيدة. التأهيل يحسن الوظيفة ولا يستبدل علاج المرض.",
+          "explanation_en": "Rehabilitation improves function but does not treat glaucoma pathology."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Acuity does not represent total functional disability",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "The field test must be false",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "No rehabilitation is needed",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Functional vision is normal",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Good central acuity with severe field loss means:",
+          "is_published": false,
+          "explanation_ar": "الجلوكوما قد تسبب فقدان المجال مع بقاء الحدة المركزية جيدة. التأهيل يحسن الوظيفة ولا يستبدل علاج المرض.",
+          "explanation_en": "Central acuity can coexist with major peripheral field disability."
+        },
+        {
+          "options": [
+            {
+              "option_en": "High-contrast step-edge markings",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Dim stair lighting",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Loose rugs on steps",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Changing object locations",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "A useful stair-safety adaptation is:",
+          "is_published": false,
+          "explanation_ar": "الجلوكوما قد تسبب فقدان المجال مع بقاء الحدة المركزية جيدة. التأهيل يحسن الوظيفة ولا يستبدل علاج المرض.",
+          "explanation_en": "Contrast markings and clear lighting improve step detection."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Kerbs and steps",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Overhead signs only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Small print only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Red-green differences",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Inferior field loss particularly affects detection of:",
+          "is_published": false,
+          "explanation_ar": "الجلوكوما قد تسبب فقدان المجال مع بقاء الحدة المركزية جيدة. التأهيل يحسن الوظيفة ولا يستبدل علاج المرض.",
+          "explanation_en": "Inferior field defects impair awareness of ground-level hazards."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Visual field loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Accommodation loss only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Universal colour blindness",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Reduced stereopsis alone",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Glaucoma-related disability commonly involves:",
+          "is_published": false,
+          "explanation_ar": "الجلوكوما قد تسبب فقدان المجال مع بقاء الحدة المركزية جيدة. التأهيل يحسن الوظيفة ولا يستبدل علاج المرض.",
+          "explanation_en": "Glaucoma damages ganglion cells and produces characteristic field defects."
+        }
+      ],
+      "content_ar": "تسبب الجلوكوما تلف الخلايا العقدية والعصب البصري وفقدان المجال. قد تبقى الحدة المركزية جيدة رغم صعوبة اكتشاف العوائق والسلالم. قيّم المجال والتباين والوهج والسقوط والحركة. فقدان المجال السفلي يصعب رؤية الأرصفة والدرجات. يشمل التأهيل تحسين التباين والإضاءة والمسح البصري وإزالة العوائق والتدريب المتخصص، ولا يستبدل علاج الجلوكوما. تطبيق سريري: اربط السقوط بخرائط المجال وأحل المريض عند وجود خطر. التفكير السريري: الحدة الجيدة لا تنفي العجز الناتج عن فقدان المجال.",
+      "content_en": "Glaucoma damages retinal ganglion cells and the optic nerve, producing characteristic visual field loss. Central acuity may remain relatively good while obstacle detection, stair negotiation and navigation deteriorate. Assess fields, contrast, glare, falls, mobility and task performance. Inferior field loss may affect kerbs and steps; superior loss may affect overhead hazards. Rehabilitation includes contrast enhancement, suitable lighting, systematic scanning, consistent object placement, removal of trip hazards and specialist mobility training. It complements but never replaces pressure management, medication, monitoring or surgery. Clinical application: correlate falls and collisions with field plots and refer when safety is compromised. Clinical reasoning: good acuity does not exclude severe field-related disability. Key points: address function while maintaining glaucoma care.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-035-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "التأهيل في التهاب الشبكية الصباغي",
+      "title_en": "Rehabilitation in Retinitis Pigmentosa",
+      "topic_id": "913fd44d-6946-4c97-9614-72913e0deb34",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Remain useful despite substantial peripheral field loss",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Always fail before peripheral vision",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Predict night mobility reliably",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Exclude inherited retinal disease",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Central acuity in RP may:",
+          "is_published": false,
+          "explanation_ar": "خلل العصي يسبب ضعف الرؤية الليلية، وتضيق المجال المحيطي يسبب صعوبات اكتشاف العوائق. يجب تقييم الحالات المصاحبة.",
+          "explanation_en": "Central vision can be preserved while rod and peripheral function deteriorate."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Visual field and mesopic function",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Near convergence only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Colour plates only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Accommodation facility",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Dusk-related collisions require assessment of:",
+          "is_published": false,
+          "explanation_ar": "خلل العصي يسبب ضعف الرؤية الليلية، وتضيق المجال المحيطي يسبب صعوبات اكتشاف العوائق. يجب تقييم الحالات المصاحبة.",
+          "explanation_en": "Field restriction and low-light dysfunction both affect dusk mobility."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Investigated for treatable coexisting causes",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Automatically attributed to RP",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignored if acuity was previously good",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Managed only with brighter light",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Sudden visual decline in RP should be:",
+          "is_published": false,
+          "explanation_ar": "خلل العصي يسبب ضعف الرؤية الليلية، وتضيق المجال المحيطي يسبب صعوبات اكتشاف العوائق. يجب تقييم الحالات المصاحبة.",
+          "explanation_en": "Cataract and macular oedema may coexist and be treatable."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Tunnel vision",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Hyperopic shift",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Improved stereopsis",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Better dark adaptation",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Progressive peripheral field constriction may produce:",
+          "is_published": false,
+          "explanation_ar": "خلل العصي يسبب ضعف الرؤية الليلية، وتضيق المجال المحيطي يسبب صعوبات اكتشاف العوائق. يجب تقييم الحالات المصاحبة.",
+          "explanation_en": "Constricted peripheral field can leave a small central island."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Night blindness",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Sudden total central blindness",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Diplopia",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Isolated hearing loss",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "An early common functional symptom of retinitis pigmentosa is:",
+          "is_published": false,
+          "explanation_ar": "خلل العصي يسبب ضعف الرؤية الليلية، وتضيق المجال المحيطي يسبب صعوبات اكتشاف العوائق. يجب تقييم الحالات المصاحبة.",
+          "explanation_en": "Early rod dysfunction causes difficulty in dim illumination."
+        }
+      ],
+      "content_ar": "التهاب الشبكية الصباغي مرض وراثي يصيب العصي غالباً مبكراً، فيسبب العمى الليلي وبطء التكيف مع الظلام. قد يتضيق المجال المحيطي مسبباً رؤية نفقية. قيّم الحركة ليلاً والوهج واكتشاف العوائق والسقوط والمجال والتباين. قد يصاحب المرض الساد أو وذمة البقعة، ويجب فحص التدهور المفاجئ. يشمل التأهيل الإضاءة المناسبة وتقليل الوهج وتحسين التباين وتخطيط المسارات. تطبيق سريري: قارن الأداء في الإضاءة النهارية والخافتة. التفكير السريري: خلل العصي يفسر ضعف الرؤية الليلية وتضيق المجال يفسر الاصطدام.",
+      "content_en": "Retinitis pigmentosa is a group of inherited retinal dystrophies commonly affecting rods early, causing night blindness and delayed dark adaptation. Progressive peripheral field constriction may produce ring scotoma and tunnel vision; central acuity may remain useful. Assess night mobility, adaptation, glare, peripheral obstacle detection, falls, acuity, fields and contrast. Cataract and cystoid macular oedema may coexist; sudden deterioration must be investigated. Rehabilitation includes safe mobility, tailored illumination, glare control, contrast enhancement, route planning and specialist mobility referral. Clinical application: compare function in photopic and mesopic conditions. Clinical reasoning: rod dysfunction explains dim-light difficulty, while peripheral field loss explains collisions despite preserved central acuity. Key points: assess night function and investigate treatable comorbidity.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-036-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "ضعف البصر لدى الأطفال",
+      "title_en": "Low Vision in Children",
+      "topic_id": "c5ba3135-c2d1-433c-9598-386552b2037a",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Assess refraction, acuity, field, contrast and function",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume poor behaviour",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Prescribe high addition immediately",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Forbid close viewing",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "A child sits very close to a page. The clinician should:",
+          "is_published": false,
+          "explanation_ar": "ضعف البصر لدى الأطفال يؤثر في التعلم والنمو، ويتطلب تقييماً مناسباً للعمر وتعاون الأسرة والمدرسة.",
+          "explanation_en": "Close viewing may compensate for several visual limitations."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Improve access without unnecessarily lowering expectations",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Remove all challenging subjects",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Assume inability to learn independently",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Use one aid for every child",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Educational accommodations should:",
+          "is_published": false,
+          "explanation_ar": "ضعف البصر لدى الأطفال يؤثر في التعلم والنمو، ويتطلب تقييماً مناسباً للعمر وتعاون الأسرة والمدرسة.",
+          "explanation_en": "Accessible formats support participation while maintaining suitable expectations."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Distance access, contrast, seating and fatigue",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Near addition only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Colour vision only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Pupil response only",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Difficulty copying from a board despite near acuity requires assessment of:",
+          "is_published": false,
+          "explanation_ar": "ضعف البصر لدى الأطفال يؤثر في التعلم والنمو، ويتطلب تقييماً مناسباً للعمر وتعاون الأسرة والمدرسة.",
+          "explanation_en": "Board access depends on distance, contrast, position and endurance."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Child, caregiver and teacher reports",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Distance acuity alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Automated refraction only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Age alone",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Which information is valuable for classroom assessment?",
+          "is_published": false,
+          "explanation_ar": "ضعف البصر لدى الأطفال يؤثر في التعلم والنمو، ويتطلب تقييماً مناسباً للعمر وتعاون الأسرة والمدرسة.",
+          "explanation_en": "Multiple perspectives reveal actual classroom barriers."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Learning, motor skills and social participation",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Distance chart results only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Only colour preference",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "No developmental domain",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Childhood visual impairment may affect:",
+          "is_published": false,
+          "explanation_ar": "ضعف البصر لدى الأطفال يؤثر في التعلم والنمو، ويتطلب تقييماً مناسباً للعمر وتعاون الأسرة والمدرسة.",
+          "explanation_en": "Vision contributes to multiple developmental and educational domains."
+        }
+      ],
+      "content_ar": "قد يؤثر ضعف البصر في الطفولة على التطور والحركة والتواصل والقراءة والتعليم. يجب أن يناسب التقييم عمر الطفل ويشمل الرؤية والتباين والمجال والتثبيت والانتباه ومسافة العمل والإجهاد وأداء الفصل. استمع للطفل والأسرة والمعلمين. تشمل التدخلات النظارات والتكبير والمواد كبيرة الخط والوسائل الإلكترونية وتعديل الجلوس والإضاءة. تطبيق سريري: راقب مهاماً قريبة وبعيدة وسجل الوضعية والدقة والإجهاد. التفكير السريري: اقتراب الطفل من الصفحة قد يعوض ضعف الدقة أو المجال أو التباين.",
+      "content_en": "Childhood visual impairment may affect visual development, motor coordination, communication, literacy, social interaction and education. Assessment should be developmentally appropriate and include distance and near vision, contrast, fields where feasible, fixation, attention, working distance, fatigue and classroom function. Obtain information from the child, caregivers and teachers about board access, copying, reading, play and navigation. Interventions include optimized spectacles, magnification, large print, electronic access, seating changes, suitable lighting and extra time. Accommodations should support access without unnecessarily lowering expectations. Clinical application: observe meaningful near and distance tasks and record posture, accuracy and fatigue. Clinical reasoning: close viewing may compensate for reduced resolution, field or contrast. Key points: childhood low vision is developmental and educational as well as ocular.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-037-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "ضعف البصر لدى كبار السن",
+      "title_en": "Low Vision in Older Adults",
+      "topic_id": "c4e9a4e1-66d8-49c0-90db-37637912d245",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Remove trip hazards and improve stair contrast",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Add loose rugs",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Move furniture frequently",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Dim corridor lighting",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "A useful fall-prevention measure is:",
+          "is_published": false,
+          "explanation_ar": "اختيار الوسيلة لكبار السن يراعي السمع والذاكرة والمهارة اليدوية والسقوط، وليس حدة البصر فقط.",
+          "explanation_en": "Clear routes and visible step edges reduce environmental hazards."
+        },
+        {
+          "options": [
+            {
+              "option_en": "With patient consent and respect for autonomy",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Automatically without asking",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Instead of addressing the patient",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Only when acuity is poor",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Family involvement should occur:",
+          "is_published": false,
+          "explanation_ar": "اختيار الوسيلة لكبار السن يراعي السمع والذاكرة والمهارة اليدوية والسقوط، وليس حدة البصر فقط.",
+          "explanation_en": "Consent and autonomy remain central to caregiver involvement."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Safe and consistent handling",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Maximum handheld magnification",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Complex manual controls",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ignoring physical limitations",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "A patient has tremor and arthritis. Choose an aid by prioritizing:",
+          "is_published": false,
+          "explanation_ar": "اختيار الوسيلة لكبار السن يراعي السمع والذاكرة والمهارة اليدوية والسقوط، وليس حدة البصر فقط.",
+          "explanation_en": "Usability and handling are essential to successful aid use."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Correct medicine identification and dosing",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Only distance driving",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Hearing thresholds",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Colour preference",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Medication management deserves attention because low vision may affect:",
+          "is_published": false,
+          "explanation_ar": "اختيار الوسيلة لكبار السن يراعي السمع والذاكرة والمهارة اليدوية والسقوط، وليس حدة البصر فقط.",
+          "explanation_en": "Reading labels and distinguishing packages are safety-critical."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Arthritis and reduced dexterity",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Uniform handling ability",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Absence of comorbidity",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Improved dark adaptation",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Which factor may complicate device use in older adults?",
+          "is_published": false,
+          "explanation_ar": "اختيار الوسيلة لكبار السن يراعي السمع والذاكرة والمهارة اليدوية والسقوط، وليس حدة البصر فقط.",
+          "explanation_en": "Dexterity and arthritis affect device handling and selection."
+        }
+      ],
+      "content_ar": "قد يجتمع لدى كبار السن أكثر من مرض بصري، وقد يزيد ضعف السمع والذاكرة وحركة اليدين والتهاب المفاصل من العجز. قيّم السقوط والقراءة وإدارة الأدوية والطهي والمشاركة الاجتماعية وقدرة استخدام الأجهزة. لا تفترض أن الصعوبة حتمية بسبب العمر. تشمل التدخلات الإضاءة والعلامات عالية التباين والمواد الصوتية والتكبير الإلكتروني والعلاج الوظيفي وإزالة مخاطر المنزل. أشرك الأسرة بموافقة المريض. تطبيق سريري: حدد الأنشطة ذات الأولوية واعرض الوسائل ببطء. التفكير السريري: قد تكون الوسيلة الصوتية أفضل من المكبر اليدوي عند ضعف المهارة.",
+      "content_en": "Older adults may have multiple ocular conditions, while hearing impairment, reduced dexterity, arthritis, cognitive change, frailty and polypharmacy compound disability. Assess falls, reading, face recognition, medication identification, cooking, finances, social participation and ability to handle devices. Do not assume difficulty is inevitable ageing; investigate treatable causes. Interventions include high-contrast adaptations, task lighting, large-print or audio information, accessible phones, electronic magnification, occupational therapy and home hazard reduction. Involve caregivers with consent and preserve autonomy. Clinical application: identify priority activities and demonstrate aids at a manageable pace. Clinical reasoning: a simple hands-free or audio solution may outperform a handheld device when dexterity is limited. Key points: consider hearing, cognition, dexterity and falls alongside vision.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-038-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "الجوانب النفسية والاجتماعية لضعف البصر",
+      "title_en": "Psychosocial Aspects of Visual Impairment",
+      "topic_id": "c9a35d54-ee42-46a0-aac6-0c82cbbf4777",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "They vary and should be explored individually",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Every patient develops depression",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "No patient experiences anxiety",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "They depend only on acuity",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Which statement about psychosocial responses is correct?",
+          "is_published": false,
+          "explanation_ar": "الاستجابات النفسية لفقدان البصر تختلف بين الأفراد، ويجب الاستماع والدعم والإحالة عند الحاجة.",
+          "explanation_en": "Responses are heterogeneous and must not be assumed."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Explore preferences and acceptable alternatives",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Insist on its use",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Stop rehabilitation",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Ask family to force use",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "A patient rejects a visible magnifier because of stigma. The clinician should:",
+          "is_published": false,
+          "explanation_ar": "الاستجابات النفسية لفقدان البصر تختلف بين الأفراد، ويجب الاستماع والدعم والإحالة عند الحاجة.",
+          "explanation_en": "Acceptability influences adherence; shared decisions improve uptake."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Social support and rehabilitation access",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Lens material",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Pupil size alone",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Adjustment to vision loss is influenced by:",
+          "is_published": false,
+          "explanation_ar": "الاستجابات النفسية لفقدان البصر تختلف بين الأفراد، ويجب الاستماع والدعم والإحالة عند الحاجة.",
+          "explanation_en": "Personal, cultural and service factors influence adjustment."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Sensitive assessment and appropriate referral",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Diagnosis by optometrist without assessment",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Ignoring symptoms",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Magnifier prescription only",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Persistent hopelessness and loss of interest warrant:",
+          "is_published": false,
+          "explanation_ar": "الاستجابات النفسية لفقدان البصر تختلف بين الأفراد، ويجب الاستماع والدعم والإحالة عند الحاجة.",
+          "explanation_en": "These symptoms may indicate distress requiring mental-health support."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Acknowledge feelings and listen openly",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Dismiss the concern",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Promise complete recovery",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Tell them not to feel upset",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "A patient expresses grief about vision loss. The best response is:",
+          "is_published": false,
+          "explanation_ar": "الاستجابات النفسية لفقدان البصر تختلف بين الأفراد، ويجب الاستماع والدعم والإحالة عند الحاجة.",
+          "explanation_en": "Validation and listening support person-centred care."
+        }
+      ],
+      "content_ar": "قد يؤثر فقدان البصر في الهوية والاستقلال والعمل والعلاقات. قد تظهر مشاعر الحزن والقلق وفقدان الثقة أو الانسحاب. استخدم الأسئلة المفتوحة واستكشف المزاج والنوم والدافعية والعلاقات. اليأس المستمر أو القلق الشديد يستدعي إحالة مناسبة دون تشخيص خارج الاختصاص. قد يساعد التأهيل ودعم الأقران والإرشاد وتثقيف الأسرة. تطبيق سريري: اسأل عن أصعب ما يواجهه المريض والنشاط الذي سيحدث فرقاً. التفكير السريري: قد تمنع الوصمة أو الضيق النفسي استخدام وسيلة مناسبة.",
+      "content_en": "Vision loss can affect identity, independence, employment, relationships and social participation. Responses may include grief, frustration, anxiety, reduced confidence or withdrawal, varying with coping style, culture, resources, support and rehabilitation access. Use open questions and active listening; explore mood, sleep, motivation and social contact. Persistent hopelessness, severe anxiety or loss of interest warrants sensitive referral to appropriate mental-health or primary-care services. Do not diagnose beyond professional scope. Rehabilitation, peer support, counselling, vocational services and family education may restore confidence. Clinical application: ask what has become hardest and which activity would make the greatest difference. Clinical reasoning: stigma or distress may prevent use of a technically suitable aid. Key points: listen, support autonomy and refer when indicated.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-039-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "إرشاد المريض والأسرة",
+      "title_en": "Patient and Family Counseling",
+      "topic_id": "ab2829a1-2545-4d2f-8c4a-07eb66659587",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Re-demonstrate and use teach-back",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Assume non-adherence",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Increase power",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "End follow-up",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "If a patient cannot explain how to use an aid, the clinician should:",
+          "is_published": false,
+          "explanation_ar": "الإرشاد الجيد يقوم على القرار المشترك والتحقق من الفهم واحترام موافقة المريض واستقلاليته.",
+          "explanation_en": "Understanding and practical competence must be confirmed."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Listen, explain, discuss, demonstrate, check and follow up",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Prescribe and discharge without questions",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use jargon only",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Speak only to family",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Which sequence best describes counselling?",
+          "is_published": false,
+          "explanation_ar": "الإرشاد الجيد يقوم على القرار المشترك والتحقق من الفهم واحترام موافقة المريض واستقلاليته.",
+          "explanation_en": "Structured shared decision-making supports informed choices."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Support agreed goals while preserving autonomy",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Make all decisions automatically",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Prevent safe independent tasks",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Receive information without consent",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Family members should:",
+          "is_published": false,
+          "explanation_ar": "الإرشاد الجيد يقوم على القرار المشترك والتحقق من الفهم واحترام موافقة المريض واستقلاليته.",
+          "explanation_en": "Family support should be collaborative and consent-based."
+        },
+        {
+          "options": [
+            {
+              "option_en": "It enlarges detail but does not repair retinal tissue",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "It cures macular degeneration",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "It restores normal fields",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "It guarantees normal reading",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "An appropriate explanation of magnification is:",
+          "is_published": false,
+          "explanation_ar": "الإرشاد الجيد يقوم على القرار المشترك والتحقق من الفهم واحترام موافقة المريض واستقلاليته.",
+          "explanation_en": "Magnification improves access but does not reverse retinal damage."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Confirm understanding in the patient's own words",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Test unrelated memory",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Replace demonstration",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Shorten consultation only",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "Teach-back is used to:",
+          "is_published": false,
+          "explanation_ar": "الإرشاد الجيد يقوم على القرار المشترك والتحقق من الفهم واحترام موافقة المريض واستقلاليته.",
+          "explanation_en": "Teach-back checks whether explanations are understood."
+        }
+      ],
+      "content_ar": "الإرشاد يساعد المريض على فهم الحالة والخيارات والتأثير الوظيفي. استخدم لغة دقيقة ومتعاطفة. اشرح الفرق بين علاج المرض وتأهيل الرؤية المتبقية، وما الذي تحسنه الوسيلة وما لا تستعيده. اعرض الوسيلة واترك المريض يجربها واستخدم إعادة الشرح للتأكد من الفهم. أشرك الأسرة بموافقة المريض دون إلغاء استقلاليته. تطبيق سريري: استمع واشرح وناقش البدائل واعرض الوسيلة وحدد المتابعة. التفكير السريري: الحماية الزائدة تقلل الاستقلال، وغياب الدعم قد يمنع الاستخدام.",
+      "content_en": "Counselling helps patients understand their condition, options and functional implications. Use accurate, empathetic language adapted to health literacy and emotional readiness. Explain the difference between treating ocular disease and rehabilitating residual vision. Clarify what an aid may improve and what it cannot restore; demonstrate it and allow practice. Use teach-back to confirm understanding. Family members may support practice but should not automatically speak for the patient or take over safe tasks. Obtain consent before sharing information. Clinical application: listen, explain plainly, discuss options, demonstrate, check understanding and plan follow-up. Clinical reasoning: overprotection may reduce confidence, while insufficient support may prevent use. Key points: counselling is shared decision-making.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    },
+    {
+      "code": "LV-040-L01",
+      "status": "review",
+      "is_free": true,
+      "title_ar": "تخطيط التأهيل لضعف البصر",
+      "title_en": "Low Vision Rehabilitation Planning",
+      "topic_id": "529da903-ba33-4a7a-8402-d6afc2bee087",
+      "questions": [
+        {
+          "options": [
+            {
+              "option_en": "Evaluate real-world use, outcomes and barriers",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Repeat refraction only",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Confirm purchase",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Avoid plan changes",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "The main purpose of follow-up is to:",
+          "is_published": false,
+          "explanation_ar": "خطة التأهيل يجب أن تنطلق من أهداف وظيفية قابلة للقياس وتراجع وفق الأداء الواقعي.",
+          "explanation_en": "Follow-up determines effectiveness and need for modification."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Cost and environmental context",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Acuity alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Device appearance alone",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Clinician's preferred brand",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "hard",
+          "question_en": "Which factor belongs in rehabilitation planning?",
+          "is_published": false,
+          "explanation_ar": "خطة التأهيل يجب أن تنطلق من أهداف وظيفية قابلة للقياس وتراجع وفق الأداء الواقعي.",
+          "explanation_en": "Cost, environment, dexterity and motivation affect sustained use."
+        },
+        {
+          "options": [
+            {
+              "option_en": "After task-based trial and handling assessment",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "By advertised power alone",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Before history taking",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Without working-distance assessment",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "An aid should ideally be selected:",
+          "is_published": false,
+          "explanation_ar": "خطة التأهيل يجب أن تنطلق من أهداف وظيفية قابلة للقياس وتراجع وفق الأداء الواقعي.",
+          "explanation_en": "Trial confirms suitability for task and user ability."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Read a household bill independently using an agreed aid",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Improve vision",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Use a 10x magnifier",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Attend clinic more often",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "medium",
+          "question_en": "Which is the best functional goal?",
+          "is_published": false,
+          "explanation_ar": "خطة التأهيل يجب أن تنطلق من أهداف وظيفية قابلة للقياس وتراجع وفق الأداء الواقعي.",
+          "explanation_en": "It specifies task, context and independence."
+        },
+        {
+          "options": [
+            {
+              "option_en": "Specific, functional and measurable",
+              "is_correct": true,
+              "display_order": 1
+            },
+            {
+              "option_en": "Only improved Snellen acuity",
+              "is_correct": false,
+              "display_order": 2
+            },
+            {
+              "option_en": "Chosen only by clinician",
+              "is_correct": false,
+              "display_order": 3
+            },
+            {
+              "option_en": "Unrelated to priorities",
+              "is_correct": false,
+              "display_order": 4
+            }
+          ],
+          "difficulty": "easy",
+          "question_en": "A good rehabilitation goal is:",
+          "is_published": false,
+          "explanation_ar": "خطة التأهيل يجب أن تنطلق من أهداف وظيفية قابلة للقياس وتراجع وفق الأداء الواقعي.",
+          "explanation_en": "Functional goals describe meaningful activities and measurable outcomes."
+        }
+      ],
+      "content_ar": "تحول خطة التأهيل نتائج التقييم إلى تدخلات مرتبطة بأولويات المريض. سجل خط الأساس للحدة والقريب والتباين والمجال والقراءة والوهج والحركة وأداء المهام، مع مراعاة البيئة والقدرة الجسدية والتكلفة. يجب أن يصف الهدف نشاطاً وسياقاً ونتيجة قابلة للقياس. اختر التدخل المناسب وجرب الأجهزة وسجل مسافة العمل ومجال الرؤية والإضاءة والقدرة على الاستخدام. نسق مع الاختصاصيين وتابع الأداء الفعلي. تطبيق سريري: ضع أهدافاً قابلة للقياس وموعد مراجعة. التفكير السريري: أعلى تكبير ليس بالضرورة الأفضل؛ يجب مطابقة الوسيلة مع المهمة والقدرة والبيئة والتكلفة.",
+      "content_en": "A rehabilitation plan converts assessment into interventions linked to patient priorities. Establish baseline acuity, near performance, contrast, field, reading, glare, mobility and task performance; include psychosocial, environmental, physical and financial factors. Goals should describe an activity, context and measurable outcome, such as reading a bill independently with an agreed aid at home. Select interventions addressing the identified barrier: optical or electronic aids, non-optical adaptations, environmental changes, training, counselling or referral. Trial devices and document working distance, field of view, illumination and handling. Coordinate multidisciplinary care and follow up real-world use, comfort, performance and barriers. Clinical application: set two or three measurable goals and a review date. Clinical reasoning: highest magnification is not necessarily best; match the aid to task, ability, environment, motivation and cost. Key points: plan from functional goals and revise using outcomes.",
+      "learning_objectives": [
+        "Understand the clinical principles and functional impact.",
+        "Apply assessment findings to rehabilitation planning.",
+        "Recognize safety issues and referral needs."
+      ]
+    }
+  ]
+}
