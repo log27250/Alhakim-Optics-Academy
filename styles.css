@@ -233,3 +233,19 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .lecture-audio-note{margin:4px 0 18px}
 .lecture-audio-panel.unavailable{opacity:.75}
 @media(max-width:520px){.lecture-audio-actions button{flex:1;min-width:calc(50% - 8px);font-size:13px}.lecture-audio-actions label{width:100%;justify-content:space-between}}
+
+/* Compact icon-first lecture audio controls */
+.lecture-audio-compact{display:inline-flex;position:relative;vertical-align:middle;margin:8px 5px;direction:rtl;z-index:5}
+.lecture-audio-icon{width:42px;height:42px;border-radius:50%;border:1px solid #cbd9e8;background:#f5f8fc;color:#123c61;font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(10,40,70,.1)}
+.lecture-audio-icon:focus-visible{outline:3px solid #d6b66c;outline-offset:2px}
+.lecture-audio-popover{position:absolute;top:48px;inset-inline-start:0;width:min(290px,calc(100vw - 40px));padding:12px;background:#fff;border:1px solid #cbd9e8;border-radius:13px;box-shadow:0 8px 28px rgba(10,35,60,.18)}
+.lecture-audio-popover[hidden]{display:none}
+.lecture-audio-popover>b{display:block;margin-bottom:6px}
+.lecture-audio-state{font-size:12px;color:#567087}
+.lecture-audio-actions{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.lecture-audio-actions button{width:38px;height:36px;border:1px solid #cbd9e8;border-radius:8px;background:#f6f9fc;color:#123c61;font-size:16px;cursor:pointer}
+.lecture-audio-speed{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px}
+.lecture-audio-speed select{padding:7px;border:1px solid #cbd9e8;border-radius:7px;background:white}
+.lecture-audio-progress{height:5px;background:#e5edf5;border-radius:8px;overflow:hidden;margin:9px 0}
+.lecture-audio-progress span{display:block;height:100%;width:0;background:#1769aa;transition:width .2s}
+.lecture-audio-popover small{font-size:11px;color:#60758b}
