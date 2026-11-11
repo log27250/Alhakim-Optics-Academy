@@ -123,3 +123,11 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Replaced all 30 distractors with distinct topic-relevant alternatives; retained one correct option per question and aligned explanations to the revised stems.
 - Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 30 distinct incorrect option texts, and zero Arabic assessment content.
 - EINS-032–035 remain to be rebuilt and verified; EINS-031 is a completed question-bank repair only, not a claim of full scientific approval of the department.
+
+
+## Progress update — EINS-032 question-bank rebuild
+
+- Rebuilt all 10 EINS-032 questions with specific assessment of anterior-segment anatomy, Scheimpflug imaging, standardized acquisition, segmentation limitations, UBM, AS-OCT, serial measurement comparability, scan centration and clinical documentation.
+- Replaced all 30 distractors with distinct, topic-relevant alternatives and aligned the explanations with each revised question.
+- Supabase verification for EINS-032: 10 questions, 40 options, 10 correct options, 10 distinct stems, 30 distinct incorrect option texts and zero Arabic assessment content.
+- EINS-031 and EINS-032 now pass these structural and content checks. EINS-033–045 remain in the question-rebuild queue; this does not constitute full department approval.
