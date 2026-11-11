@@ -70,4 +70,4 @@ Images are embedded in `public.lessons.content_en` using HTTPS Markdown image sy
 
 ## Editorial note
 
-The current database audit confirms 45 illustration links and photographic references in 14 distinct lectures (17 photo placements). Final per-lecture visual placement and live-device rendering checks remain pending. The SVGs are conceptual teaching diagrams and must not be mistaken for clinical photographs or diagnostic scans.
+The current database audit confirms 45 illustration links and photographic references in 14 distinct lectures (16 photo placements). Final per-lecture visual placement and live-device rendering checks remain pending. The SVGs are conceptual teaching diagrams and must not be mistaken for clinical photographs or diagnostic scans.
