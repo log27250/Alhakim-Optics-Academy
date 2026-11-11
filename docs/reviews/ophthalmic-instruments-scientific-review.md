@@ -476,3 +476,38 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 5. Obtain an independent optometry/ophthalmic-instrument specialist review if the academy intends to represent the section as externally academically accredited.
 
 **Latest decision: NOT FINALLY APPROVED.** All 450 bank items and all 110 exam items have now received batch-wise internal screening; structural checks pass and the documented answer-position and content repairs are deployed. Final approval remains withheld because source-to-claim verification, the remaining distractor-strengthening pass, bilingual content review, live interface testing and any desired external specialist sign-off are still open.
+
+
+## Additional content-reference and explanation remediation — 2026-11-11
+
+### Lesson-bank explanation quality
+- Expanded all 18 remaining explanations shorter than 60 characters in EINS-002–EINS-010. The revised rationales now explain the underlying optics, instrument technique, sources of error or clinical limitation rather than merely restating the keyed option.
+- Latest read-back: 450 bank questions; zero explanations shorter than 60 characters; zero malformed records. Each question still has four distinct options, exactly one keyed option and valid display positions. This is a length/structure check, not proof that every rationale is exhaustive.
+
+### Targeted bibliography additions for EINS-031–EINS-045
+- Added topic-specific supplementary reading to each of the 15 lessons:
+  - EINS-031: corneal endothelium and specular microscopy (AAO cornea section; Elliott).
+  - EINS-032: anterior-segment imaging, angle and modality selection (AAO cornea/glaucoma sections; device manuals).
+  - EINS-033–036: A-scan, B-scan, optical biometry and axial-length acquisition (AAO cataract/retina sections; device-specific technical documentation).
+  - EINS-037: gonioscopy and diagnostic contact lenses (AAO glaucoma section; Elliott; lens instructions).
+  - EINS-038: fundus lenses and indirect viewing (Elliott; AAO retina section; lens instructions).
+  - EINS-039–041: prisms, synoptophore, Hess/Lees and ocular motility (von Noorden & Campos; AAO pediatric ophthalmology/strabismus section).
+  - EINS-042: ERG, VEP and EOG (current ISCEV test-specific standards; recording-system instructions).
+  - EINS-043: ocular photography and imaging documentation (Elliott; AAO retina section; camera instructions).
+  - EINS-044: handheld ophthalmic instruments (Elliott; relevant AAO sections; model-specific manuals).
+  - EINS-045: quality control and safety (ISO 15004-1:2020 within scope; Elliott; device-specific service instructions).
+- These additions improve topic relevance but are bibliographic guidance, not proof that every sentence-level claim has been checked against a page, clause or figure in each source. In particular, device-specific procedures remain conditional on the actual instrument model and its instructions.
+
+### Bilingual storage and rendering risk
+- Confirmed that all 45 lessons contain Arabic text.
+- EINS-001–EINS-010 contain Arabic inline within `content_en` and have an empty separate `content_ar` field. EINS-011–EINS-045 have separate Arabic fields populated as well as Arabic within the English field.
+- No bulk extraction or field migration was performed: it could duplicate, omit or reorder bilingual paragraphs. The first ten lessons therefore need a carefully tested bilingual normalization pass, and all 45 need visual RTL/LTR verification in the learner interface.
+
+### Latest database verification
+- Lesson bank: 450 items; 0 malformed four-option/key records; 0 explanations under 60 characters.
+- Exam: 110 active items; 110 distinct stems; four distinct options per item; zero key mismatches; zero explanations under 60 characters; balanced correct-answer positions 28/28/27/27.
+- Lessons: 45/45 have an SVG figure and a references heading; 45/45 contain Arabic text.
+- Topic-specific supplementary reference blocks have been added to EINS-031–EINS-045. Earlier lessons EINS-001–EINS-030 already contain their standards and/or supplementary reference material, but sentence-level traceability remains unverified.
+
+### Approval status
+**NOT FINALLY APPROVED.** The internal database quality checks and explanation/reference improvements are now complete for this pass. Approval remains blocked by (a) sentence-level source-to-claim verification across 45 lessons, (b) final semantic distractor/one-best-answer validation of every bank item by a qualified reviewer, (c) bilingual field normalization and RTL/LTR visual verification, and (d) real learner-interface testing on mobile and desktop, including SVG rendering, answer selection, scoring, attempt persistence and progress recording. No external specialist accreditation is claimed.
