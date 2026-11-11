@@ -380,13 +380,13 @@
     "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms all 45 published lessons contain 10 single-choice questions each, four uniquely ordered options, and exactly one correct answer per question. All question and option Arabic fields are empty. DO-031 through DO-045 have expanded bilingual lecture content; DO-001 through DO-030 still require expansion to the approved full lecture format and a full scientific review.",
-    "expanded_bilingual_lectures": 15,
-    "lectures_requiring_expansion": 30,
+    "note": "Supabase verification confirms all 45 published lessons contain 10 single-choice questions each, four uniquely ordered options, and exactly one correct answer per question. All question and option Arabic fields are empty. DO-031 through DO-045 have expanded bilingual lecture content. DO-001 through DO-010 received an initial content expansion and Arabic clinical explanation; they still require a second-depth editorial review. DO-011 through DO-030 remain shorter lesson texts and require expansion. The entire section requires scientific review.",
+    "expanded_bilingual_lectures": 25,
+    "lectures_requiring_expansion": 20,
     "lecture_content_review_status": "partial",
     "question_structure_verified": true,
     "question_language_policy": "English-only questions, options, and explanations; Arabic question and option fields are empty."
   },
   "status": "45_lessons_published_question_banks_expanded",
-  "note": "The section currently contains 45 published lessons, 450 questions, and 1,800 options. The question-bank structure has been verified. Lecture expansion is partial: DO-031 through DO-045 have expanded bilingual content, while DO-001 through DO-030 remain shorter lesson texts and must be expanded and scientifically reviewed before the department is marked complete."
+  "note": "The section currently contains 45 published lessons, 450 questions, and 1,800 options. The question-bank structure has been verified. Lecture expansion is partial: DO-031 through DO-045 have expanded bilingual content, DO-001 through DO-010 received initial expansion and bilingual clinical explanation; DO-011 through DO-030 remain shorter lesson texts. Scientific review of all lectures and questions is still pending, so the section is not complete."
 }
