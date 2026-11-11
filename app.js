@@ -361,10 +361,59 @@ function openAcademyReference(id){
 }
 async function downloadAcademyReference(id){const ref=findAcademyReference(id);if(!ref)return;const url=referenceUrl(ref);if(!isDirectReferencePdf(url)){alert('لا يوجد ملف PDF مباشر لهذا المرجع حالياً. الرابط المتوفر صفحة الناشر أو أن المرجع لا يحتوي على رابط. أضف ملف PDF مرخصاً/مفتوح الوصول إلى مكتبة الأكاديمية ليصبح التحميل مباشراً.');return}try{const response=await fetch(url);if(!response.ok)throw Error('تعذر تنزيل الملف.');const blob=await response.blob();if(!blob.size||(!blob.type.includes('pdf')&&!/\.pdf(?:[?#].*)?$/i.test(url)))throw Error('الرابط لا يعيد ملف PDF.');const objectUrl=URL.createObjectURL(blob);const link=document.createElement('a');link.href=objectUrl;link.download=(refLabel(ref).replace(/[\\/:*?"<>|]/g,'_').slice(0,90)||'reference')+'.pdf';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(objectUrl),60000)}catch(e){alert('تعذر التحميل المباشر من المصدر. قد يمنع المصدر التنزيل من داخل الأكاديمية؛ ارفع نسخة PDF مرخصة إلى مكتبة الأكاديمية لضمان التحميل.')}} 
 function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','المراجع التي تحتوي على ملف PDF فعلي يمكن فتحها داخل الأكاديمية وتحميلها مباشرة.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح داخل الأكاديمية':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
+
+/* Lecture narration controls: browser-native speech synthesis. */
+const lectureNarrators=new Map();
+function lectureAudioText(raw){
+ const doc=new DOMParser().parseFromString(String(raw||''),'text/html');
+ return (doc.body.textContent||'').replace(/https?:\/\/\S+/g,' ').replace(/\s+/g,' ').trim();
+}
+function lectureAudioPanel(lang,raw){
+ const text=lectureAudioText(raw),label=lang==='ar'?'الشرح العربي':'المحاضرة الإنجليزية';
+ if(!text)return '<section class="lecture-audio-panel unavailable"><b>الصوت — '+label+'</b><p>لا يوجد نص منفصل متاح لهذا المسار الصوتي.</p></section>';
+ if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window))return '<section class="lecture-audio-panel unavailable"><b>الصوت — '+label+'</b><p>المتصفح الحالي لا يدعم القراءة الصوتية.</p></section>';
+ const id='lectureAudio_'+lang;
+ return '<section class="lecture-audio-panel" id="'+id+'" data-lang="'+lang+'"><div class="lecture-audio-title"><b>🔊 الاستماع إلى '+label+'</b><span class="lecture-audio-state" id="'+id+'_state">جاهز للتشغيل</span></div><div class="lecture-audio-actions"><button type="button" data-audio="play">▶ تشغيل</button><button type="button" data-audio="pause">Ⅱ إيقاف مؤقت</button><button type="button" data-audio="resume">▶ متابعة</button><button type="button" data-audio="stop">■ إيقاف</button></div><div class="lecture-audio-actions secondary-actions"><button type="button" data-audio="back">↶ السابق</button><button type="button" data-audio="next">التالي ↷</button><label>سرعة القراءة <select data-audio="rate"><option value="0.75">0.75×</option><option value="0.9">0.9×</option><option value="1" selected>1×</option><option value="1.1">1.1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></label></div><div class="lecture-audio-progress"><span id="'+id+'_progress"></span></div><small id="'+id+'_position">التنقل بين الجمل السابقة والتالية</small></section>';
+}
+function initLectureAudio(){
+ document.querySelectorAll('.lecture-audio-panel:not(.unavailable)').forEach(panel=>{
+  const lang=panel.dataset.lang,id=panel.id,source=lang==='ar'?window.currentLectureAudio?.ar:window.currentLectureAudio?.en;
+  if(!source)return;
+  const sentences=source.split(/(?<=[.!?؟。])\s+/u).map(x=>x.trim()).filter(Boolean);
+  const state=document.getElementById(id+'_state'),position=document.getElementById(id+'_position'),progress=document.getElementById(id+'_progress');
+  let index=0,rate=1,active=false;
+  const stop=()=>{speechSynthesis.cancel();active=false};
+  const paint=message=>{if(state)state.textContent=message;if(position)position.textContent='الجملة '+(active?Math.min(index+1,sentences.length):index)+' من '+sentences.length;if(progress)progress.style.width=(sentences.length?index/sentences.length*100:0)+'%'};
+  const speak=()=>{
+   if(index>=sentences.length){active=false;paint('اكتملت المحاضرة');if(progress)progress.style.width='100%';return}
+   speechSynthesis.cancel();
+   const utterance=new SpeechSynthesisUtterance(sentences[index]);utterance.lang=lang==='ar'?'ar':'en';utterance.rate=rate;
+   const voice=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith(lang==='ar'?'ar':'en'));if(voice)utterance.voice=voice;
+   utterance.onstart=()=>paint('جاري التشغيل');
+   utterance.onend=()=>{if(!active)return;index++;if(index<sentences.length)speak();else{active=false;paint('اكتملت المحاضرة');if(progress)progress.style.width='100%'}};
+   utterance.onerror=e=>{if(e.error!=='canceled'&&e.error!=='interrupted'){active=false;paint('تعذر تشغيل الصوت')}};
+   speechSynthesis.speak(utterance);
+  };
+  panel.addEventListener('click',e=>{
+   const button=e.target.closest('button[data-audio]');if(!button)return;
+   switch(button.dataset.audio){
+    case 'play':index=0;active=true;speak();break;
+    case 'pause':if(speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();paint('إيقاف مؤقت')}break;
+    case 'resume':if(speechSynthesis.paused){active=true;speechSynthesis.resume();paint('جاري التشغيل')}else if(!speechSynthesis.speaking){active=true;speak()}break;
+    case 'stop':stop();index=0;paint('تم الإيقاف');if(progress)progress.style.width='0%';break;
+    case 'next':if(index<sentences.length-1){index++;active=true;speak()}break;
+    case 'back':index=Math.max(0,index-1);active=true;speak();break;
+   }
+  });
+  panel.querySelector('[data-audio="rate"]').addEventListener('change',e=>{rate=Number(e.target.value)||1;if(active&&!speechSynthesis.paused)speak()});
+  lectureNarrators.set(lang,{stop});paint('جاهز للتشغيل');
+ });
+}
+
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureMarkdown(buildIntegratedBilingualMarkdown(l.content_en,l.content_ar));
  const slides=buildLectureSlides(lectureHtml);
- pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>Self-assessment</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
- initLectureDeck();}
+ pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+lectureAudioPanel('ar',l.content_ar)+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>Self-assessment</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
+ window.currentLectureAudio={en:lectureAudioText(l.content_en),ar:lectureAudioText(l.content_ar)};initLectureDeck();initLectureAudio();}
 const OFFLINE_COMPLETION_KEY='alhakim_offline_lesson_completions_v1';
 function getOfflineCompletions(){try{return JSON.parse(localStorage.getItem(OFFLINE_COMPLETION_KEY)||'[]')}catch(_){return []}}
 function saveOfflineCompletion(id){const rows=getOfflineCompletions();if(!rows.some(x=>String(x.lesson_id)===String(id)))rows.push({lesson_id:String(id),queued_at:new Date().toISOString()});localStorage.setItem(OFFLINE_COMPLETION_KEY,JSON.stringify(rows))}
