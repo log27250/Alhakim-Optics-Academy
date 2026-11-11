@@ -210,3 +210,6 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .admin-top-button[hidden]{display:none!important}
 .admin-top-button:focus-visible{outline:3px solid #d9a52d;outline-offset:2px}
 @media(max-width:520px){.admin-top-button{width:40px;height:40px;min-width:40px;font-size:21px!important}}
+
+/* Academy reference viewer and actions */
+.reference-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.reference-actions button{flex:1;min-width:130px}.reference-viewer{display:block;width:100%;height:min(72vh,850px);border:1px solid #dce6f4;border-radius:12px;background:#fff;margin-top:14px}.reference-card{cursor:default}
