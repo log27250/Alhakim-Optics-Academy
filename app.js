@@ -426,7 +426,16 @@ function lectureIllustration(l){
   CO:['./assets/clinical-optometry/clinical-examination-flow.svg','Clinical examination workflow'],
   LV:['./assets/low-vision/functional-vision-assessment.svg','Functional vision assessment']
  };
- const item=map[String(l?.department_code||'').toUpperCase()];
+ const specific={
+  'GEO-LIGHT-001':['./assets/geometrical-optics/geo-refraction-snell.svg','Light refraction and ray behaviour'],
+  'GEO-REFL-001':['./assets/geometrical-optics/geo-reflection-plane-mirror.svg','Reflection at a plane mirror'],
+  'GEO-N-001':['./assets/geometrical-optics/geo-refractive-index.svg','Refractive index and light speed'],
+  'GEO-TIR-001':['./assets/geometrical-optics/geo-total-internal-reflection.svg','Critical angle and total internal reflection'],
+  'GEO-MIR-001':['./assets/geometrical-optics/geo-spherical-mirrors.svg','Spherical mirror terminology'],
+  'GEO-LENS-001':['./assets/geometrical-optics/geo-thin-lenses.svg','Converging thin lens ray behaviour'],
+  'ANP-VP-001':['./assets/anatomy-physiology/anp-visual-pathway.svg','Retino-geniculo-cortical visual pathway']
+ };
+ const item=specific[String(l?.id||'')]||map[String(l?.department_code||'').toUpperCase()];
  if(!item)return '';
  return '<figure class="lecture-illustration" style="margin:24px auto;max-width:900px;text-align:center"><img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" style="display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #d5e1ea;border-radius:16px;background:#f7fafc" onerror="this.closest(\'figure\').hidden=true"><figcaption style="margin-top:8px;color:var(--muted,#587080);font-size:.92rem">'+esc(item[1])+' · HAKIM OPTICS ACADEMY</figcaption></figure>';
 }
