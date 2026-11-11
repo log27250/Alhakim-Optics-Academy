@@ -336,3 +336,40 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 5. Test lesson rendering, inline SVG, bilingual/RTL display and final-exam behavior in the live application on mobile and desktop.
 
 **Approval decision: NOT FINALLY APPROVED.** The department is structurally populated and the listed database repairs are deployed, but academic approval is withheld until all five gates above are completed. This report records an internal quality-control review and is not external specialist accreditation.
+
+
+## Remediation update — 2026-11-11 (references, illustrations and question-bank screening)
+
+### Lesson references and source traceability
+- Added a topic-specific supplementary reference section to EINS-001–EINS-030, retaining the existing bibliography and adding relevant textbooks, peer-reviewed foundational papers and/or instrument standards.
+- Added explicit general instrument safety/quality references to EINS-044 and EINS-045, with a scope note that ISO 15004-1:2020 does not replace device-specific standards or manufacturer instructions.
+- Checked ISO standard status and scope against the official ISO catalogue and FDA recognized-consensus-standards listings. Verified standards referenced include ISO 15004-1:2020, ISO 8596:2017 with Amendment 1:2019, ISO 8598-1:2014, ISO 10939:2017, ISO 10940:2009, ISO 10942:2022, ISO 10943:2023, ISO 10938:2016, ISO 8612:2009 and ISO 16971-1:2024. Where an individual standard landing-page identifier was not independently confirmed, the lesson links to the official ISO/TC 172/SC 7 catalogue rather than using a guessed direct URL.
+- Added scope caveats where a standard's stated purpose is narrower than routine clinical practice (for example, ISO 8596:2017 is not a universal clinical acuity protocol).
+- Supabase verification: all 45 EINS lessons have a reference heading, all 45 now contain reference identifiers/links or named standards, and bilingual inline teaching text remains present in all 45.
+- This improves bibliographic traceability; it does not yet prove that every sentence-level clinical claim has been mapped to a supporting source. That claim-to-source verification remains an approval gate.
+
+### Lesson illustrations
+- Added 30 original topic-specific SVG schematics to EINS-001–EINS-030, inserted immediately before each lesson's References heading.
+- Combined with the previously existing 15 illustrations in EINS-031–EINS-045, all 45 lessons now contain an inline SVG figure.
+- Supabase verification: 45/45 lessons contain SVG markup; in 45/45 the SVG occurs before the references section. The figures are teaching schematics, not photographs or validated diagnostic images.
+- Live rendering of the SVGs in the learner interface has not been tested on mobile or desktop.
+
+### Lesson-bank question screening and repair
+- Retrieved and screened all 50 question stems, keyed options and explanations in EINS-001–EINS-005, including all 200 answer options. No incorrect answer key was identified in this screening. The review noted that some introductory distractors are weak or implausible and need a separate quality pass.
+- Retrieved and screened all 50 question stems, keyed options and explanations in EINS-006–EINS-010, including all 200 answer options. No clear key reversal was identified. Core checks included focimeter use, vertex power, progressive reference points, accommodation effects in autorefraction, working-distance subtraction in retinoscopy, keratometry limits and corneal topography/tomography distinctions.
+- A database-wide question audit detected three remaining boilerplate explanation prefixes in EINS-031, EINS-036 and EINS-040. Rewrote the associated stems and explanations so that the questions now directly assess specular-microscopy image limitations, optical axial-length acquisition failure and the synoptophore's principal clinical role. Supabase read-back confirmed the revisions.
+- Re-audit confirms 450 question-bank items, four distinct options per item, exactly one keyed correct answer per item, 450 distinct stems, no Arabic assessment text, no short explanations under the audit threshold and zero remaining boilerplate explanation wrappers.
+- These database-wide checks do not substitute for a complete scientific review of every stem, distractor and explanation. The question-by-question review of EINS-011–EINS-045 and the detailed distractor plausibility review of EINS-001–EINS-010 remain outstanding.
+
+### Final-exam screening
+- Rechecked the 110 active EINS final-exam records: 110 distinct stems, four options per item, zero Arabic assessment text and zero remaining boilerplate explanation wrappers.
+- A search for known generic stem templates returned no matches.
+- The final examination has not yet been reviewed item-by-item against the source lessons for scientific correctness, distractor plausibility and explanation quality. This remains a required approval gate.
+
+### Current verified status
+- 45 lessons; 45/45 with references headings, source identifiers and inline SVG figures.
+- 450 lesson-bank questions; 1,800 options; one correct answer per question; 450 distinct stems; no Arabic assessment text; no short or boilerplate explanations detected by the current audit.
+- 110 active final-exam questions; 110 distinct stems; four options each; English-only; no boilerplate explanation wrappers.
+- Live learner-interface testing, complete lesson claim-to-reference mapping, full scientific review of EINS-011–EINS-045 and all 110 final-exam items, and detailed distractor plausibility review remain outstanding.
+
+**Approval decision remains: NOT FINALLY APPROVED.** The section has improved bibliographic coverage, complete illustration coverage and a clean structural audit, but these results are not a substitute for the remaining scientific and live-interface checks. No external specialist accreditation is claimed.
