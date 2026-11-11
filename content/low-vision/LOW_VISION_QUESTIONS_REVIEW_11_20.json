@@ -1,0 +1,148 @@
+{
+  "department": "Low Vision",
+  "reviewed_range": "LV-011 to LV-020",
+  "review_status": "review",
+  "question_updates": [
+    {
+      "topic": "LV-011",
+      "id": "821879db-b6b2-4008-8868-9f4c502d8815",
+      "question_en": "A patient identifies isolated letters but reads continuous text very slowly. Which factor should be specifically investigated during reading assessment?",
+      "options": [
+        "Crowding, reduced visual span or unstable fixation",
+        "Reduced colour discrimination alone",
+        "An isolated reduction in distance acuity only",
+        "A change in intraocular pressure during reading"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Continuous-text performance may reveal crowding, reduced visual span, fixation instability or a central scotoma that isolated optotypes do not adequately test.",
+      "explanation_ar": "قد يكشف النص المتصل التزاحم البصري أو محدودية المجال البصري الوظيفي أو عدم ثبات التثبيت أو وجود عتمة مركزية؛ وهي عوامل لا تظهر بوضوح عند اختبار الحروف المنفردة."
+    },
+    {
+      "topic": "LV-012",
+      "id": "e9d6d826-7b53-4517-9a1c-d114ce1986dc",
+      "question_en": "A patient with retinal disease reports discomfort in bright sunlight but also struggles indoors. What is the most appropriate approach to filter selection?",
+      "options": [
+        "Trial several appropriate tints under indoor and outdoor conditions",
+        "Select the darkest available filter without testing",
+        "Use a filter that blocks all visible light",
+        "Avoid assessing the patient’s indoor visual function"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Filter selection should be individualized and tested across relevant lighting conditions; excessive tint may reduce retinal illumination and impair indoor function.",
+      "explanation_ar": "يجب اختيار المرشح بصورة فردية وتجربته في ظروف إضاءة مختلفة؛ فالدرجة الداكنة جداً قد تقلل الضوء الواصل للشبكية وتضعف الرؤية داخل المباني."
+    },
+    {
+      "topic": "LV-013",
+      "id": "ac30ac98-5b2a-4b0c-94c0-30639dae367e",
+      "question_en": "Two task lamps provide similar illuminance, but one causes disabling reflections from the page. Which adjustment is most appropriate to trial first?",
+      "options": [
+        "Reposition and angle the lamp to reduce reflected glare",
+        "Increase lamp intensity to the maximum setting",
+        "Place the lamp directly in the patient’s line of sight",
+        "Replace the task material with a glossy surface"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Changing lamp position and angle, while avoiding direct reflections into the eyes, may improve task visibility without simply increasing illuminance.",
+      "explanation_ar": "تعديل موضع المصباح وزاويته مع منع انعكاس الضوء مباشرة نحو العين قد يحسن الرؤية دون زيادة شدة الإضاءة عشوائياً."
+    },
+    {
+      "topic": "LV-014",
+      "id": "09b7a683-0b07-4085-9daa-1fd258013c0a",
+      "question_en": "A patient can read with a high-powered magnifier but loses the next word while scanning. Which principle should guide the final device choice?",
+      "options": [
+        "The lowest power that provides adequate print resolution and usable field",
+        "The highest power available, regardless of field loss",
+        "The device with the longest working distance in every case",
+        "The device requiring no practice or adaptation"
+      ],
+      "correct_option": 1,
+      "explanation_en": "The lowest magnification that meets the required print size often preserves a larger field and makes tracking easier; task performance must be verified.",
+      "explanation_ar": "اختيار أقل تكبير يحقق حجم الحروف المطلوب يساعد غالباً في المحافظة على مجال رؤية أكبر ويسهل تتبع السطور، مع ضرورة اختبار الأداء الفعلي."
+    },
+    {
+      "topic": "LV-015",
+      "id": "48a1e716-eae3-4cc9-9ae5-dbf257f8c85c",
+      "question_en": "A patient moves a reading target from 40 cm to 20 cm without an optical aid. Assuming the same target size and viewing conditions, what is the approximate relative distance magnification?",
+      "options": [
+        "2×",
+        "0.5×",
+        "4×",
+        "8×"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Relative distance magnification is the original viewing distance divided by the new viewing distance: 40/20 = 2×.",
+      "explanation_ar": "التكبير النسبي بالمسافة يساوي المسافة الأصلية مقسومة على المسافة الجديدة: 40/20 = مرتان."
+    },
+    {
+      "topic": "LV-016",
+      "id": "34431069-7a32-4a83-9f74-63526f5205f2",
+      "question_en": "A digitally enlarged document is easier to resolve, but the patient loses the beginning of each line while navigating. What should be assessed next?",
+      "options": [
+        "Visible text area, navigation, line spacing and place-keeping",
+        "Screen brightness alone, without observing reading",
+        "The file format without testing access",
+        "The colour of the device casing"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Enlargement should be balanced against the amount of text visible, navigation demands, line spacing and the patient’s ability to maintain place.",
+      "explanation_ar": "ينبغي تقييم التوازن بين حجم النص والمساحة الظاهرة ومتطلبات التنقل وتباعد السطور وقدرة المريض على متابعة موضع القراءة."
+    },
+    {
+      "topic": "LV-017",
+      "id": "cae2c610-2d23-4643-8c7d-2c7647bed551",
+      "question_en": "A patient uses a distance telescope to read a classroom board. Which training component is essential before independent use?",
+      "options": [
+        "Target location, alignment, focusing and safe task-specific use",
+        "Continuous walking while looking through the telescope",
+        "Using maximum magnification before locating the target",
+        "Avoiding practice to prevent adaptation"
+      ],
+      "correct_option": 1,
+      "explanation_en": "The patient needs practice locating the target, aligning the telescope, focusing and using it safely in the intended viewing situation.",
+      "explanation_ar": "يحتاج المريض إلى التدريب على تحديد الهدف ومحاذاة المنظار وضبط البؤرة واستخدامه بأمان في الموقف المقصود."
+    },
+    {
+      "topic": "LV-018",
+      "id": "f7eb09e7-7bc7-4cb0-9e83-1acfba519108",
+      "question_en": "A calculated near dioptric demand is 4.00 D at 25 cm. Why should this value not be prescribed automatically as the near addition?",
+      "options": [
+        "Residual accommodation, refractive correction and functional working distance",
+        "The calculated demand alone, irrespective of the patient",
+        "Distance visual acuity without near assessment",
+        "Pupil colour and ocular dominance only"
+      ],
+      "correct_option": 1,
+      "explanation_en": "The calculation describes the vergence demand at that distance; the final prescription must account for refractive correction, usable accommodation, working distance, posture and binocular status.",
+      "explanation_ar": "الحساب يوضح الطلب الديوبتري عند تلك المسافة فقط؛ أما الإضافة النهائية فتراعي التصحيح الانكساري والمطابقة المتاحة ومسافة العمل والوضعية وحالة الرؤية الثنائية."
+    },
+    {
+      "topic": "LV-019",
+      "id": "29294708-985f-4e3f-a6c4-d6bde13bd067",
+      "question_en": "A patient is issued a new optical magnifier but cannot use it effectively at home. What is the most appropriate next step?",
+      "options": [
+        "Provide task-specific training and reassess use in the real environment",
+        "Increase magnification immediately without observing technique",
+        "Assume non-use means the patient has no rehabilitation potential",
+        "Discontinue all follow-up after issuing the device"
+      ],
+      "correct_option": 1,
+      "explanation_en": "Device provision should be accompanied by task-specific training and reassessment in the patient’s real environment; non-use may reflect handling or environmental barriers.",
+      "explanation_ar": "يجب أن يصاحب توفير الوسيلة تدريب عملي مرتبط بالمهمة وإعادة تقييم في بيئة المريض؛ فقد يرجع عدم الاستخدام إلى صعوبة التعامل أو عوائق بيئية."
+    },
+    {
+      "topic": "LV-020",
+      "id": "5e9e8922-4d7a-420e-b971-44f981b37cef",
+      "question_en": "An older patient with hand tremor struggles to keep a handheld magnifier steady. Which modification is most appropriate to trial?",
+      "options": [
+        "Trial a stand magnifier or supported electronic magnifier",
+        "Increase handheld magnifier power without testing stability",
+        "Ask the patient to hold the device farther away while reading",
+        "Remove all near aids and advise unaided reading"
+      ],
+      "correct_option": 1,
+      "explanation_en": "A stand magnifier or a supported electronic aid may reduce the need for precise hand control; the choice should be tested for posture, field and task performance.",
+      "explanation_ar": "يمكن تجربة مكبر ثابت أو وسيلة إلكترونية مدعومة لتقليل الحاجة إلى التحكم الدقيق باليد، مع اختبار الوضعية والمجال والأداء الوظيفي."
+    }
+  ],
+  "audit": "All 10 updated records retain their original IDs and remain unpublished. Validation confirmed four options per question, exactly one correct answer, and no Arabic option text."
+}
