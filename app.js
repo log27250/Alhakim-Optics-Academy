@@ -448,7 +448,10 @@ function lectureIllustration(l){
   'GEO-TIR-001':['./assets/geometrical-optics/geo-total-internal-reflection.svg','Critical angle and total internal reflection'],
   'GEO-MIR-001':['./assets/geometrical-optics/geo-spherical-mirrors.svg','Spherical mirror terminology'],
   'GEO-LENS-001':['./assets/geometrical-optics/geo-thin-lenses.svg','Converging thin lens ray behaviour'],
-  'ANP-VP-001':['./assets/anatomy-physiology/anp-visual-pathway.svg','Retino-geniculo-cortical visual pathway']
+  'ANP-VP-001':['./assets/anatomy-physiology/anp-visual-pathway.svg','Retino-geniculo-cortical visual pathway'],
+  'GEO-REF-001':['./assets/geometrical-optics/geo-snell-law-refraction.svg',"Snell's law: incident and refracted rays"],
+  'REF-SUB-001':['./assets/clinical-refraction/ref-subjective-sequence.svg','Structured subjective refraction sequence'],
+  'CO-EXAM-001':['./assets/clinical-optometry/co-comprehensive-exam-pathway.svg','Comprehensive eye examination pathway']
  };
  const item=specific[String(l?.id||'')]||map[String(l?.department_code||'').toUpperCase()];
  if(!item)return '';
