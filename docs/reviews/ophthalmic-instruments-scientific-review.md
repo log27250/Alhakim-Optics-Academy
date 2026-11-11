@@ -131,3 +131,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Replaced all 30 distractors with distinct, topic-relevant alternatives and aligned the explanations with each revised question.
 - Supabase verification for EINS-032: 10 questions, 40 options, 10 correct options, 10 distinct stems, 30 distinct incorrect option texts and zero Arabic assessment content.
 - EINS-031 and EINS-032 now pass these structural and content checks. EINS-033–045 remain in the question-rebuild queue; this does not constitute full department approval.
+
+
+## Progress update — EINS-033–035 question rebuild and lesson illustrations
+
+- Rebuilt all 10 questions in each of EINS-033 (A-scan), EINS-034 (B-scan), and EINS-035 (Optical Biometry / IOL Calculation): 30 revised question stems and explanations, with 90 distinct distractor texts.
+- The revised assessment focuses on echo acquisition and axial-length measurement, contact versus immersion technique, posterior-segment B-scan interpretation and limitations, and optical biometry quality control and IOL formula inputs.
+- Supabase checks for EINS-031–035: each topic has 10 questions and 40 options; each has 10 correct answers, 10 distinct stems, 30 distinct wrong-option texts, and zero Arabic assessment fields/text.
+- Added five inline SVG educational figures directly into lesson HTML before each References and Further Reading section (EINS-031–035). Each figure combines a schematic of the relevant instrument or imaging modality with its key scientific concept. These are original schematic illustrations, not photographs of specific commercial device models.
+- Supabase confirmed all five lesson records contain the SVG figure markup in the intended position before the references section.
+- The rendering of inline SVG in the live academy UI still requires visual testing. EINS-036–045 and the broader scientific review remain outstanding; the department is not yet academically approved.
