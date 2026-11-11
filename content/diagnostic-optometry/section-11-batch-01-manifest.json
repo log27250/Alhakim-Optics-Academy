@@ -248,26 +248,140 @@
       "question_type": "single_choice",
       "options_per_question": 4,
       "question_count": 10
+    },
+    {
+      "code": "DO-031-L01",
+      "title_en": "Amsler Grid Assessment",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-032-L01",
+      "title_en": "Ocular Ultrasound",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-033-L01",
+      "title_en": "B-Scan Ultrasonography",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-034-L01",
+      "title_en": "Electrophysiology of Vision",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-035-L01",
+      "title_en": "Electroretinography",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-036-L01",
+      "title_en": "Visual Evoked Potential",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-037-L01",
+      "title_en": "Electro-Oculography",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-038-L01",
+      "title_en": "Diagnostic Imaging in Optometry",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-039-L01",
+      "title_en": "Interpretation of Ocular Imaging",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-040-L01",
+      "title_en": "Clinical Differential Diagnosis",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-041-L01",
+      "title_en": "Red Eye Diagnostic Approach",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-042-L01",
+      "title_en": "Acute Visual Loss Assessment",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-043-L01",
+      "title_en": "Ocular Emergency Recognition",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-044-L01",
+      "title_en": "Diagnostic Case Studies",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
+    },
+    {
+      "code": "DO-045-L01",
+      "title_en": "Clinical Diagnostic Decision-Making",
+      "status": "published",
+      "question_count": 10,
+      "question_type": "single_choice",
+      "options_per_question": 4
     }
   ],
   "validation": {
-    "lessons_created": 30,
-    "questions_created": 300,
-    "options_created": 1200,
+    "lessons_created": 45,
+    "questions_created": 450,
+    "options_created": 1800,
     "questions_per_lesson": 10,
     "options_per_question": 4,
     "exactly_one_correct_answer_per_question": true,
+    "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms DO-001 through DO-030 each contain 10 single-choice questions, 4 uniquely ordered options per question, and exactly one correct answer per question. Correct-answer positions are distributed across all four positions.",
-    "correct_answer_position_distribution": {
-      "1": 73,
-      "2": 94,
-      "3": 69,
-      "4": 64
-    },
-    "option_order_randomized": true
+    "note": "Supabase verification confirms all 45 published Diagnostic Optometry lessons (DO-001 through DO-045) contain 10 single-choice questions each, with four uniquely ordered options and exactly one correct answer per question. Correct-answer positions are distributed across all four options."
   },
-  "status": "question_bank_expanded_for_existing_lessons",
-  "note": "Deployment manifest only; complete lesson content and question bank are stored in Supabase. DO-001 through DO-030 are published and each has 10 verified English single-choice questions. No DO-031 or later lessons currently exist in Supabase; add new lessons only after confirming the approved section syllabus and sequence."
+  "status": "45_lessons_published_question_banks_expanded",
+  "note": "Deployment manifest only; lesson content and question banks are stored in Supabase. DO-001 through DO-045 are published, with 10 English single-choice questions per lesson. The section contains 45 lessons, 450 questions, and 1,800 options. A full scientific content and assessment review remains the next quality-control stage before marking the department complete."
 }
