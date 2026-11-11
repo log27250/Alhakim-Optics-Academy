@@ -153,3 +153,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - The lesson text and references were preserved while inserting the figures. Scientific review of the lesson claims, question-level reconstruction, distractor replacement, final-exam validation and live interface testing remain outstanding.
 
 **Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-036–040 distractor remediation
+
+- Replaced all 150 incorrect answer options across EINS-036–040 with topic-specific alternatives. The revised distractors cover optical biometry acquisition and signal interpretation; gonioscopy optics, lens handling and angle assessment; fundus lens image formation and examination technique; prism optics, base direction and measurement conditions; and synoptophore functions, setup and interpretation.
+- Supabase verification for each of the five topics confirms 10 questions, 40 options, 10 keyed correct options, 10 distinct question stems, 30 distinct incorrect-option texts, and zero Arabic assessment text.
+- This closes the repeated-distractor defect recorded in the previous progress update. It does not establish that every keyed answer and stem is scientifically optimal: several stems and correct-answer concepts remain repetitive or template-like and still require question-by-question reconstruction and expert review.
+- The five inline SVG figures remain present before their references headings; rendering in the live learner interface remains untested.
+
+**Current status: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
