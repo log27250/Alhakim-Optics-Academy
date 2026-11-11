@@ -470,7 +470,7 @@
     "all_lessons_published": true,
     "verified_in_supabase": true,
     "verified_through": "2026-11-11",
-    "note": "Supabase verification confirms 45 published lessons, each with at least four lesson-specific learning objectives, 45 original embedded SVG educational illustrations, and 14 placements of verified licensed device/test photographs across 14 lessons. DO-001 through DO-010 had repeated generic boilerplate removed and replaced with topic-specific teaching, Arabic explanations and objectives. The 450-question bank has four options and exactly one correct answer per question; no duplicate stems or short explanations remain, and question text/options/explanations are English-only. Difficulty labels are provisionally classified as 159 easy, 253 medium and 38 hard using a stem-complexity heuristic and require educator validation. The 70-question final exam has 70 unique questions, four options each, a present correct answer, English-only text, and representation from all 45 lessons. Full source-level scientific review and final-exam item-by-item validation remain pending. Original SVGs are educational schematics; the additional photographs are attributed and licensed as documented in the placement guide.",
+    "note": "Supabase verification confirms 45 published lessons, each with at least four lesson-specific learning objectives, 45 original embedded SVG educational illustrations, and 14 placements of verified licensed device/test photographs across 14 lessons. The app's Markdown image parser and responsive image styling were verified in app.js and styles.css. DO-001 through DO-010 had repeated generic boilerplate removed and replaced with topic-specific teaching, Arabic explanations and objectives. The 450-question bank has four options and exactly one correct answer per question; no duplicate stems or short explanations remain, and question text/options/explanations are English-only. Difficulty labels are provisionally classified as 159 easy, 253 medium and 38 hard using a stem-complexity heuristic and require educator validation. The 70-question final exam has 70 unique questions, four options each, a present correct answer, English-only text, and representation from all 45 lessons. Full source-level scientific review and final-exam item-by-item validation remain pending. Original SVGs are educational schematics; additional photographs are attributed and licensed as documented in the placement guide.",
     "expanded_bilingual_lectures": 45,
     "lectures_requiring_expansion": 0,
     "lecture_content_review_status": "partial_scientific_editorial_review_completed_for_DO001_DO010_and_structural_review_for_all_45; full_source_level_validation_pending",
@@ -499,7 +499,12 @@
     "lessons_with_four_learning_objectives": 45,
     "lecture_image_embedding_verified": 45,
     "photographic_device_images_embedded": 14,
-    "illustration_and_photo_placement_verified": true
+    "illustration_and_photo_placement_verified": true,
+    "photo_rendering_support_verified": true,
+    "photo_rendering_files": [
+      "app.js",
+      "styles.css"
+    ]
   },
   "status": "45_lessons_published_45_illustrations_embedded_450_questions_structurally_verified_70_question_exam_scientific_review_partial",
   "note": "The section has 45 published lessons, 450 lesson-bank questions and 1,800 options. Each lesson has four learning objectives and one embedded original SVG illustration at a documented position. Fourteen lessons also include a licensed photograph of relevant ophthalmic equipment or testing. The first ten lectures and selected question-quality issues were corrected. Structural checks have passed; full source-level scientific validation remains in progress.",
@@ -513,7 +518,7 @@
     ],
     "not_photographs": true,
     "placement_guide": "content/diagnostic-optometry/illustration-placement-guide.md",
-    "app_rendering": "Verified app.js Markdown image parser supports HTTPS image links.",
+    "app_rendering": "Verified: app.js inlineFormat() converts HTTPS Markdown image syntax into lazy-loaded images; styles.css includes responsive max-width and mobile-height rules.",
     "note": "Illustrations are conceptual educational diagrams, not manufacturer-specific photographs or diagnostic images. Photographic device assets require separate source and reuse verification.",
     "photographic_images_embedded": 14,
     "photographic_lessons": [
