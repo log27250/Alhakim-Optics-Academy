@@ -439,3 +439,40 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 
 ### Updated approval decision
 **NOT FINALLY APPROVED.** The 110-item final exam has now undergone an internal item-level review and targeted remediation, and its structure and answer-position distribution pass the current database checks. The lesson bank has not yet completed a full question-by-question scientific and distractor audit across all 450 items. Sentence-level reference verification, bilingual content completeness/consistency, and live learner-interface testing on mobile and desktop (including SVG, RTL/LTR, scoring and attempt recording) also remain open. This is an internal academic-quality review, not external specialist accreditation.
+
+
+## Consolidated bank and examination audit — 2026-11-11 (latest)
+
+### Lesson-bank review progress across all 45 topics
+- Retrieved the complete 450-question bank in topic-sized batches and screened every stem, keyed option, explanation and four-option set across EINS-001–EINS-045.
+- The current database-wide structural audit confirms 450 questions, 10 questions per topic, four distinct options per item, exactly one keyed option per item, display positions 1–4 with no malformed records, and balanced correct-answer positions: 113 / 113 / 112 / 112.
+- Reviewed EINS-011–EINS-045 in smaller batches. Removed repeated, broad explanation suffixes from EINS-011–EINS-020 where they were being appended to every question regardless of the specific concept. The answer-specific rationale was retained.
+- Corrected the EINS-013 near-vision notation answer to include N notation alongside Jaeger, M-unit and logMAR-based systems.
+- Replaced several weak or unrelated distractors in EINS-011 and other reviewed items with more instrument-relevant alternatives.
+- Rebuilt one redundant EINS-036 item to assess why axial-length values from different optical biometers require cautious comparison rather than repeating the dense-media-opacity limitation.
+- Found and corrected a semantic multi-answer defect in EINS-044: three distractors also described genuine sources of handheld measurement error. The revised distractors now describe stabilizing practices that improve measurement reliability.
+- Reframed an EINS-045 instrument-scope question so only one option is defensible, and aligned its rationale with the revised stem.
+- The latest short-explanation scan still identifies 18 bank explanations under 60 characters. These are concise explanations in introductory recall items; they are not automatically incorrect, but they remain candidates for pedagogic strengthening. No padding was applied solely to meet a character threshold.
+- This is a complete batch-wise screening pass, not an independent external specialist validation or sentence-by-sentence source audit. Some foundational distractors, particularly in EINS-001–EINS-013, remain simpler than ideal and should receive a final distractor-strengthening pass.
+
+### Final examination — latest verified state
+- All 110 active exam items have been inspected in batches, and 50 items received targeted wording, distractor or explanation improvements.
+- The exam remains 110 unique stems with four distinct options per item and an exact match between each correct-option string and one of its options.
+- No exam explanation remains under 60 characters after the latest expansion.
+- Correct-answer positions remain balanced: 28 / 28 / 27 / 27 across positions 1–4.
+- Post-remediation database checks report zero malformed option arrays, zero duplicate options within an item and zero key mismatches.
+
+### Lesson-content structure — latest verification
+- 45/45 lessons contain an inline SVG figure; in 45/45 the figure appears before the references heading.
+- 45/45 lessons contain a references heading.
+- Arabic teaching text is present in 45/45 lessons. EINS-001–EINS-010 store Arabic inline in `content_en`; 35/45 lessons also have a populated separate `content_ar` field.
+- These are database-content checks only. They do not prove the browser renders every SVG correctly or that all Arabic paragraphs are complete, correctly paired with English paragraphs, and displayed properly in RTL mode.
+
+### Remaining blockers to final approval
+1. Strengthen the remaining overly obvious distractors in the foundational bank (especially EINS-001–EINS-013) and conduct a final semantic one-best-answer check across all 450 questions.
+2. Verify that each clinical and technical claim in all 45 lesson bodies is supported by the specific cited reference, not merely accompanied by a bibliography.
+3. Review bilingual completeness and paragraph alignment across all 45 lessons; standardize storage only after preserving the existing Arabic text.
+4. Perform real learner-interface tests on mobile and desktop: lesson navigation, SVG rendering, English LTR and Arabic RTL, question selection, answer-key display, exam scoring, attempt persistence and progress recording. No browser/computer-control tool was available in this review session, so these tests have not been claimed as completed.
+5. Obtain an independent optometry/ophthalmic-instrument specialist review if the academy intends to represent the section as externally academically accredited.
+
+**Latest decision: NOT FINALLY APPROVED.** All 450 bank items and all 110 exam items have now received batch-wise internal screening; structural checks pass and the documented answer-position and content repairs are deployed. Final approval remains withheld because source-to-claim verification, the remaining distractor-strengthening pass, bilingual content review, live interface testing and any desired external specialist sign-off are still open.
