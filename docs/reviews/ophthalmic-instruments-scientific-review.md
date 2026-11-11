@@ -373,3 +373,17 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Live learner-interface testing, complete lesson claim-to-reference mapping, full scientific review of EINS-011–EINS-045 and all 110 final-exam items, and detailed distractor plausibility review remain outstanding.
 
 **Approval decision remains: NOT FINALLY APPROVED.** The section has improved bibliographic coverage, complete illustration coverage and a clean structural audit, but these results are not a substitute for the remaining scientific and live-interface checks. No external specialist accreditation is claimed.
+
+
+## Consolidated audit update — 2026-11-11
+
+### Additional live database review
+- Retrieved all 350 bank items in EINS-011–EINS-045 for inspection. The full result exceeded the tool's output limit, so this pass cannot be represented as a complete item-by-item human review. Spot inspection revealed some explanations that repeat a broad topic statement after the answer-specific rationale; this is a quality concern even where the keyed answer is correct.
+- Rechecked the full question-bank table by topic. Every topic still contains 10 questions and 10 distinct explanation strings. Structural checks continue to show four options and one correct key per item. A prior audit reported 450 distinct stems and no Arabic assessment content.
+- Removed the redundant leading “Correct answer: …” sentence from all 47 affected bank explanations and all 10 affected final-exam explanations. Read-back confirmed zero remaining explanation prefixes in either table. This is a wording cleanup, not a scientific validation.
+- Rechecked the 110 active final-exam items: 110 distinct stems; four options; correct key present among options for all 110. The automated phrase scan identified 6 broad/generic stem patterns and 40 explanations under 100 characters. Length alone does not prove an explanation is inadequate, but these items need contextual review. The final-exam dataset also includes distractors that are sometimes unrelated in topic, reducing assessment quality.
+- A direct inspection of final-exam records found at least one poor distractor set in which alternatives were unrelated instrument measurements, and several explanations that merely restate the correct option without a sufficient rationale. These must be rewritten during the complete assessment review.
+- The question-bank audit found that EINS-001–010 and several later topics have short explanations; this should not be padded mechanically. Each explanation needs to explain the underlying optical/clinical principle and relevant limitation, and should be reviewed against the lesson and reference.
+
+### Current release decision
+**NOT FINALLY APPROVED — approval withheld.** Although the database structure, reference coverage, and inline illustration coverage have been checked, the full scientific review of all 450 bank questions and all 110 final-exam items has not been completed. The available SQL tool returns large result sets truncated beyond the output limit; therefore a claim that every question, option, key and explanation was reviewed would be inaccurate. In addition, learner-interface rendering on mobile and desktop has not been exercised in a live browser session. The remaining work requires reviewable batches with full records and live application testing, not a blanket database update.
