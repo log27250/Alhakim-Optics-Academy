@@ -99,3 +99,18 @@ Academic approval will be declared only when:
 **IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
 
 The latest structural checks pass for all 45 lessons, 450 lesson-bank questions and 1,800 options. The 110-item final-examination pool passes its current structural and language checks. Lesson order has been corrected, and distractor remediation has been completed for EINS-009 and EINS-021–EINS-025. Academic approval remains blocked by repeated distractors in EINS-026–EINS-045, inconsistent bilingual content storage/presentation across lesson ranges, reference-to-claim verification, the full question-by-question scientific audit and live interface testing.
+
+## Follow-up remediation update — 2026-11-11
+
+### Completed in Supabase
+- Rebuilt the three incorrect options for all 10 questions in each of EINS-026, EINS-027, EINS-028, EINS-029 and EINS-030.
+- Verification confirms for each topic: 10 questions, 10 distinct distractor sets, zero repeated sets, exactly three incorrect options, exactly one correct option, and four distinct option positions.
+- EINS-009 remains clear: 10 distinct distractor sets and zero repeated sets.
+
+### Newly identified high-priority content issue
+Review of EINS-031–EINS-045 shows the problem extends beyond repeated distractors. Many items use generic template stems (such as “Which clinical task is this instrument designed to support?” or “Which finding is most relevant to the clinical question?”), and some correct answers are reused across differently worded questions. These require question-level reconstruction and validation, not just distractor replacement. No changes were made to EINS-031–EINS-045 in this pass.
+
+### Current status
+IN PROGRESS — NOT YET ACADEMICALLY APPROVED.
+
+Remaining work: reconstruct and scientifically review EINS-031–EINS-045 question-by-question; complete a full review of all 450 lesson-bank questions; validate the 110-question final exam; review lecture content and references; and test the learner interface.
