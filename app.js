@@ -479,29 +479,25 @@ function clinicalDeviceGallery(){
 }
 function renderLectureContentWithIllustration(l){
  const raw=buildIntegratedBilingualMarkdown(l.content_en,l.content_ar);
+ const html=renderLectureMarkdown(raw);
  const figure=lectureIllustration(l);
- if(!figure)return renderLectureMarkdown(raw);
- let splitAt=-1;
- if(/(^|\n)\s{0,3}#{1,4}\s/m.test(raw)){
-  const firstSection=raw.match(/^[\s\S]*?\n\s*\n/);
-  if(firstSection)splitAt=firstSection[0].length;
- }else{
-  const firstSentence=raw.match(/^[\s\S]*?[.!?](?=\s|$)/);
-  if(firstSentence)splitAt=firstSentence[0].length;
- }
- if(splitAt<=0||splitAt>=raw.length)return renderLectureMarkdown(raw);
- const before=renderLectureMarkdown(raw.slice(0,splitAt));
- const after=renderLectureMarkdown(raw.slice(splitAt));
+ if(!figure)return html;
+ // Insert the trusted, lesson-mapped figure after the first teaching paragraph.
+ // Work on the already-rendered DOM so headings, bilingual blocks, lists and
+ // HTML-based lessons are never split or reparsed as independent fragments.
  const parser=new DOMParser();
- const beforeDoc=parser.parseFromString(before,'text/html');
- const afterDoc=parser.parseFromString(after,'text/html');
- const body=beforeDoc.querySelector('.lecture-body');
- const tail=afterDoc.querySelector('.lecture-body');
- if(!body||!tail)return renderLectureMarkdown(raw);
+ const doc=parser.parseFromString(html,'text/html');
+ const body=doc.querySelector('.lecture-body');
  const figureDoc=parser.parseFromString(figure,'text/html');
  const figureNode=figureDoc.querySelector('figure');
- if(figureNode)body.appendChild(figureNode);
- [...tail.childNodes].forEach(node=>body.appendChild(node));
+ if(!body||!figureNode)return html;
+ const firstParagraph=body.querySelector('p');
+ if(firstParagraph)firstParagraph.after(figureNode);
+ else{
+  const firstHeading=body.querySelector('h2,h3,h4');
+  if(firstHeading)firstHeading.after(figureNode);
+  else body.prepend(figureNode);
+ }
  return body.outerHTML;
 }
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
