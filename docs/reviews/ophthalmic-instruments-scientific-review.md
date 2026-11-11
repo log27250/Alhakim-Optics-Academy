@@ -243,3 +243,29 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This pass substantively reviewed EINS-041 and EINS-042 only. EINS-043–045 and EINS-001–040 still require the same question-level review.
 - Structural counts and unique option text do not alone establish scientific validity. The final examination, lesson claims/references and live learner-interface rendering remain unvalidated.
 - Department status remains **IN PROGRESS — NOT YET ACADEMICALLY APPROVED**.
+
+
+## Question-level audit — EINS-043–EINS-045 (2026-11-11)
+
+### EINS-043 — Ocular Photography and Imaging Documentation
+- Reviewed all 10 stems, keyed answers and explanations against the lesson scope: photographic documentation, acquisition quality, identity/laterality, image artifacts, field-of-view limitations, serial-image metadata, immediate quality review, original-file retention, secure storage and record linkage.
+- The keyed concepts were appropriate to the stems and the explanations were consistent. No question/key rewrite was justified in this pass.
+- The four-choice structure and English-only assessment content were retained.
+
+### EINS-044 — Portable and Handheld Ophthalmic Devices
+- Reviewed all 10 stems, keyed answers and explanations.
+- Identified one broad, low-specificity item that tested generic procedure explanation/documentation rather than a portable-device skill. Replaced it with a handheld slit-lamp technique question assessing stabilization, patient support, model-specific working distance and optical alignment.
+- Replaced all four options and expanded the explanation to caution that handheld examination is movement-sensitive, device-specific instructions must be followed, and unintended ocular contact must be avoided.
+- Supabase read-back confirmed the revised stem, rationale and one keyed answer.
+
+### EINS-045 — Instrument Selection, Quality Control and Clinical Safety
+- Reviewed all 10 stems, keyed answers and explanations against clinical selection, validity/repeatability, calibration, error types, infection prevention, electrical safety, maintenance records, implausible measurements, operator competence and reporting limitations.
+- Refined the quality-assurance item to avoid implying that every ophthalmic instrument requires an identical daily check or calibration interval. The keyed answer now explicitly refers to manufacturer-specified calibration/maintenance, required instrument-specific functional checks and standardized procedures. The explanation states that intervals and checks are device-dependent.
+- Other reviewed keys were retained; no unsupported changes were made.
+
+### Structural verification after this pass
+- EINS-043, EINS-044 and EINS-045 each retain 10 questions, 40 options and exactly 10 keyed correct options.
+- The reviewed assessment set remains English-only. Full department structural audits and the 110-item final-exam review are still separate tasks.
+- This internal review is not external specialist sign-off. Remaining work includes EINS-001–EINS-040 question-level review, final-exam question-level review, lesson/reference verification and live interface testing.
+
+**Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
