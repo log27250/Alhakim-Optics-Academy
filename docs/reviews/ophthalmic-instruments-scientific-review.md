@@ -2,62 +2,77 @@
 
 **Review date:** 2026-11-11  
 **Scope:** EINS-001 through EINS-045 in HAKIM OPTICS ACADEMY.  
-**Assessment language requirement:** English-only questions, answer options, and answer explanations. Arabic assessment fields are intentionally left empty/null at the user's request. Arabic may remain in lesson teaching content.
+**Assessment language requirement:** English-only question stems, options and explanations. Arabic assessment fields remain intentionally empty/null. Arabic explanatory teaching content is retained in the lesson materials.
 
-## 1. Verified section inventory
+## 1. Verified inventory and structure
+
+The latest independent Supabase audit confirms:
 - 45 topics and 45 linked lessons.
 - 450 questions (10 per topic).
-- 1,800 answer options (4 per question).
-- Structural verification found 10 questions, 40 options and 10 correct answers per topic.
+- 1,800 options (4 per question).
+- Exactly one correct option per question.
+- Four distinct options and display positions 1–4 for every question.
+- No duplicate question stems within a lesson.
+- No Arabic text in English assessment stems or explanations, and no Arabic text in option_en.
+- Arabic assessment fields are empty.
+- No missing or short explanations were found by the current minimum-length check.
+- All 45 lessons contain a references heading.
 
-## 2. Changes applied in Supabase
+These checks establish structural integrity, not by themselves academic approval.
 
-### A. English-only assessment fields
-Cleared Arabic text from all EINS assessment records:
-- `questions.question_ar`
-- `questions.explanation_ar`
-- `question_options.option_ar`
+## 2. Supabase changes applied in this remediation pass
 
-This applies to EINS-001 through EINS-045. These fields are intentionally blank; Arabic translations should not be reintroduced into questions or answer choices.
+### A. Assessment language and content: EINS-011–EINS-030
+The assessment bank for these 20 lessons was rewritten in English:
+- 200 question stems were made instrument-specific.
+- 800 answer-option records were rewritten, with four English choices and one correct answer per question.
+- Explanations were expanded with lesson-specific clinical context.
+- Arabic assessment fields remain null.
 
-### B. Lesson expansion: EINS-031–EINS-045
-Added topic-specific advanced teaching sections in both lesson languages:
-- EINS-031: endothelial density and morphology indices; preoperative and graft monitoring context.
-- EINS-032: modality selection, comparative strengths, segmentation and scan-quality review.
-- EINS-033: A-scan modes, echo recognition and IOL calculation checks.
-- EINS-034: systematic scanning, dynamic assessment and urgent posterior-segment patterns.
-- EINS-035: optical biometry parameters, formula selection and outlier review.
-- EINS-036: optical axial-length acquisition, difficult eyes and ultrasound cross-checking.
-- EINS-037: gonioscopy lens selection, indentation, angle documentation and infection control.
-- EINS-038: fundus lens image formation, examination technique and field limitations.
-- EINS-039: prism measurement methods, base orientation and sources of variability.
-- EINS-040: synoptophore settings, measurements and orthoptic correlation.
-- EINS-041: Hess/Lees comparison and clinical interpretation.
-- EINS-042: protocol-specific ERG/VEP/EOG waveform interpretation and recording quality.
-- EINS-043: standardized image sets, metadata, consent and image governance.
-- EINS-044: portable-versus-standard measurement, field deployment and maintenance.
-- EINS-045: practical quality-control framework and incident documentation.
+Topics include autokeratometry, phoropters, near-vision testing, pupillometry, PD measurement, slit-lamp design and techniques, applanation/non-contact/indentation/rebound tonometry, ophthalmoscopy, retinal photography, OCT, OCTA, perimetry, Amsler grid, colour vision, contrast sensitivity, potential acuity and pachymetry.
 
-The added material is a content-depth improvement, not a substitute for reference-by-reference peer review.
+### B. Assessment content: EINS-041–EINS-045
+- Rewrote the 50 question stems to match the relevant Hess/Lees, electrophysiology, ocular photography, portable-device and quality-control concepts.
+- Reworked explanations so the rationale corresponds to the keyed answer.
+- Replaced generic distractors with ophthalmic-instrument-related alternatives.
 
-### C. Question-option repair: EINS-031–EINS-045
-- Replaced the repeated generic distractors with topic-related alternative measurements or technical concepts.
-- Shortened the previously paragraph-length correct options in EINS-031–EINS-040 to concise answer statements derived from the associated explanation text.
-- Rechecked the option structure: four options and one correct option per question.
+### C. Assessment content: EINS-031–EINS-040
+- Rewrote 20 previously generic stems and their explanations to test the specific instrument workflow, limitations and clinical use.
+- Retained the existing English-only assessment choices while continuing their scientific review.
 
-## 3. Remaining academic work — not yet signed off
-The question stems in EINS-031–EINS-045 still include generic repeated templates. Although their distractors are now more topic-related, the 150 stems and explanations have not yet all been rewritten into distinct instrument-specific clinical questions. This remains a required remediation before academic approval.
+### D. Lesson references
+Added references to EINS-011–EINS-045, selected by topic:
+- Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
+- Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
+- American Academy of Ophthalmology, *Basic and Clinical Science Course 2026–2027*, relevant sections on Clinical Optics and Vision Rehabilitation, External Disease and Cornea, Glaucoma, Lens and Cataract, Retina and Vitreous, Neuro-Ophthalmology, and Pediatric Ophthalmology and Strabismus.
+- ISCEV standards for full-field ERG (2022), VEP (2025) and EOG (2017).
+- Peer-reviewed OCTA artifact references: Spaide RF, Fujimoto JG, Waheed NK. *Retina*. 2015;35(11):2163–2180. doi:10.1097/IAE.0000000000000765; and Anvari P et al. *J Ophthalmic Vis Res*. 2021;16(2):271–286. doi:10.18502/jovr.v16i2.9091.
 
-The EINS-001–EINS-030 question banks also need a scientific review of stem accuracy, distractor plausibility and alignment with their lesson content. Their Arabic assessment fields are intentionally empty and are not defects under the user's English-only requirement.
+### E. Earlier EINS-031–EINS-045 lecture expansion
+The earlier lesson-depth additions remain in place, including advanced content on endothelial imaging, anterior-segment imaging, ultrasound biometry, B-scan, optical biometry, gonioscopy, fundus lenses, prism bars, synoptophore, Hess/Lees testing, electrophysiology, ocular photography, portable devices and instrument quality control.
 
-## 4. Scientific standards for final approval
-- Distinguish screening, measurement, imaging and diagnostic support; instrument output is not automatically a stand-alone diagnosis.
-- Distinguish accuracy, precision, repeatability, calibration and validation.
-- For imaging and electrophysiology, document protocol, patient factors, artifacts, normative references and limitations.
-- For tonometry, pachymetry and biometry, interpret readings in the context of measurement method and relevant ocular variables.
-- For binocular vision instruments, distinguish measured deviation patterns from the underlying neurological or mechanical cause.
-- Follow manufacturer instructions, infection-control requirements, patient identification, consent and secure handling of identifiable ocular images.
-- Attach authoritative references to each lesson and verify that each reference supports the claims made.
+## 3. Remaining work before academic sign-off
+
+The section is **not yet approved**. The following work remains:
+1. Complete a question-by-question scientific review of EINS-001–EINS-010 and verify that every keyed answer and distractor matches the lesson.
+2. Review the remaining question banks across EINS-011–EINS-045 for clinical nuance, distractor plausibility and any instrument-specific exceptions. Current structural checks cannot replace this review.
+3. Continue improving the consistency of bilingual lesson presentation to match the approved Section 3 format: an English teaching paragraph followed by an Arabic scientific explanation, not a literal translation. In particular, inspect lessons whose English and Arabic content are stored separately and preserve the app's language-display behaviour.
+4. Verify each reference against the exact claims and add topic-specific primary standards or peer-reviewed sources where required.
+5. Perform a final manual sample audit across all 45 lessons, including calculation-based items, measurement units, device limitations, contraindications, artifacts and clinical interpretation.
+
+## 4. Approval criteria
+
+Academic approval will be declared only when:
+- Every lesson follows the approved Section 3 teaching format and correct lesson order.
+- Every question has a precise, non-ambiguous stem tied to its lesson.
+- All four options are distinct and clinically plausible, with exactly one defensible correct answer.
+- Each explanation teaches why the answer is correct and addresses relevant limitations or common misconceptions.
+- The assessment remains English-only.
+- References are genuine, relevant and support the lesson content.
+- Structural and scientific checks both pass.
 
 ## 5. Sign-off status
-**Not yet academically signed off.** Supabase now reflects the English-only assessment requirement, the EINS-031–EINS-045 lesson expansions, and improved topic-related distractors. A full question-stem rewrite and final reference-backed scientific audit remain outstanding.
+
+**IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+The latest Supabase structural checks pass for all 45 lessons, 450 questions and 1,800 options. The assessment language requirement is met. The remaining lesson-format review and full scientific audit must be completed before sign-off.
