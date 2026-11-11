@@ -141,3 +141,15 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Added five inline SVG educational figures directly into lesson HTML before each References and Further Reading section (EINS-031–035). Each figure combines a schematic of the relevant instrument or imaging modality with its key scientific concept. These are original schematic illustrations, not photographs of specific commercial device models.
 - Supabase confirmed all five lesson records contain the SVG figure markup in the intended position before the references section.
 - The rendering of inline SVG in the live academy UI still requires visual testing. EINS-036–045 and the broader scientific review remain outstanding; the department is not yet academically approved.
+
+
+## Progress update — EINS-036–040 lesson illustrations and question-bank audit
+
+- Added one original inline SVG schematic to each of EINS-036–040: optical axial-length acquisition, gonioscopy lens optical access, fundus condensing-lens image formation, prism deviation/base direction, and synoptophore dual-arm target presentation.
+- Each SVG is inserted before the lesson's References and Further Reading list. A subsequent Supabase verification confirmed all five lesson records contain a closed figure element and SVG markup, the references heading is preserved, the figure precedes the references, and no stray replacement marker remains.
+- These are explanatory schematics, not photographs of commercial instruments. Live rendering on mobile and desktop has not yet been tested.
+- Existing question-bank structure for each of EINS-036–040 is 10 questions, 40 options and 10 correct options; assessment fields contain no Arabic text.
+- Important quality finding: each of these five topics currently has only three distinct incorrect-option texts repeated across the 10 questions (rather than 30 distinct distractors). This is a substantive assessment-quality defect. It has not been fixed in this pass, and no claim is made that these question banks are ready for students.
+- The lesson text and references were preserved while inserting the figures. Scientific review of the lesson claims, question-level reconstruction, distractor replacement, final-exam validation and live interface testing remain outstanding.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
