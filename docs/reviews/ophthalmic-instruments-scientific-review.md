@@ -193,3 +193,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - The SVG is a conceptual workflow diagram, not a photograph of a specific commercial camera. Live learner-interface rendering remains untested; this remediation is not full academic sign-off.
 
 **Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-044 distractor remediation and illustration
+
+- Replaced all 30 incorrect options across EINS-044 with device-specific alternatives covering portable-use settings, stabilization and working distance, pre-use checks, motion/fixation/pressure artifacts, discordant results, device-dependent positioning, contact-surface infection control, traceable documentation and management of implausible readings.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 40 distinct option texts and zero Arabic option text.
+- Added an inline SVG with illustrative silhouettes of a portable slit lamp, handheld tonometer, direct ophthalmoscope and handheld autorefractor. It is explicitly labeled as schematic because designs and operating methods vary by model. Supabase confirms placement before the references heading.
+- Live learner-interface rendering remains untested; this does not constitute full academic approval.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
