@@ -523,3 +523,14 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This is a targeted strengthening pass, not a formal psychometric analysis or a substitute for independent review of distractor functioning with actual student response data.
 
 **Approval status remains NOT FINALLY APPROVED** pending sentence-level source mapping, full semantic review by a qualified subject specialist, bilingual RTL/LTR normalization and visual QA, and live learner-interface testing on mobile and desktop.
+
+
+## Targeted foundational distractor refinement — EINS-011 — 2026-11-11
+
+- Re-examined the autokeratometry question set against the lesson's stated measurement principles and limitations.
+- Replaced 12 weak or overly unrelated incorrect options across five questions: repeatability and quality flags; keratometry's limited central sampling versus full corneal mapping; conventional keratometry result formats; the scope of combined autorefractor-keratometer systems; and factors affecting measurement reliability.
+- The replacement distractors remain clearly incorrect while testing distinctions within the same clinical measurement domain. No question stem, keyed answer, explanation, or correct-answer flag was changed.
+- Immediate database read-back verified all five edited questions still contain exactly four distinct options and exactly one keyed answer. The keyed option text and position were preserved.
+- This is a focused distractor-quality improvement for five EINS-011 items. The remaining five EINS-011 items and the other foundational lessons still require the final semantic one-best-answer review; no full-topic or final academic approval is claimed.
+
+**Approval status remains NOT FINALLY APPROVED.**
