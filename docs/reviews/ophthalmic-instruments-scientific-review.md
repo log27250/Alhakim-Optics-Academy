@@ -2,7 +2,7 @@
 
 **Review date:** 2026-11-11  
 **Scope:** EINS-001 through EINS-045 in HAKIM OPTICS ACADEMY.  
-**Assessment language requirement:** English-only question stems, options and explanations. Arabic assessment fields remain intentionally empty/null. Arabic explanatory teaching content is retained in the lesson materials.
+**Assessment language requirement:** English-only question stems, options and explanations. Arabic assessment fields remain intentionally empty/null. Lesson teaching content is bilingual, with an English paragraph followed by an Arabic scientific explanation.
 
 ## 1. Verified inventory and structure
 
@@ -17,6 +17,7 @@ The latest independent Supabase audit confirms:
 - Arabic assessment fields are empty.
 - No missing or short explanations were found by the current minimum-length check.
 - All 45 lessons contain a references heading.
+- All 45 primary lesson-content fields contain bilingual content; EINS-031–EINS-045 were rebuilt in an interleaved English-paragraph/Arabic-explanation format.
 
 These checks establish structural integrity, not by themselves academic approval.
 
@@ -38,26 +39,31 @@ Topics include autokeratometry, phoropters, near-vision testing, pupillometry, P
 
 ### C. Assessment content: EINS-031–EINS-040
 - Rewrote 20 previously generic stems and their explanations to test the specific instrument workflow, limitations and clinical use.
-- Retained the existing English-only assessment choices while continuing their scientific review.
+- Retained the English-only assessment choices while continuing their scientific review.
 
-### D. Lesson references
-Added references to EINS-011–EINS-045, selected by topic:
-- Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
-- Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
-- American Academy of Ophthalmology, *Basic and Clinical Science Course 2026–2027*, relevant sections on Clinical Optics and Vision Rehabilitation, External Disease and Cornea, Glaucoma, Lens and Cataract, Retina and Vitreous, Neuro-Ophthalmology, and Pediatric Ophthalmology and Strabismus.
-- ISCEV standards for full-field ERG (2022), VEP (2025) and EOG (2017).
-- Peer-reviewed OCTA artifact references: Spaide RF, Fujimoto JG, Waheed NK. *Retina*. 2015;35(11):2163–2180. doi:10.1097/IAE.0000000000000765; and Anvari P et al. *J Ophthalmic Vis Res*. 2021;16(2):271–286. doi:10.18502/jovr.v16i2.9091.
+### D. Foundational assessment audit: EINS-001–EINS-010
+- Reviewed the keyed answers and explanations across the first 10 lessons.
+- Corrected the calibration definition to distinguish calibration from adjustment.
+- Corrected the visual-acuity item so inadequate occlusion and memorized optotypes are correctly described as causes of falsely improved monocular acuity.
+- Clarified the distinction between magnification and resolution.
 
-### E. Earlier EINS-031–EINS-045 lecture expansion
-The earlier lesson-depth additions remain in place, including advanced content on endothelial imaging, anterior-segment imaging, ultrasound biometry, B-scan, optical biometry, gonioscopy, fundus lenses, prism bars, synoptophore, Hess/Lees testing, electrophysiology, ocular photography, portable devices and instrument quality control.
+### E. Lesson presentation and references
+- Rebuilt EINS-031–EINS-045 teaching content in a consistent bilingual sequence: English scientific paragraph followed by an Arabic explanatory paragraph.
+- Retained the existing bilingual teaching format in EINS-001–EINS-030.
+- Added references to EINS-011–EINS-045, selected by topic:
+  - Elliott DB. *Clinical Procedures in Primary Eye Care*. 5th ed. Elsevier; 2020.
+  - Benjamin WJ, ed. *Borish’s Clinical Refraction*. 2nd ed. Butterworth-Heinemann/Elsevier; 2006.
+  - American Academy of Ophthalmology, *Basic and Clinical Science Course 2026–2027*, relevant sections on Clinical Optics and Vision Rehabilitation, External Disease and Cornea, Glaucoma, Lens and Cataract, Retina and Vitreous, Neuro-Ophthalmology, and Pediatric Ophthalmology and Strabismus.
+  - ISCEV standards for full-field ERG (2022), VEP (2025) and EOG (2017).
+  - Peer-reviewed OCTA artifact references: Spaide RF, Fujimoto JG, Waheed NK. *Retina*. 2015;35(11):2163–2180. doi:10.1097/IAE.0000000000000765; and Anvari P et al. *J Ophthalmic Vis Res*. 2021;16(2):271–286. doi:10.18502/jovr.v16i2.9091.
 
 ## 3. Remaining work before academic sign-off
 
 The section is **not yet approved**. The following work remains:
-1. Complete a question-by-question scientific review of EINS-001–EINS-010 and verify that every keyed answer and distractor matches the lesson.
-2. Review the remaining question banks across EINS-011–EINS-045 for clinical nuance, distractor plausibility and any instrument-specific exceptions. Current structural checks cannot replace this review.
-3. Continue improving the consistency of bilingual lesson presentation to match the approved Section 3 format: an English teaching paragraph followed by an Arabic scientific explanation, not a literal translation. In particular, inspect lessons whose English and Arabic content are stored separately and preserve the app's language-display behaviour.
-4. Verify each reference against the exact claims and add topic-specific primary standards or peer-reviewed sources where required.
+1. Complete a question-by-question scientific review of EINS-001–EINS-010, including distractor plausibility and alignment with each lesson.
+2. Review the remaining question banks across EINS-011–EINS-045 for clinical nuance, distractor plausibility and instrument-specific exceptions. Current structural checks cannot replace this review.
+3. Verify that each reference supports the exact claims made in its lesson and add topic-specific primary standards or peer-reviewed sources where required.
+4. Check lesson rendering in the academy to ensure the interleaved bilingual paragraphs display correctly on mobile and desktop.
 5. Perform a final manual sample audit across all 45 lessons, including calculation-based items, measurement units, device limitations, contraindications, artifacts and clinical interpretation.
 
 ## 4. Approval criteria
@@ -75,4 +81,4 @@ Academic approval will be declared only when:
 
 **IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
 
-The latest Supabase structural checks pass for all 45 lessons, 450 questions and 1,800 options. The assessment language requirement is met. The remaining lesson-format review and full scientific audit must be completed before sign-off.
+The latest Supabase structural checks pass for all 45 lessons, 450 questions and 1,800 options. The assessment language requirement is met, and all lessons now contain bilingual primary teaching content. The full question-by-question scientific audit and final rendering check remain before sign-off.
