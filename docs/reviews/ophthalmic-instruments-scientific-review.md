@@ -203,3 +203,23 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - Live learner-interface rendering remains untested; this does not constitute full academic approval.
 
 **Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Progress update — EINS-045 distractor remediation and illustration
+
+- Replaced all 30 incorrect options across EINS-045 with individually tailored alternatives addressing instrument selection, validity and repeatability, measurement range, operator competence, routine calibration and functional checks, systematic versus random error, infection prevention, electrical safety, maintenance logs, implausible readings, validated use and reporting of limitations.
+- Supabase verification: 10 questions, 40 options, 10 correct options, 10 distinct stems, 40 distinct option texts and zero Arabic option text.
+- Added an inline SVG workflow covering pre-use checks, calibration/function verification, measurement, quality review, documentation and service/release. Supabase confirms the figure is present before the references heading.
+- Live learner-interface rendering remains untested. EINS-045 distractor repetition is remediated, but the entire lesson and its stems/keyed answers still require question-by-question scientific review.
+
+**Current status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+## Consolidated progress — EINS-041–EINS-045
+
+- Completed the repeated/unrelated distractor replacement for all five remaining topics: 150 incorrect options replaced.
+- Added one original inline SVG schematic to each lesson EINS-041–EINS-045.
+- Per-topic Supabase verification passed: 10 questions, 40 options, 10 keyed correct options, 10 distinct stems, 40 distinct option texts, zero Arabic option text, and SVG markup before the references heading.
+- These results verify counts, uniqueness, English-only options and figure placement. They do not prove the SVG renders in the live app, nor do they constitute expert academic approval of every stem, keyed answer, explanation or lesson claim.
+- Remaining department-level work includes full question-by-question review of all 450 items, final-exam content and UI validation, lesson/reference verification, bilingual presentation standardization and mobile/desktop rendering tests.
+
+**Department sign-off remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
