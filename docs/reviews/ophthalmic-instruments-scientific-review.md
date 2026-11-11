@@ -282,3 +282,18 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This is a substantive internal question-level repair, not independent external specialist approval. EINS-038–EINS-040 still require the same question-level audit; EINS-001–EINS-035 also remain in the full question-by-question review queue.
 
 **Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
+
+
+## Question-level audit — EINS-038–EINS-040 (2026-11-11)
+
+- Retrieved the 30 question records, 120 options, correct-answer flags and explanations from Supabase.
+- Found repeated generic prompt templates and repeated broad lesson-paragraph keys in the three topic banks.
+- Rewrote 8 EINS-038 items to assess fundus-lens purpose, aerial inverted image formation, lens alignment, image-quality limitations, retinal field examination, troubleshooting, image orientation and clinical documentation.
+- Rewrote 8 EINS-039 items to assess prism-dioptre definition, image displacement relative to prism base, prism-cover-test neutralization, differences between alternate and simultaneous testing, prism units, base-direction recording, standardized testing conditions and troubleshooting/documentation.
+- Rewrote 8 EINS-040 items to assess separate-eye target presentation, grades of binocular function, instrument setup, limitations of instrument-induced dissociation, objective versus subjective angles, interpretation of fusion responses, pediatric cooperation and reporting.
+- Updated the corresponding keyed options and explanations so each directly answers its revised stem.
+- Supabase verification for EINS-038, EINS-039 and EINS-040 confirms 10 questions, 40 options, 10 correct options, 10 distinct stems and 40 distinct option texts per topic.
+- The remaining two questions per topic were retained because their existing stems and answer rationales were already specific and clinically relevant.
+- This internal review does not replace external specialist sign-off. The 35 earlier topics and the 110-question final examination still require full question-by-question review.
+
+**Department status remains: IN PROGRESS — NOT YET ACADEMICALLY APPROVED.**
