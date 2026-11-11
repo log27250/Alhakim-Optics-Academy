@@ -555,3 +555,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This pass improves distractor relevance and removes several implausible choices. It is not a substitute for a qualified reviewer checking each item against the complete lesson and primary references.
 
 **Approval status remains NOT FINALLY APPROVED.**
+
+
+## Targeted pupil-assessment distractor refinement — EINS-014 — 2026-11-11
+
+- Replaced all 30 incorrect options across the 10 EINS-014 questions with alternatives specific to pupil physiology, infrared pupil-boundary detection, pupil diameter versus pupillary distance, clinical pupil examination, swinging-flashlight testing, automated pupillometry limitations, near response, serial measurement conditions and anisocoria assessment.
+- No stems, explanations, keyed answers or correct-option flags were changed.
+- Supabase read-back confirms 10 questions, 40 options, 10 correct options, 40 distinct option texts and no empty options. Each question therefore retains four distinct choices and one keyed answer.
+- This focused revision improves the relevance of distractors; the item set still requires full lesson/reference-based scientific validation and independent specialist review.
+
+**Approval status remains NOT FINALLY APPROVED.**
