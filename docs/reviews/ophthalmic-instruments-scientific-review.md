@@ -534,3 +534,14 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This is a focused distractor-quality improvement for five EINS-011 items. The remaining five EINS-011 items and the other foundational lessons still require the final semantic one-best-answer review; no full-topic or final academic approval is claimed.
 
 **Approval status remains NOT FINALLY APPROVED.**
+
+
+## Targeted foundational distractor refinement — EINS-012 — 2026-11-11
+
+- Refined 15 incorrect options across six phoropter/refraction questions, replacing unrelated device references with alternatives closer to subjective-refraction procedures and phoropter functions.
+- Concepts addressed: fogging, trial-frame verification, binocular balancing, auxiliary lenses/prism controls, Jackson cross-cylinder use and phoropter components.
+- No question stem, keyed answer, explanation or correct-answer flag was changed.
+- Supabase read-back verified all six edited questions retain four distinct options and exactly one correct option each.
+- This targeted pass improves distractor relevance; it does not replace full semantic review of every EINS-012 item or validate the entire section.
+
+**Approval status remains NOT FINALLY APPROVED.**
