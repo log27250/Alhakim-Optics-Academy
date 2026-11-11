@@ -252,3 +252,15 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 
 /* Clinical skills hub cards */
 .clinical-hub-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:18px}.clinical-hub-card{padding:20px;border:1px solid #dce6f4;border-radius:16px;background:#fff;box-shadow:0 5px 18px #0b2d5710}.clinical-hub-card .hub-icon{font-size:30px}.clinical-hub-card h3{margin:10px 0 7px;color:#123c61}.clinical-hub-card p{color:#66778d;line-height:1.7}.clinical-hub-card .tag{display:inline-block;margin-top:8px}.clinical-hub-card button{margin-top:12px}@media(max-width:600px){.clinical-hub-grid{grid-template-columns:1fr}}
+
+/* Clinical skills bilingual paragraph layout */
+.clinical-en{direction:ltr!important;text-align:left!important;unicode-bidi:plaintext;line-height:1.75}
+.clinical-ar{direction:rtl!important;text-align:right!important;unicode-bidi:plaintext;line-height:1.9}
+.student-dashboard-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.dashboard-metric{margin:0;min-width:0}
+.dashboard-metric h3{font-size:1rem;margin:0 0 8px}
+.dashboard-value{font-size:2rem;font-weight:800;color:var(--home-primary,#123c61);margin:8px 0}
+.dashboard-metric p{margin:5px 0;font-size:.92rem}
+.dashboard-wide{grid-column:1/-1}
+.dashboard-wide li{margin:10px 0}
+@media(max-width:600px){.student-dashboard-grid{grid-template-columns:1fr}.dashboard-wide{grid-column:auto}}
