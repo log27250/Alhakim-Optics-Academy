@@ -18,3 +18,14 @@ const cards=cases.map((c,i)=>'<article class="content-card" style="margin:16px 0
 pageShell('Clinical Cases','Case-based learning to develop clinical reasoning, examination planning, and safe decision-making.','<div class="notice"><b>Educational use:</b> These scenarios support learning. They are not a diagnostic service or a substitute for supervised clinical assessment, current clinical guidance, or local referral protocols. Emergency cases require referral without delay.</div><div class="content-card"><h2>How to use this section</h2><p>For each case, identify the problem, build a differential diagnosis, select further examinations, recognise red flags, and plan safe management or referral before revealing the suggested reasoning.</p><p><b>Cases available:</b> '+cases.length+' across refraction, ocular disease, binocular vision, emergencies, retina, paediatrics, contact lenses, clinical examination, dispensing, and glaucoma.</p></div>'+cards);
 }
 function toggleHakimCase(i,button){const box=document.getElementById('hakim-case-answer-'+i);if(box){box.hidden=!box.hidden;if(button){button.setAttribute('aria-expanded',String(!box.hidden));button.textContent=box.hidden?'Reveal suggested reasoning':'Hide suggested reasoning';}}}
+
+
+function renderClinicalHub(){
+const items=[
+{icon:'🩺',title:'Clinical Cases',ar:'الحالات السريرية',desc:'حالات واقعية تعليمية لتطوير التفكير السريري، التشخيص التفريقي، اختيار الفحوصات، واتخاذ قرار الإحالة الآمن.',status:'متاح الآن',active:true,action:"showPage('clinical-cases')"},
+{icon:'📋',title:'OSCE Stations',ar:'محطات الفحص العملي',desc:'محطات منظمة للتدريب على خطوات الفحص، التواصل مع المريض، تفسير النتائج، وقوائم تقييم الأداء.',status:'قريباً',active:false},
+{icon:'🖼️',title:'Image-Based Questions',ar:'أسئلة الصور السريرية',desc:'تدريب بصري على صور قاع العين، القرنية، المصباح الشقي، الأجهزة، والنتائج السريرية مع أسئلة تفسيرية.',status:'قريباً',active:false},
+{icon:'🎯',title:'Clinical Simulations',ar:'المحاكاة السريرية',desc:'سيناريوهات تفاعلية متدرجة لاتخاذ القرار السريري واختيار الفحوصات والخطوة التالية المناسبة.',status:'قريباً',active:false}
+];
+pageShell('المهارات السريرية','مساحة تدريب تفاعلية لتطوير مهارات الفحص والتفكير السريري واتخاذ القرار.','<div class="notice"><b>مسار تدريبي:</b> اختر نوع التدريب. المحتوى التعليمي لا يستبدل الإشراف السريري أو الإرشادات المهنية المعتمدة.</div><div class="clinical-hub-grid">'+items.map(x=>'<article class="clinical-hub-card"><div class="hub-icon">'+x.icon+'</div><h3>'+x.title+'</h3><b>'+x.ar+'</b><p>'+x.desc+'</p><span class="tag">'+x.status+'</span>'+(x.active?'<br><button class="primary" type="button" onclick="'+x.action+'">ابدأ التدريب ←</button>':'<br><button class="secondary" type="button" disabled aria-disabled="true">سيُضاف لاحقاً</button>')+'</article>').join('')+'</div>');
+}
