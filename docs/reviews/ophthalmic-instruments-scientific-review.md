@@ -545,3 +545,13 @@ Remaining work: reconstruct and scientifically review EINS-031–EINS-045 questi
 - This targeted pass improves distractor relevance; it does not replace full semantic review of every EINS-012 item or validate the entire section.
 
 **Approval status remains NOT FINALLY APPROVED.**
+
+
+## Targeted near-vision assessment distractor refinement — EINS-013 — 2026-11-11
+
+- Reworked all 30 incorrect options across the 10 EINS-013 questions, replacing off-topic distractors with alternatives within near-vision testing, notation, working-distance control, illumination, binocular/monocular assessment, reading performance, near-add selection and low-vision functional assessment.
+- No stems, correct-option flags, keyed answers or explanations were changed.
+- Supabase read-back confirms 10 questions, 40 options, 10 keyed correct options and 40 distinct option texts. Thus every question retains four different choices and one correct key.
+- This pass improves distractor relevance and removes several implausible choices. It is not a substitute for a qualified reviewer checking each item against the complete lesson and primary references.
+
+**Approval status remains NOT FINALLY APPROVED.**
