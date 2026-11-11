@@ -213,3 +213,8 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 
 /* Academy reference viewer and actions */
 .reference-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.reference-actions button{flex:1;min-width:130px}.reference-viewer{display:block;width:100%;height:min(72vh,850px);border:1px solid #dce6f4;border-radius:12px;background:#fff;margin-top:14px}.reference-card{cursor:default}
+
+/* Responsive educational illustrations and device photographs in lesson content */
+.lecture-body img{display:block;max-width:100%;width:auto;height:auto;max-height:560px;object-fit:contain;margin:18px auto;border:1px solid #dce5ef;border-radius:12px;background:#fff;padding:4px;box-shadow:0 3px 12px rgba(8,38,75,.08)}
+.lecture-body p>img{margin-inline:auto}
+@media(max-width:600px){.lecture-body img{max-height:360px;margin:14px auto;padding:3px;border-radius:9px}}
