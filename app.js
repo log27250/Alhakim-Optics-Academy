@@ -217,18 +217,33 @@ async function showDepartment(code){
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
 function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\((https:\/\/[^)\s]+)\)/g,'<img src="$2" alt="$1" loading="lazy" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px;cursor:zoom-in" onclick="this.style.transform=this.style.transform?\'\':\'scale(1.12)\';this.style.transformOrigin=\'center\'">').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
- const source=String(raw||'').replace(/\\n/g,'\n');
+ const source=String(raw||'').replace(/\\\\n/g,'\n');
  const doc=new DOMParser().parseFromString(source,'text/html');
- const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE']);
+ const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG']);
  const renderNode=node=>{
   if(node.nodeType===Node.TEXT_NODE)return esc(node.nodeValue||'');
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
   const tag=node.tagName;
+  if(tag==='IMG'){
+   const rawSrc=node.getAttribute('src')||'';
+   let parsed;
+   try{parsed=new URL(rawSrc,location.href)}catch(_){return ''}
+   // Lesson photographs are served from Wikimedia Commons only. Reject
+   // javascript:, data:, mixed-content and untrusted remote image hosts.
+   if(parsed.protocol!=='https:'||!['commons.wikimedia.org','upload.wikimedia.org'].includes(parsed.hostname))return '';
+   const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
+   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+  }
   const children=[...node.childNodes].map(renderNode).join('');
   if(!allowed.has(tag))return children;
   const textContent=node.textContent||'';
-  const dir=(textContent.match(/[\u0600-\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
+  const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
   const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
+  if(tag==='FIGURE'){
+   const cls=node.classList.contains('real-device-photo')?'real-device-photo':node.classList.contains('lesson-figure')?'lesson-figure':'lesson-figure';
+   return '<figure class="'+cls+'">'+children+'</figure>';
+  }
+  if(tag==='FIGCAPTION')return '<figcaption>'+children+'</figcaption>';
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
   if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
