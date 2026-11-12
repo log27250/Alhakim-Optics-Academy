@@ -272,3 +272,16 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .data-table th{background:#f2f6fa;font-weight:800;white-space:nowrap}
 .data-table td small{display:inline-block;overflow-wrap:anywhere}
 #adminStudentSearch{width:100%;max-width:520px;padding:12px;border:1px solid #cbd5df;border-radius:10px;margin:8px 0}
+
+/* Secure canvas-first PDF reader */
+.academy-pdf-viewer{width:100%;margin:14px 0;background:#15283a;border-radius:14px;overflow:hidden;user-select:none;-webkit-user-select:none}
+.pdf-reader-toolbar{position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px;background:#092b45;color:#fff}
+.pdf-reader-toolbar button{border:1px solid #7893a8;background:#173e5b;color:#fff;border-radius:8px;padding:8px 12px;min-width:42px}
+.pdf-reader-toolbar button:disabled{opacity:.35}.pdf-reader-toolbar span{font-size:13px}
+.pdf-protection-label{padding:5px 9px;border-radius:20px;background:#1e604d}
+.pdf-canvas-stage{min-height:320px;max-height:76vh;overflow:auto;display:flex;justify-content:center;align-items:flex-start;padding:14px;background:#dce5eb}
+.pdf-canvas-stage canvas{display:block;max-width:100%;height:auto;box-shadow:0 4px 18px #142b3b55;background:#fff;user-select:none;-webkit-user-select:none}
+.pdf-loading{padding:40px;text-align:center;color:#fff}.pdf-reader-footer{padding:10px 14px;background:#102f48;color:#d9e7ef;font-size:12px;line-height:1.7}
+.pdf-error{margin:15px}.reference-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){.pdf-reader-toolbar{gap:5px;padding:8px 4px}.pdf-reader-toolbar button{padding:8px;min-width:38px}.pdf-protection-label{width:100%;text-align:center}.pdf-canvas-stage{max-height:72vh;padding:6px}}
+@media print{.academy-pdf-viewer{display:none!important}}
