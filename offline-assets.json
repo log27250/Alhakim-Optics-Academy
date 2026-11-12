@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Local educational illustrations and image assets required for first-install offline use.",
-  "image_count": 352,
+  "image_count": 360,
   "images": [
     "./alhakim-logo.png",
     "./assets/anatomy-physiology/anp-001-illustration.svg",
@@ -243,6 +243,14 @@
     "./assets/lesson-images/GEO/GEO-006-L01.svg",
     "./assets/lesson-images/GEO/GEO-007-L01.svg",
     "./assets/lesson-images/GEO/GEO-008-L01.svg",
+    "./assets/lesson-images/GEO/GEO-009-L01.svg",
+    "./assets/lesson-images/GEO/GEO-010-L01.svg",
+    "./assets/lesson-images/GEO/GEO-011-L01.svg",
+    "./assets/lesson-images/GEO/GEO-012-L01.svg",
+    "./assets/lesson-images/GEO/GEO-013-L01.svg",
+    "./assets/lesson-images/GEO/GEO-014-L01.svg",
+    "./assets/lesson-images/GEO/GEO-015-L01.svg",
+    "./assets/lesson-images/GEO/GEO-016-L01.svg",
     "./assets/low-vision/central-scotoma-prl.svg",
     "./assets/low-vision/clinical-case-workflow.svg",
     "./assets/low-vision/contrast-sensitivity.svg",
