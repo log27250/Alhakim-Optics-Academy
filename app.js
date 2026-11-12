@@ -75,7 +75,7 @@ async function loadContent(){
  try{const cached=localStorage.getItem('alhakim_content_cache');if(cached)local=JSON.parse(cached)||empty}catch(e){console.warn('Invalid local curriculum cache:',e)}
  // Supabase is the authoritative curriculum source. Offline startup uses only the last verified local cache.
  DB=local;dataSource='local';
- // Render the locally bundled curriculum immediately; cloud requests must never block the first screen.
+ // Render the last verified Supabase snapshot immediately; cloud refresh must never block the first screen.
  try{renderHome();connection()}catch(renderError){console.error('Initial local academy render failed:',renderError)}
  try{
   // Departments are the essential payload. Load them independently so a failure
@@ -92,9 +92,8 @@ async function loadContent(){
   if(results[1].status==='fulfilled'&&Array.isArray(results[1].value))l=results[1].value;
   else lessonError=results[1].reason?.message||'تعذر تحميل المحاضرات';
   const cloud=normalizeCloud(d,t,l);
-  const merged=new Map((local.lessons||[]).map(x=>[String(x.id),x]));
-  cloud.lessons.forEach(x=>merged.set(String(x.id),{...merged.get(String(x.id)),...x}));
-  DB={...local,...cloud,lessons:[...merged.values()]};
+  // Replace the cached snapshot with the complete current Supabase response; do not retain deleted or obsolete local lessons.
+  DB=cloud;
   dataSource='supabase';
   const [r,lr]=await Promise.all([
    optionalTable('references','select=*&order=publication_year.desc'),
