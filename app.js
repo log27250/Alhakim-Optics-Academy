@@ -258,9 +258,9 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  const figureBlocks=[];
- const source=String(raw||'').trim().replace(/<figure\\b[\\s\\S]*?<\\/figure>/gi,block=>{
+ const source=String(raw||'').trim().replace(/<figure\b[\s\S]*?<\/figure>/gi,block=>{
   const token='HAKIMFIGUREBLOCK'+figureBlocks.length+'END';
-  const safe=renderLectureHtml(block,rtl).replace(/^<div[^>]*>/,'').replace(/<\\/div>$/,'');
+  const safe=renderLectureHtml(block,rtl).replace(/^<div[^>]*>/,'').replace(/<\/div>$/,'');
   figureBlocks.push({token,html:safe});
   return '\\n\\n'+token+'\\n\\n';
  });
