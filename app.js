@@ -260,49 +260,47 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  const original=String(raw||'').trim();
- // Render stored HTML directly. Extracting <figure> elements before sanitising
- // could strand image placeholders in text nodes and prevent the images from
- // reaching the slide DOM.
- const hasMarkdown=/(^|\\n)\\s{0,3}#{1,4}\\s|(^|\\n)\\s*[-*]\\s/m.test(original);
- const hasHtmlBlocks=/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\\s|>|\\/)/i.test(original);
+ // Preserve image figures by sanitising stored HTML as a whole.
+ const hasMarkdown=/(^|\n)\s{0,3}#{1,4}\s|(^|\n)\s*[-*]\s/m.test(original);
+ const hasHtmlBlocks=/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\s|>|\/)/i.test(original);
  if(hasHtmlBlocks&&!hasMarkdown)return renderLectureHtml(original,rtl);
  const figureBlocks=[];
- const source=original.replace(/<figure\\b[\\s\\S]*?<\\/figure>/gi,block=>{
+ const source=original.replace(/<figure\b[\s\S]*?<\/figure>/gi,block=>{
   const token='HAKIMFIGUREBLOCK'+figureBlocks.length+'END';
-  const safe=renderLectureHtml(block,rtl).replace(/^<div[^>]*>/,'').replace(/<\\/div>$/,'');
+  const safe=renderLectureHtml(block,rtl).replace(/^<div[^>]*>/,'').replace(/<\/div>$/,'');
   figureBlocks.push({token,html:safe});
-  return '\\n\\n'+token+'\\n\\n';
+  return '\n\n'+token+'\n\n';
  });
  const restoreFigures=html=>figureBlocks.reduce((result,item)=>result.replace(item.token,item.html),html);
- const hasMarkdownBlocks=/(^|\\n)\\s{0,3}#{1,4}\\s|(^|\\n)\\s*[-*]\\s/m.test(source);
- if(hasMarkdownBlocks&&/<(?:h[12]\\b|hr\\b)/i.test(source)){
-  const normalized=source.replace(/<hr\\s*\\/?\\s*>/gi,'\\n---\\n').replace(/<h[12]\\b[^>]*>([\\s\\S]*?)<\\/h[12]\\s*>/gi,'\\n## $1\\n');
+ const hasMarkdownBlocks=/(^|\n)\s{0,3}#{1,4}\s|(^|\n)\s*[-*]\s/m.test(source);
+ if(hasMarkdownBlocks&&/<(?:h[12]\b|hr\b)/i.test(source)){
+  const normalized=source.replace(/<hr\s*\/?\s*>/gi,'\n---\n').replace(/<h[12]\b[^>]*>([\s\S]*?)<\/h[12]\s*>/gi,'\n## $1\n');
   return restoreFigures(renderLectureMarkdown(normalized,rtl));
  }
- if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\\s|>|\\/)/i.test(source))return restoreFigures(renderLectureHtml(source,rtl));
- const lines=source.replace(/\\r/g,'').split('\\n');let out='',list=null,table=[];
- const blockDir=text=>{const v=String(text||'').replace(/\\*\\*|__|\\*|_|\\x60/g,'');const ar=(v.match(/[\\u0600-\\u06FF]/g)||[]).length;const en=(v.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
+ if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\s|>|\/)/i.test(source))return restoreFigures(renderLectureHtml(source,rtl));
+ const lines=source.replace(/\r/g,'').split('\n');let out='',list=null,table=[];
+ const blockDir=text=>{const v=String(text||'').replace(/\*\*|__|\*|_|\x60/g,'');const ar=(v.match(/[\u0600-\u06FF]/g)||[]).length;const en=(v.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
  const attrs=text=>{const d=blockDir(text);return ' dir="'+d+'" lang="'+(d==='rtl'?'ar':'en')+'" class="lecture-block-'+d+'"'};
  const closeList=()=>{if(list){out+=list==='ul'?'</ul>':'</ol>';list=null}};
  const flushTable=()=>{if(!table.length)return;out+='<div class="lecture-table-wrap"><table class="lecture-table">';table.forEach((row,i)=>{const cells=row.split('|').slice(1,-1).map(x=>x.trim());if(cells.every(x=>/^:?-{3,}:?$/.test(x)))return;out+=i===0?'<thead><tr>':'<tbody><tr>';cells.forEach(cell=>out+=i===0?'<th'+attrs(cell)+'>'+inlineFormat(cell)+'</th>':'<td'+attrs(cell)+'>'+inlineFormat(cell)+'</td>');out+='</tr>'+(i===0?'</thead>':'')});out+='</tbody></table></div>';table=[]};
  for(const rawLine of lines){const line=rawLine.trim();if(!line){closeList();flushTable();continue}let m;
  if(line.startsWith('|')&&line.endsWith('|')){closeList();table.push(line);continue}else flushTable();
- if((m=line.match(/^(#{1,4})\\s+(.+)$/))){closeList();const n=m[1].length;out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
+ if((m=line.match(/^(#{1,4})\s+(.+)$/))){closeList();const n=m[1].length;out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
  if(/^---+$/.test(line)){closeList();out+='<hr>';continue}
- if((m=line.match(/^[-*]\\s+(.+)$/))){if(list!=='ul'){closeList();out+='<ul>';list='ul'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
- if((m=line.match(/^\\d+[.)]\\s+(.+)$/))){if(list!=='ol'){closeList();out+='<ol>';list='ol'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
- if((m=line.match(/^>\\s*(.+)$/))){closeList();out+='<blockquote'+attrs(m[1])+'>'+inlineFormat(m[1])+'</blockquote>';continue}
+ if((m=line.match(/^[-*]\s+(.+)$/))){if(list!=='ul'){closeList();out+='<ul>';list='ul'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
+ if((m=line.match(/^\d+[.)]\s+(.+)$/))){if(list!=='ol'){closeList();out+='<ol>';list='ol'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
+ if((m=line.match(/^>\s*(.+)$/))){closeList();out+='<blockquote'+attrs(m[1])+'>'+inlineFormat(m[1])+'</blockquote>';continue}
  closeList();out+='<p'+attrs(line)+'>'+inlineFormat(line)+'</p>';}
  closeList();flushTable();return restoreFigures('<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+out+'</div>');
-}function buildIntegratedBilingualMarkdown(contentEn,contentAr){
+}
+function buildIntegratedBilingualMarkdown(contentEn,contentAr){
  const en=String(contentEn||'').trim(),ar=String(contentAr||'').trim();
  if(!en&&!ar)return 'لم يضف المحتوى العلمي بعد.';
  if(!en)return '<h2>Arabic explanation — الشرح العربي</h2>'+ar;
  if(!ar)return en;
- // The database stores English and Arabic as separate complete lesson bodies.
- // Render both bodies in the lecture itself; previously only content_en was
- // returned here, leaving the Arabic lesson (and its illustrations) invisible.
- return en+'\\n\\n<hr>\\n<h2>Arabic explanation — الشرح العربي</h2>\\n'+ar;
+ // Both complete language fields must be rendered; previously only content_en
+ // was returned, so the separately stored Arabic body and its images were hidden.
+ return en+'\n\n<hr>\n<h2>Arabic explanation — الشرح العربي</h2>\n'+ar;
 }
 function buildLectureSlides(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
