@@ -71,7 +71,43 @@ async function saveOfflineQuestionBanks(records){const db=await openOfflineDB();
 async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(offlineQuestionBanks.has(key))return offlineQuestionBanks.get(key);try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('lesson_questions','readonly').objectStore('lesson_questions').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();if(value?.questions){offlineQuestionBanks.set(key,value.questions);return value.questions}}catch(e){console.warn('Offline question bank unavailable:',e)}return null}
 function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')+'-'+value.length.toString(16)}
 async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
-async function cacheWikimediaLessonImages(){if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons))return;const urls=new Set();for(const lesson of DB.lessons){for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const doc=new DOMParser().parseFromString(String(raw),'text/html');doc.querySelectorAll('img[src]').forEach(img=>{const src=img.getAttribute('src');try{const u=new URL(src,location.href);if(u.hostname==='commons.wikimedia.org'&&/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}})}}if(!urls.size)return;const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),records=[];for(const src of urls){if(offlineMediaMap.has(src))continue;try{const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});if(response.type!=='opaque'&&!response.ok)continue;const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;await cache.put(localUrl,response.clone());const row={source_url:src,local_url:localUrl,cached_at:new Date().toISOString()};records.push(row);offlineMediaMap.set(src,localUrl)}catch(e){console.info('Image will remain online-only:',src,e.message)}}if(records.length){await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');records.forEach(x=>store.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});console.info('Offline Wikimedia images cached:',records.length)}db.close()}
+async function cacheWikimediaLessonImages(){
+ if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons))return;
+ const urls=new Set(),allowedHosts=new Set(['commons.wikimedia.org','upload.wikimedia.org']);
+ for(const lesson of DB.lessons){
+  for(const raw of [lesson.content_en,lesson.content_ar]){
+   if(!raw)continue;
+   const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
+   const candidates=[...doc.querySelectorAll('img[src]')].map(img=>img.getAttribute('src'));
+   const markdown=source.matchAll(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g);
+   for(const match of markdown)candidates.push(match[1]);
+   for(const src of candidates){
+    try{const u=new URL(src,location.href);if(allowedHosts.has(u.hostname)&&/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}
+   }
+  }
+ }
+ if(!urls.size)return;
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),records=[];
+ for(const src of urls){
+  if(offlineMediaMap.has(src))continue;
+  try{
+   const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});
+   if(response.type!=='opaque'&&!response.ok)continue;
+   const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;
+   await cache.put(localUrl,response.clone());
+   const row={source_url:src,local_url:localUrl,cached_at:new Date().toISOString()};
+   records.push(row);offlineMediaMap.set(src,localUrl);
+  }catch(e){console.info('Open-license image remains online-only:',src,e.message)}
+ }
+ if(records.length){
+  await new Promise((resolve,reject)=>{
+   const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');
+   records.forEach(x=>store.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+  });
+  console.info('Offline Wikimedia images cached:',records.length);
+ }
+ db.close();
+}
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
 async function restAll(table,query,chunkSize=1000){const rows=[];for(let offset=0;offset<100000;offset+=chunkSize){const response=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:{...authHeaders(),'Range-Unit':'items','Range':`${offset}-${offset+chunkSize-1}`}});if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${table}: ${response.status} ${body.message||body.details||''}`)}const page=await response.json();if(!Array.isArray(page))throw Error('Invalid response for '+table);rows.push(...page);if(page.length<chunkSize)break}return rows}
@@ -613,7 +649,7 @@ function renderLectureContentWithIllustration(l){
  for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
  return body.outerHTML;
 }
-async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
+async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
  const slides=buildLectureSlides(lectureHtml);
  pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+lectureAudioPanel('ar',l.content_ar)+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>Self-assessment</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
  window.currentLectureAudio={en:lectureAudioText(l.content_en),ar:lectureAudioText(l.content_ar)};initLectureDeck();initLectureAudio();}
