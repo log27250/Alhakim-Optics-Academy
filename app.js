@@ -2,7 +2,7 @@
 const SUPABASE_URL='https://upmluemrhkadcffcsuzt.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_k0VCQgULXGy_qnjvfyQKkjg_M9x43HVc';
 const SUPABASE_ANON_JWT='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVwbWx1ZW1yaGthZGNmZmNzdXp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM5MTMzNDIsImV4cCI6MjEwOTQ4OTM0Mn0.TjDwjDgRVqTyXyFM_TSAsJMyEMcra7N7F71cVi4z4MU';
-const CONTENT_URL='./content/HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json';
+const CONTENT_URL='./HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json';
 let DB=null,dataSource='local',session=null,profile=null,deferredInstallPrompt=null;
 const HOME_DEFAULTS={
  logo_url:'./assets/alhakim-logo.png',
@@ -76,6 +76,8 @@ async function loadContent(){
  try{const cached=localStorage.getItem('alhakim_content_cache');if(cached)local=JSON.parse(cached)||empty}catch(e){console.warn('Invalid local curriculum cache:',e)}
  try{const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),10000);let r;try{r=await fetch(CONTENT_URL,{cache:'no-store',signal:controller.signal})}finally{clearTimeout(timer)}if(r.ok){const bundled=await r.json();if(bundled&&Array.isArray(bundled.departments))local=bundled}}catch(e){console.info('Bundled curriculum unavailable; continuing with cloud data or saved cache.',e)}
  DB=local;dataSource='local';
+ // Render the locally bundled curriculum immediately; cloud requests must never block the first screen.
+ try{renderHome();connection()}catch(renderError){console.error('Initial local academy render failed:',renderError)}
  try{
   // Departments are the essential payload. Load them independently so a failure
   // in topics or lessons can never force the entire academy back to stale local data.
