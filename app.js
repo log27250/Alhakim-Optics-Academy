@@ -188,7 +188,7 @@ function showPage(page){document.body.classList.remove('home-screen');document.q
  if(page==='clinical-cases'&&typeof renderClinicalCases==='function')renderClinicalCases();
  if(page==='permanent')pageShell('بنك الأسئلة','اختر المحاضرة لعرض أسئلتها المنشورة من قاعدة البيانات.',`<div class="notice">الأسئلة المعروضة هي الأسئلة المنشورة المرتبطة بكل محاضرة. الإجابة والتفسير يظهران بعد اختيارك.</div><div class="content-card">${lessonList(DB.lessons,true)}</div>`);
  if(page==='library')renderLibrary();if(page==='progress')renderProgress();if(page==='courses')renderCourses();if(page==='subscriptions')renderSubscriptions();if(page==='accounts')renderAccounts();if(page==='admin')renderAdmin();}
-function lessonList(lessons,quizOnly=false){lessons=(lessons||[]).filter(canViewLesson);return `<div class="lesson-grid">${lessons.map(l=>`<article class="lesson-card" onclick="${quizOnly?`showQuiz('${esc(l.id)}')`:`showLesson('${esc(l.id)}')`}"><span class="tag">${esc(l.level||'Optometry')}</span><h3>${esc(l.title_en)}</h3><p>${esc(departmentName(l.department_code))}</p><small>${l.review_required?'مسودة للمراجعة العلمية':'منشور'}</small><span class="card-arrow">فتح المحاضرة ←</span></article>`).join('')||'<p>لا توجد محاضرات مسجلة حالياً.</p>'}</div>`}
+function lessonList(lessons,quizOnly=false){lessons=(lessons||[]).filter(canViewLesson);return `<div class="lesson-grid" dir="ltr">${lessons.map((l,i)=>`<article class="lesson-card" dir="rtl" onclick="${quizOnly?`showQuiz('${esc(l.id)}')`:`showLesson('${esc(l.id)}')`}"><span class="lesson-number" aria-label="Lecture ${i+1}">${i+1}</span><span class="tag">${esc(l.level||'Optometry')}</span><h3>${esc(l.title_en)}</h3><p>${esc(departmentName(l.department_code))}</p><small>${l.review_required?'مسودة للمراجعة العلمية':'منشور'}</small><span class="card-arrow">فتح المحاضرة ←</span></article>`).join('')||'<p dir="rtl">لا توجد محاضرات مسجلة حالياً.</p>'}</div>`}
 async function showDepartment(code){
  const d=DB.departments.find(x=>x.code===code);if(!d)return;
  const topicOrder=new Map((d.curriculum_topics||[]).slice().sort((a,b)=>Number(a.display_order??0)-Number(b.display_order??0)).map((t,i)=>[String(t.id),i]));
@@ -229,9 +229,9 @@ function renderLectureHtml(raw,rtl=false){
    const rawSrc=node.getAttribute('src')||'';
    let parsed;
    try{parsed=new URL(rawSrc,location.href)}catch(_){return ''}
-   if(parsed.protocol!=='https:'||!['commons.wikimedia.org','upload.wikimedia.org'].includes(parsed.hostname))return '';
+   if(parsed.protocol!=='https:'&&!(parsed.origin===location.origin&&/^\/(?:assets|content|images)\//.test(parsed.pathname)))return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
-   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('figure')?.classList.add('image-load-failed');this.alt='Image could not be loaded';">';
   }
   if(tag==='SVG'||['G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN'].includes(tag)){
    if(!allowed.has(tag))return '';
