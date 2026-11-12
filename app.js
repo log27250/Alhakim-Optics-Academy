@@ -64,10 +64,14 @@ async function publicRpc(name,args={}){const r=await fetch(`${SUPABASE_URL}/rest
 
 /* IndexedDB keeps the full practice-question bank available offline without exhausting localStorage. */
 const OFFLINE_DB_NAME='alhakim-academy-offline';
-let offlineQuestionBanks=new Map();
-function openOfflineDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(OFFLINE_DB_NAME,2);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('lesson_questions'))db.createObjectStore('lesson_questions',{keyPath:'lesson_id'});if(!db.objectStoreNames.contains('academy_meta'))db.createObjectStore('academy_meta',{keyPath:'key'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+let offlineQuestionBanks=new Map(),offlineMediaMap=new Map();
+const OFFLINE_MEDIA_CACHE='alhakim-academy-media-v1';
+function openOfflineDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(OFFLINE_DB_NAME,3);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('lesson_questions'))db.createObjectStore('lesson_questions',{keyPath:'lesson_id'});if(!db.objectStoreNames.contains('academy_meta'))db.createObjectStore('academy_meta',{keyPath:'key'});if(!db.objectStoreNames.contains('media_map'))db.createObjectStore('media_map',{keyPath:'source_url'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
 async function saveOfflineQuestionBanks(records){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('lesson_questions','readwrite'),store=tx.objectStore('lesson_questions');records.forEach(x=>{store.put(x);offlineQuestionBanks.set(String(x.lesson_id),x.questions)});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(offlineQuestionBanks.has(key))return offlineQuestionBanks.get(key);try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('lesson_questions','readonly').objectStore('lesson_questions').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();if(value?.questions){offlineQuestionBanks.set(key,value.questions);return value.questions}}catch(e){console.warn('Offline question bank unavailable:',e)}return null}
+function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')+'-'+value.length.toString(16)}
+async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
+async function cacheWikimediaLessonImages(){if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons))return;const urls=new Set();for(const lesson of DB.lessons){for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const doc=new DOMParser().parseFromString(String(raw),'text/html');doc.querySelectorAll('img[src]').forEach(img=>{const src=img.getAttribute('src');try{const u=new URL(src,location.href);if(u.hostname==='commons.wikimedia.org'&&/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}})}}if(!urls.size)return;const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),records=[];for(const src of urls){if(offlineMediaMap.has(src))continue;try{const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});if(response.type!=='opaque'&&!response.ok)continue;const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;await cache.put(localUrl,response.clone());const row={source_url:src,local_url:localUrl,cached_at:new Date().toISOString()};records.push(row);offlineMediaMap.set(src,localUrl)}catch(e){console.info('Image will remain online-only:',src,e.message)}}if(records.length){await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');records.forEach(x=>store.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});console.info('Offline Wikimedia images cached:',records.length)}db.close()}
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
 async function restAll(table,query,chunkSize=1000){const rows=[];for(let offset=0;offset<100000;offset+=chunkSize){const response=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:{...authHeaders(),'Range-Unit':'items','Range':`${offset}-${offset+chunkSize-1}`}});if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${table}: ${response.status} ${body.message||body.details||''}`)}const page=await response.json();if(!Array.isArray(page))throw Error('Invalid response for '+table);rows.push(...page);if(page.length<chunkSize)break}return rows}
@@ -99,7 +103,7 @@ function syncStudentDashboardNavigation(){const b=document.getElementById('stude
 async function loadContent(){
  const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
  let local=empty, cloudError=null, topicError=null, lessonError=null;
- try{const cached=await readOfflineCurriculum();if(cached)local=cached;else{const legacy=localStorage.getItem('alhakim_content_cache');if(legacy)local=JSON.parse(legacy)||empty}}catch(e){console.warn('Invalid local curriculum cache:',e)}
+ try{const cached=await readOfflineCurriculum();if(cached)local=cached;else{const legacy=localStorage.getItem('alhakim_content_cache');if(legacy)local=JSON.parse(legacy)||empty}await loadOfflineMediaMap()}catch(e){console.warn('Invalid local curriculum cache:',e)}
  // Supabase is the authoritative curriculum source. Offline startup uses only the last verified local cache.
  DB=local;dataSource='local';
  // Render the last verified Supabase snapshot immediately; cloud refresh must never block the first screen.
@@ -139,6 +143,7 @@ async function loadContent(){
   }
   try{await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}}catch(e){console.warn('Could not save IndexedDB curriculum cache:',e);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
   if(navigator.onLine)setTimeout(()=>refreshOfflineQuestionBanks(),1500);
+  if(navigator.onLine)setTimeout(()=>cacheWikimediaLessonImages(),4500);
  }catch(e){
   cloudError=e.message||String(e);
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
@@ -587,6 +592,8 @@ function renderLectureContentWithIllustration(l){
   for(const node of [...arBody.childNodes])body.appendChild(doc.importNode(node,true));
  }
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
+ // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
+ body.querySelectorAll('img[src]').forEach(img=>{const source=img.getAttribute('src');const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)});
  // Place contextual diagrams only after the corresponding explanatory text.
  for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
  return body.outerHTML;
