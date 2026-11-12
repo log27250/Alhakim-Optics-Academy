@@ -1,41 +1,50 @@
-/* HAKIM OPTICS ACADEMY — complete first-install offline cache */
-const CACHE_NAME='alhakim-academy-v2-68-supabase-authoritative-v1';
+/* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
+const CACHE_NAME='alhakim-academy-v2-69-atomic-offline-v1';
+const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
  './','./index.html','./styles.css','./app.js','./clinical-cases.js',
  './offline-assets.json','./manifest.webmanifest','./offline.html',
  './icon-192.png','./icon-512.png','./assets/alhakim-logo.png'
 ];
-async function cacheOne(cache,path){
- try{
-  const url=new URL(path,self.registration.scope).href;
-  const response=await fetch(url,{cache:'reload'});
-  if(response.ok)await cache.put(url,response);
-  return response.ok;
- }catch(_){return false}
+async function fetchAndCache(cache,path){
+ const url=new URL(path,self.registration.scope).href;
+ const response=await fetch(url,{cache:'reload'});
+ if(!response.ok)throw new Error('Offline asset unavailable: '+path+' ('+response.status+')');
+ await cache.put(url,response.clone());
+ return true;
 }
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{
   const cache=await caches.open(CACHE_NAME);
-  await Promise.all(CORE.map(path=>cacheOne(cache,path)));
-  let images=[];
   try{
-   const response=await fetch(new URL('./offline-assets.json',self.registration.scope),{cache:'reload'});
-   if(response.ok){
-    const manifest=await response.json();
-    if(Array.isArray(manifest.images))images=manifest.images;
-    await cache.put(new URL('./offline-assets.json',self.registration.scope).href,response.clone());
+   // Do not activate a partial release. The previous cache remains untouched on failure.
+   for(const path of CORE)await fetchAndCache(cache,path);
+   const manifestUrl=new URL('./offline-assets.json',self.registration.scope).href;
+   const manifestResponse=await fetch(manifestUrl,{cache:'reload'});
+   if(!manifestResponse.ok)throw new Error('Offline asset manifest unavailable');
+   const manifest=await manifestResponse.clone().json();
+   if(!Array.isArray(manifest.images)||manifest.images.length===0)throw new Error('Offline image manifest is empty');
+   await cache.put(manifestUrl,manifestResponse);
+   const failed=[];
+   for(let i=0;i<manifest.images.length;i+=8){
+    const batch=await Promise.allSettled(manifest.images.slice(i,i+8).map(path=>fetchAndCache(cache,path)));
+    batch.forEach((result,j)=>{if(result.status==='rejected')failed.push(manifest.images[i+j])});
    }
-  }catch(_){}
-  // Download every bundled teaching illustration during the first online install.
-  // Small batches avoid exhausting mobile browser connections.
-  for(let i=0;i<images.length;i+=12){
-   await Promise.all(images.slice(i,i+12).map(path=>cacheOne(cache,path)));
+   if(failed.length)throw new Error('Failed to cache '+failed.length+' teaching images: '+failed.slice(0,8).join(', '));
+   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({version:CACHE_NAME,images:manifest.images.length,installed_at:new Date().toISOString()}),{headers:{'Content-Type':'application/json'}}));
+   await self.skipWaiting();
+  }catch(error){
+   await caches.delete(CACHE_NAME);
+   console.error('Atomic offline install aborted; previous version preserved.',error);
+   throw error;
   }
-  await self.skipWaiting();
  })());
 });
 self.addEventListener('activate',event=>{
  event.waitUntil((async()=>{
+  const cache=await caches.open(CACHE_NAME);
+  const marker=await cache.match(new URL(COMPLETE_KEY,self.registration.scope).href);
+  if(!marker)throw new Error('Refusing to activate an incomplete offline cache');
   const keys=await caches.keys();
   await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&key!==CACHE_NAME).map(key=>caches.delete(key)));
   await self.clients.claim();
