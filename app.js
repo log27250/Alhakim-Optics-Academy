@@ -260,10 +260,10 @@ function academyImageSource(rawSrc){
   return url.href;
  }catch(_){return ''}
 }
-function inlineFormat(text){return esc(text).replace(/!\\[([^\\]]*)\\]\\(([^)\\s]+)\\)/g,(match,alt,src)=>{
+function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(match,alt,src)=>{
  const safe=academyImageSource(src);if(!safe)return esc(alt);
- return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px;cursor:zoom-in" onclick="this.style.transform=this.style.transform?\\'\\':\\'scale(1.12)\\';this.style.transformOrigin=\\'center\\'">';
- }).replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>').replace(/\\*(.+?)\\*/g,'<em>$1</em>').replace(/\\x60([^\\x60]+)\\x60/g,'<code>$1</code>');}
+ return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px">';
+ }).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
  const source=String(raw||'').replace(/\\\\n/g,'\n');
  const doc=new DOMParser().parseFromString(source,'text/html');
