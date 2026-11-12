@@ -219,23 +219,25 @@ function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\((https:\/\/
 function renderLectureHtml(raw,rtl=false){
  const source=String(raw||'').replace(/\\\\n/g,'\n');
  const doc=new DOMParser().parseFromString(source,'text/html');
- const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG']);
+ const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG','SVG','G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN']);
+ const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
  const renderNode=node=>{
   if(node.nodeType===Node.TEXT_NODE)return esc(node.nodeValue||'');
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
   const tag=node.tagName;
-  // Inline SVG schematics are intentionally omitted from the photo renderer;
-  // genuine photographs are retained through the FIGURE/IMG allowlist below.
-  if(tag==='SVG')return '';
   if(tag==='IMG'){
    const rawSrc=node.getAttribute('src')||'';
    let parsed;
    try{parsed=new URL(rawSrc,location.href)}catch(_){return ''}
-   // Lesson photographs are served from Wikimedia Commons only. Reject
-   // javascript:, data:, mixed-content and untrusted remote image hosts.
    if(parsed.protocol!=='https:'||!['commons.wikimedia.org','upload.wikimedia.org'].includes(parsed.hostname))return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
    return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+  }
+  if(tag==='SVG'||['G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN'].includes(tag)){
+   if(!allowed.has(tag))return '';
+   const attrs=[...node.attributes].filter(a=>svgAttrs.has(a.name)&&!/^on/i.test(a.name)).map(a=>' '+a.name+'="'+esc(a.value)+'"').join('');
+   const children=[...node.childNodes].map(renderNode).join('');
+   return '<'+tag.toLowerCase()+attrs+'>'+children+'</'+tag.toLowerCase()+'>';
   }
   const children=[...node.childNodes].map(renderNode).join('');
   if(!allowed.has(tag))return children;
