@@ -1,9 +1,7 @@
 /* HAKIM OPTICS ACADEMY — complete first-install offline cache */
-const CACHE_NAME='alhakim-academy-v2-67-full-offline-v1';
+const CACHE_NAME='alhakim-academy-v2-68-supabase-authoritative-v1';
 const CORE=[
  './','./index.html','./styles.css','./app.js','./clinical-cases.js',
- './HAKIM_OPTICS_ACADEMY_COMPLETE_CONTENT_MASTER_v1.json',
- './HAKIM_OPTICS_ACADEMY_CONTENT_v2.2.json',
  './offline-assets.json','./manifest.webmanifest','./offline.html',
  './icon-192.png','./icon-512.png','./assets/alhakim-logo.png'
 ];
