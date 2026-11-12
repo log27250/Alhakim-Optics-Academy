@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-69-atomic-offline-v1';
+const CACHE_NAME='alhakim-academy-v2-70-atomic-offline-v2';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
  './','./index.html','./styles.css','./app.js','./clinical-cases.js',
@@ -56,7 +56,7 @@ async function networkFirst(request,cache){
   if(response&&response.ok)await cache.put(request,response.clone());
   return response;
  }catch(_){
-  return await cache.match(request)||await cache.match(new URL('./index.html',self.registration.scope).href)||
+  return await cache.match(request,{ignoreSearch:true})||await cache.match(new URL('./index.html',self.registration.scope).href)||
    new Response('Offline',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}});
  }
 }
@@ -69,7 +69,7 @@ self.addEventListener('fetch',event=>{
   const navigation=event.request.mode==='navigate';
   const appShell=navigation||/\\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
   if(appShell)return networkFirst(event.request,cache);
-  const cached=await cache.match(event.request);
+  const cached=await cache.match(event.request,{ignoreSearch:true});
   if(cached)return cached;
   try{
    const response=await fetch(event.request);
