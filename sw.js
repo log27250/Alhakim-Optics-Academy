@@ -1,5 +1,6 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-70-atomic-offline-v2';
+const CACHE_NAME='alhakim-academy-v2-71-atomic-offline-v3';
+const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
  './','./index.html','./styles.css','./app.js','./clinical-cases.js',
@@ -46,7 +47,7 @@ self.addEventListener('activate',event=>{
   const marker=await cache.match(new URL(COMPLETE_KEY,self.registration.scope).href);
   if(!marker)throw new Error('Refusing to activate an incomplete offline cache');
   const keys=await caches.keys();
-  await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&key!==CACHE_NAME).map(key=>caches.delete(key)));
+  await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&key!==CACHE_NAME&&key!==MEDIA_CACHE).map(key=>caches.delete(key)));
   await self.clients.claim();
  })());
 });
@@ -66,6 +67,9 @@ self.addEventListener('fetch',event=>{
  if(url.origin!==self.location.origin)return;
  event.respondWith((async()=>{
   const cache=await caches.open(CACHE_NAME);
+  const mediaCache=await caches.open(MEDIA_CACHE);
+  const offlineMedia=await mediaCache.match(event.request);
+  if(offlineMedia)return offlineMedia;
   const navigation=event.request.mode==='navigate';
   const appShell=navigation||/\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
   if(appShell)return networkFirst(event.request,cache);
