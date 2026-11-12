@@ -278,7 +278,7 @@ function renderLectureHtml(raw,rtl=false){
    let parsed;
    try{parsed=new URL(academyImageSource(rawSrc),location.href)}catch(_){return ''}
    const appBasePath=new URL('./',location.href).pathname;
-   const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&/\\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname);
+   const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&/\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname);
    if(parsed.protocol!=='https:'&&!sameOriginImage)return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
    return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
