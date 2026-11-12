@@ -118,6 +118,8 @@ async function loadContent(){
   else topicError=results[0].reason?.message||'تعذر تحميل الموضوعات';
   if(results[1].status==='fulfilled'&&Array.isArray(results[1].value))l=results[1].value;
   else lessonError=results[1].reason?.message||'تعذر تحميل المحاضرات';
+  // Never replace a valid offline snapshot with a partial cloud response.
+  if(topicError||lessonError||!t.length||!l.length)throw Error([topicError,lessonError].filter(Boolean).join(' · ')||'المنهج السحابي وصل بصورة غير مكتملة؛ تم الاحتفاظ بالنسخة المحلية السابقة.');
   const cloud=normalizeCloud(d,t,l);
   // Replace the cached snapshot with the complete current Supabase response; do not retain deleted or obsolete local lessons.
   DB=cloud;
