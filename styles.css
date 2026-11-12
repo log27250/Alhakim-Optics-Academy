@@ -291,3 +291,27 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .lecture-body figure.real-device-photo img.lesson-real-photo{width:auto;max-width:100%;max-height:520px;height:auto;object-fit:contain;margin:0 auto;border:0;padding:0;box-shadow:none}
 .lecture-body figure.real-device-photo figcaption{margin:10px auto 2px;max-width:760px;color:#52677e;font-size:.9rem;line-height:1.55;overflow-wrap:anywhere;text-align:center}
 @media(max-width:600px){.lecture-body figure.real-device-photo{margin:16px auto;padding:8px}.lecture-body figure.real-device-photo img.lesson-real-photo{max-height:340px}.lecture-body figure.real-device-photo figcaption{font-size:.82rem}}
+
+
+/* Mobile lecture reading: prevent long-press text selection/copy handles.
+   Buttons, links, and form controls remain normally interactive. */
+.lesson-card,
+.lesson-card *,
+.lecture-fullscreen,
+.lecture-fullscreen *:not(input):not(textarea):not(select):not(button):not(a) {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+.lesson-card,
+.lecture-fullscreen {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.lecture-fullscreen img,
+.lecture-fullscreen figure,
+.lecture-fullscreen canvas {
+  -webkit-user-drag: none;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
