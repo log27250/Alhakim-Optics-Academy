@@ -357,26 +357,63 @@ function initLectureDeck(){
  deck.addEventListener('touchend',e=>{if(startX===null)return;const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>55)move(dx<0?1:-1);startX=null},{passive:true});
  paint();
 }
-function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return SUPABASE_URL+'/storage/v1/object/public/academy-references/'+String(ref.file_path).split('/').map(encodeURIComponent).join('/');return first(ref,['url','doi','link','href'])}return ''}
+
+function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return '';return first(ref,['url','doi','link','href'])}return ''}
 function refLabel(ref){return typeof ref==='object'?first(ref,['title','name','citation'],'مرجع علمي'):String(ref)}
-function isDirectReferencePdf(url){return /^https?:\/\//i.test(url||'')&&(/\.pdf(?:[?#].*)?$/i.test(url)||/\/storage\/v1\/object\/(?:public|sign)\//i.test(url))}
-function referenceLink(ref){const id=esc(ref?.id||'');return `<div class="reference-actions"><button class="secondary" type="button" onclick="openAcademyReference('${id}')">فتح المرجع</button><button class="primary" type="button" onclick="downloadAcademyReference('${id}')">تحميل PDF</button></div>`}
+function referenceLink(ref){const id=esc(ref?.id||'');return '<div class="reference-actions"><button class="secondary" type="button" onclick="openAcademyReference(\''+id+'\')">فتح المرجع</button></div>'}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
-function openAcademyReference(id){
+async function academyPdfSignedUrl(path){
+ if(!session?.access_token)throw Error('يجب تسجيل الدخول لعرض ملفات المحاضرات.');
+ const safe=String(path||'').split('/').map(encodeURIComponent).join('/');
+ const response=await authorizedFetch(SUPABASE_URL+'/storage/v1/object/sign/academy-references/'+safe,{method:'POST',headers:authHeaders(),body:JSON.stringify({expiresIn:120})});
+ const data=await response.json().catch(()=>({}));
+ if(!response.ok||!data.signedURL)throw Error(data.message||data.error||'تعذر الوصول الآمن إلى ملف PDF. تحقق من إعدادات الحاوية الخاصة وسياسات الوصول.');
+ return data.signedURL.startsWith('http')?data.signedURL:SUPABASE_URL+data.signedURL;
+}
+async function loadPdfJs(){
+ if(window.pdfjsLib)return window.pdfjsLib;
+ if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs').then(mod=>{window.pdfjsLib=mod;mod.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';return mod});
+ return window.hakimPdfJsPromise;
+}
+async function drawAcademyPdf(path,title){
+ const host=document.getElementById('academyPdfViewer');if(!host)return;
+ host.innerHTML='<div class="pdf-loading" role="status">جارٍ تجهيز المحاضرة الآمنة…</div>';
+ try{
+  const [pdfjs,url]=await Promise.all([loadPdfJs(),academyPdfSignedUrl(path)]);
+  const pdf=await pdfjs.getDocument({url}).promise;let pageNumber=1,scale=1,renderTask=null;
+  host.innerHTML='<div class="pdf-reader-toolbar"><button type="button" id="pdfPrev">السابق</button><span id="pdfPageStatus">1 / '+pdf.numPages+'</span><button type="button" id="pdfNext">التالي</button><button type="button" id="pdfZoomOut">−</button><button type="button" id="pdfZoomIn">＋</button><span class="pdf-protection-label">عرض تعليمي محمي</span></div><div class="pdf-canvas-stage" id="pdfCanvasStage"><canvas id="academyPdfCanvas" aria-label="'+esc(title)+'"></canvas></div><div class="pdf-reader-footer">لا توجد أزرار تنزيل أو طباعة. لا يمكن تقنياً منع تصوير الشاشة أو التقاط المحتوى بوسائل خارجية.</div>';
+  const canvas=document.getElementById('academyPdfCanvas'),ctx=canvas.getContext('2d',{alpha:false});
+  async function renderPage(){
+   if(renderTask){try{renderTask.cancel();await renderTask.promise}catch(e){}}
+   const page=await pdf.getPage(pageNumber),stage=document.getElementById('pdfCanvasStage'),base=page.getViewport({scale:1});
+   const fit=Math.max(.5,Math.min(2.2,(stage.clientWidth-24)/base.width)),viewport=page.getViewport({scale:fit*scale}),ratio=Math.min(window.devicePixelRatio||1,2);
+   canvas.width=Math.floor(viewport.width*ratio);canvas.height=Math.floor(viewport.height*ratio);canvas.style.width=viewport.width+'px';canvas.style.height=viewport.height+'px';ctx.setTransform(ratio,0,0,ratio,0,0);
+   renderTask=page.render({canvasContext:ctx,viewport});await renderTask.promise;
+   document.getElementById('pdfPageStatus').textContent=pageNumber+' / '+pdf.numPages;
+   document.getElementById('pdfPrev').disabled=pageNumber<=1;document.getElementById('pdfNext').disabled=pageNumber>=pdf.numPages;
+  }
+  document.getElementById('pdfPrev').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage()}};
+  document.getElementById('pdfNext').onclick=()=>{if(pageNumber<pdf.numPages){pageNumber++;renderPage()}};
+  document.getElementById('pdfZoomIn').onclick=()=>{scale=Math.min(2.2,scale+.15);renderPage()};
+  document.getElementById('pdfZoomOut').onclick=()=>{scale=Math.max(.7,scale-.15);renderPage()};
+  host.oncontextmenu=e=>e.preventDefault();
+  host.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&['p','s','c'].includes(e.key.toLowerCase())){e.preventDefault();e.stopPropagation()}};
+  await renderPage();
+ }catch(error){host.innerHTML='<div class="notice pdf-error">'+esc(error.message||'تعذر عرض ملف PDF')+'</div>'}
+}
+async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!ref)return;
- const url=referenceUrl(ref),pdf=isDirectReferencePdf(url),source=String(url||'').startsWith('http://')||String(url||'').startsWith('https://');
+ const external=referenceUrl(ref),hasPdf=!!ref.file_path,source=external.startsWith('http');
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
  let content='';
- if(pdf){
-  const viewerUrl=url+(url.includes('#')?'&':'#')+'toolbar=1&navpanes=0&view=FitH';
-  content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية</b><span>إذا لم يظهر الملف على هاتفك، استخدم زر فتح الملف في نافذة مستقلة.</span></div><iframe class="reference-viewer" src="'+esc(viewerUrl)+'" title="'+esc(refLabel(ref))+'" loading="eager" allow="fullscreen"></iframe><div class="admin-actions"><a class="primary reference-source" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح ملف PDF مباشرة ↗</a><button class="secondary" type="button" onclick="downloadAcademyReference(\''+esc(id)+'\')">تحميل PDF</button></div></div>';
- }else if(source){
-  content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>معاينة المرجع من موقع الناشر</b><span>تظهر المعاينة هنا إذا كان الناشر يسمح بالعرض داخل المواقع الأخرى.</span></div><iframe class="reference-viewer publisher-reference-viewer" src="'+esc(url)+'" title="'+esc(refLabel(ref))+'" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="notice">إذا لم تظهر صفحة الناشر داخل الإطار، فهذا بسبب قيود العرض التي يفرضها الموقع. لا تتوفر في سجل الأكاديمية حالياً نسخة PDF مباشرة لهذا المرجع، ولا يمكن تحويل صفحة الناشر إلى كتاب PDF أو تجاوز قيود الوصول.</div><p><a class="primary reference-source" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح صفحة الناشر الرسمية ↗</a></p></div>';
- }else{content='<div class="notice">لا يوجد ملف PDF أو رابط ناشر مسجل لهذا المرجع حالياً.</div>'}
- pageShell(refLabel(ref),'فتح المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(pdf?'<button class="primary" onclick="downloadAcademyReference(\''+esc(id)+'\')">تحميل PDF</button>':'')+'</div>'+details+content+'</div>');
+ if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
+ else if(source)content='<div class="notice">هذا المرجع مرتبط بموقع خارجي؛ لا يمكن التحكم في أدوات العرض أو التنزيل التي يوفرها الناشر.</div><p><a class="primary reference-source" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح صفحة الناشر الرسمية ↗</a></p>';
+ else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
+ pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
+ if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref));
 }
-async function downloadAcademyReference(id){const ref=findAcademyReference(id);if(!ref)return;const url=referenceUrl(ref);if(!isDirectReferencePdf(url)){alert('لا يوجد ملف PDF مباشر لهذا المرجع حالياً. الرابط المتوفر صفحة الناشر أو أن المرجع لا يحتوي على رابط. أضف ملف PDF مرخصاً/مفتوح الوصول إلى مكتبة الأكاديمية ليصبح التحميل مباشراً.');return}try{const response=await fetch(url);if(!response.ok)throw Error('تعذر تنزيل الملف.');const blob=await response.blob();if(!blob.size||(!blob.type.includes('pdf')&&!/\.pdf(?:[?#].*)?$/i.test(url)))throw Error('الرابط لا يعيد ملف PDF.');const objectUrl=URL.createObjectURL(blob);const link=document.createElement('a');link.href=objectUrl;link.download=(refLabel(ref).replace(/[\\/:*?"<>|]/g,'_').slice(0,90)||'reference')+'.pdf';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(objectUrl),60000)}catch(e){alert('تعذر التحميل المباشر من المصدر. قد يمنع المصدر التنزيل من داخل الأكاديمية؛ ارفع نسخة PDF مرخصة إلى مكتبة الأكاديمية لضمان التحميل.')}} 
-function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','المراجع التي تحتوي على ملف PDF فعلي يمكن فتحها داخل الأكاديمية وتحميلها مباشرة.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح داخل الأكاديمية':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
+async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
+function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','افتح المراجع المرفقة داخل قارئ PDF الآمن.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح للعرض الآمن':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
 
 /* Lecture narration controls: browser-native speech synthesis. */
 const lectureNarrators=new Map();
