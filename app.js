@@ -49,7 +49,7 @@ async function authorizedFetch(url,options={}){
  }
  return response;
 }
-async function rest(table,query='select=*'){const r=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:authHeaders()});if(!r.ok){const body=await r.json().catch(()=>({}));throw Error(`${table}: ${r.status} ${body.message||body.msg||body.error_description||body.error||''}`.trim())}return r.json()}
+async function rest(table,query='select=*'){const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),12000);let r;try{r=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:authHeaders(),signal:controller.signal})}catch(e){if(controller.signal.aborted)throw Error(`${table}: انتهت مهلة الاتصال بالخادم بعد 12 ثانية.`);throw e}finally{clearTimeout(timer)}if(!r.ok){const body=await r.json().catch(()=>({}));throw Error(`${table}: ${r.status} ${body.message||body.msg||body.error_description||body.error||''}`.trim())}return r.json()}
 async function optionalTable(table,query='select=*'){try{return await rest(table,query)}catch(e){console.info('Optional table unavailable:',table,e.message);return null}}
 function normalizeCloud(depts,topics,lessons){
  const topicById=new Map(topics.map(t=>[String(t.id),t]));
@@ -74,7 +74,7 @@ async function loadContent(){
  const empty={departments:[],lessons:[],reference_catalog:[],department_count:0,curriculum_topic_count:0};
  let local=empty, cloudError=null, topicError=null, lessonError=null;
  try{const cached=localStorage.getItem('alhakim_content_cache');if(cached)local=JSON.parse(cached)||empty}catch(e){console.warn('Invalid local curriculum cache:',e)}
- try{const r=await fetch(CONTENT_URL,{cache:'no-store'});if(r.ok){const bundled=await r.json();if(bundled&&Array.isArray(bundled.departments))local=bundled}}catch(e){console.info('Bundled curriculum unavailable; continuing with cloud data or saved cache.')}
+ try{const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),10000);let r;try{r=await fetch(CONTENT_URL,{cache:'no-store',signal:controller.signal})}finally{clearTimeout(timer)}if(r.ok){const bundled=await r.json();if(bundled&&Array.isArray(bundled.departments))local=bundled}}catch(e){console.info('Bundled curriculum unavailable; continuing with cloud data or saved cache.',e)}
  DB=local;dataSource='local';
  try{
   // Departments are the essential payload. Load them independently so a failure
