@@ -250,7 +250,20 @@ async function showDepartment(code){
 }
 
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
-function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\((https:\/\/[^)\s]+)\)/g,'<img src="$2" alt="$1" loading="lazy" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px;cursor:zoom-in" onclick="this.style.transform=this.style.transform?\'\':\'scale(1.12)\';this.style.transformOrigin=\'center\'">').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
+function academyImageSource(rawSrc){
+ try{
+  const url=new URL(String(rawSrc||''),location.href);
+  const repoPrefix='/log27250/Alhakim-Optics-Academy/main/';
+  if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
+   return new URL('./'+url.pathname.slice(repoPrefix.length)+url.search,location.href).href;
+  }
+  return url.href;
+ }catch(_){return ''}
+}
+function inlineFormat(text){return esc(text).replace(/!\\[([^\\]]*)\\]\\(([^)\\s]+)\\)/g,(match,alt,src)=>{
+ const safe=academyImageSource(src);if(!safe)return esc(alt);
+ return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px;cursor:zoom-in" onclick="this.style.transform=this.style.transform?\\'\\':\\'scale(1.12)\\';this.style.transformOrigin=\\'center\\'">';
+ }).replace(/\\*\\*(.+?)\\*\\*/g,'<strong>$1</strong>').replace(/\\*(.+?)\\*/g,'<em>$1</em>').replace(/\\x60([^\\x60]+)\\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
  const source=String(raw||'').replace(/\\\\n/g,'\n');
  const doc=new DOMParser().parseFromString(source,'text/html');
@@ -263,8 +276,10 @@ function renderLectureHtml(raw,rtl=false){
   if(tag==='IMG'){
    const rawSrc=node.getAttribute('src')||'';
    let parsed;
-   try{parsed=new URL(rawSrc,location.href)}catch(_){return ''}
-   if(parsed.protocol!=='https:'&&!(parsed.origin===location.origin&&/^\/(?:assets|content|images)\//.test(parsed.pathname)))return '';
+   try{parsed=new URL(academyImageSource(rawSrc),location.href)}catch(_){return ''}
+   const appBasePath=new URL('./',location.href).pathname;
+   const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&/\\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname);
+   if(parsed.protocol!=='https:'&&!sameOriginImage)return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
    return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
   }
