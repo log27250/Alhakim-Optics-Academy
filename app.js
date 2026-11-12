@@ -593,7 +593,7 @@ function renderLectureContentWithIllustration(l){
  }
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
  // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
- body.querySelectorAll('img[src]').forEach(img=>{const source=img.getAttribute('src');const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)});
+ body.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
  // Place contextual diagrams only after the corresponding explanatory text.
  for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
  return body.outerHTML;
