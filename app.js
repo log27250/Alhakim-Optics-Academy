@@ -544,10 +544,20 @@ function lectureContextualIllustrations(l){
 }
 
 function renderLectureContentWithIllustration(l){
- const raw=buildIntegratedBilingualMarkdown(l.content_en,l.content_ar);
- const html=renderLectureMarkdown(raw),doc=new DOMParser().parseFromString(html,'text/html');
- const body=doc.querySelector('.lecture-body');if(!body)return html;
- // Every illustration is linked to a sentence that explains the depicted concept.
+ const enHtml=renderLectureMarkdown(String(l.content_en||''),false);
+ const arHtml=renderLectureMarkdown(String(l.content_ar||''),true);
+ const enDoc=new DOMParser().parseFromString(enHtml,'text/html');
+ const arDoc=new DOMParser().parseFromString(arHtml,'text/html');
+ const enBody=enDoc.querySelector('.lecture-body'),arBody=arDoc.querySelector('.lecture-body');
+ const doc=document.implementation.createHTMLDocument('');
+ const body=doc.createElement('div');body.className='lecture-body lecture-bilingual';body.dir='ltr';body.lang='en';
+ if(enBody)for(const node of [...enBody.childNodes])body.appendChild(doc.importNode(node,true));
+ if(arBody&&arBody.childNodes.length){
+  const heading=doc.createElement('h2');heading.className='lecture-h2';heading.dir='rtl';heading.lang='ar';heading.textContent='الشرح باللغة العربية';body.appendChild(heading);
+  for(const node of [...arBody.childNodes])body.appendChild(doc.importNode(node,true));
+ }
+ if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
+ // Place contextual diagrams only after the corresponding explanatory text.
  for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
  return body.outerHTML;
 }
