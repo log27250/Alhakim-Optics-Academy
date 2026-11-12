@@ -231,7 +231,7 @@ function renderLectureHtml(raw,rtl=false){
    try{parsed=new URL(rawSrc,location.href)}catch(_){return ''}
    if(parsed.protocol!=='https:'&&!(parsed.origin===location.origin&&/^\/(?:assets|content|images)\//.test(parsed.pathname)))return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
-   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('figure')?.classList.add('image-load-failed');this.alt='Image could not be loaded';">';
+   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
   }
   if(tag==='SVG'||['G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN'].includes(tag)){
    if(!allowed.has(tag))return '';
