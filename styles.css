@@ -215,9 +215,9 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 .reference-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.reference-actions button{flex:1;min-width:130px}.reference-viewer{display:block;width:100%;height:min(72vh,850px);border:1px solid #dce6f4;border-radius:12px;background:#fff;margin-top:14px}.reference-card{cursor:default}
 
 /* Responsive educational illustrations and device photographs in lesson content */
-.lecture-body img{display:block;max-width:100%;width:auto;height:auto;max-height:560px;object-fit:contain;margin:18px auto;border:1px solid #dce5ef;border-radius:12px;background:#fff;padding:4px;box-shadow:0 3px 12px rgba(8,38,75,.08)}
-.lecture-body p>img{margin-inline:auto}
-@media(max-width:600px){.lecture-body img{max-height:360px;margin:14px auto;padding:3px;border-radius:9px}}
+.lecture-body img,.slide-content img{display:block;max-width:100%;width:auto;height:auto;max-height:560px;object-fit:contain;margin:18px auto;border:1px solid #dce5ef;border-radius:12px;background:#fff;padding:4px;box-shadow:0 3px 12px rgba(8,38,75,.08)}
+.lecture-body p>img,.slide-content p>img{margin-inline:auto}
+@media(max-width:600px){.lecture-body img,.slide-content img{max-height:360px;max-width:100%;margin:14px auto;padding:3px;border-radius:9px}}
 
 /* Accessible lecture audio player */
 .lecture-audio-panel{margin:18px 0;padding:16px;border:1px solid #cbd9e8;border-radius:15px;background:#f5f8fc;direction:rtl}
@@ -287,10 +287,10 @@ body.home-screen .sidebar.open{display:block;position:fixed;top:76px;right:0;bot
 @media print{.academy-pdf-viewer{display:none!important}}
 
 /* Real, licensed device photographs embedded in lessons */
-.lecture-body figure.real-device-photo{display:block;max-width:820px;margin:24px auto;padding:12px;border:1px solid #d8e3ef;border-radius:14px;background:#fff;text-align:center;box-shadow:0 4px 16px rgba(8,38,75,.06)}
-.lecture-body figure.real-device-photo img.lesson-real-photo{width:auto;max-width:100%;max-height:520px;height:auto;object-fit:contain;margin:0 auto;border:0;padding:0;box-shadow:none}
-.lecture-body figure.real-device-photo figcaption{margin:10px auto 2px;max-width:760px;color:#52677e;font-size:.9rem;line-height:1.55;overflow-wrap:anywhere;text-align:center}
-@media(max-width:600px){.lecture-body figure.real-device-photo{margin:16px auto;padding:8px}.lecture-body figure.real-device-photo img.lesson-real-photo{max-height:340px}.lecture-body figure.real-device-photo figcaption{font-size:.82rem}}
+.lecture-body figure.real-device-photo,.slide-content figure.real-device-photo{display:block;width:100%;max-width:820px;margin:24px auto;padding:12px;border:1px solid #d8e3ef;border-radius:14px;background:#fff;text-align:center;box-shadow:0 4px 16px rgba(8,38,75,.06);overflow:hidden}
+.lecture-body figure.real-device-photo img.lesson-real-photo,.slide-content figure.real-device-photo img.lesson-real-photo{display:block;width:auto;max-width:100%;max-height:520px;height:auto;object-fit:contain;margin:0 auto;border:0;padding:0;box-shadow:none}
+.lecture-body figure.real-device-photo figcaption,.slide-content figure.real-device-photo figcaption{display:block;margin:10px auto 2px;max-width:760px;color:#52677e;font-size:.9rem;line-height:1.55;overflow-wrap:anywhere;text-align:center;white-space:normal}
+@media(max-width:600px){.lecture-body figure.real-device-photo,.slide-content figure.real-device-photo{margin:16px auto;padding:8px}.lecture-body figure.real-device-photo img.lesson-real-photo,.slide-content figure.real-device-photo img.lesson-real-photo{max-height:340px;max-width:100%}.lecture-body figure.real-device-photo figcaption,.slide-content figure.real-device-photo figcaption{font-size:.82rem}}
 
 
 /* Mobile lecture reading: prevent long-press text selection/copy handles.
