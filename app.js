@@ -224,6 +224,9 @@ function renderLectureHtml(raw,rtl=false){
   if(node.nodeType===Node.TEXT_NODE)return esc(node.nodeValue||'');
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
   const tag=node.tagName;
+  // Inline SVG schematics are intentionally omitted from the photo renderer;
+  // genuine photographs are retained through the FIGURE/IMG allowlist below.
+  if(tag==='SVG')return '';
   if(tag==='IMG'){
    const rawSrc=node.getAttribute('src')||'';
    let parsed;
@@ -259,7 +262,7 @@ function renderLectureMarkdown(raw,rtl=false){
   const normalized=source.replace(/<hr\s*\/?\s*>/gi,'\n---\n').replace(/<h[12]\b[^>]*>([\s\S]*?)<\/h[12]\s*>/gi,'\n## $1\n');
   return renderLectureMarkdown(normalized,rtl);
  }
- if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br)(?:\s|>|\/)/i.test(source))return renderLectureHtml(source,rtl);
+ if(/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\s|>|\/)/i.test(source))return renderLectureHtml(source,rtl);
  const lines=source.replace(/\r/g,'').split('\n');let out='',list=null,table=[];
  const blockDir=text=>{const s=String(text||'').replace(/\\*\\*|__|\\*|_|\\`/g,'');const ar=(s.match(/[\\u0600-\\u06FF]/g)||[]).length;const en=(s.match(/[A-Za-z]/g)||[]).length;return ar>en?'rtl':'ltr'};
  const attrs=text=>{const d=blockDir(text);return ' dir="'+d+'" lang="'+(d==='rtl'?'ar':'en')+'" class="lecture-block-'+d+'"'};
