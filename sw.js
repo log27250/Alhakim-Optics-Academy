@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — cache recovery / network-first application shell */
-const CACHE_NAME = 'alhakim-academy-v2-64-cache-recovery-v4';
+const CACHE_NAME = 'alhakim-academy-v2-65-startup-timeout-v5';
 const CORE = ['./','./index.html','./styles.css','./app.js','./clinical-cases.js','./manifest.webmanifest','./offline.html','./icon-192.png','./icon-512.png'];
 self.addEventListener('install', event => {
  event.waitUntil((async()=>{
