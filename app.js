@@ -61,6 +61,31 @@ function normalizeCloud(depts,topics,lessons){
 }
 async function rpc(name,args={}){if(!session?.access_token)throw Error('سجّل الدخول أولاً لتنفيذ هذه العملية.');const r=await authorizedFetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:authHeaders(),body:JSON.stringify(args)});const body=await r.json().catch(()=>({}));if(!r.ok)throw Error(body.message||body.details||body.hint||`فشل تنفيذ ${name} (${r.status})`);return body}
 async function publicRpc(name,args={}){const r=await fetch(`${SUPABASE_URL}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,'Content-Type':'application/json'},body:JSON.stringify(args)});const body=await r.json().catch(()=>({}));if(!r.ok)throw Error(body.message||body.details||body.hint||`فشل تحميل الأسئلة (${r.status})`);return body}
+
+/* IndexedDB keeps the full practice-question bank available offline without exhausting localStorage. */
+const OFFLINE_DB_NAME='alhakim-academy-offline';
+let offlineQuestionBanks=new Map();
+function openOfflineDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(OFFLINE_DB_NAME,1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('lesson_questions'))db.createObjectStore('lesson_questions',{keyPath:'lesson_id'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function saveOfflineQuestionBanks(records){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('lesson_questions','readwrite'),store=tx.objectStore('lesson_questions');records.forEach(x=>{store.put(x);offlineQuestionBanks.set(String(x.lesson_id),x.questions)});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
+async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(offlineQuestionBanks.has(key))return offlineQuestionBanks.get(key);try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('lesson_questions','readonly').objectStore('lesson_questions').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();if(value?.questions){offlineQuestionBanks.set(key,value.questions);return value.questions}}catch(e){console.warn('Offline question bank unavailable:',e)}return null}
+async function restAll(table,query,chunkSize=1000){const rows=[];for(let offset=0;offset<100000;offset+=chunkSize){const response=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:{...authHeaders(),'Range-Unit':'items','Range':`${offset}-${offset+chunkSize-1}`}});if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${table}: ${response.status} ${body.message||body.details||''}`)}const page=await response.json();if(!Array.isArray(page))throw Error('Invalid response for '+table);rows.push(...page);if(page.length<chunkSize)break}return rows}
+async function refreshOfflineQuestionBanks(){
+ if(!navigator.onLine||!Array.isArray(DB?.lessons)||!DB.lessons.length||!window.indexedDB)return;
+ try{
+  const publishedIds=new Set(DB.lessons.filter(l=>!l.review_required&&String(l.status||'published')==='published').map(l=>String(l.id)));
+  const [questions,options]=await Promise.all([
+   restAll('questions','select=id,lesson_id,question_en,question_ar,difficulty&is_published=eq.true&order=created_at.asc,id.asc'),
+   restAll('question_options','select=id,question_id,option_en,option_ar,display_order&order=display_order.asc')
+  ]);
+  const optionMap=new Map();options.forEach(o=>{const k=String(o.question_id);if(!optionMap.has(k))optionMap.set(k,[]);optionMap.get(k).push({id:String(o.id),text:String(o.option_en||''),text_ar:String(o.option_ar||'')})});
+  const lessonMap=new Map();questions.forEach(q=>{const lessonId=String(q.lesson_id||'');if(!publishedIds.has(lessonId))return;if(!lessonMap.has(lessonId))lessonMap.set(lessonId,[]);lessonMap.get(lessonId).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',options:optionMap.get(String(q.id))||[]})});
+  const records=[...lessonMap].map(([lesson_id,qs])=>({lesson_id,questions:qs,synced_at:new Date().toISOString()}));
+  await saveOfflineQuestionBanks(records);
+  localStorage.setItem('alhakim_question_bank_sync',new Date().toISOString());
+  console.info('Offline practice banks synchronized:',records.length,'lessons');
+ }catch(e){console.warn('Offline practice-bank synchronization failed:',e.message)}
+}
+
 function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||''))}
 const ACADEMY_ADMIN_EMAIL='alhakimoptic@gmail.com';
 function currentAccountEmail(){let email=session?.user?.email||session?.email||session?.user_metadata?.email||'';if(!email){try{const saved=JSON.parse(localStorage.getItem('hakim_auth_session')||'null');email=saved?.user?.email||saved?.email||''}catch(_){}}return String(email).trim().toLowerCase()}
@@ -109,6 +134,7 @@ async function loadContent(){
    }
   }
   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.warn('Could not save curriculum cache:',e)}
+  if(navigator.onLine)setTimeout(()=>refreshOfflineQuestionBanks(),1500);
  }catch(e){
   cloudError=e.message||String(e);
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
@@ -576,19 +602,21 @@ function renderExamResult(result,code){const passed=!!result.passed;const cert=r
 async function verifyCertificate(token){try{const result=await fetch(`${SUPABASE_URL}/rest/v1/rpc/academy_verify_certificate`,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,'Content-Type':'application/json'},body:JSON.stringify({p_token:token})}).then(async r=>{const b=await r.json();if(!r.ok)throw Error(b.message||'تعذر التحقق');return b});pageShell('التحقق من الشهادة','التحقق الإلكتروني من شهادة أكاديمية الحكيم.',`<div class="content-card"><h2>${result.found?(result.valid?'شهادة صحيحة ومعتمدة ✓':'الشهادة ملغاة'):'لم يتم العثور على الشهادة'}</h2>${result.found?`<p>الاسم: ${esc(result.student_name)}</p><p>القسم: ${esc(result.department_code)}</p><p>النتيجة: ${esc(result.score)}%</p><p>رقم الشهادة: ${esc(result.certificate_number)}</p><p>تاريخ الإصدار: ${esc(new Date(result.issued_at).toLocaleDateString())}</p>`:''}</div>`)}catch(e){pageShell('التحقق من الشهادة','تعذر التحقق.',`<div class="notice">${esc(e.message)}</div>`)}}
 async function showQuiz(id){
  const l=DB.lessons.find(x=>String(x.id)===String(id));if(!l)return;
- pageShell('بنك أسئلة: '+l.title_en,'جارٍ تحميل الأسئلة المنشورة من قاعدة البيانات…','<div class="notice">يتم تحميل الأسئلة والخيارات الآن.</div>');
- try{
-  const qs=await publicRpc('academy_get_lesson_questions',{p_lesson_id:id});
-  pageShell('بنك أسئلة: '+l.title_en,`عدد الأسئلة المنشورة: ${qs.length}`,`
-   <div class="content-card">
-    ${qs.map((q,i)=>`<section class="question practice-question" id="practice-${q.id}">
-      <b>${i+1}. ${esc(q.question)}</b>
-      <div class="practice-options">${(q.options||[]).map(o=>`<button type="button" class="option" data-option-id="${esc(o.id)}" onclick="checkLessonAnswer('${esc(q.id)}','${esc(o.id)}',this)">${esc(o.text)}</button>`).join('')}</div>
-      <div class="explanation" hidden></div>
-     </section>`).join('')||'<div class="notice">لا توجد أسئلة منشورة لهذه المحاضرة حتى الآن.</div>'}
-    <button class="secondary" onclick="showLesson('${esc(id)}')">العودة إلى المحاضرة</button>
-   </div>`);
- }catch(e){pageShell('تعذر تحميل بنك الأسئلة',l.title_en,`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="showDepartment('${esc(l.department_code)}')">العودة للقسم</button>`)}
+ pageShell('بنك أسئلة: '+l.title_en,'جارٍ تجهيز بنك الأسئلة…','<div class="notice">يتم التحقق من النسخة المحفوظة على هذا الجهاز.</div>');
+ let qs=null,offline=false;
+ if(navigator.onLine){try{qs=await publicRpc('academy_get_lesson_questions',{p_lesson_id:id});await saveOfflineQuestionBanks([{lesson_id:String(id),questions:qs,synced_at:new Date().toISOString()}])}catch(e){console.warn('Using offline practice questions:',e.message)}}
+ if(!Array.isArray(qs)){qs=await readOfflineQuestionBank(id);offline=true}
+ if(!Array.isArray(qs)){pageShell('بنك الأسئلة غير متاح',l.title_en,'<div class="notice">لم يتم تنزيل بنك أسئلة هذه المحاضرة على هذا الجهاز بعد. اتصل بالإنترنت وافتح الأكاديمية مرة واحدة لتنزيل المحتوى.</div><button class="secondary" onclick="showLesson(\''+esc(id)+'\')">العودة إلى المحاضرة</button>');return}
+ pageShell('بنك أسئلة: '+l.title_en,`عدد الأسئلة: ${qs.length}${offline?' · نسخة محفوظة دون اتصال':''}`,`
+  <div class="content-card">
+   ${offline?'<div class="notice">أنت دون اتصال. يمكنك مراجعة الأسئلة والخيارات، أما تصحيح الإجابات وشرحها فيتطلب الاتصال بالخادم.</div>':''}
+   ${qs.map((q,i)=>`<section class="question practice-question" id="practice-${q.id}">
+     <b>${i+1}. ${esc(q.question)}</b>
+     <div class="practice-options">${(q.options||[]).map(o=>`<button type="button" class="option" data-option-id="${esc(o.id)}" onclick="checkLessonAnswer('${esc(q.id)}','${esc(o.id)}',this)">${esc(o.text)}</button>`).join('')}</div>
+     <div class="explanation" hidden></div>
+    </section>`).join('')||'<div class="notice">لا توجد أسئلة منشورة لهذه المحاضرة حتى الآن.</div>'}
+   <button class="secondary" onclick="showLesson('${esc(id)}')">العودة إلى المحاضرة</button>
+  </div>`);
 }
 async function checkLessonAnswer(questionId,optionId,button){
  const box=button.closest('.practice-question');if(!box||box.dataset.answered==='1')return;
