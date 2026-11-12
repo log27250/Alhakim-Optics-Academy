@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Local educational illustrations and image assets required for first-install offline use.",
-  "image_count": 495,
+  "image_count": 503,
   "images": [
     "./alhakim-logo.png",
     "./assets/anatomy-physiology/anp-001-illustration.svg",
@@ -379,6 +379,14 @@
     "assets/lesson-images/CL/CL-006-L01.svg",
     "assets/lesson-images/CL/CL-007-L01.svg",
     "assets/lesson-images/CL/CL-008-L01.svg",
+    "assets/lesson-images/CL/CL-009-L01.svg",
+    "assets/lesson-images/CL/CL-010-L01.svg",
+    "assets/lesson-images/CL/CL-011-L01.svg",
+    "assets/lesson-images/CL/CL-012-L01.svg",
+    "assets/lesson-images/CL/CL-013-L01.svg",
+    "assets/lesson-images/CL/CL-014-L01.svg",
+    "assets/lesson-images/CL/CL-015-L01.svg",
+    "assets/lesson-images/CL/CL-016-L01.svg",
     "assets/lesson-images/GEO/GEO-025-L01.svg",
     "assets/lesson-images/GEO/GEO-026-L01.svg",
     "assets/lesson-images/GEO/GEO-027-L01.svg",
