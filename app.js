@@ -639,6 +639,24 @@ function lectureContextualIllustrations(l){
  return map[String(l?.id||'')]||[];
 }
 
+function bindAcademyImageFallbacks(root=document){
+ root.querySelectorAll('img.lesson-real-photo').forEach(img=>{
+  if(img.dataset.academyFallbackBound)return;
+  img.dataset.academyFallbackBound='1';
+  let localUrl;
+  try{localUrl=new URL(img.getAttribute('src')||'',location.href)}catch(_){return}
+  const appBase=new URL('./',location.href);
+  if(localUrl.origin!==location.origin||!localUrl.pathname.startsWith(appBase.pathname))return;
+  const relativePath=localUrl.pathname.slice(appBase.pathname.length).split('/').map(part=>encodeURIComponent(decodeURIComponent(part))).join('/');
+  const fallbackUrl='https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relativePath+localUrl.search;
+  img.addEventListener('error',()=>{
+   if(img.dataset.academyFallbackTried){img.classList.add('lesson-image-unavailable');return}
+   img.dataset.academyFallbackTried='1';
+   if(img.src!==fallbackUrl)img.src=fallbackUrl;
+   else img.classList.add('lesson-image-unavailable');
+  });
+ });
+}
 function renderLectureContentWithIllustration(l){
  const enHtml=renderLectureMarkdown(String(l.content_en||''),false);
  const arHtml=renderLectureMarkdown(String(l.content_ar||''),true);
@@ -662,7 +680,7 @@ function renderLectureContentWithIllustration(l){
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
  const slides=buildLectureSlides(lectureHtml);
  pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+lectureAudioPanel('ar',l.content_ar)+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>Self-assessment</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
- window.currentLectureAudio={en:lectureAudioText(l.content_en),ar:lectureAudioText(l.content_ar)};initLectureDeck();initLectureAudio();}
+ bindAcademyImageFallbacks(document.getElementById('app')||document);window.currentLectureAudio={en:lectureAudioText(l.content_en),ar:lectureAudioText(l.content_ar)};initLectureDeck();initLectureAudio();}
 const OFFLINE_COMPLETION_KEY='alhakim_offline_lesson_completions_v1';
 function getOfflineCompletions(){try{return JSON.parse(localStorage.getItem(OFFLINE_COMPLETION_KEY)||'[]')}catch(_){return []}}
 function saveOfflineCompletion(id){const rows=getOfflineCompletions();if(!rows.some(x=>String(x.lesson_id)===String(id)))rows.push({lesson_id:String(id),queued_at:new Date().toISOString()});localStorage.setItem(OFFLINE_COMPLETION_KEY,JSON.stringify(rows))}
