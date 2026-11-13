@@ -162,23 +162,34 @@ async function loadContent(){
  try{
   // Departments are the essential payload. Load them independently so a failure
   // in topics or lessons can never force the entire academy back to stale local data.
-  const d=await rest('departments','select=*&order=display_order.asc,code.asc');
+  // Fetch every page: PostgREST may cap a normal REST response at 1,000 rows.
+  // A truncated response must never replace the complete offline curriculum.
+  const results=await Promise.allSettled([
+   restAll('departments','select=*&order=display_order.asc,code.asc'),
+   restAll('topics','select=*&order=display_order.asc'),
+   restAll('lessons','select=*&order=display_order.asc')
+  ]);
+  const d=results[0].status==='fulfilled'?results[0].value:[];
+  if(results[0].status!=='fulfilled')throw Error(results[0].reason?.message||'تعذر تحميل الأقسام');
   if(!Array.isArray(d)||!d.length)throw Error('لم تصل بيانات الأقسام المنشورة من قاعدة البيانات.');
   let t=[],l=[];
-  const results=await Promise.allSettled([
-   rest('topics','select=*&order=display_order.asc'),
-   rest('lessons','select=*&order=display_order.asc')
-  ]);
-  if(results[0].status==='fulfilled'&&Array.isArray(results[0].value))t=results[0].value;
-  else topicError=results[0].reason?.message||'تعذر تحميل الموضوعات';
-  if(results[1].status==='fulfilled'&&Array.isArray(results[1].value))l=results[1].value;
-  else lessonError=results[1].reason?.message||'تعذر تحميل المحاضرات';
+  if(results[1].status==='fulfilled'&&Array.isArray(results[1].value))t=results[1].value;
+  else topicError=results[1].reason?.message||'تعذر تحميل الموضوعات';
+  if(results[2].status==='fulfilled'&&Array.isArray(results[2].value))l=results[2].value;
+  else lessonError=results[2].reason?.message||'تعذر تحميل المحاضرات';
   // Never replace a valid offline snapshot with a partial cloud response.
   if(topicError||lessonError||!t.length||!l.length)throw Error([topicError,lessonError].filter(Boolean).join(' · ')||'المنهج السحابي وصل بصورة غير مكتملة؛ تم الاحتفاظ بالنسخة المحلية السابقة.');
   const cloud=normalizeCloud(d,t,l);
   // Replace the cached snapshot with the complete current Supabase response; do not retain deleted or obsolete local lessons.
   DB=cloud;
   dataSource='supabase';
+  // Persist the complete lesson text immediately, before optional reference requests.
+  // If connectivity drops while references are loading, the lectures are already offline.
+  try{
+   await saveOfflineCurriculum(DB);
+   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}
+   catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}
+  }catch(e){console.warn('Could not save initial offline curriculum snapshot:',e)}
   const [r,lr]=await Promise.all([
    optionalTable('references','select=*&order=publication_year.desc'),
    optionalTable('lesson_references','select=lesson_id,reference_id')
@@ -193,8 +204,10 @@ async function loadContent(){
    }
   }
   try{await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}}catch(e){console.warn('Could not save IndexedDB curriculum cache:',e);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
-  if(navigator.onLine)setTimeout(()=>refreshOfflineQuestionBanks(),1500);
-  if(navigator.onLine)setTimeout(()=>cacheWikimediaLessonImages(),4500);
+  if(navigator.onLine){
+   setTimeout(()=>refreshOfflineQuestionBanks(),1500);
+   setTimeout(()=>cacheWikimediaLessonImages(),4500);
+  }
  }catch(e){
   cloudError=e.message||String(e);
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
