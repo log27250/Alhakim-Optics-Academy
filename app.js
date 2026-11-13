@@ -1270,7 +1270,7 @@ const ACADEMY_UI_TRANSLATIONS={
  'تثبيت التطبيق':'Install App','تثبيت الأكاديمية':'Install Academy',
  'بحث في الأكاديمية':'Search the academy','جارٍ التحميل':'Loading',
  'ماذا تريد أن تتعلم اليوم؟':'What would you like to learn today?',
- 'منصة تعليمية متخصصة لعلوم البصريات، تجمع المنهج العلمي والدروس والاختبارات والتدريب السريري في مساحة واحدة.':'A specialized optometry learning platform bringing together scientific curricula, lessons, assessments, and clinical training.'
+ 'منصة تعليمية متخصصة لعلوم البصريات، تجمع المنهج العلمي والدروس والاختبارات والتدريب السريري في مساحة واحدة.':'A specialized optometry learning platform bringing together scientific curricula, lessons, assessments, and clinical training.',
  'منشور':'Published','مسودة للمراجعة العلمية':'Pending Scientific Review',
  'الامتحان النهائي للقسم':'Department Final Exam',
  'ابدأ الامتحان':'Start Exam','درجة النجاح':'Passing Score',
