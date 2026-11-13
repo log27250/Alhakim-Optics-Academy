@@ -372,3 +372,13 @@ body.academy-language-en .portal-founder{text-align:left}
 body.academy-language-en .portal-language{direction:ltr}
 .portal-language button.active{background:#fff;color:#092b55;border-color:#e2c36e;font-weight:800}
 html[dir="ltr"] .topbar{direction:ltr}
+
+/* Persistent language control in the academy header */
+.header-language{display:inline-flex;align-items:center;gap:3px;padding:3px;border:1px solid #d5e1ef;border-radius:10px;background:#fff;white-space:nowrap}
+.header-language button{border:0;border-radius:7px;padding:6px 8px;background:transparent;color:#244365;font:inherit;font-size:12px;font-weight:800;cursor:pointer}
+.header-language button.active{background:#0b3769;color:#fff}
+html[dir="ltr"] .topbar{direction:ltr}
+html[dir="ltr"] .main{text-align:left}
+html[dir="ltr"] .section-heading,html[dir="ltr"] .search-panel,html[dir="ltr"] .hero-copy{text-align:left}
+html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
+@media(max-width:600px){.header-language button{padding:5px 6px;font-size:11px}.header-language{order:4}}
