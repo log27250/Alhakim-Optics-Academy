@@ -73,39 +73,53 @@ async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(o
 function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')+'-'+value.length.toString(16)}
 async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
 async function cacheWikimediaLessonImages(){
- if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons))return;
- const urls=new Set(),allowedHosts=new Set(['commons.wikimedia.org','upload.wikimedia.org']);
+ // Cache every lesson illustration, not Wikimedia alone. Opaque cross-origin
+ // image responses are cacheable and remain available through the local alias.
+ if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)return;
+ const urls=new Set();
+ const add=(raw)=>{
+  const value=String(raw||'').trim();
+  if(!value||value.startsWith('data:')||value.startsWith('blob:'))return;
+  try{const u=new URL(value,location.href);if(/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}
+ };
  for(const lesson of DB.lessons){
+  if(!canViewLesson(lesson))continue;
   for(const raw of [lesson.content_en,lesson.content_ar]){
    if(!raw)continue;
    const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   const candidates=[...doc.querySelectorAll('img[src]')].map(img=>img.getAttribute('src'));
-   const markdown=source.matchAll(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g);
-   for(const match of markdown)candidates.push(match[1]);
-   for(const src of candidates){
-    try{const u=new URL(src,location.href);if(allowedHosts.has(u.hostname)&&/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}
-   }
+   doc.querySelectorAll('img[src],source[src],image[href],image[xlink\\:href]').forEach(node=>add(node.getAttribute('src')||node.getAttribute('href')||node.getAttribute('xlink:href')));
+   for(const match of source.matchAll(/!\\[[^\\]]*\\]\\(([^)\\s]+)(?:\\s+[^)]*)?\\)/g))add(match[1]);
   }
  }
  if(!urls.size)return;
  const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),records=[];
- for(const src of urls){
-  if(offlineMediaMap.has(src))continue;
-  try{
-   const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});
-   if(response.type!=='opaque'&&!response.ok)continue;
-   const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;
-   await cache.put(localUrl,response.clone());
-   const row={source_url:src,local_url:localUrl,cached_at:new Date().toISOString()};
-   records.push(row);offlineMediaMap.set(src,localUrl);
-  }catch(e){console.info('Open-license image remains online-only:',src,e.message)}
+ const list=[...urls];
+ for(let i=0;i<list.length;i+=6){
+  const batch=list.slice(i,i+6);
+  await Promise.allSettled(batch.map(async src=>{
+   if(offlineMediaMap.has(src))return;
+   try{
+    const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});
+    if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
+    const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;
+    await cache.put(localUrl,response.clone());
+    records.push({source_url:src,local_url:localUrl,cached_at:new Date().toISOString()});
+    offlineMediaMap.set(src,localUrl);
+   }catch(e){console.info('Lesson image could not be saved for offline use:',src,e.message)}
+  }));
  }
  if(records.length){
   await new Promise((resolve,reject)=>{
    const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');
-   records.forEach(x=>store.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);
+   records.forEach(x=>store.put(x));
+   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);
   });
-  console.info('Offline Wikimedia images cached:',records.length);
+  document.querySelectorAll('img.lesson-real-photo').forEach(img=>{
+   const key=img.currentSrc||img.getAttribute('src')||'';
+   const mapped=offlineMediaMap.get(key);
+   if(mapped)img.src=mapped;
+  });
+  console.info('All lesson illustrations cached for offline use:',records.length);
  }
  db.close();
 }
@@ -298,12 +312,14 @@ async function showDepartment(code){
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
 function academyImageSource(rawSrc){
  try{
-  const url=new URL(String(rawSrc||''),location.href);
+  const value=String(rawSrc||'').trim();
+  const url=new URL(value,location.href);
   const repoPrefix='/log27250/Alhakim-Optics-Academy/main/';
   if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
-   return new URL('./'+url.pathname.slice(repoPrefix.length)+url.search,location.href).href;
+   const local=new URL('./'+url.pathname.slice(repoPrefix.length)+url.search,location.href);
+   return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||local.href;
   }
-  return url.href;
+  return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||url.href;
  }catch(_){return ''}
 }
 function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(match,alt,src)=>{
