@@ -1206,3 +1206,88 @@ async function renderMyStudentPerformance(){
   <button class="secondary" onclick="showPage('accounts')">العودة إلى حسابي</button>`;
  }catch(e){const t=document.getElementById('myStudentStats');if(t)t.innerHTML='<div class="notice">تعذر تحميل بياناتك: '+esc(e.message||String(e))+'</div><button class="secondary" onclick="renderMyStudentPerformance()">إعادة المحاولة</button>'}
 }
+
+
+/* Persistent academy-wide language switch (Arabic/English). Scientific lesson
+   bodies are intentionally left in their authored bilingual form. */
+const ACADEMY_UI_TRANSLATIONS={
+ 'أكاديمية الحكيم لعلوم البصريات':'Alhakim Optics Academy',
+ 'بوابتك نحو التميز والاحتراف في علوم البصريات':'Your gateway to excellence in optometry',
+ 'منصة تعليمية إلكترونية متكاملة':'An integrated digital learning platform',
+ 'تعلّم .. تدرب .. اختبر معلوماتك .. وحقق أهدافك':'Learn · Practice · Test your knowledge · Achieve your goals',
+ 'تعلم بمرونة':'Flexible Learning',
+ 'محاضرات علمية منظمة في أي وقت ومن أي مكان':'Organized scientific lectures, anytime and anywhere',
+ 'اختبر معلوماتك':'Test Your Knowledge',
+ 'اختبارات تفاعلية وبنوك أسئلة للتدريب':'Interactive tests and question banks',
+ 'احصل على شهاداتك':'Earn Certificates',
+ 'تابع إنجازك وأكمل الدورات التعليمية':'Track your progress and complete courses',
+ '🎓 استكشف الأكاديمية ←':'🎓 Explore the Academy ←',
+ '♙ تسجيل الدخول / إنشاء حساب ←':'♙ Sign In / Create Account ←',
+ 'بإشراف وتأسيس':'Founded and supervised by',
+ 'بكالوريوس الشرف علوم البصريات — جامعة غرب كردفان':'BSc (Hons) Optometry — University of West Kordofan',
+ 'دعم فني':'Technical Support','ومساعدة مستمرة':'Ongoing assistance',
+ 'متوافق مع':'Compatible with','جميع الأجهزة':'All devices',
+ 'تعليم آمن':'Secure Learning','ومحتوى منظم':'Organized content',
+ 'مرجعاً علمياً':'Scientific references','موضوعاً علمياً':'Scientific topics',
+ 'معاً .. نصنع مستقبلاً أفضل في مجال البصريات':'Together, we build a better future in optometry',
+ 'العلم نور.. والبصريات رسالة إنسانية':'Knowledge is light · Optometry is a humanitarian mission',
+ 'تخطي شاشة الترحيب':'Skip Welcome Screen',
+ 'مرحباً بك في':'Welcome to',
+ 'منصة تعليمية متخصصة لعلوم البصريات، تجمع المنهج العلمي والدروس والاختبارات والتدريب السريري في مساحة واحدة.':'A specialized optometry learning platform bringing together scientific curricula, lessons, assessments, and clinical training.',
+ 'استكشف الأقسام العلمية ←':'Explore Departments ←',
+ 'الأقسام العلمية':'Academic Departments','المحاضرات':'Lectures',
+ 'جميع المحاضرات المنشورة في الأقسام العلمية.':'All published lectures across academic departments.',
+ 'اختر قسماً لاستعراض موضوعاته ومحاضراته.':'Choose a department to explore its topics and lectures.',
+ 'ابحث عن دورات، مصادر، أو طلب...':'Search courses, references, or requests...',
+ 'بحث':'Search','عرض الكل ←':'View All ←',
+ 'ماذا تريد أن تتعلم اليوم؟':'What would you like to learn today?',
+ 'ابدأ رحلتك التعليمية الآن ←':'Start Your Learning Journey ←',
+ 'الأكاديمية':'Academy','المقالات والبحوث':'Articles & Research',
+ 'الدورات المميزة':'Featured Courses','تفاصيل الدورة':'Course Details',
+ 'ابدأ رحلتك التعليمية الآن.':'Start your learning journey now.',
+ 'بنك الأسئلة':'Question Bank','اختر المحاضرة لعرض أسئلتها المنشورة من قاعدة البيانات.':'Choose a lecture to view its published questions.',
+ 'العودة إلى الأقسام':'Back to Departments','العودة إلى القسم':'Back to Department',
+ 'العودة للواجهة الرئيسية':'Back to Home','ابدأ أسئلة المحاضرة':'Start Lecture Quiz',
+ 'تسجيل الدخول':'Sign In','إنشاء حساب':'Create Account',
+ 'حسابي':'My Account','لوحة الطالب':'Student Dashboard',
+ 'الإشعارات':'Notifications','تم إكمال الدرس':'Lesson Completed',
+ 'لا توجد محاضلات مسجلة حالياً.':'No lectures are currently available.',
+ 'منشور':'Published','مسودة للمراجعة العلمية':'Pending Scientific Review',
+ 'الامتحان النهائي للقسم':'Department Final Exam',
+ 'ابدأ الامتحان':'Start Exam','درجة النجاح':'Passing Score',
+ 'تسليم الامتحان وتصحيح الإجابات':'Submit Exam & Grade Answers',
+ 'إلغاء والعودة للقسم':'Cancel and Return to Department',
+ 'مراجع المحاضرة':'Lecture References','المراجع':'References',
+ 'اللغة':'Language'
+};
+const ACADEMY_UI_REVERSE=Object.fromEntries(Object.entries(ACADEMY_UI_TRANSLATIONS).map(([a,b])=>[b,a]));
+let academyLanguage=localStorage.getItem('hakim_academy_language')==='en'?'en':'ar';
+function translateAcademyUi(root=document){
+ const dict=academyLanguage==='en'?ACADEMY_UI_TRANSLATIONS:ACADEMY_UI_REVERSE;
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(node){
+  if(!node.nodeValue||!node.nodeValue.trim())return NodeFilter.FILTER_REJECT;
+  const p=node.parentElement;if(!p||p.closest('.lecture-body,.lecture-audio-panel,script,style,textarea,code,pre,[data-no-translate]'))return NodeFilter.FILTER_REJECT;
+  return NodeFilter.FILTER_ACCEPT;
+ }});
+ const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+ nodes.forEach(n=>{const lead=n.nodeValue.match(/^\\s*/)?.[0]||'',tail=n.nodeValue.match(/\\s*$/)?.[0]||'',key=n.nodeValue.trim();if(dict[key])n.nodeValue=lead+dict[key]+tail});
+ root.querySelectorAll?.('[placeholder],[aria-label],[title]').forEach(el=>['placeholder','aria-label','title'].forEach(attr=>{const v=el.getAttribute(attr);if(v&&dict[v])el.setAttribute(attr,dict[v])}));
+}
+function setAcademyLanguage(lang){
+ academyLanguage=lang==='en'?'en':'ar';
+ localStorage.setItem('hakim_academy_language',academyLanguage);
+ document.documentElement.lang=academyLanguage;
+ document.documentElement.dir=academyLanguage==='ar'?'rtl':'ltr';
+ document.body.classList.toggle('academy-language-en',academyLanguage==='en');
+ const ar=document.getElementById('portalLangAr'),en=document.getElementById('portalLangEn');
+ if(ar)ar.classList.toggle('active',academyLanguage==='ar');
+ if(en)en.classList.toggle('active',academyLanguage==='en');
+ translateAcademyUi(document.body);
+}
+document.addEventListener('click',e=>{
+ if(e.target.closest('#portalLangAr')){e.preventDefault();setAcademyLanguage('ar')}
+ if(e.target.closest('#portalLangEn')){e.preventDefault();setAcademyLanguage('en')}
+});
+const academyLanguageObserver=new MutationObserver(records=>{if(academyLanguage!=='en')return;records.forEach(r=>{if(r.type==='childList')r.addedNodes.forEach(n=>{if(n.nodeType===Node.ELEMENT_NODE)translateAcademyUi(n);else if(n.nodeType===Node.TEXT_NODE){const dict=ACADEMY_UI_TRANSLATIONS,k=n.nodeValue.trim();if(dict[k])n.nodeValue=n.nodeValue.replace(k,dict[k])}});else if(r.type==='characterData'){const k=r.target.nodeValue.trim();if(ACADEMY_UI_TRANSLATIONS[k])r.target.nodeValue=r.target.nodeValue.replace(k,ACADEMY_UI_TRANSLATIONS[k])}})});
+academyLanguageObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
+setAcademyLanguage(academyLanguage);
