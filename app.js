@@ -1251,7 +1251,26 @@ const ACADEMY_UI_TRANSLATIONS={
  'تسجيل الدخول':'Sign In','إنشاء حساب':'Create Account',
  'حسابي':'My Account','لوحة الطالب':'Student Dashboard',
  'الإشعارات':'Notifications','تم إكمال الدرس':'Lesson Completed',
- 'لا توجد محاضلات مسجلة حالياً.':'No lectures are currently available.',
+ 'لا توجد محاضرات مسجلة حالياً.':'No lectures are currently available.',
+ 'الرئيسية':'Home','الرئيسية الأكاديمية':'Academy Home','المصادر العلمية':'Scientific References',
+ 'الامتحانات':'Examinations','الاختبارات':'Quizzes','تقدمك الدراسي':'Your Learning Progress',
+ 'الدورات':'Courses','طلباتي في الدورات':'My Course Requests','حالة طلبات الاشتراك.':'Course enrollment request status.',
+ 'العودة إلى حسابي':'Back to My Account','إعادة المحاولة':'Try Again','السابق':'Previous','التالي':'Next',
+ 'الطالب':'Student','تاريخ التسجيل':'Registration Date','الدروس المكتملة':'Completed Lessons',
+ 'محاولات الامتحان':'Exam Attempts','دقة الإجابات':'Answer Accuracy','آخر نشاط':'Last Activity',
+ 'لا توجد نتائج مطابقة.':'No matching results.','لا يوجد نشاط مسجل':'No activity recorded',
+ 'لم تسجل أي امتحانات مكتملة بعد.':'No completed exams have been recorded yet.',
+ 'ناجح':'Passed','لم يجتز':'Not Passed','النتيجة':'Result','الدرجة':'Score','التاريخ':'Date',
+ 'الأسئلة':'Questions','الصحيحة':'Correct','بحث عن طالب...':'Search for a student...',
+ 'البحث باسم الطالب أو البريد الإلكتروني':'Search by student name or email',
+ 'العودة إلى نافذة الإدارة':'Back to Administration','لوحة أداء الطلاب':'Student Performance Dashboard',
+ 'لوحة أدائي الدراسي':'My Learning Dashboard','سجل امتحاناتي':'My Exam History',
+ 'جارٍ تحميل بياناتك التعليمية…':'Loading your learning data…',
+ 'تعذر تحميل بياناتك: ':'Unable to load your data: ',
+ 'تثبيت التطبيق':'Install App','تثبيت الأكاديمية':'Install Academy',
+ 'بحث في الأكاديمية':'Search the academy','جارٍ التحميل':'Loading',
+ 'ماذا تريد أن تتعلم اليوم؟':'What would you like to learn today?',
+ 'منصة تعليمية متخصصة لعلوم البصريات، تجمع المنهج العلمي والدروس والاختبارات والتدريب السريري في مساحة واحدة.':'A specialized optometry learning platform bringing together scientific curricula, lessons, assessments, and clinical training.'
  'منشور':'Published','مسودة للمراجعة العلمية':'Pending Scientific Review',
  'الامتحان النهائي للقسم':'Department Final Exam',
  'ابدأ الامتحان':'Start Exam','درجة النجاح':'Passing Score',
@@ -1279,12 +1298,15 @@ function setAcademyLanguage(lang){
  document.documentElement.lang=academyLanguage;
  document.documentElement.dir=academyLanguage==='ar'?'rtl':'ltr';
  document.body.classList.toggle('academy-language-en',academyLanguage==='en');
+ document.querySelectorAll('[data-academy-language]').forEach(btn=>btn.classList.toggle('active',btn.dataset.academyLanguage===academyLanguage));
  const ar=document.getElementById('portalLangAr'),en=document.getElementById('portalLangEn');
  if(ar)ar.classList.toggle('active',academyLanguage==='ar');
  if(en)en.classList.toggle('active',academyLanguage==='en');
  translateAcademyUi(document.body);
 }
 document.addEventListener('click',e=>{
+ const languageButton=e.target.closest('[data-academy-language]');
+ if(languageButton){e.preventDefault();setAcademyLanguage(languageButton.dataset.academyLanguage)}
  if(e.target.closest('#portalLangAr')){e.preventDefault();setAcademyLanguage('ar')}
  if(e.target.closest('#portalLangEn')){e.preventDefault();setAcademyLanguage('en')}
 });
