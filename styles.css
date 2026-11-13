@@ -359,3 +359,16 @@ body.portal-gate-open{overflow:hidden!important}
  #welcomeOverlay .portal-main{min-height:auto}
  #welcomeOverlay .portal-footer{padding-bottom:max(14px,env(safe-area-inset-bottom))}
 }
+
+
+/* Bilingual portal direction and language control states */
+body.academy-language-en .portal-shell{direction:ltr}
+body.academy-language-en .portal-header,
+body.academy-language-en .portal-main,
+body.academy-language-en .portal-stats,
+body.academy-language-en .portal-footer{direction:ltr}
+body.academy-language-en .portal-content{text-align:left}
+body.academy-language-en .portal-founder{text-align:left}
+body.academy-language-en .portal-language{direction:ltr}
+.portal-language button.active{background:#fff;color:#092b55;border-color:#e2c36e;font-weight:800}
+html[dir="ltr"] .topbar{direction:ltr}
