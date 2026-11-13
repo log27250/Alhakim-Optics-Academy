@@ -73,74 +73,40 @@ async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(o
 function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')+'-'+value.length.toString(16)}
 async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
 async function cacheWikimediaLessonImages(){
- // Cache every lesson illustration, not Wikimedia alone. Opaque cross-origin
- // image responses are cacheable and remain available through the local alias.
- if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)return;
- const urls=new Set();
- const add=(raw)=>{
-  const value=String(raw||'').trim();
-  if(!value||value.startsWith('data:')||value.startsWith('blob:'))return;
-  try{const u=new URL(value,location.href);if(/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}
- };
- for(const lesson of DB.lessons){
-  if(!canViewLesson(lesson))continue;
-  for(const raw of [lesson.content_en,lesson.content_ar]){
-   if(!raw)continue;
-   const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('img[src],source[src],image[href],image').forEach(node=>add(node.getAttribute('src')||node.getAttribute('href')||node.getAttribute('xlink:href')));
-   for(const match of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(match[1]);
+ if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)throw Error('لا يمكن حفظ الصور دون اتصال.');
+ const urls=new Set(),add=raw=>{const v=String(raw||'').trim().replace(/^['"]|['"]$/g,'');if(!v||/^(data:|blob:|#)/i.test(v))return;try{const u=new URL(v,location.href);if(/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}};
+ const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
+ for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
+  for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
+   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\\s+/)[0]))});
+   for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
+   for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- if(!urls.size)return;
- const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),records=[];
- const list=[...urls];
- for(let i=0;i<list.length;i+=6){
-  const batch=list.slice(i,i+6);
-  await Promise.allSettled(batch.map(async src=>{
-   if(offlineMediaMap.has(src))return;
-   try{
-    const response=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'force-cache'});
-    if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
-    const localUrl=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;
-    await cache.put(localUrl,response.clone());
-    records.push({source_url:src,local_url:localUrl,cached_at:new Date().toISOString()});
-    offlineMediaMap.set(src,localUrl);
-   }catch(e){console.info('Lesson image could not be saved for offline use:',src,e.message)}
-  }));
- }
- if(records.length){
-  await new Promise((resolve,reject)=>{
-   const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');
-   records.forEach(x=>store.put(x));
-   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);
-  });
-  document.querySelectorAll('img.lesson-real-photo').forEach(img=>{
-   const key=img.currentSrc||img.getAttribute('src')||'';
-   const mapped=offlineMediaMap.get(key);
-   if(mapped)img.src=mapped;
-  });
-  console.info('All lesson illustrations cached for offline use:',records.length);
- }
- db.close();
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),failed=[],list=[...urls];let cached=0;
+ for(let i=0;i<list.length;i+=5)await Promise.allSettled(list.slice(i,i+5).map(async src=>{try{const local=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;if(await cache.match(local)){offlineMediaMap.set(src,local);cached++;return}
+  let res;try{res=await fetch(src,{mode:'cors',credentials:'omit',cache:'reload'})}catch(_){res=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'reload'})}
+  if(res.type!=='opaque'&&!res.ok)throw Error('HTTP '+res.status);await cache.put(local,res.clone());offlineMediaMap.set(src,local);cached++;
+ }catch(e){failed.push({url:src,error:e.message})}}));
+ const records=[...offlineMediaMap].filter(([src,local])=>urls.has(src)).map(([source_url,local_url])=>({source_url,local_url,cached_at:new Date().toISOString()}));
+ await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),st=tx.objectStore('media_map');records.forEach(x=>st.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();
+ return {total:list.length,cached,failed};
 }
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
 async function restAll(table,query,chunkSize=1000){const rows=[];for(let offset=0;offset<100000;offset+=chunkSize){const response=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:{...authHeaders(),'Range-Unit':'items','Range':`${offset}-${offset+chunkSize-1}`}});if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${table}: ${response.status} ${body.message||body.details||''}`)}const page=await response.json();if(!Array.isArray(page))throw Error('Invalid response for '+table);rows.push(...page);if(page.length<chunkSize)break}return rows}
 async function refreshOfflineQuestionBanks(){
- if(!navigator.onLine||!Array.isArray(DB?.lessons)||!DB.lessons.length||!window.indexedDB)return;
- try{
-  const publishedIds=new Set(DB.lessons.filter(l=>!l.review_required&&String(l.status||'published')==='published').map(l=>String(l.id)));
-  const [questions,options]=await Promise.all([
-   restAll('questions','select=id,lesson_id,question_en,question_ar,difficulty&is_published=eq.true&order=created_at.asc,id.asc'),
-   restAll('question_options','select=id,question_id,option_en,option_ar,display_order&order=display_order.asc')
-  ]);
-  const optionMap=new Map();options.forEach(o=>{const k=String(o.question_id);if(!optionMap.has(k))optionMap.set(k,[]);optionMap.get(k).push({id:String(o.id),text:String(o.option_en||''),text_ar:String(o.option_ar||'')})});
-  const lessonMap=new Map();questions.forEach(q=>{const lessonId=String(q.lesson_id||'');if(!publishedIds.has(lessonId))return;if(!lessonMap.has(lessonId))lessonMap.set(lessonId,[]);lessonMap.get(lessonId).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',options:optionMap.get(String(q.id))||[]})});
-  const records=[...lessonMap].map(([lesson_id,qs])=>({lesson_id,questions:qs,synced_at:new Date().toISOString()}));
-  await saveOfflineQuestionBanks(records);
-  localStorage.setItem('alhakim_question_bank_sync',new Date().toISOString());
-  console.info('Offline practice banks synchronized:',records.length,'lessons');
- }catch(e){console.warn('Offline practice-bank synchronization failed:',e.message)}
+ if(!navigator.onLine||!Array.isArray(DB?.lessons)||!DB.lessons.length||!window.indexedDB)throw Error('لا يمكن مزامنة بنك الأسئلة دون اتصال أو دون محاضرات.');
+ const ids=new Set(DB.lessons.filter(l=>!l.review_required&&String(l.status||'published')==='published').map(l=>String(l.id)));
+ const [questions,options]=await Promise.all([
+  restAll('questions','select=id,lesson_id,question_en,question_ar,difficulty&is_published=eq.true&order=created_at.asc,id.asc'),
+  restAll('question_options','select=id,question_id,option_en,option_ar,display_order&order=display_order.asc')
+ ]);
+ const map=new Map();options.forEach(o=>{const k=String(o.question_id);if(!map.has(k))map.set(k,[]);map.get(k).push({id:String(o.id),text:String(o.option_en||''),text_ar:String(o.option_ar||'')})});
+ const byLesson=new Map();questions.forEach(q=>{const id=String(q.lesson_id||'');if(!ids.has(id))return;if(!byLesson.has(id))byLesson.set(id,[]);byLesson.get(id).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',options:map.get(String(q.id))||[]})});
+ const records=[...byLesson].map(([lesson_id,qs])=>({lesson_id,questions:qs,synced_at:new Date().toISOString()}));
+ await saveOfflineQuestionBanks(records);localStorage.setItem('alhakim_question_bank_sync',new Date().toISOString());
+ return {questions:questions.length,lessons:records.length};
 }
 
 function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||''))}
@@ -191,23 +157,24 @@ async function loadContent(){
    catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}
   }catch(e){console.warn('Could not save initial offline curriculum snapshot:',e)}
   const [r,lr]=await Promise.all([
-   optionalTable('references','select=*&order=publication_year.desc'),
-   optionalTable('lesson_references','select=lesson_id,reference_id')
+   restAll('references','select=*&order=publication_year.desc'),
+   restAll('lesson_references','select=lesson_id,reference_id')
   ]);
-  if(Array.isArray(r)){
-   const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url,file_path:x.file_path,file_name:x.file_name,file_size:x.file_size,access_license:x.access_license,pdf_updated_at:x.pdf_updated_at}));
-   DB.reference_catalog=refs;
-   if(Array.isArray(lr)){
-    const refsById=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
-    lr.forEach(x=>{const ref=refsById.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
-    DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
-   }
-  }
-  try{await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}}catch(e){console.warn('Could not save IndexedDB curriculum cache:',e);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
-  if(navigator.onLine){
-   setTimeout(()=>refreshOfflineQuestionBanks(),1500);
-   setTimeout(()=>cacheWikimediaLessonImages(),4500);
-  }
+  const refs=r.map(x=>({id:x.id,title:x.title,authors:x.authors,publication_year:x.publication_year,publisher:x.publisher,url:x.url,file_path:x.file_path,file_name:x.file_name,file_size:x.file_size,access_license:x.access_license,pdf_updated_at:x.pdf_updated_at}));
+  DB.reference_catalog=refs;
+  const refMap=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
+  lr.forEach(x=>{const ref=refMap.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
+  DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
+  await saveOfflineCurriculum(DB);
+  try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB only.')}
+  const questionsSync=await refreshOfflineQuestionBanks();
+  const imagesSync=await cacheWikimediaLessonImages();
+  const report={complete:imagesSync.failed.length===0,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:refs.length,questions:questionsSync.questions,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,synced_at:new Date().toISOString()};
+  const odb=await openOfflineDB();
+  await new Promise((resolve,reject)=>{const tx=odb.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'full_sync',value:report,synced_at:report.synced_at});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});
+  odb.close();
+  if(!report.complete)throw Error('تم حفظ النصوص والأسئلة، لكن تعذر حفظ '+imagesSync.failed.length+' صورة. أعد الاتصال لإكمال المزامنة.');
+
  }catch(e){
   cloudError=e.message||String(e);
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
@@ -1121,7 +1088,7 @@ function setupPWAInstall(){
  button.addEventListener('click',async()=>{if(standalone()){hide();return}if(deferredInstallPrompt){deferredInstallPrompt.prompt();const choice=await deferredInstallPrompt.userChoice;if(choice?.outcome==='accepted')hide();deferredInstallPrompt=null;return}const ua=navigator.userAgent||'';if(/iphone|ipad|ipod/i.test(ua)){alert('لتثبيت الأكاديمية على iPhone أو iPad: اضغط زر المشاركة في Safari، ثم اختر إضافة إلى الشاشة الرئيسية ثم اضغط إضافة.')}else{alert('لتثبيت الأكاديمية: افتح قائمة المتصفح ⋮ ثم اختر تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية. إذا لم يظهر الخيار، افتح الرابط باستخدام Chrome وتأكد من اتصالك بالإنترنت.')}});
 }
 setupPWAInstall();
-window.addEventListener('online',()=>{connection();setTimeout(()=>refreshOfflineQuestionBanks(),1200);syncOfflineCompletions().catch(e=>console.warn('Offline progress sync deferred:',e.message))});
+window.addEventListener('online',()=>{connection();loadContent().catch(e=>console.warn('Full online resync deferred:',e.message));syncOfflineCompletions().catch(e=>console.warn('Offline progress sync deferred:',e.message))});
 window.addEventListener('offline',connection);
 syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',()=>{connection();syncOfflineCompletions()});window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){const close=()=>{overlay.classList.add('hidden');document.body.classList.remove('portal-gate-open')};overlay.classList.remove('hidden');document.body.classList.add('portal-gate-open');const startBtn=document.getElementById('welcomeStart'),loginBtn=document.getElementById('welcomeLogin'),skipBtn=document.getElementById('welcomeClose');if(startBtn)startBtn.onclick=close;if(skipBtn)skipBtn.onclick=close;if(loginBtn)loginBtn.onclick=()=>{close();showPage('accounts')}}
