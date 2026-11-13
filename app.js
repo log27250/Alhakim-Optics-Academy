@@ -655,15 +655,17 @@ function bindAcademyImageFallbacks(root=document){
 }
 function renderLectureContentWithIllustration(l){
  const enHtml=renderLectureMarkdown(String(l.content_en||''),false);
+ const arHtml=renderLectureMarkdown(String(l.content_ar||''),true);
  const enDoc=new DOMParser().parseFromString(enHtml,'text/html');
- const enBody=enDoc.querySelector('.lecture-body');
+ const arDoc=new DOMParser().parseFromString(arHtml,'text/html');
+ const enBody=enDoc.querySelector('.lecture-body'),arBody=arDoc.querySelector('.lecture-body');
  const doc=document.implementation.createHTMLDocument('');
  const body=doc.createElement('div');body.className='lecture-body lecture-bilingual';body.dir='ltr';body.lang='en';
- // The English lesson field already contains the intended paragraph-by-paragraph
- // format: English teaching point followed immediately by its Arabic explanation.
- // Do not append content_ar here: it is a separate full Arabic translation and
- // would turn the lecture into an English section followed by a second Arabic-only section.
  if(enBody)for(const node of [...enBody.childNodes])body.appendChild(doc.importNode(node,true));
+ if(arBody&&arBody.childNodes.length){
+  const heading=doc.createElement('h2');heading.className='lecture-h2';heading.dir='rtl';heading.lang='ar';heading.textContent='الشرح باللغة العربية';body.appendChild(heading);
+  for(const node of [...arBody.childNodes])body.appendChild(doc.importNode(node,true));
+ }
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
  // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
  body.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
