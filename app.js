@@ -87,8 +87,8 @@ async function cacheWikimediaLessonImages(){
   for(const raw of [lesson.content_en,lesson.content_ar]){
    if(!raw)continue;
    const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('img[src],source[src],image[href],image[xlink\\:href]').forEach(node=>add(node.getAttribute('src')||node.getAttribute('href')||node.getAttribute('xlink:href')));
-   for(const match of source.matchAll(/!\\[[^\\]]*\\]\\(([^)\\s]+)(?:\\s+[^)]*)?\\)/g))add(match[1]);
+   doc.querySelectorAll('img[src],source[src],image[href],image').forEach(node=>add(node.getAttribute('src')||node.getAttribute('href')||node.getAttribute('xlink:href')));
+   for(const match of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(match[1]);
   }
  }
  if(!urls.size)return;
