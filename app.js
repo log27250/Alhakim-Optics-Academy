@@ -407,7 +407,7 @@ function renderLectureMarkdown(raw,rtl=false){
  // Normalize every Markdown image before choosing the Markdown/HTML rendering path.
  // This guarantees that images embedded in mixed HTML/Markdown content become real
  // figure/img elements instead of being left as visible link-like Markdown text.
- original=original.replace(/!\\[([^\\]]*)\\]\\(([^)\\s]+)(?:\\s+"([^"]*)")?\\)/g,(_,alt,src,title)=>{
+ original=original.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,(_,alt,src,title)=>{
   const safe=academyImageSource(src);if(!safe)return '';
   return '<figure class="lesson-figure"><img src="'+esc(safe)+'" alt="'+esc(alt||title||'Educational illustration')+'"></figure>';
  });
