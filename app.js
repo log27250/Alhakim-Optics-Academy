@@ -404,6 +404,13 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  let original=String(raw||'').trim();
+ // Normalize every Markdown image before choosing the Markdown/HTML rendering path.
+ // This guarantees that images embedded in mixed HTML/Markdown content become real
+ // figure/img elements instead of being left as visible link-like Markdown text.
+ original=original.replace(/!\\[([^\\]]*)\\]\\(([^)\\s]+)(?:\\s+"([^"]*)")?\\)/g,(_,alt,src,title)=>{
+  const safe=academyImageSource(src);if(!safe)return '';
+  return '<figure class="lesson-figure"><img src="'+esc(safe)+'" alt="'+esc(alt||title||'Educational illustration')+'"></figure>';
+ });
  // Preserve the leading illustration as a figure node. Figures are extracted
  // before Markdown parsing, so mixed HTML/Markdown cannot swallow the image.
  original=original.replace(/<p\b[^>]*>\s*(<img\b[^>]*>)\s*<\/p>/gi,'<figure class="lesson-figure">$1</figure>');
