@@ -308,7 +308,7 @@ function academyImageSource(rawSrc){
   const url=new URL(value,document.baseURI),originalUrl=url.href;
   // Resolve Wikimedia Special:FilePath for the known ophthalmoscope photo to a stable upload URL.
   if(url.hostname==='commons.wikimedia.org'&&/Special:FilePath\/Oculus(?:%20|_)Ophthalmoscope\.JPG/i.test(url.pathname)){
-   const direct='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Oculus_Ophthalmoscope.JPG/780px-Oculus_Ophthalmoscope.JPG';
+   const direct='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Oculus_Ophthalmoscope.JPG/960px-Oculus_Ophthalmoscope.JPG';
    return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||direct;
   }
   if(url.protocol==='http:')url.protocol='https:';
@@ -359,7 +359,11 @@ function renderLectureHtml(raw,rtl=false){
    const cls=node.classList.contains('real-device-photo')?'real-device-photo':node.classList.contains('lesson-figure')?'lesson-figure':'lesson-figure';
    return '<figure class="'+cls+'">'+children+'</figure>';
   }
-  if(tag==='FIGCAPTION')return '<figcaption>'+children+'</figcaption>';
+  if(tag==='FIGCAPTION'){
+   // Keep attribution text readable without exposing raw Commons file URLs as visible link-like text.
+   const caption=[...node.childNodes].map(n=>n.nodeType===Node.TEXT_NODE?n.nodeValue||'':n.textContent||'').join('').replace(/(?:Source(?: and licence details)?|File):?\s*https?:\/\/commons\.wikimedia\.org\/[^\s]+/gi,'').replace(/\s{2,}/g,' ').trim();
+   return '<figcaption>'+esc(caption||node.textContent||'')+'</figcaption>';
+  }
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
   if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
@@ -710,6 +714,14 @@ function renderLectureContentWithIllustration(l){
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
  // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
  body.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
+ // The same Oculus direct-ophthalmoscope stock photo was copied into unrelated anatomy and indirect-ophthalmoscopy lessons.
+ if(!['DO-016-L01','EINS-001-L01'].includes(String(l.code||''))){
+  body.querySelectorAll('img[src]').forEach(img=>{
+   if(/Oculus_Ophthalmoscope\.JPG/i.test(img.getAttribute('src')||'')){
+    const figure=img.closest('figure');if(figure)figure.remove();else img.remove();
+   }
+  });
+ }
  // Remove duplicate copies of the exact same image within one lesson, keeping the first contextual occurrence.
  const seenLessonImages=new Set();
  body.querySelectorAll('img[src]').forEach(img=>{
