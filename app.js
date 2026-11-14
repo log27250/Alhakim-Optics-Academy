@@ -331,7 +331,10 @@ function renderLectureHtml(raw,rtl=false){
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
  const renderNode=node=>{
   if(node.nodeType===Node.TEXT_NODE){
-   const textValue=String(node.nodeValue||'').replace(/((?:Source(?: and licence details)?|File):?\s*)https?:\/\/commons\.wikimedia\.org\/wiki\/File:[^\s]+/gi,'$1Wikimedia Commons file page').replace(/\s{2,}/g,' ');
+   const textValue=String(node.nodeValue||'')
+    .replace(/((?:Source(?: and licence details)?|File):?\s*)https?:\/\/commons\.wikimedia\.org\/[^\s]+/gi,'$1Wikimedia Commons file page')
+    .replace(/https?:\/\/upload\.wikimedia\.org\/[^\s]+/gi,'')
+    .replace(/\s{2,}/g,' ');
    return esc(textValue);
   }
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
@@ -728,8 +731,19 @@ function renderLectureContentWithIllustration(l){
  // Remove duplicate copies of the exact same image within one lesson, keeping the first contextual occurrence.
  const seenLessonImages=new Set();
  body.querySelectorAll('img[src]').forEach(img=>{
-  const key=(img.getAttribute('src')||'').trim().replace(/[?#].*$/,'');
-  if(!key)return;
+  const raw=(img.getAttribute('src')||'').trim();
+  if(!raw)return;
+  let key=raw.replace(/[?#].*$/,'');
+  try{
+   const u=new URL(key,location.href);
+   if(/(?:commons\.wikimedia\.org|upload\.wikimedia\.org)$/i.test(u.hostname)){
+    const decoded=decodeURIComponent(u.pathname);
+    const fileMatch=decoded.match(/(?:File:|Special:FilePath\/|\/thumb\/[^/]+\/[^/]+\/)([^/]+?)(?:\/\d+px-[^/]+)?$/i);
+    if(fileMatch)key='commons-file:'+fileMatch[1].toLowerCase();
+   }else if(u.hostname==='raw.githubusercontent.com'){
+    key=u.pathname.toLowerCase();
+   }
+  }catch(_){}
   if(seenLessonImages.has(key)){
    const figure=img.closest('figure');
    if(figure)figure.remove();else img.remove();
