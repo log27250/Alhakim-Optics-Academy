@@ -331,10 +331,19 @@ function renderLectureHtml(raw,rtl=false){
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
  const renderNode=node=>{
   if(node.nodeType===Node.TEXT_NODE){
-   const textValue=String(node.nodeValue||'')
-    .replace(/((?:Source(?: and licence details)?|File):?\s*)https?:\/\/commons\.wikimedia\.org\/[^\s]+/gi,'$1Wikimedia Commons file page')
-    .replace(/https?:\/\/upload\.wikimedia\.org\/[^\s]+/gi,'')
-    .replace(/\s{2,}/g,' ');
+   const textValue=String(node.nodeValue||'').replace(/\\s{2,}/g,' ');
+   if(node.parentElement?.tagName==='BODY'&&/[\\r\\n]/.test(textValue)){
+    return textValue.split(/\\r?\\n/).map(line=>{
+     const value=line.trim();if(!value)return '';
+     let m;
+     if((m=value.match(/^(#{1,4})\\s+(.+)$/))){const tag='h'+Math.min(m[1].length+1,4);return '<'+tag+' class="lecture-h2">'+esc(m[2])+'</'+tag+'>'}
+     if((m=value.match(/^[-*]\\s+(.+)$/)))return '<ul><li>'+esc(m[1])+'</li></ul>';
+     if((m=value.match(/^\\d+[.)]\\s+(.+)$/)))return '<ol><li>'+esc(m[1])+'</li></ol>';
+     if((m=value.match(/^>\\s*(.+)$/)))return '<blockquote>'+esc(m[1])+'</blockquote>';
+     if(/^---+$/.test(value))return '<hr>';
+     return '<p>'+esc(value)+'</p>';
+    }).join('');
+   }
    return esc(textValue);
   }
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
