@@ -306,6 +306,11 @@ function academyImageSource(rawSrc){
    return offlineMediaMap.get(value)||new URL(path,document.baseURI).href;
   }
   const url=new URL(value,document.baseURI),originalUrl=url.href;
+  // Resolve Wikimedia Special:FilePath for the known ophthalmoscope photo to a stable upload URL.
+  if(url.hostname==='commons.wikimedia.org'&&/Special:FilePath\/Oculus(?:%20|_)Ophthalmoscope\.JPG/i.test(url.pathname)){
+   const direct='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Oculus_Ophthalmoscope.JPG/780px-Oculus_Ophthalmoscope.JPG';
+   return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||direct;
+  }
   if(url.protocol==='http:')url.protocol='https:';
   if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
    const path=url.pathname.slice(repoPrefix.length);
@@ -705,6 +710,16 @@ function renderLectureContentWithIllustration(l){
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
  // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
  body.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
+ // Remove duplicate copies of the exact same image within one lesson, keeping the first contextual occurrence.
+ const seenLessonImages=new Set();
+ body.querySelectorAll('img[src]').forEach(img=>{
+  const key=(img.getAttribute('src')||'').trim().replace(/[?#].*$/,'');
+  if(!key)return;
+  if(seenLessonImages.has(key)){
+   const figure=img.closest('figure');
+   if(figure)figure.remove();else img.remove();
+  }else seenLessonImages.add(key);
+ });
  // Place contextual diagrams only after the corresponding explanatory text.
  for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
  return body.outerHTML;
