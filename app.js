@@ -330,7 +330,10 @@ function renderLectureHtml(raw,rtl=false){
  const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG','SVG','G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN']);
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
  const renderNode=node=>{
-  if(node.nodeType===Node.TEXT_NODE)return esc(node.nodeValue||'');
+  if(node.nodeType===Node.TEXT_NODE){
+   const textValue=String(node.nodeValue||'').replace(/((?:Source(?: and licence details)?|File):?\s*)https?:\/\/commons\.wikimedia\.org\/wiki\/File:[^\s]+/gi,'$1Wikimedia Commons file page').replace(/\s{2,}/g,' ');
+   return esc(textValue);
+  }
   if(node.nodeType!==Node.ELEMENT_NODE)return '';
   const tag=node.tagName;
   if(tag==='IMG'){
