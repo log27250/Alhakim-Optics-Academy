@@ -382,3 +382,18 @@ html[dir="ltr"] .main{text-align:left}
 html[dir="ltr"] .section-heading,html[dir="ltr"] .search-panel,html[dir="ltr"] .hero-copy{text-align:left}
 html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
 @media(max-width:600px){.header-language button{padding:5px 6px;font-size:11px}.header-language{order:4}}
+
+
+/* 2026-11-14: replace lecture cards with a compact, numbered, clickable list in every department */
+.lesson-ordered-list{list-style:none;counter-reset:none;margin:16px 0;padding:0;display:flex;flex-direction:column;gap:0;border-top:1px solid #e4eaf2}
+.lesson-list-item{margin:0;padding:0;border-bottom:1px solid #e4eaf2}
+.lesson-row{width:100%;min-height:58px;display:flex;align-items:center;gap:13px;padding:11px 8px;border:0;border-radius:0;background:transparent;color:#12345a;text-align:left;cursor:pointer;font:inherit;transition:background .16s ease}
+.lesson-row:hover,.lesson-row:focus-visible{background:#f2f7fc;outline:2px solid #b9d2ee;outline-offset:-2px}
+.lesson-row-number{flex:0 0 30px;width:30px;height:30px;display:grid;place-items:center;border-radius:7px;background:#edf3f9;color:#123c61;font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}
+.lesson-row-title{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+.lesson-row-title b{font-size:15px;line-height:1.45;color:#123c61;font-weight:700}
+.lesson-row-title small{font-size:12px;color:#77869a}
+.lesson-row-status{font-size:11px;color:#8794a4;white-space:nowrap}
+.lesson-row-arrow{font-size:18px;color:#2b6da6;padding:0 5px}
+.empty-lessons{padding:16px 8px;color:#718096}
+@media(max-width:600px){.lesson-row{min-height:56px;padding:10px 5px;gap:9px}.lesson-row-title b{font-size:14px}.lesson-row-status{font-size:10px}}
