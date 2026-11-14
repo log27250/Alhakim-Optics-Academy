@@ -366,6 +366,12 @@ function renderLectureHtml(raw,rtl=false){
   }
   const children=[...node.childNodes].map(renderNode).join('');
   if(!allowed.has(tag))return children;
+  // A paragraph containing only an image is a figure, so slide pagination
+  // keeps it attached to the preceding explanatory paragraph.
+  if(tag==='P'&&node.querySelector('img')&&!String(node.textContent||'').trim()){
+   const imageNodes=[...node.querySelectorAll('img')].map(img=>renderNode(img)).join('');
+   return imageNodes?'<figure class="lesson-figure">'+imageNodes+'</figure>':'';
+  }
   const textContent=node.textContent||'';
   const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
   const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
@@ -385,7 +391,15 @@ function renderLectureHtml(raw,rtl=false){
   if(tag==='BR'||tag==='HR')return '<'+tag.toLowerCase()+'>';
   return '<'+tag.toLowerCase()+(['P','LI','TH','TD','BLOCKQUOTE'].includes(tag)?attrs.join(''):'')+'>'+children+'</'+tag.toLowerCase()+'>';
  };
- return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+[...doc.body.childNodes].map(renderNode).join('')+'</div>';
+ const rendered=[...doc.body.childNodes].map(node=>{
+  // Markdown images and standalone HTML images become figure blocks.
+  // This prevents a slide break from separating an illustration from its context.
+  if(node.nodeType===Node.ELEMENT_NODE&&node.tagName==='IMG'){
+   const image=renderNode(node);return image?'<figure class="lesson-figure">'+image+'</figure>':'';
+  }
+  return renderNode(node);
+ }).join('');
+ return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+rendered+'</div>';
 }
 function renderLectureMarkdown(raw,rtl=false){
  let original=String(raw||'').trim();
