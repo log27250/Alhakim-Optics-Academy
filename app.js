@@ -431,7 +431,7 @@ function renderLectureMarkdown(raw,rtl=false){
  const flushTable=()=>{if(!table.length)return;out+='<div class="lecture-table-wrap"><table class="lecture-table">';table.forEach((row,i)=>{const cells=row.split('|').slice(1,-1).map(x=>x.trim());if(cells.every(x=>/^:?-{3,}:?$/.test(x)))return;out+=i===0?'<thead><tr>':'<tbody><tr>';cells.forEach(cell=>out+=i===0?'<th'+attrs(cell)+'>'+inlineFormat(cell)+'</th>':'<td'+attrs(cell)+'>'+inlineFormat(cell)+'</td>');out+='</tr>'+(i===0?'</thead>':'')});out+='</tbody></table></div>';table=[]};
  for(const rawLine of lines){const line=rawLine.trim();if(!line){closeList();flushTable();continue}let m;
  // Render a standalone Markdown image as a real figure element, never as a text/link block.
- if((m=line.match(/^!\\[([^\\]]*)\\]\\(([^)\\s]+)\\)$/))){closeList();const image=inlineFormat(line);if(image.includes('<img '))out+='<figure class=\"lesson-figure\">'+image+'</figure>';continue}
+ if((m=line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/))){closeList();const image=inlineFormat(line);if(image.includes('<img '))out+='<figure class=\"lesson-figure\">'+image+'</figure>';continue}
  if(line.startsWith('|')&&line.endsWith('|')){closeList();table.push(line);continue}else flushTable();
  if((m=line.match(/^(#{1,4})\s+(.+)$/))){closeList();const n=m[1].length;out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
  if(/^---+$/.test(line)){closeList();out+='<hr>';continue}
