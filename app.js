@@ -211,7 +211,7 @@ async function loadHomepageSettings(){
  catch(e){console.info('Homepage settings unavailable; using defaults:',e.message)}
  try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
 }
-function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="lazy" onerror="this.style.display=\'none\'">':''}
+function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="eager" onerror="this.style.display=\'none\'">':''}
 function founderImage(url,name){return url?homeImage(url,name,'founder-photo'):'<div class="founder-photo founder-photo-placeholder" role="img" aria-label="صورة المؤسس غير مضافة بعد"><span>د. ل</span></div>'}
 function renderHome(){
  document.body.classList.add('home-screen');
@@ -605,7 +605,7 @@ function lectureIllustration(l){
  const dept=String(l?.department_code||'').toUpperCase();
  const item=specific[String(l?.code||'').toUpperCase()]||specific[String(l?.id||'')]||map[dept]||(['EINS'].includes(dept)?['./assets/clinical-optometry/slit-lamp-biomicroscope.svg','Ophthalmic instruments and examination']:['./assets/clinical-optometry/co-comprehensive-exam-pathway.svg','Clinical optometry assessment pathway']);
  if(!item)return '';
- return '<figure class="lecture-illustration" style="margin:24px auto;max-width:900px;text-align:center"><img src="'+item[0]+'" alt="'+esc(item[1])+'" loading="lazy" style="display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #d5e1ea;border-radius:16px;background:#f7fafc" onerror="this.closest(\'figure\').hidden=true"><figcaption style="margin-top:8px;color:var(--muted,#587080);font-size:.92rem">'+esc(item[1])+' · HAKIM OPTICS ACADEMY</figcaption></figure>';
+ return '<figure class="lecture-illustration" style="margin:24px auto;max-width:900px;text-align:center"><img class="lesson-real-photo" src="'+esc(academyImageSource(item[0]))+'" alt="'+esc(item[1])+'" loading="eager" style="display:block;width:100%;height:auto;max-height:520px;object-fit:contain;border:1px solid #d5e1ea;border-radius:16px;background:#f7fafc" onerror="this.closest(\'figure\').hidden=true"><figcaption style="margin-top:8px;color:var(--muted,#587080);font-size:.92rem">'+esc(item[1])+' · HAKIM OPTICS ACADEMY</figcaption></figure>';
 }
 function focusedDeviceGallery(l){
  const galleries={
@@ -618,17 +618,17 @@ function focusedDeviceGallery(l){
  };
  const rows=galleries[String(l?.department_code||'').toUpperCase()];
  if(!rows)return '';
- return '<section class="focused-device-gallery" style="margin:24px 0"><h2>Clinical Instruments and Assessment — الأجهزة ووسائل الفحص</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px">'+rows.map(x=>'<figure style="margin:0;padding:10px;border:1px solid #d5e1ea;border-radius:14px;background:#fff"><img loading="lazy" src="./assets/'+x[0].replace(/^\.\.\//,'')+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;display:block" onerror="this.closest(\'figure\').hidden=true"><figcaption style="text-align:center;font-weight:600;margin-top:6px">'+esc(x[1])+'</figcaption></figure>').join('')+'</div></section>';
+ return '<section class="focused-device-gallery" style="margin:24px 0"><h2>Clinical Instruments and Assessment — الأجهزة ووسائل الفحص</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px">'+rows.map(x=>'<figure style="margin:0;padding:10px;border:1px solid #d5e1ea;border-radius:14px;background:#fff"><img loading="eager" src="./assets/'+x[0].replace(/^\.\.\//,'')+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;display:block" onerror="this.closest(\'figure\').hidden=true"><figcaption style="text-align:center;font-weight:600;margin-top:6px">'+esc(x[1])+'</figcaption></figure>').join('')+'</div></section>';
 }
 function clinicalDeviceGallery(){
  const items=[
   ['slit-lamp.svg','Slit-lamp biomicroscope'],['retinoscope.svg','Streak retinoscope'],['autorefractor.svg','Autorefractor'],['phoropter.svg','Phoropter'],['keratometer.svg','Keratometer'],['corneal-topographer.svg','Corneal topographer'],['lensmeter.svg','Lensmeter / focimeter'],['direct-ophthalmoscope.svg','Direct ophthalmoscope'],['tonometer.svg','Applanation tonometer'],['oct.svg','Optical coherence tomography'],['visual-field-analyser.svg','Automated perimeter'],['trial-frame.svg','Trial frame and lens set']
  ];
- return '<section class="clinical-device-gallery"><h2>Clinical Instruments — الأجهزة السريرية</h2><p>Original educational schematics. Instrument design and controls vary by manufacturer.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">'+items.map(x=>'<figure style="margin:0;padding:10px;border:1px solid #d5e1ea;border-radius:14px;background:#fff"><img loading="lazy" src="./assets/clinical-optometry/'+x[0]+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;display:block" onerror="this.closest(\'figure\').hidden=true"><figcaption style="text-align:center;font-weight:600;margin-top:6px">'+esc(x[1])+'</figcaption></figure>').join('')+'</div></section>';
+ return '<section class="clinical-device-gallery"><h2>Clinical Instruments — الأجهزة السريرية</h2><p>Original educational schematics. Instrument design and controls vary by manufacturer.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">'+items.map(x=>'<figure style="margin:0;padding:10px;border:1px solid #d5e1ea;border-radius:14px;background:#fff"><img loading="eager" src="./assets/clinical-optometry/'+x[0]+'" alt="'+esc(x[1])+'" style="width:100%;height:auto;display:block" onerror="this.closest(\'figure\').hidden=true"><figcaption style="text-align:center;font-weight:600;margin-top:6px">'+esc(x[1])+'</figcaption></figure>').join('')+'</div></section>';
 }
 
 function lectureContextualFigure(src,alt){
- return '<figure class="lecture-illustration contextual-lecture-figure" style="margin:20px auto;max-width:860px;text-align:center"><img src="'+src+'" alt="'+esc(alt)+'" loading="lazy" style="display:block;width:100%;height:auto;max-height:460px;object-fit:contain;border:1px solid #d5e1ea;border-radius:14px;background:#f7fafc" onerror="this.closest(\'figure\').hidden=true"><figcaption style="margin-top:7px;color:var(--muted,#587080);font-size:.9rem">'+esc(alt)+' · HAKIM OPTICS ACADEMY</figcaption></figure>';
+ return '<figure class="lecture-illustration contextual-lecture-figure" style="margin:20px auto;max-width:860px;text-align:center"><img class="lesson-real-photo" src="'+esc(academyImageSource(src))+'" alt="'+esc(alt)+'" loading="eager" style="display:block;width:100%;height:auto;max-height:460px;object-fit:contain;border:1px solid #d5e1ea;border-radius:14px;background:#f7fafc" onerror="this.closest(\'figure\').hidden=true"><figcaption style="margin-top:7px;color:var(--muted,#587080);font-size:.9rem">'+esc(alt)+' · HAKIM OPTICS ACADEMY</figcaption></figure>';
 }
 function insertContextualFigure(body,pattern,src,alt){
  const walker=body.ownerDocument.createTreeWalker(body,NodeFilter.SHOW_TEXT);
@@ -652,7 +652,7 @@ function lectureContextualIllustrations(l){
 }
 
 function bindAcademyImageFallbacks(root=document){
- root.querySelectorAll('img.lesson-real-photo').forEach(img=>{
+ root.querySelectorAll('img[src]').forEach(img=>{
   if(img.dataset.academyFallbackBound)return;
   img.dataset.academyFallbackBound='1';
   let localUrl;
