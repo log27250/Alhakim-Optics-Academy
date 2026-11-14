@@ -726,12 +726,21 @@ function bindAcademyImageFallbacks(root=document){
   try{localUrl=new URL(img.getAttribute('src')||'',location.href)}catch(_){return}
   const appBase=new URL('./',location.href);
   if(localUrl.origin!==location.origin||!localUrl.pathname.startsWith(appBase.pathname))return;
+  const isOfflineMedia=localUrl.pathname.includes('/__offline_media__/');
+  // __offline_media__ URLs are Cache-API keys, NOT files in the GitHub repository.
+  // If a cache key is missing, recover its original public source URL from IndexedDB's map.
+  let originalSource='';
+  if(isOfflineMedia){
+   for(const [source,local] of offlineMediaMap){
+    try{if(new URL(local,location.href).href===localUrl.href){originalSource=source;break}}catch(_){}
+   }
+  }
   const relativePath=localUrl.pathname.slice(appBase.pathname.length).split('/').map(part=>encodeURIComponent(decodeURIComponent(part))).join('/');
-  const fallbackUrl='https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relativePath+localUrl.search;
+  const fallbackUrl=isOfflineMedia?originalSource:('https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relativePath+localUrl.search);
   img.addEventListener('error',()=>{
    if(img.dataset.academyFallbackTried){img.classList.add('lesson-image-unavailable');return}
    img.dataset.academyFallbackTried='1';
-   if(img.src!==fallbackUrl)img.src=fallbackUrl;
+   if(fallbackUrl&&img.src!==fallbackUrl)img.src=fallbackUrl;
    else img.classList.add('lesson-image-unavailable');
   });
  });
