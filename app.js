@@ -325,7 +325,7 @@ function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)
  return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="eager" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px">';
  }).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
- const source=String(raw||'').replace(/\\\\n/g,'\n').replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(_,alt,src)=>'<img src="'+esc(academyImageSource(src))+'" alt="'+esc(alt)+'">');
+ const source=String(raw||'').replace(/\\\\n/g,'\n').replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(_,alt,src)=>'<img src="'+esc(academyImageSource(src))+'" data-original-src="'+esc(src)+'" alt="'+esc(alt)+'">');
  const doc=new DOMParser().parseFromString(source,'text/html');
  const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG','SVG','G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN']);
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
@@ -350,14 +350,15 @@ function renderLectureHtml(raw,rtl=false){
   const tag=node.tagName;
   if(tag==='IMG'){
    const rawSrc=node.getAttribute('src')||'';
+   const originalSrc=node.getAttribute('data-original-src')||rawSrc;
    let parsed;
    try{parsed=new URL(academyImageSource(rawSrc),location.href)}catch(_){return ''}
    const appBasePath=new URL('./',location.href).pathname;
    const isOfflineMediaCache=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath+'__offline_media__/');
-    const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&(/\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname)||isOfflineMediaCache);
+   const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&(/\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname)||isOfflineMediaCache);
    if(parsed.protocol!=='https:'&&!sameOriginImage)return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
-   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="eager" decoding="async" referrerpolicy="no-referrer">';
+   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" data-original-src="'+esc(originalSrc)+'" alt="'+alt+'" loading="eager" decoding="async" referrerpolicy="no-referrer">';
   }
   if(tag==='SVG'||['G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN'].includes(tag)){
    if(!allowed.has(tag))return '';
@@ -409,7 +410,7 @@ function renderLectureMarkdown(raw,rtl=false){
  // figure/img elements instead of being left as visible link-like Markdown text.
  original=original.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g,(_,alt,src,title)=>{
   const safe=academyImageSource(src);if(!safe)return '';
-  return '<figure class="lesson-figure"><img src="'+esc(safe)+'" alt="'+esc(alt||title||'Educational illustration')+'"></figure>';
+  return '<figure class="lesson-figure"><img src="'+esc(safe)+'" data-original-src="'+esc(src)+'" alt="'+esc(alt||title||'Educational illustration')+'"></figure>';
  });
  // Preserve the leading illustration as a figure node. Figures are extracted
  // before Markdown parsing, so mixed HTML/Markdown cannot swallow the image.
@@ -722,27 +723,38 @@ function bindAcademyImageFallbacks(root=document){
  root.querySelectorAll('img[src]').forEach(img=>{
   if(img.dataset.academyFallbackBound)return;
   img.dataset.academyFallbackBound='1';
-  let localUrl;
-  try{localUrl=new URL(img.getAttribute('src')||'',location.href)}catch(_){return}
   const appBase=new URL('./',location.href);
-  if(localUrl.origin!==location.origin||!localUrl.pathname.startsWith(appBase.pathname))return;
-  const isOfflineMedia=localUrl.pathname.includes('/__offline_media__/');
-  // __offline_media__ URLs are Cache-API keys, NOT files in the GitHub repository.
-  // If a cache key is missing, recover its original public source URL from IndexedDB's map.
-  let originalSource='';
-  if(isOfflineMedia){
-   for(const [source,local] of offlineMediaMap){
-    try{if(new URL(local,location.href).href===localUrl.href){originalSource=source;break}}catch(_){}
+  const resolveFallback=()=>{
+   let original=img.getAttribute('data-original-src')||'';
+   if(!original){
+    try{
+     const current=new URL(img.getAttribute('src')||'',location.href);
+     if(current.pathname.includes('/__offline_media__/')){
+      for(const [source,local] of offlineMediaMap){
+       try{if(new URL(local,location.href).href===current.href){original=source;break}}catch(_){}
+      }
+     }else if(current.origin===location.origin&&current.pathname.startsWith(appBase.pathname)){
+      const relative=current.pathname.slice(appBase.pathname.length);
+      original='https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relative.split('/').map(x=>encodeURIComponent(decodeURIComponent(x))).join('/');
+     }
+    }catch(_){}
    }
-  }
-  const relativePath=localUrl.pathname.slice(appBase.pathname.length).split('/').map(part=>encodeURIComponent(decodeURIComponent(part))).join('/');
-  const fallbackUrl=isOfflineMedia?originalSource:('https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relativePath+localUrl.search);
-  img.addEventListener('error',()=>{
+   return original;
+  };
+  const fallback=()=>{
    if(img.dataset.academyFallbackTried){img.classList.add('lesson-image-unavailable');return}
    img.dataset.academyFallbackTried='1';
-   if(fallbackUrl&&img.src!==fallbackUrl)img.src=fallbackUrl;
-   else img.classList.add('lesson-image-unavailable');
-  });
+   const fallbackUrl=resolveFallback();
+   if(fallbackUrl){
+    const current=img.getAttribute('src')||'';
+    if(current!==fallbackUrl){img.src=fallbackUrl;return}
+   }
+   img.classList.add('lesson-image-unavailable');
+  };
+  img.addEventListener('error',fallback);
+  // Images can fail before this function binds the listener because the lesson
+  // HTML is inserted before the fallback pass. Handle already-failed images too.
+  if(img.complete&&img.naturalWidth===0)fallback();
  });
 }
 function renderLectureContentWithIllustration(l){
