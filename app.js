@@ -305,13 +305,14 @@ function academyImageSource(rawSrc){
    const path=value.replace(/^\.\//,'');
    return offlineMediaMap.get(value)||new URL(path,document.baseURI).href;
   }
-  const url=new URL(value,document.baseURI);
+  const url=new URL(value,document.baseURI),originalUrl=url.href;
+  if(url.protocol==='http:')url.protocol='https:';
   if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
    const path=url.pathname.slice(repoPrefix.length);
    const local=new URL(path,document.baseURI);
-   return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||local.href;
+   return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||offlineMediaMap.get(url.href)||local.href;
   }
-  return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||url.href;
+  return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||offlineMediaMap.get(url.href)||url.href;
  }catch(_){return ''}
 }
 function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(match,alt,src)=>{
