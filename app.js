@@ -331,7 +331,7 @@ function renderLectureHtml(raw,rtl=false){
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
  const renderNode=node=>{
   if(node.nodeType===Node.TEXT_NODE){
-   const textValue=String(node.nodeValue||'').replace(/\\s{2,}/g,' ');
+   const textValue=String(node.nodeValue||'').replace(/[ \\t]{2,}/g,' ');
    if(node.parentElement?.tagName==='BODY'&&/[\\r\\n]/.test(textValue)){
     return textValue.split(/\\r?\\n/).map(line=>{
      const value=line.trim();if(!value)return '';
