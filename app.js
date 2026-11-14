@@ -76,6 +76,8 @@ async function cacheWikimediaLessonImages(){
  if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)throw Error('لا يمكن حفظ الصور دون اتصال.');
  const urls=new Set(),add=raw=>{const v=String(raw||'').trim().replace(/^['"]|['"]$/g,'');if(!v||/^(data:|blob:|#)/i.test(v))return;try{const u=new URL(v,location.href);if(/^https?:$/.test(u.protocol))urls.add(u.href)}catch(_){}};
  const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
+ const home=HOME_SETTINGS||HOME_DEFAULTS;
+ [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
  for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
    doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\\s+/)[0]))});
@@ -94,6 +96,9 @@ async function cacheWikimediaLessonImages(){
 }
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
+async function readFullSyncReport(){try{const db=await openOfflineDB();const row=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('full_sync');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();return row?.value||null}catch(e){return null}}
+async function saveFullSyncReport(patch={}){const previous=await readFullSyncReport()||{};const value={...previous,...patch};const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'full_sync',value,synced_at:value.synced_at||new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();return value}
+async function refreshOfflineSyncBadge(){const box=document.getElementById('offlineSyncBadge');if(!box)return;const report=await readFullSyncReport();if(!document.getElementById('offlineSyncBadge'))return;const when=report?.synced_at?new Date(report.synced_at):null;const date=when&&!Number.isNaN(when.getTime())?when.toLocaleString('ar-EG',{dateStyle:'medium',timeStyle:'short'}):'لم تتم المزامنة بعد';const ok=report?.complete!==false;const images=Number(report?.images_cached||0);const total=Number(report?.images_total||0);box.innerHTML='<span class="offline-sync-dot">●</span><span><b>'+(navigator.onLine?'جاهزة للعمل دون اتصال':'وضع عدم الاتصال')+'</b><small>آخر تحديث تمت مزامنته: '+esc(date)+' · الصور المحفوظة: '+images+(total?' / '+total:'')+'</small></span><span class="offline-sync-state">'+(ok?'✓ محفوظ':'تحتاج المزامنة')+'</span>';box.setAttribute('aria-label','آخر تحديث تمت مزامنته '+date)}
 async function restAll(table,query,chunkSize=1000){const rows=[];for(let offset=0;offset<100000;offset+=chunkSize){const response=await authorizedFetch(`${SUPABASE_URL}/rest/v1/${table}?${query}`,{headers:{...authHeaders(),'Range-Unit':'items','Range':`${offset}-${offset+chunkSize-1}`}});if(!response.ok){const body=await response.json().catch(()=>({}));throw Error(`${table}: ${response.status} ${body.message||body.details||''}`)}const page=await response.json();if(!Array.isArray(page))throw Error('Invalid response for '+table);rows.push(...page);if(page.length<chunkSize)break}return rows}
 async function refreshOfflineQuestionBanks(){
  if(!navigator.onLine||!Array.isArray(DB?.lessons)||!DB.lessons.length||!window.indexedDB)throw Error('لا يمكن مزامنة بنك الأسئلة دون اتصال أو دون محاضرات.');
@@ -170,9 +175,8 @@ async function loadContent(){
   const questionsSync=await refreshOfflineQuestionBanks();
   const imagesSync=await cacheWikimediaLessonImages();
   const report={complete:imagesSync.failed.length===0,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:refs.length,questions:questionsSync.questions,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,synced_at:new Date().toISOString()};
-  const odb=await openOfflineDB();
-  await new Promise((resolve,reject)=>{const tx=odb.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'full_sync',value:report,synced_at:report.synced_at});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});
-  odb.close();
+  await saveFullSyncReport(report);
+  refreshOfflineSyncBadge();
   if(!report.complete)throw Error('تم حفظ النصوص والأسئلة، لكن تعذر حفظ '+imagesSync.failed.length+' صورة. أعد الاتصال لإكمال المزامنة.');
 
  }catch(e){
@@ -228,6 +232,7 @@ function renderHome(){
  main.innerHTML=`
  <div class="academy-home">
   <section class="home-top-search"><div class="home-search-title"><span>⌕</span><input id="globalSearch" placeholder="ابحث عن دورات، مصادر، أو طلب..." autocomplete="off"><button id="searchBtn" aria-label="بحث">⌕</button></div><div class="home-notices"><button aria-label="الإشعارات" title="الإشعارات">♧<i></i></button><button aria-label="حسابي" title="حسابي" onclick="showPage('accounts')">◉</button></div></section>
+  <section id="offlineSyncBadge" class="offline-sync-badge" aria-live="polite"><span>●</span><span><b>حالة النسخة دون اتصال</b><small>جارٍ قراءة آخر تحديث محفوظ…</small></span></section>
   <section class="home-identity-row">
    <div class="home-founder" ${s.show_founder===false?'hidden':''}>
     ${founderImage(s.founder_photo_url,s.founder_name)}
@@ -252,6 +257,7 @@ function renderHome(){
  if(globalButton)globalButton.onclick=()=>search(globalInput?.value,'searchResults');
  if(globalInput){globalInput.addEventListener('input',()=>search(globalInput.value,'searchResults'));globalInput.addEventListener('keydown',e=>{if(e.key==='Enter')search(globalInput.value,'searchResults')})}
  syncAdminNavigation();
+ refreshOfflineSyncBadge();
  window.scrollTo({top:0,behavior:'smooth'});
 }
 function deptCard(d,i){return `<article class="dept-card" onclick="showDepartment('${esc(d.code)}')"><div class="dept-num">DEPARTMENT ${String(i+1).padStart(2,'0')} · ${esc(d.code)}</div><h3>${esc(d.name_en)}</h3><p>${esc(d.name_ar)}</p><small>${(d.curriculum_topics||[]).length} موضوعاً في المنهج</small></article>`}
@@ -1108,7 +1114,7 @@ window.addEventListener('online',()=>{connection();loadContent().catch(e=>consol
 window.addEventListener('offline',connection);
 syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',()=>{connection();syncOfflineCompletions()});window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){const close=()=>{overlay.classList.add('hidden');document.body.classList.remove('portal-gate-open')};overlay.classList.remove('hidden');document.body.classList.add('portal-gate-open');const startBtn=document.getElementById('welcomeStart'),loginBtn=document.getElementById('welcomeLogin'),skipBtn=document.getElementById('welcomeClose');if(startBtn)startBtn.onclick=close;if(skipBtn)skipBtn.onclick=close;if(loginBtn)loginBtn.onclick=()=>{close();showPage('accounts')}}
-loadContent().then(async()=>{await loadHomepageSettings();applyWelcomePortalSettings();await loadProfile();if(isAdmin()){const gate=document.getElementById('welcomeOverlay');if(gate)gate.classList.add('hidden');document.body.classList.remove('portal-gate-open');renderAdmin()}else{renderHome()}await syncOfflineCompletions();const token=new URLSearchParams(location.search).get('verify');if(token&&!isAdmin())await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
+loadContent().then(async()=>{await loadHomepageSettings();applyWelcomePortalSettings();if(navigator.onLine){try{const homeImages=await cacheWikimediaLessonImages();const previous=await readFullSyncReport()||{};await saveFullSyncReport({...previous,complete:homeImages.failed.length===0&&(Number(previous.images_failed||0)===0),images_total:Math.max(Number(previous.images_total||0),homeImages.total),images_cached:homeImages.cached,images_failed:homeImages.failed.length,synced_at:new Date().toISOString()});}catch(e){console.warn('Homepage offline images sync deferred:',e.message)}}refreshOfflineSyncBadge();await loadProfile();if(isAdmin()){const gate=document.getElementById('welcomeOverlay');if(gate)gate.classList.add('hidden');document.body.classList.remove('portal-gate-open');renderAdmin()}else{renderHome()}await syncOfflineCompletions();const token=new URLSearchParams(location.search).get('verify');if(token&&!isAdmin())await verifyCertificate(token)}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.error));
 
 
