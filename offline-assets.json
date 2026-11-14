@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Local educational illustrations and image assets required for first-install offline use.",
-  "image_count": 677,
+  "image_count": 679,
   "images": [
     "./alhakim-logo.png",
     "./assets/anatomy-physiology/anp-001-illustration.svg",
@@ -679,6 +679,8 @@
     "./assets/anatomy-physiology/anp-004-eyelid-glands.svg",
     "./assets/anatomy-physiology/anp-004-external-landmarks.svg",
     "./assets/anatomy-physiology/anp-005-tear-film-components.svg",
-    "./assets/anatomy-physiology/anp-005-tear-drainage-pathway.svg"
+    "./assets/anatomy-physiology/anp-005-tear-drainage-pathway.svg",
+    "./assets/anatomy-physiology/anp-006-conjunctival-divisions.svg",
+    "./assets/anatomy-physiology/anp-006-conjunctival-histology.svg"
   ]
 }
