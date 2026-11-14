@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Local educational illustrations and image assets required for first-install offline use.",
-  "image_count": 688,
+  "image_count": 692,
   "images": [
     "./alhakim-logo.png",
     "./assets/anatomy-physiology/anp-001-illustration.svg",
@@ -690,6 +690,10 @@
     "./assets/anatomy-physiology/anp-009-angle-structures.svg",
     "./assets/anatomy-physiology/anp-009-aqueous-flow.svg",
     "./assets/anatomy-physiology/anp-010-iris-muscles.svg",
-    "./assets/anatomy-physiology/anp-010-autonomic-pathways.svg"
+    "./assets/anatomy-physiology/anp-010-autonomic-pathways.svg",
+    "./assets/anatomy-physiology/anp-011-ciliary-regions.svg",
+    "./assets/anatomy-physiology/anp-011-accommodation.svg",
+    "./assets/anatomy-physiology/anp-012-lens-anatomy.svg",
+    "./assets/anatomy-physiology/anp-012-lens-microscopic-layers.svg"
   ]
 }
