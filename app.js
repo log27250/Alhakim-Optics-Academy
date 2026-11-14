@@ -749,8 +749,13 @@ function renderLectureContentWithIllustration(l){
    if(figure)figure.remove();else img.remove();
   }else seenLessonImages.add(key);
  });
- // Place contextual diagrams only after the corresponding explanatory text.
- for(const [pattern,src,alt] of lectureContextualIllustrations(l))insertContextualFigure(body,pattern,src,alt);
+ // Place one copy of each contextual diagram after its matching explanatory paragraph.
+ const contextualSources=new Set();
+ for(const [pattern,src,alt] of lectureContextualIllustrations(l)){
+  const key=String(src||'').replace(/[?#].*$/,'').toLowerCase();
+  if(!key||contextualSources.has(key))continue;
+  if(insertContextualFigure(body,pattern,src,alt))contextualSources.add(key);
+ }
  return body.outerHTML;
 }
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
