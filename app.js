@@ -656,7 +656,15 @@ function lectureContextualIllustrations(l){
   'GEO-012-L01':'GEO-N-001','GEO-013-L01':'GEO-TIR-001',
   'GEO-014-L01':'GEO-REF-001','GEO-016-L01':'GEO-LENS-001',
   'ANP-007-L01':'ANP-COR-001','ANP-019-L01':'ANP-VP-001',
-  'BV-027-L01':'BV-ACC-001'
+  'BV-027-L01':'BV-ACC-001',
+  'REF-011-L01':'REF-SUB-001',
+  'CL-030-L01':'CL-PRE-001',
+  'PED-018-L01':'PED-AMB-001',
+  'DO-041-L01':'OD-RED-001',
+  'LV-005-L01':'LV-LOW-001',
+  'OD-011-L01':'DO-LENS-001',
+  'CO-002-L01':'CO-EXAM-001',
+  'EPH-036-L01':'EPH-PRINC-001'
  };
  const code=String(l?.code||'').toUpperCase();
  return map[code]||map[aliases[code]]||map[String(l?.id||'')]||[];
