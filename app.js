@@ -267,7 +267,7 @@ function lessonList(lessons,quizOnly=false){lessons=(lessons||[]).filter(canView
 async function showDepartment(code){
  const d=DB.departments.find(x=>x.code===code);if(!d)return;
  const topicOrder=new Map((d.curriculum_topics||[]).slice().sort((a,b)=>Number(a.display_order??0)-Number(b.display_order??0)).map((t,i)=>[String(t.id),i]));
- const ls=DB.lessons.filter(l=>l.department_code===code&&canViewLesson(l)&&String(l.status||'').toLowerCase()==='published').slice().sort((a,b)=>{
+ const ls=DB.lessons.filter(l=>(topicOrder.has(String(l.topic_id))||l.department_code===code)&&canViewLesson(l)&&String(l.status||'').toLowerCase()==='published').slice().sort((a,b)=>{
   const ai=topicOrder.has(String(a.topic_id))?topicOrder.get(String(a.topic_id)):Number.MAX_SAFE_INTEGER;
   const bi=topicOrder.has(String(b.topic_id))?topicOrder.get(String(b.topic_id)):Number.MAX_SAFE_INTEGER;
   return ai-bi||Number(a.display_order??0)-Number(b.display_order??0)||String(a.title_en||'').localeCompare(String(b.title_en||''));
