@@ -355,12 +355,12 @@ function renderLectureMarkdown(raw,rtl=false){
  // Lesson bodies may combine a leading HTML image paragraph with Markdown headings,
  // lists and paragraphs. Convert that image-only wrapper to Markdown first; otherwise
  // the HTML branch treats the Markdown as plain text and the slide builder drops text nodes.
- original=original.replace(/<p\\b[^>]*>\\s*<img\\b([^>]*)>\\s*<\\/p>/gi,(_,attributes)=>{
+ original=original.replace(/<p\b[^>]*>\s*<img\b([^>]*)>\s*<\/p>/gi,(_,attributes)=>{
   const parsed=new DOMParser().parseFromString('<img '+attributes+'>','text/html');
   const image=parsed.querySelector('img');
   const src=image?.getAttribute('src')||'';
   if(!src)return '';
-  const alt=String(image.getAttribute('alt')||'').replace(/\\]/g,'\\\\]');
+  const alt=String(image.getAttribute('alt')||'').replace(/\]/g,'\\]');
   return '!['+alt+']('+src+')';
  });
  // Preserve image figures by sanitising stored HTML as a whole.
