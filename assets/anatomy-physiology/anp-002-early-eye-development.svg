@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+<title id="title">Early embryological development of the eye</title>
+<desc id="desc">Four schematic stages: optic groove, optic vesicle contacting surface ectoderm and inducing lens placode, invaginating optic cup and lens pit, and formed double-layered optic cup with lens vesicle.</desc>
+<rect width="1200" height="680" rx="28" fill="#f4f8fb"/>
+<text x="600" y="55" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#173b57">Early Eye Development</text>
+<text x="600" y="88" text-anchor="middle" font-family="Arial,sans-serif" font-size="18" fill="#45657b">Simplified schematic sequence — not to scale</text>
+<g font-family="Arial,sans-serif" fill="#173b57" text-anchor="middle">
+<text x="145" y="145" font-size="23" font-weight="700">1. Optic groove</text>
+<text x="445" y="145" font-size="23" font-weight="700">2. Optic vesicle</text>
+<text x="745" y="145" font-size="23" font-weight="700">3. Lens placode &amp; invagination</text>
+<text x="1045" y="145" font-size="23" font-weight="700">4. Optic cup &amp; lens vesicle</text>
+</g>
+<g stroke="#1686b5" stroke-width="5" fill="#d9edf7">
+<path d="M45 275 Q145 205 245 275 L245 335 Q145 285 45 335Z"/>
+<path d="M345 275 Q445 205 545 275 L545 335 Q445 285 345 335Z"/>
+<path d="M645 275 Q745 205 845 275 L845 335 Q745 285 645 335Z"/>
+<path d="M945 275 Q1045 205 1145 275 L1145 335 Q1045 285 945 335Z"/>
+</g>
+<g fill="none" stroke="#1686b5" stroke-width="7">
+<path d="M130 245 Q145 285 160 245"/>
+<path d="M445 290 Q485 250 525 290"/>
+<path d="M730 280 Q745 350 760 280"/>
+<path d="M1030 280 Q1045 365 1060 280"/>
+</g>
+<g fill="#f8e7c9" stroke="#d88c2b" stroke-width="4">
+<ellipse cx="745" cy="385" rx="28" ry="18"/>
+<ellipse cx="1045" cy="410" rx="31" ry="27"/>
+</g>
+<g font-family="Arial,sans-serif" font-size="18" fill="#173b57">
+<text x="145" y="440" text-anchor="middle">Forebrain neuroectoderm</text>
+<text x="445" y="440" text-anchor="middle">Evagination toward surface ectoderm</text>
+<text x="745" y="470" text-anchor="middle">Surface ectoderm thickens</text>
+<text x="1045" y="470" text-anchor="middle">Double-layered optic cup</text>
+<text x="1045" y="500" text-anchor="middle">surrounds the lens vesicle</text>
+</g>
+<g stroke="#398b7a" stroke-width="4" fill="none"><path d="M260 305H320"/><path d="M560 305H620"/><path d="M860 305H920"/></g>
+<g fill="#398b7a"><path d="M310 295l15 10-15 10z"/><path d="M610 295l15 10-15 10z"/><path d="M910 295l15 10-15 10z"/></g>
+<rect x="105" y="555" width="990" height="70" rx="16" fill="#e5f1ed" stroke="#398b7a" stroke-width="2"/>
+<text x="600" y="585" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" fill="#245f52">Optic vesicle induces the lens placode; coordinated invagination forms the optic cup and lens vesicle.</text>
+<text x="600" y="610" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#61798b">HAKIM OPTICS ACADEMY · EDUCATIONAL SCHEMATIC</text>
+</svg>
