@@ -351,7 +351,18 @@ function renderLectureHtml(raw,rtl=false){
  return '<div class="lecture-body '+(rtl?'lecture-ar':'lecture-en')+'" dir="ltr" lang="en">'+[...doc.body.childNodes].map(renderNode).join('')+'</div>';
 }
 function renderLectureMarkdown(raw,rtl=false){
- const original=String(raw||'').trim();
+ let original=String(raw||'').trim();
+ // Lesson bodies may combine a leading HTML image paragraph with Markdown headings,
+ // lists and paragraphs. Convert that image-only wrapper to Markdown first; otherwise
+ // the HTML branch treats the Markdown as plain text and the slide builder drops text nodes.
+ original=original.replace(/<p\\b[^>]*>\\s*<img\\b([^>]*)>\\s*<\\/p>/gi,(_,attributes)=>{
+  const parsed=new DOMParser().parseFromString('<img '+attributes+'>','text/html');
+  const image=parsed.querySelector('img');
+  const src=image?.getAttribute('src')||'';
+  if(!src)return '';
+  const alt=String(image.getAttribute('alt')||'').replace(/\\]/g,'\\\\]');
+  return '!['+alt+']('+src+')';
+ });
  // Preserve image figures by sanitising stored HTML as a whole.
  const hasMarkdown=/(^|\n)\s{0,3}#{1,4}\s|(^|\n)\s*[-*]\s/m.test(original);
  const hasHtmlBlocks=/<(?:h[1-6]|p|div|ul|ol|li|table|blockquote|br|figure|figcaption|img|svg)(?:\s|>|\/)/i.test(original);
