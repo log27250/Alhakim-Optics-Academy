@@ -1,7 +1,7 @@
 {
   "version": 1,
   "description": "Local educational illustrations and image assets required for first-install offline use.",
-  "image_count": 681,
+  "image_count": 684,
   "images": [
     "./alhakim-logo.png",
     "./assets/anatomy-physiology/anp-001-illustration.svg",
@@ -683,6 +683,9 @@
     "./assets/anatomy-physiology/anp-006-conjunctival-divisions.svg",
     "./assets/anatomy-physiology/anp-006-conjunctival-histology.svg",
     "./assets/anatomy-physiology/anp-007-cornea-layers.svg",
-    "./assets/anatomy-physiology/anp-007-cornea-transparency.svg"
+    "./assets/anatomy-physiology/anp-007-cornea-transparency.svg",
+    "./assets/anatomy-physiology/anp-008-scleral-layers.svg",
+    "./assets/anatomy-physiology/anp-008-neurovascular-supply.svg",
+    "./assets/anatomy-physiology/anp-008-episcleritis-scleritis.svg"
   ]
 }
