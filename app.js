@@ -299,10 +299,16 @@ function searchTopic(topic,code){const normalized=String(topic||'').trim().toLow
 function academyImageSource(rawSrc){
  try{
   const value=String(rawSrc||'').trim();
-  const url=new URL(value,location.href);
+  if(!value)return '';
   const repoPrefix='/log27250/Alhakim-Optics-Academy/main/';
+  if(value.startsWith('./assets/')||value.startsWith('assets/')){
+   const path=value.replace(/^\.\//,'');
+   return offlineMediaMap.get(value)||new URL(path,document.baseURI).href;
+  }
+  const url=new URL(value,document.baseURI);
   if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
-   const local=new URL('./'+url.pathname.slice(repoPrefix.length)+url.search,location.href);
+   const path=url.pathname.slice(repoPrefix.length);
+   const local=new URL(path,document.baseURI);
    return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||local.href;
   }
   return offlineMediaMap.get(value)||offlineMediaMap.get(url.href)||url.href;
@@ -310,7 +316,7 @@ function academyImageSource(rawSrc){
 }
 function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(match,alt,src)=>{
  const safe=academyImageSource(src);if(!safe)return esc(alt);
- return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="lazy" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px">';
+ return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="eager" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px">';
  }).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
  const source=String(raw||'').replace(/\\\\n/g,'\n').replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(_,alt,src)=>'<img src="'+esc(academyImageSource(src))+'" alt="'+esc(alt)+'">');
@@ -329,7 +335,7 @@ function renderLectureHtml(raw,rtl=false){
    const sameOriginImage=parsed.origin===location.origin&&parsed.pathname.startsWith(appBasePath)&&/\.(?:svg|png|jpe?g|webp|gif)$/i.test(parsed.pathname);
    if(parsed.protocol!=='https:'&&!sameOriginImage)return '';
    const alt=esc(node.getAttribute('alt')||'Photograph of an ophthalmic instrument');
-   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="lazy" decoding="async" referrerpolicy="no-referrer">';
+   return '<img class="lesson-real-photo" src="'+esc(parsed.href)+'" alt="'+alt+'" loading="eager" decoding="async" referrerpolicy="no-referrer">';
   }
   if(tag==='SVG'||['G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN'].includes(tag)){
    if(!allowed.has(tag))return '';
