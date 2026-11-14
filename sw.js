@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-116-offline-image-sanitizer-v72';
+const CACHE_NAME='alhakim-academy-v2-117-markdown-image-normalizer-v73';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
