@@ -85,8 +85,13 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- // Prioritize the newly added VIS-012 through VIS-031 clinical photographs, anatomy and test images before older lesson media.
+ // Prioritize the newly added VIS-012 through VIS-036 clinical photographs, anatomy, perception demonstrations and test images before older lesson media.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Rubin%27s%20Vase.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/RotatingBrentanoL.gif?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/LinearPerspective.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Spatial%20vision%20and%20perspective.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Hand%20held%20stereoscope.jpg?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Lateral%20geniculate%20nucleus.png?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/BA17%20Primary%20visual%20cortex%20-%20medial%20view.png?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/BA19%20-%20Visual%20association%20cortex%20%28V3%29%20-%20lateral%20view.png?width=900',
