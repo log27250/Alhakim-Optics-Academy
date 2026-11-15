@@ -412,7 +412,7 @@ function renderLectureMarkdown(raw,rtl=false){
  // Older lesson records stored Arabic explanations as <br><span dir="rtl">...</span>.
  // Convert each one into its own semantic paragraph so it is never appended inline
  // to the English paragraph and remains readable in both slide and full-page views.
- original=original.replace(/<br\\s*\\/?\\s*>\\s*<span\\s+dir=["']rtl["'][^>]*>([\\s\\S]*?)<\\/span>/gi,'<p dir="rtl" lang="ar">$1</p>');
+ original=original.replace(/<br\s*\/?\s*>\s*<span\s+dir=["']rtl["'][^>]*>([\s\S]*?)<\/span>/gi,'<p dir="rtl" lang="ar">$1</p>');
  // Normalize every Markdown image before choosing the Markdown/HTML rendering path.
  // This guarantees that images embedded in mixed HTML/Markdown content become real
  // figure/img elements instead of being left as visible link-like Markdown text.
