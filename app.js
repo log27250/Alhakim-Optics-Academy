@@ -87,7 +87,22 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the real clinical/photographic images used in VIS-001 through VIS-010 so they are saved on the device first.
  const prioritySources=[
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%2C%20anterior%20view.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/CSF8.png?width=900',
+  'https://denispelli.com/pellirobson/pelli-robson.gif',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20acuity%20chart.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/3833%20flou%20stroboscopique.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/16%20KW%20Stroboscope.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Rods%20and%20Cones%20in%20Retina%20%2851175951237%29.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/ColorVision.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Diagram%20of%20the%20opponent%20process.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Ishihara%201.svg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Farnsworth%E2%80%93Munsell%20Hue%20Color%20Vision%20Test%2C%20Material%20and%20Finishing%20Laboratory.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Hot%20air%20balloon%20-%20color%20constancy.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Perimetry.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Humphrey%20visual%20field.JPG?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Hemianopsia%20en.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Caudal%20view%20of%20a%20brain%20after%20dissection.png?width=900',
+'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%2C%20anterior%20view.jpg',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Daqing%20Science%20and%20Technology%20Museum%20optical%20illusion%20pillars.jpg',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20eye%20exam.jpg',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Layers%20of%20nerve%20cells%20in%20the%20retina.jpg',
