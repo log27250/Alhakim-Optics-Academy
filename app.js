@@ -85,7 +85,7 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- // Prioritize the real clinical/photographic images used in VIS-001 through VIS-010 so they are saved on the device first.
+ // Prioritize the newly added VIS-012 through VIS-026 clinical photographs and test images before older lesson media.
  const prioritySources=[
   'https://commons.wikimedia.org/wiki/Special:FilePath/CSF8.png?width=900',
   'https://denispelli.com/pellirobson/pelli-robson.gif',
