@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-129-lecture-question-placement-v85';
+const CACHE_NAME='alhakim-academy-v2-130-clinical-applications-normal-text-v86';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
