@@ -85,7 +85,21 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),failed=[],list=[...urls];let cached=0;
+ // Prioritize the real clinical/photographic images used in VIS-001 through VIS-010 so they are saved on the device first.
+ const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%2C%20anterior%20view.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Daqing%20Science%20and%20Technology%20Museum%20optical%20illusion%20pillars.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20eye%20exam.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Layers%20of%20nerve%20cells%20in%20the%20retina.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Rods%20and%20cones%20of%20the%20primate%20retina.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Rod%20Outer%20Segment%20Discs.png',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Fundus%20of%20patient%20with%20retinitis%20pigmentosa%2C%20mid%20stage.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Small%20Town%20Night%20Scene.JPG',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20view%20of%20Cataract%20in%20Human%20Eye.png',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20acuity%20chart.jpg'
+ ].map(x=>new URL(x,location.href).href);
+ const priorityList=prioritySources.filter(x=>urls.has(x));
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),failed=[],list=[...new Set([...priorityList,...urls])];let cached=0;
  let newlyDownloaded=0;for(let i=0;i<list.length&&newlyDownloaded<maxNewImages;i+=5)await Promise.allSettled(list.slice(i,i+5).map(async src=>{try{const local=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;if(await cache.match(local)){offlineMediaMap.set(src,local);cached++;return}
   if(newlyDownloaded>=maxNewImages)return;
   let res;try{res=await fetch(src,{mode:'cors',credentials:'omit',cache:'default'})}catch(_){res=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'default'})}
@@ -93,7 +107,9 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }catch(e){failed.push({url:src,error:e.message})}}));
  const records=[...offlineMediaMap].filter(([src,local])=>urls.has(src)).map(([source_url,local_url])=>({source_url,local_url,cached_at:new Date().toISOString()}));
  await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),st=tx.objectStore('media_map');records.forEach(x=>st.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();
- return {total:list.length,cached,failed};
+ // Switch any currently displayed lesson images to their same-origin cached copies immediately.
+ document.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
+ return {total:list.length,cached,failed,priority_images:priorityList.length};
 }
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
