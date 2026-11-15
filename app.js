@@ -736,8 +736,8 @@ function bindAcademyImageFallbacks(root=document){
    // If a project-site asset URL fails, retry the identical repository asset from
    // GitHub's raw host. This is an online fallback; the local asset remains primary
    // so the Service Worker can still serve it offline.
-   if(/^\\.?\\/?assets\\//i.test(original)){
-    const relative=original.replace(/^\\.\\//,'');
+   if(/^\.?\/?assets\//i.test(original)){
+    const relative=original.replace(/^\.\//,'');
     original='https://raw.githubusercontent.com/log27250/Alhakim-Optics-Academy/main/'+relative.split('/').map(x=>encodeURIComponent(x)).join('/');
    }
    if(!original){
