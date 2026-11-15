@@ -302,7 +302,10 @@ function academyImageSource(rawSrc){
   const repoPrefix='/log27250/Alhakim-Optics-Academy/main/';
   if(value.startsWith('./assets/')||value.startsWith('assets/')){
    const path=value.replace(/^\.\//,'');
-   return offlineMediaMap.get(value)||new URL(path,document.baseURI).href;
+   // Resolve assets against the deployed application folder (GitHub Pages project
+   // sites live below /<repository>/, not at the domain root).
+   const appRoot=new URL('./',location.href);
+   return offlineMediaMap.get(value)||offlineMediaMap.get(new URL(path,appRoot).href)||new URL(path,appRoot).href;
   }
   const url=new URL(value,document.baseURI),originalUrl=url.href;
   // Resolve Wikimedia Special:FilePath for the known ophthalmoscope photo to a stable upload URL.
@@ -405,6 +408,10 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  let original=String(raw||'').trim();
+ // Older lesson records stored Arabic explanations as <br><span dir="rtl">...</span>.
+ // Convert each one into its own semantic paragraph so it is never appended inline
+ // to the English paragraph and remains readable in both slide and full-page views.
+ original=original.replace(/<br\\s*\\/?\\s*>\\s*<span\\s+dir=["']rtl["'][^>]*>([\\s\\S]*?)<\\/span>/gi,'<p dir="rtl" lang="ar">$1</p>');
  // Normalize every Markdown image before choosing the Markdown/HTML rendering path.
  // This guarantees that images embedded in mixed HTML/Markdown content become real
  // figure/img elements instead of being left as visible link-like Markdown text.
