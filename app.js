@@ -385,6 +385,7 @@ function renderLectureHtml(raw,rtl=false){
    const caption=[...node.childNodes].map(n=>n.nodeType===Node.TEXT_NODE?n.nodeValue||'':n.textContent||'').join('').replace(/(?:Source(?: and licence details)?|File):?\s*https?:\/\/commons\.wikimedia\.org\/[^\s]+/gi,'').replace(/\s{2,}/g,' ').trim();
    return '<figcaption>'+esc(caption||node.textContent||'')+'</figcaption>';
   }
+  if(['H1','H2','H3','H4'].includes(tag)&&/^(?:[0-9]+[.]?[[:space:]]+)?Clinical[[:space:]]+Applications?\b/i.test(String(node.textContent||'').trim()))return '<p'+attrs.join('')+'>'+children+'</p>';
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
   if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
@@ -440,7 +441,7 @@ function renderLectureMarkdown(raw,rtl=false){
  // Render a standalone Markdown image as a real figure element, never as a text/link block.
  if((m=line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/))){closeList();const image=inlineFormat(line);if(image.includes('<img '))out+='<figure class=\"lesson-figure\">'+image+'</figure>';continue}
  if(line.startsWith('|')&&line.endsWith('|')){closeList();table.push(line);continue}else flushTable();
- if((m=line.match(/^(#{1,4})\s+(.+)$/))){closeList();const n=m[1].length;out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
+ if((m=line.match(/^(#{1,4})\s+(.+)$/))){closeList();const n=m[1].length;if(/^(?:[0-9]+[.]?\s+)?Clinical\s+Applications?\b/i.test(m[2]))out+='<p'+attrs(m[2])+'>'+inlineFormat(m[2])+'</p>';else out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
  if(/^---+$/.test(line)){closeList();out+='<hr>';continue}
  if((m=line.match(/^[-*]\s+(.+)$/))){if(list!=='ul'){closeList();out+='<ul>';list='ul'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
  if((m=line.match(/^\d+[.)]\s+(.+)$/))){if(list!=='ol'){closeList();out+='<ol>';list='ol'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
