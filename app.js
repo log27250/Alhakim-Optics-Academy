@@ -96,7 +96,8 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
   'https://commons.wikimedia.org/wiki/Special:FilePath/Fundus%20of%20patient%20with%20retinitis%20pigmentosa%2C%20mid%20stage.jpg',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Small%20Town%20Night%20Scene.JPG',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20view%20of%20Cataract%20in%20Human%20Eye.png',
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20acuity%20chart.jpg'
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20acuity%20chart.jpg',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/TandCexample.jpg'
  ].map(x=>new URL(x,location.href).href);
  const priorityList=prioritySources.filter(x=>urls.has(x));
  const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),failed=[],list=[...new Set([...priorityList,...urls])];let cached=0;
