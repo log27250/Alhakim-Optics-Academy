@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-131-cloud-refresh-v88-bilingual-images';
+const CACHE_NAME='alhakim-academy-v2-131-cloud-refresh-v89-image-fallback';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
