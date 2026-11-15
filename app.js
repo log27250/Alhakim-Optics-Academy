@@ -85,8 +85,13 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- // Prioritize the newly added VIS-012 through VIS-026 clinical photographs and test images before older lesson media.
+ // Prioritize the newly added VIS-012 through VIS-031 clinical photographs, anatomy and test images before older lesson media.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Lateral%20geniculate%20nucleus.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/BA17%20Primary%20visual%20cortex%20-%20medial%20view.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/BA19%20-%20Visual%20association%20cortex%20%28V3%29%20-%20lateral%20view.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Ventral%20and%20dorsal%20stream%20in%20visual%20information%20processing.png?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Dorsal%20and%20ventral%20attention%20systems.jpg?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/CSF8.png?width=900',
   'https://denispelli.com/pellirobson/pelli-robson.gif',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20acuity%20chart.jpg?width=900',
