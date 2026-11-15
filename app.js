@@ -420,6 +420,14 @@ function renderLectureHtml(raw,rtl=false){
    return imageNodes?'<figure class="lesson-figure">'+imageNodes+'</figure>':'';
   }
   const textContent=node.textContent||'';
+  // Keep mixed English/Arabic lesson paragraphs on separate directional lines.
+  // English remains LTR; any Arabic explanatory sentence is rendered beneath it in RTL.
+  if(tag==='P'&&/[A-Za-z]/.test(textContent)&&/[\\u0600-\\u06FF]/.test(textContent)){
+   const firstArabic=textContent.search(/[\\u0600-\\u06FF]/);
+   const englishPart=textContent.slice(0,firstArabic).trim();
+   const arabicPart=textContent.slice(firstArabic).trim();
+   if(englishPart&&arabicPart)return '<p dir="ltr" lang="en">'+esc(englishPart)+'</p><p dir="rtl" lang="ar">'+esc(arabicPart)+'</p>';
+  }
   const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
   const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
   if(tag==='FIGURE'){
