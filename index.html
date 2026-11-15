@@ -12,6 +12,20 @@
 .offline-sync-state{white-space:nowrap;font-size:11px;font-weight:700;color:#21865e}
 @media(max-width:600px){.offline-sync-badge{margin:8px 12px 0;padding:9px 11px}.offline-sync-badge small{font-size:10px}}
 </style>
+<script>
+(function(){
+ function report(kind,message,source,line,col){
+  function show(){
+   var box=document.getElementById('academyRuntimeError');
+   if(!box){box=document.createElement('div');box.id='academyRuntimeError';box.style.cssText='position:fixed;z-index:2147483647;left:10px;right:10px;bottom:10px;background:#fff1f0;color:#8b1515;border:2px solid #c62828;border-radius:12px;padding:12px;font:14px/1.6 sans-serif;direction:ltr;text-align:left;max-height:35vh;overflow:auto;box-shadow:0 4px 24px #0004';document.body.appendChild(box)}
+   box.innerHTML='<b>Academy diagnostic · '+String(kind)+'</b><br>'+String(message||'Unknown error').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})+'<br><small>'+String(source||'')+':'+String(line||'')+':'+String(col||'')+'</small>';
+  }
+  if(document.body)show();else document.addEventListener('DOMContentLoaded',show,{once:true});
+ }
+ window.addEventListener('error',function(e){if(e.error||e.message)report('JavaScript error',e.message,e.filename,e.lineno,e.colno)});
+ window.addEventListener('unhandledrejection',function(e){var r=e.reason;report('Unhandled promise',r&&r.stack||r&&r.message||String(r),'',0,0)});
+})();
+</script>
 <title>Alhakim Optics Academy</title>
 <!-- Deployment refresh: payment settings dashboard visibility 2026-11-11 -->
 </head>
