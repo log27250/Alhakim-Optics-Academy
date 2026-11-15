@@ -22,7 +22,7 @@ self.addEventListener('install',event=>{
    for(const path of CORE)await fetchAndCache(cache,path);
    // Teaching images are cached gradually by the app after the interface is ready.
    // Never block a release update on downloading the entire image library.
-   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({version:CACHE_NAME,images:manifest.images.length,installed_at:new Date().toISOString()}),{headers:{'Content-Type':'application/json'}}));
+   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({version:CACHE_NAME,images:0,installed_at:new Date().toISOString()}),{headers:{'Content-Type':'application/json'}}));
    await self.skipWaiting();
   }catch(error){
    await caches.delete(CACHE_NAME);
