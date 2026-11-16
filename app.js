@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Anterior-uveitis2.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Diabetic%20macular%20edema.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Goldmann%20Applanation%20Tonometer.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Cherry%20red%20spot%20in%20patient%20with%20central%20retinal%20artery%20occlusion%20%28CRAO%29.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/LDHvsICG.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Vitreous%20floater.jpg?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20doctor%20examining%20Nigerian%20patient%20with%20keratometer.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Imagen%20confocal%20apilada%20en%20Z%20de%20una%20c%C3%B3rnea%20montada%20entera%20de%20un%20rat%C3%B3n.png?width=1000',
