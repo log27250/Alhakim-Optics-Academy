@@ -24,7 +24,7 @@
 .lecture-ar h2.lecture-h2{border-left:0;border-right:4px solid #d9a52d}
 .lecture-body h3.lecture-h3{font-size:18px;color:#12649a;margin:22px 0 10px}
 .lecture-body h4{font-size:16px;color:#183b61;margin:18px 0 8px}
-.lecture-body p{margin:10px 0 14px}
+.lecture-body p{margin:10px 0 14px;unicode-bidi:plaintext;text-align:start;line-height:1.9}.lecture-body p[dir="ltr"],.lecture-body li[dir="ltr"]{direction:ltr;text-align:left}.lecture-body p[dir="rtl"],.lecture-body li[dir="rtl"]{direction:rtl;text-align:right}
 .lecture-body ul,.lecture-body ol{padding-inline-start:28px;margin:8px 0 18px}
 .lecture-body li{padding:3px 0 3px 5px;margin:2px 0}
 .lecture-body strong{color:#092b55}
