@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Vitreous%20floater.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20doctor%20examining%20Nigerian%20patient%20with%20keratometer.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Imagen%20confocal%20apilada%20en%20Z%20de%20una%20c%C3%B3rnea%20montada%20entera%20de%20un%20rat%C3%B3n.png?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Endothelium%2024yo%20F%20AntSeg0239.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Pattern%20of%20lens%20fibers.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Oculomotor%20nerve.jpg?width=1000',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Fluorescein%20angiography.jpg?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Horner%20syndrome.jpg?width=1000',
