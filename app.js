@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Oculomotor%20nerve.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Fluorescein%20angiography.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Horner%20syndrome.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Pupillary%20light%20reflex.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Fluorescin%20in%20dropper.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Retinal_Pigment_Epithelium_%28RPE%29_Cells.jpg?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Fundus_photograph_of_normal_right_eye.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Optic%20nerve.jpg?width=1000',
