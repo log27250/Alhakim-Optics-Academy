@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Retinal_Pigment_Epithelium_%28RPE%29_Cells.jpg?width=900',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Fundus_photograph_of_normal_right_eye.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Optic%20nerve.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Optic%20nerve%20optic%20tract%20optic%20radiation.jpg?width=960',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Extraocular%20muscles.jpg?width=1000',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Lens%20fibre-epithelium-capsule.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/FundusPhotoAnthaL.jpg?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Organization%20of%20rod%20photoreceptors%20in%20the%20mammalian%20retina.png?width=1200',
