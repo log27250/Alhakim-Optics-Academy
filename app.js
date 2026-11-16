@@ -87,6 +87,9 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Cavernous%20sinus.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20view%20of%20Cataract%20in%20Human%20Eye.png?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Tapetum-lucidum-001.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Spectral%20Domain%20OCT%20-%20Optic%20Disc%20Cross-Sections.png?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Auge%20Entwicklung.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/2014%20ERG%20test.jpg?width=1000',
