@@ -541,25 +541,30 @@ function buildIntegratedBilingualMarkdown(contentEn,contentAr){
 }
 function buildLectureSlides(html){
  const doc=new DOMParser().parseFromString(html,'text/html');
- // renderLectureMarkdown wraps all lesson blocks in one .lecture-body element.
- // Split its children, not the wrapper itself, otherwise every lecture becomes one slide.
+ // Keep each English paragraph together with its Arabic explanatory paragraph.
+ // Pagination must never separate a bilingual pair across two different slides.
  const body=doc.querySelector('.lecture-body');
  const nodes=body?[...body.children]:[...doc.body.children],slides=[];
  const target=3000,hardLimit=4300;
  let page=[],size=0;
  const weightOf=node=>Math.max(45,(node.textContent||'').trim().length);
  const isHeading=node=>node.matches('h2.lecture-h2,h3.lecture-h3,h4');
+ const isArabicParagraph=node=>node.matches('p[dir="rtl"],p[lang="ar"]');
+ const isEnglishParagraph=node=>node.matches('p[dir="ltr"],p[lang="en"]');
  const emit=()=>{if(page.length){slides.push(page);page=[];size=0}};
- nodes.forEach((node,index)=>{
-  const heading=isHeading(node),isFigure=node.matches('figure'),weight=weightOf(node);
-  // Keep an illustration with the explanatory paragraph immediately before it.
-  // Otherwise a slide break can strand the diagram on a separate, context-free slide.
+ for(let index=0;index<nodes.length;index++){
+  const group=[nodes[index]];
+  if(isEnglishParagraph(nodes[index])&&nodes[index+1]&&isArabicParagraph(nodes[index+1]))group.push(nodes[++index]);
+  // Keep each clinical photograph with the bilingual explanation that introduces it.
+  if(group.length===2&&nodes[index+1]?.matches('figure.real-device-photo'))group.push(nodes[++index]);
+  const heading=isHeading(group[0]),figure=group.some(n=>n.matches('figure'));
+  const weight=group.reduce((sum,n)=>sum+weightOf(n),0);
   if(heading&&page.length&&size>target)emit();
-  if(!isFigure&&!heading&&page.length&&size+weight>target)emit();
-  if(page.length&&size+weight>hardLimit&&!isFigure)emit();
-  page.push(node.outerHTML);size+=weight;
-  if(isHeading(node)&&size>target&&nodes[index+1]&&isHeading(nodes[index+1]))emit();
- });
+  if(!figure&&!heading&&page.length&&size+weight>target)emit();
+  if(page.length&&size+weight>hardLimit&&!figure)emit();
+  group.forEach(n=>page.push(n.outerHTML));size+=weight;
+  if(heading&&size>target&&nodes[index+1]&&isHeading(nodes[index+1]))emit();
+ }
  emit();
  return slides.length?slides:[['<p>Lecture content is not available.</p>']];
 }
