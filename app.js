@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-012 through VIS-036 clinical photographs, anatomy, perception demonstrations and test images before older lesson media.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Titmus%20Randot%20Sterotests.JPG?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Optical%20illusion.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/LEA%20Contrast%20Sensitivity%20Test.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Visual%20field%20test.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Perimeter%20Vision%20Tester.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Rubin%27s%20Vase.png?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/RotatingBrentanoL.gif?width=900',
   'https://commons.wikimedia.org/wiki/Special:FilePath/LinearPerspective.png?width=900',
