@@ -85,8 +85,12 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
  }
- // Prioritize the newly added VIS-012 through VIS-036 clinical photographs, anatomy, perception demonstrations and test images before older lesson media.
+ // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20examination%20visual%20acuity.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20screening.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Optometry%20Testing.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20test%20to%20students.jpg?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Titmus%20Randot%20Sterotests.JPG?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Optical%20illusion.jpg?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/LEA%20Contrast%20Sensitivity%20Test.jpg?width=1200',
