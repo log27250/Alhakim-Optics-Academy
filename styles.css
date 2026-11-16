@@ -397,3 +397,11 @@ html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
 .lesson-row-arrow{font-size:18px;color:#2b6da6;padding:0 5px}
 .empty-lessons{padding:16px 8px;color:#718096}
 @media(max-width:600px){.lesson-row{min-height:56px;padding:10px 5px;gap:9px}.lesson-row-title b{font-size:14px}.lesson-row-status{font-size:10px}}
+
+
+/* Bilingual lecture direction hardening — isolate every language block. */
+.lecture-body,.lecture-body.lecture-bilingual{direction:ltr!important;text-align:left!important;unicode-bidi:plaintext}
+.lecture-body p[dir="ltr"],.lecture-body li[dir="ltr"],.lecture-body blockquote[dir="ltr"],.lecture-body h2[dir="ltr"],.lecture-body h3[dir="ltr"],.lecture-body h4[dir="ltr"]{direction:ltr!important;text-align:left!important;unicode-bidi:isolate}
+.lecture-body p[dir="rtl"],.lecture-body li[dir="rtl"],.lecture-body blockquote[dir="rtl"],.lecture-body h2[dir="rtl"],.lecture-body h3[dir="rtl"],.lecture-body h4[dir="rtl"]{direction:rtl!important;text-align:right!important;unicode-bidi:isolate}
+.lecture-body p{display:block;max-width:100%;overflow-wrap:anywhere}
+.lecture-body figure,.lecture-body figcaption{direction:initial}
