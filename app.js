@@ -440,9 +440,12 @@ function renderLectureHtml(raw,rtl=false){
     if(englishHtml.trim()&&arabicHtml.trim())return '<p dir="ltr" lang="en">'+englishHtml+'</p><p dir="rtl" lang="ar">'+arabicHtml+'</p>';
    }
   }
+  // Detect each block from its first strong character. Ignore stale RTL attributes
+  // on English paragraphs so English content always reads left-to-right.
   const explicitDir=(node.getAttribute('dir')||'').toLowerCase();
   const firstStrong=(textContent.match(/[\u0600-\u06FF]|[A-Za-z]/)||[])[0]||'';
-  const dir=explicitDir==='rtl'||explicitDir==='ltr'?explicitDir:(/[\u0600-\u06FF]/.test(firstStrong)?'rtl':'ltr');
+  const detectedDir=firstStrong?(/[\u0600-\u06FF]/.test(firstStrong)?'rtl':'ltr'):'';
+  const dir=detectedDir||(explicitDir==='rtl'||explicitDir==='ltr'?explicitDir:(rtl?'rtl':'ltr'));
   const attrs=[' dir="'+dir+'"',' lang="'+(node.getAttribute('lang')|| (dir==='rtl'?'ar':'en'))+'"'];
   if(tag==='FIGURE'){
    if(!children.trim())return '';
