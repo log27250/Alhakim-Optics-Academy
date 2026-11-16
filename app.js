@@ -420,16 +420,30 @@ function renderLectureHtml(raw,rtl=false){
    return imageNodes?'<figure class="lesson-figure">'+imageNodes+'</figure>':'';
   }
   const textContent=node.textContent||'';
-  // Keep mixed English/Arabic lesson paragraphs on separate directional lines.
-  // English remains LTR; any Arabic explanatory sentence is rendered beneath it in RTL.
+  // Split mixed-language paragraphs at the first Arabic character while preserving
+  // inline emphasis and nested markup. The previous textContent-only split discarded
+  // formatting and ignored explicit dir attributes on Arabic paragraphs.
   if(tag==='P'&&/[A-Za-z]/.test(textContent)&&/[\\u0600-\\u06FF]/.test(textContent)){
-   const firstArabic=textContent.search(/[\\u0600-\\u06FF]/);
-   const englishPart=textContent.slice(0,firstArabic).trim();
-   const arabicPart=textContent.slice(firstArabic).trim();
-   if(englishPart&&arabicPart)return '<p dir="ltr" lang="en">'+esc(englishPart)+'</p><p dir="rtl" lang="ar">'+esc(arabicPart)+'</p>';
+   const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
+   let textNode,splitNode=null,splitOffset=0;
+   while((textNode=walker.nextNode())){
+    const at=textNode.nodeValue.search(/[\\u0600-\\u06FF]/);
+    if(at>=0){splitNode=textNode;splitOffset=at;break;}
+   }
+   if(splitNode){
+    const range=document.createRange();
+    range.setStart(splitNode,splitOffset);
+    range.setEnd(node,node.childNodes.length);
+    const arabicFragment=range.extractContents();
+    const englishHtml=[...node.childNodes].map(renderNode).join('');
+    const arabicHtml=[...arabicFragment.childNodes].map(renderNode).join('');
+    if(englishHtml.trim()&&arabicHtml.trim())return '<p dir="ltr" lang="en">'+englishHtml+'</p><p dir="rtl" lang="ar">'+arabicHtml+'</p>';
+   }
   }
-  const dir=(textContent.match(/[\\u0600-\\u06FF]/g)||[]).length>(textContent.match(/[A-Za-z]/g)||[]).length?'rtl':'ltr';
-  const attrs=[' dir="'+dir+'"',' lang="'+(dir==='rtl'?'ar':'en')+'"'];
+  const explicitDir=(node.getAttribute('dir')||'').toLowerCase();
+  const firstStrong=(textContent.match(/[\\u0600-\\u06FF]|[A-Za-z]/)||[])[0]||'';
+  const dir=explicitDir==='rtl'||explicitDir==='ltr'?explicitDir:(/[\\u0600-\\u06FF]/.test(firstStrong)?'rtl':'ltr');
+  const attrs=[' dir="'+dir+'"',' lang="'+(node.getAttribute('lang')|| (dir==='rtl'?'ar':'en'))+'"'];
   if(tag==='FIGURE'){
    if(!children.trim())return '';
    const cls=node.classList.contains('real-device-photo')?'real-device-photo':node.classList.contains('lesson-figure')?'lesson-figure':'lesson-figure';
