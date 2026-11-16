@@ -473,7 +473,7 @@ function renderLectureHtml(raw,rtl=false){
   // Split mixed-language paragraphs at the first Arabic character while preserving
   // inline emphasis and nested markup. The previous textContent-only split discarded
   // formatting and ignored explicit dir attributes on Arabic paragraphs.
-  if(tag==='P'&&/[A-Za-z]/.test(textContent)&&/[\u0600-\u06FF]/.test(textContent)){
+  if((tag==='P'||tag==='LI')&&/[A-Za-z]/.test(textContent)&&/[\u0600-\u06FF]/.test(textContent)){
    const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
    let textNode,splitNode=null,splitOffset=0;
    while((textNode=walker.nextNode())){
@@ -487,7 +487,7 @@ function renderLectureHtml(raw,rtl=false){
     const arabicFragment=range.extractContents();
     const englishHtml=[...node.childNodes].map(renderNode).join('');
     const arabicHtml=[...arabicFragment.childNodes].map(renderNode).join('');
-    if(englishHtml.trim()&&arabicHtml.trim())return '<p dir="ltr" lang="en">'+englishHtml+'</p><p dir="rtl" lang="ar">'+arabicHtml+'</p>';
+    if(englishHtml.trim()&&arabicHtml.trim()){const wrapper=tag==='LI'?'li':'p';return '<'+wrapper+' dir="ltr" lang="en">'+englishHtml+'</'+wrapper+'><'+wrapper+' dir="rtl" lang="ar">'+arabicHtml+'</'+wrapper+'>'; }
    }
   }
   // Detect each block from its first strong character. Ignore stale RTL attributes
@@ -896,7 +896,10 @@ function bindAcademyImageFallbacks(root=document){
 }
 function renderLectureContentWithIllustration(l){
  const enHtml=renderLectureMarkdown(String(l.content_en||''),false);
- const arHtml=renderLectureMarkdown(String(l.content_ar||''),true);
+ const isContactLens=String(l.code||'').startsWith('CL-');
+ // Contact Lens lessons already contain paired Arabic explanations inside content_en.
+ // Do not append the legacy full Arabic copy as a second section at the end.
+ const arHtml=(!isContactLens||!/[\u0600-\u06FF]/.test(String(l.content_en||'')))?renderLectureMarkdown(String(l.content_ar||''),true):'';
  const enDoc=new DOMParser().parseFromString(enHtml,'text/html');
  const arDoc=new DOMParser().parseFromString(arHtml,'text/html');
  const enBody=enDoc.querySelector('.lecture-body'),arBody=arDoc.querySelector('.lecture-body');
@@ -950,7 +953,7 @@ function renderLectureContentWithIllustration(l){
 }
 async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const lectureHtml=renderLectureContentWithIllustration(l);
  const slides=buildLectureSlides(lectureHtml);
- pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+lectureAudioPanel('ar',l.content_ar)+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>أسئلة المحاضرة</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
+ pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+(String(l.code||'').startsWith('CL-')&&/[\u0600-\u06FF]/.test(String(l.content_en||''))?'':lectureAudioPanel('ar',l.content_ar))+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>أسئلة المحاضرة</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
  bindAcademyImageFallbacks(document.getElementById('app')||document);window.currentLectureAudio={en:lectureAudioText(l.content_en),ar:lectureAudioText(l.content_ar)};initLectureDeck();initLectureAudio();}
 const OFFLINE_COMPLETION_KEY='alhakim_offline_lesson_completions_v1';
 function getOfflineCompletions(){try{return JSON.parse(localStorage.getItem(OFFLINE_COMPLETION_KEY)||'[]')}catch(_){return []}}
