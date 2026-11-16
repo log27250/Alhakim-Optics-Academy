@@ -420,7 +420,7 @@ function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)
  return '<img class="lesson-real-photo" src="'+esc(safe)+'" alt="'+esc(alt)+'" loading="eager" decoding="async" referrerpolicy="no-referrer" style="display:block;max-width:min(100%,760px);height:auto;margin:18px auto;border:1px solid #d5e1ea;border-radius:14px">';
  }).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/\x60([^\x60]+)\x60/g,'<code>$1</code>');}
 function renderLectureHtml(raw,rtl=false){
- const source=String(raw||'').replace(/\\\\n/g,'\n').replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(_,alt,src)=>'<img src="'+esc(academyImageSource(src))+'" data-original-src="'+esc(src)+'" alt="'+esc(alt)+'">');
+ const source=String(raw||'').replace(/\\n/g,'\n').replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(_,alt,src)=>'<img src="'+esc(academyImageSource(src))+'" data-original-src="'+esc(src)+'" alt="'+esc(alt)+'">');
  const doc=new DOMParser().parseFromString(source,'text/html');
  const allowed=new Set(['H1','H2','H3','H4','P','UL','OL','LI','STRONG','B','EM','I','BR','HR','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','SUB','SUP','CODE','FIGURE','FIGCAPTION','IMG','SVG','G','RECT','CIRCLE','ELLIPSE','LINE','POLYLINE','POLYGON','PATH','TEXT','TSPAN']);
  const svgAttrs=new Set(['xmlns','viewBox','role','aria-label','x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','fill','fill-rule','stroke','stroke-width','stroke-dasharray','stroke-linecap','stroke-linejoin','text-anchor','font-size','font-weight','font-family','opacity','transform','preserveAspectRatio']);
@@ -526,6 +526,10 @@ function renderLectureHtml(raw,rtl=false){
 }
 function renderLectureMarkdown(raw,rtl=false){
  let original=String(raw||'').trim();
+ // Normalize literal backslash-n sequences stored by older Contact Lens imports.
+ // They must become real paragraph breaks before Markdown parsing, otherwise
+ // Clinical Applications and its Arabic explanation are rendered as one mixed block.
+ original=original.replace(/\\n/g,'\n').replace(/\\r/g,'\r');
  // Older lesson records stored Arabic explanations as <br><span dir="rtl">...</span>.
  // Convert each one into its own semantic paragraph so it is never appended inline
  // to the English paragraph and remains readable in both slide and full-page views.
@@ -567,6 +571,7 @@ function renderLectureMarkdown(raw,rtl=false){
  // Render a standalone Markdown image as a real figure element, never as a text/link block.
  if((m=line.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/))){closeList();const image=inlineFormat(line);if(image.includes('<img '))out+='<figure class=\"lesson-figure\">'+image+'</figure>';continue}
  if(line.startsWith('|')&&line.endsWith('|')){closeList();table.push(line);continue}else flushTable();
+ if(/^Clinical\s+Applications?$/i.test(line)){closeList();out+='<p dir="ltr" lang="en"><strong>Clinical Applications</strong></p>';continue}
  if((m=line.match(/^(#{1,4})\s+(.+)$/))){closeList();const n=m[1].length;if(/^(?:[0-9]+[.]?\s+)?Clinical\s+Applications?\b/i.test(m[2]))out+='<p'+attrs(m[2])+'>'+inlineFormat(m[2])+'</p>';else out+=n===1?'<h2 class="lecture-h2"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h2>':n===2?'<h3 class="lecture-h3"'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h3>':'<h4'+attrs(m[2])+'>'+inlineFormat(m[2])+'</h4>';continue}
  if(/^---+$/.test(line)){closeList();out+='<hr>';continue}
  if((m=line.match(/^[-*]\s+(.+)$/))){if(list!=='ul'){closeList();out+='<ul>';list='ul'}out+='<li'+attrs(m[1])+'>'+inlineFormat(m[1])+'</li>';continue}
