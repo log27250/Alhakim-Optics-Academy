@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Spectral%20Domain%20OCT%20-%20Optic%20Disc%20Cross-Sections.png?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Auge%20Entwicklung.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/2014%20ERG%20test.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Fluorescein-Stained%20Central%20Corneal%20Epithelial%20Defect%20in%20Infective%20Keratitis.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20opening%20and%20closing.gif',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Anterior-uveitis2.jpg?width=1000',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Diabetic%20macular%20edema.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Goldmann%20Applanation%20Tonometer.jpg?width=1000',
