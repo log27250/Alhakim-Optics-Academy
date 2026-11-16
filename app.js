@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Conjuctival%20capillary%20network.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Cornea.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%20close%20up%2C%20anterior%20view.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/SD%20OCT%20-%20Anterior%20Chamber%20Angle%20Cross-Section%20%28with%20viewfinder%29.png?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Close-up%20Image%20of%20a%20Human%20Iris.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/%D0%A1%D0%BB%D1%91%D0%B7%D0%BD%D0%B0%D1%8F%20%D0%B6%D0%B5%D0%BB%D0%B5%D0%B7%D0%B0.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%20with%20eyelid%20pulled%20open%2C%20anterior%20view.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Orbita%20mensch.jpg?width=1000',
