@@ -87,6 +87,11 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/%D0%A1%D0%BB%D1%91%D0%B7%D0%BD%D0%B0%D1%8F%20%D0%B6%D0%B5%D0%BB%D0%B5%D0%B7%D0%B0.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%20with%20eyelid%20pulled%20open%2C%20anterior%20view.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Orbita%20mensch.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20and%20Orbit%20of%20Human%20Embryo%20%283459323897%29.jpg?width=1000',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/NEI%20laboratory%20research%20eye.jpg?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20examination%20visual%20acuity.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Eye%20screening.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Optometry%20Testing.jpg?width=1200',
