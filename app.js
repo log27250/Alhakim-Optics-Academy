@@ -507,7 +507,7 @@ function renderLectureHtml(raw,rtl=false){
    const caption=[...node.childNodes].map(n=>n.nodeType===Node.TEXT_NODE?n.nodeValue||'':n.textContent||'').join('').replace(/(?:Source(?: and licence details)?|File):?\s*https?:\/\/commons\.wikimedia\.org\/[^\s]+/gi,'').replace(/\s{2,}/g,' ').trim();
    return '<figcaption>'+esc(caption||node.textContent||'')+'</figcaption>';
   }
-  if(['H1','H2','H3','H4'].includes(tag)&&/^(?:[0-9]+[.]?[[:space:]]+)?Clinical[[:space:]]+Applications?\b/i.test(String(node.textContent||'').trim()))return '<p'+attrs.join('')+'>'+children+'</p>';
+  if(['H1','H2','H3','H4'].includes(tag)&&/^(?:[0-9]+[.]?\s+)?Clinical\s+Applications?\b/i.test(String(node.textContent||'').trim()))return '<p'+attrs.join('')+'>'+children+'</p>';
   if(tag==='H1'||tag==='H2')return '<h2 class="lecture-h2"'+attrs.join('')+'>'+children+'</h2>';
   if(tag==='H3')return '<h3 class="lecture-h3"'+attrs.join('')+'>'+children+'</h3>';
   if(tag==='H4')return '<h4'+attrs.join('')+'>'+children+'</h4>';
