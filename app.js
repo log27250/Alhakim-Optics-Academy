@@ -423,11 +423,11 @@ function renderLectureHtml(raw,rtl=false){
   // Split mixed-language paragraphs at the first Arabic character while preserving
   // inline emphasis and nested markup. The previous textContent-only split discarded
   // formatting and ignored explicit dir attributes on Arabic paragraphs.
-  if(tag==='P'&&/[A-Za-z]/.test(textContent)&&/[\\u0600-\\u06FF]/.test(textContent)){
+  if(tag==='P'&&/[A-Za-z]/.test(textContent)&&/[\u0600-\u06FF]/.test(textContent)){
    const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
    let textNode,splitNode=null,splitOffset=0;
    while((textNode=walker.nextNode())){
-    const at=textNode.nodeValue.search(/[\\u0600-\\u06FF]/);
+    const at=textNode.nodeValue.search(/[\u0600-\u06FF]/);
     if(at>=0){splitNode=textNode;splitOffset=at;break;}
    }
    if(splitNode){
@@ -441,8 +441,8 @@ function renderLectureHtml(raw,rtl=false){
    }
   }
   const explicitDir=(node.getAttribute('dir')||'').toLowerCase();
-  const firstStrong=(textContent.match(/[\\u0600-\\u06FF]|[A-Za-z]/)||[])[0]||'';
-  const dir=explicitDir==='rtl'||explicitDir==='ltr'?explicitDir:(/[\\u0600-\\u06FF]/.test(firstStrong)?'rtl':'ltr');
+  const firstStrong=(textContent.match(/[\u0600-\u06FF]|[A-Za-z]/)||[])[0]||'';
+  const dir=explicitDir==='rtl'||explicitDir==='ltr'?explicitDir:(/[\u0600-\u06FF]/.test(firstStrong)?'rtl':'ltr');
   const attrs=[' dir="'+dir+'"',' lang="'+(node.getAttribute('lang')|| (dir==='rtl'?'ar':'en'))+'"'];
   if(tag==='FIGURE'){
    if(!children.trim())return '';
