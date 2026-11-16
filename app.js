@@ -87,6 +87,9 @@ async function cacheWikimediaLessonImages(maxNewImages=24){
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const prioritySources=[
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Lens%20fibre-epithelium-capsule.jpg?width=1100',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/FundusPhotoAnthaL.jpg?width=1200',
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Organization%20of%20rod%20photoreceptors%20in%20the%20mammalian%20retina.png?width=1200',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Conjuctival%20capillary%20network.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Cornea.jpg?width=1000',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Human%20eye%20close%20up%2C%20anterior%20view.jpg?width=1100',
