@@ -191,7 +191,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  });
  document.querySelectorAll('img[srcset],source[srcset]').forEach(el=>{
   const raw=el.getAttribute('srcset');if(!raw)return;
-  const rewritten=raw.split(',').map(candidate=>{const parts=candidate.trim().split(/\\s+/);if(!parts[0])return candidate;const local=localize(parts[0]);return [local,...parts.slice(1)].join(' ')}).join(', ');
+  const rewritten=raw.split(',').map(candidate=>{const parts=candidate.trim().split(/\s+/);if(!parts[0])return candidate;const local=localize(parts[0]);return [local,...parts.slice(1)].join(' ')}).join(', ');
   el.setAttribute('srcset',rewritten);
  });
  document.querySelectorAll('[style]').forEach(el=>{
