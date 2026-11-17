@@ -279,17 +279,27 @@ async function loadContent(){
   await saveOfflineCurriculum(DB);
   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB only.')}
   const questionsSync=await refreshOfflineQuestionBanks();
-  const imagesSync=await cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER);
-  const report={complete:imagesSync.complete,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:refs.length,questions:questionsSync.questions,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,synced_at:new Date().toISOString()};
-  await saveFullSyncReport(report);
+  // Never hold the lecture interface while downloading the entire academy image library.
+  // Lesson images render from their original URLs immediately; offline copies are saved in the background.
+  const previousImageReport=await readFullSyncReport()||{};
+  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:refs.length,questions:questionsSync.questions,images_sync_status:'background',synced_at:new Date().toISOString()});
   refreshOfflineSyncBadge();
-  if(!report.complete)throw Error(imagesSync.failed.length?'تم حفظ النصوص والأسئلة، لكن تعذر تنزيل '+imagesSync.failed.length+' صورة. أعد المحاولة مع اتصال مستقر.':'تم حفظ النصوص والأسئلة و'+imagesSync.cached+' صورة؛ تبقت '+imagesSync.remaining+' صورة للحفظ. اضغط تحديث المحتوى لإكمال المزامنة.');
 
  }catch(e){
   cloudError=e.message||String(e);
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
  }
  renderHome();connection();
+ // Start image archiving only after the refreshed curriculum has rendered.
+ if(!cloudError&&dataSource==='supabase'&&navigator.onLine){
+  setTimeout(async()=>{try{
+   const imagesSync=await cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER);
+   const previous=await readFullSyncReport()||{};
+   await saveFullSyncReport({...previous,complete:imagesSync.complete,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,images_sync_status:imagesSync.complete?'complete':'partial',synced_at:new Date().toISOString()});
+   refreshOfflineSyncBadge();
+   if(!imagesSync.complete)console.warn('Some images remain uncached:',imagesSync.failed.length,imagesSync.remaining);
+  }catch(imageError){console.warn('Background image archive will retry on the next online refresh:',imageError.message)}},120);
+ }
  if(cloudError||topicError||lessonError){
   const details=[cloudError&&('الأقسام: '+cloudError),topicError&&('الموضوعات: '+topicError),lessonError&&('المحاضرات: '+lessonError)].filter(Boolean).join(' · ');
   const notice=document.createElement('div');
@@ -1417,7 +1427,7 @@ window.addEventListener('online',()=>{connection();loadContent().catch(e=>consol
 window.addEventListener('offline',connection);
 syncAdminNavigation();document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.page==='admin'&&!isAdmin())return;showPage(b.dataset.page)}));document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));document.getElementById('homeLink').onclick=e=>{e.preventDefault();renderHome()};document.getElementById('accountBtn').onclick=()=>showPage('accounts');const hs=document.getElementById('headerSearch'),hsb=document.getElementById('headerSearchBtn');if(hsb)hsb.onclick=()=>search(hs?.value||'','headerSearchResults');if(hs){hs.addEventListener('input',()=>search(hs.value,'headerSearchResults'));hs.addEventListener('keydown',e=>{if(e.key==='Enter')search(hs.value,'headerSearchResults')})}window.addEventListener('online',()=>{connection();syncOfflineCompletions()});window.addEventListener('offline',connection);
 const overlay=document.getElementById('welcomeOverlay');if(overlay){const close=()=>{overlay.classList.add('hidden');document.body.classList.remove('portal-gate-open')};overlay.classList.remove('hidden');document.body.classList.add('portal-gate-open');const startBtn=document.getElementById('welcomeStart'),loginBtn=document.getElementById('welcomeLogin'),skipBtn=document.getElementById('welcomeClose');if(startBtn)startBtn.onclick=close;if(skipBtn)skipBtn.onclick=close;if(loginBtn)loginBtn.onclick=()=>{close();showPage('accounts')}}
-loadContent().then(async()=>{await loadHomepageSettings();applyWelcomePortalSettings();refreshOfflineSyncBadge();await loadProfile();if(isAdmin()){const gate=document.getElementById('welcomeOverlay');if(gate)gate.classList.add('hidden');document.body.classList.remove('portal-gate-open');renderAdmin()}else{renderHome()}await syncOfflineCompletions();const token=new URLSearchParams(location.search).get('verify');if(token&&!isAdmin())await verifyCertificate(token);if(navigator.onLine&&dataSource==='supabase'){const cacheImages=async()=>{try{const homeImages=await cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER);const previous=await readFullSyncReport()||{};await saveFullSyncReport({...previous,complete:homeImages.complete,images_total:homeImages.total,images_cached:homeImages.cached,images_failed:homeImages.failed.length,synced_at:new Date().toISOString()});refreshOfflineSyncBadge();}catch(e){console.warn('Background offline image caching deferred:',e.message)}};if('requestIdleCallback'in window)requestIdleCallback(()=>cacheImages(),{timeout:12000});else setTimeout(cacheImages,10000)}}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
+loadContent().then(async()=>{await loadHomepageSettings();applyWelcomePortalSettings();refreshOfflineSyncBadge();await loadProfile();if(isAdmin()){const gate=document.getElementById('welcomeOverlay');if(gate)gate.classList.add('hidden');document.body.classList.remove('portal-gate-open');renderAdmin()}else{renderHome()}await syncOfflineCompletions();const token=new URLSearchParams(location.search).get('verify');if(token&&!isAdmin())await verifyCertificate(token);/* Image archiving is started after loadContent renders the current curriculum. */}).catch(e=>{main.innerHTML=`<div class="content-card"><h2>تعذر تحميل المحتوى</h2><p>${esc(e.message)}</p></div>`;console.error(e)});
 if('serviceWorker'in navigator)window.addEventListener('load',async()=>{try{const registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await registration.update().catch(e=>console.info('Service worker update check deferred:',e.message));navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!sessionStorage.getItem('hakim_sw_controller_reload')){sessionStorage.setItem('hakim_sw_controller_reload','1');location.reload()}});setTimeout(()=>sessionStorage.removeItem('hakim_sw_controller_reload'),2500)}catch(e){console.error('Academy service worker registration failed:',e)}});
 
 
