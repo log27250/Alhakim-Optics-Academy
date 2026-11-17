@@ -80,7 +80,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
  for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\\s+/)[0]))});
+   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});
    for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
@@ -184,8 +184,20 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  }catch(e){failed.push({url:src,error:e.message})}}));
  const records=[...offlineMediaMap].filter(([src,local])=>urls.has(src)).map(([source_url,local_url])=>({source_url,local_url,cached_at:new Date().toISOString()}));
  await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),st=tx.objectStore('media_map');records.forEach(x=>st.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();
- // Switch any currently displayed lesson images to their same-origin cached copies immediately.
- document.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
+ // Rewrite every supported image source to its same-origin cached copy.
+ const localize=(raw)=>{try{const source=new URL(String(raw||'').trim(),location.href).href;return offlineMediaMap.get(source)||raw}catch(_){return raw}};
+ document.querySelectorAll('img[src],source[src],image[href],image[xlink\\:href]').forEach(el=>{
+  for(const attr of ['src','href','xlink:href']){const raw=el.getAttribute(attr);if(raw){const local=localize(raw);if(local&&local!==raw)el.setAttribute(attr,local)}}
+ });
+ document.querySelectorAll('img[srcset],source[srcset]').forEach(el=>{
+  const raw=el.getAttribute('srcset');if(!raw)return;
+  const rewritten=raw.split(',').map(candidate=>{const parts=candidate.trim().split(/\s+/);if(!parts[0])return candidate;const local=localize(parts[0]);return [local,...parts.slice(1)].join(' ')}).join(', ');
+  el.setAttribute('srcset',rewritten);
+ });
+ document.querySelectorAll('[style]').forEach(el=>{
+  const style=el.getAttribute('style');if(!style||!style.includes('url('))return;
+  el.setAttribute('style',style.replace(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi,(match,quote,url)=>{const local=localize(url);return local&&local!==url?'url('+quote+local+quote+')':match}));
+ });
  return {total:list.length,cached,failed,remaining:Math.max(0,list.length-cached),complete:failed.length===0&&cached>=list.length,priority_images:priorityList.length};
 }
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
