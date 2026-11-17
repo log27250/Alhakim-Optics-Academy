@@ -931,8 +931,29 @@ function renderLectureContentWithIllustration(l){
   for(const node of [...arBody.childNodes])body.appendChild(doc.importNode(node,true));
  }
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
- // Replace previously cached open-license Wikimedia images with same-origin cache keys for offline rendering.
- body.querySelectorAll('img[src]').forEach(img=>{try{const source=new URL(img.getAttribute('src'),location.href).href;const local=offlineMediaMap.get(source);if(local)img.setAttribute('src',local)}catch(_){}});
+ // Rewrite every supported image source in the detached lesson document before rendering.
+ // This is essential because the page-level cache pass cannot reach this not-yet-attached DOM.
+ const localizeLessonSource=raw=>{try{const source=new URL(String(raw||'').trim(),location.href).href;return offlineMediaMap.get(source)||raw}catch(_){return raw}};
+ body.querySelectorAll('img[src],source[src],image[href],image[xlink\:href]').forEach(el=>{
+  for(const attr of ['src','href','xlink:href']){
+   const raw=el.getAttribute(attr);
+   if(raw){const local=localizeLessonSource(raw);if(local&&local!==raw)el.setAttribute(attr,local)}
+  }
+ });
+ body.querySelectorAll('img[srcset],source[srcset]').forEach(el=>{
+  const raw=el.getAttribute('srcset');if(!raw)return;
+  const rewritten=raw.split(',').map(candidate=>{
+   const parts=candidate.trim().split(/\s+/);if(!parts[0])return candidate;
+   const local=localizeLessonSource(parts[0]);return [local,...parts.slice(1)].join(' ');
+  }).join(', ');
+  el.setAttribute('srcset',rewritten);
+ });
+ body.querySelectorAll('[style]').forEach(el=>{
+  const style=el.getAttribute('style');if(!style||!style.includes('url('))return;
+  el.setAttribute('style',style.replace(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi,(match,quote,url)=>{
+   const local=localizeLessonSource(url);return local&&local!==url?'url('+quote+local+quote+')':match;
+  }));
+ });
  // The same Oculus direct-ophthalmoscope stock photo was copied into unrelated anatomy and indirect-ophthalmoscopy lessons.
  if(!['DO-016-L01','EINS-001-L01'].includes(String(l.code||''))){
   body.querySelectorAll('img[src]').forEach(img=>{
