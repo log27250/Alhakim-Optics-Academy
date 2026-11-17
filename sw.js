@@ -90,7 +90,7 @@ self.addEventListener('fetch',event=>{
   const offlineMedia=await mediaCache.match(event.request);
   if(offlineMedia)return offlineMedia;
   const navigation=event.request.mode==='navigate';
-  const appShell=navigation||/\\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
+  const appShell=navigation||/\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
   if(appShell)return networkFirst(event.request,cache);
   const cached=await cache.match(event.request,{ignoreSearch:true});
   if(cached)return cached;
