@@ -80,7 +80,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
  for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\\s+/)[0]))});
+   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});
    for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
@@ -196,7 +196,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  });
  document.querySelectorAll('[style]').forEach(el=>{
   const style=el.getAttribute('style');if(!style||!style.includes('url('))return;
-  el.setAttribute('style',style.replace(/url\\((['"]?)(https?:\\/\\/[^)'"]+)\\1\\)/gi,(match,quote,url)=>{const local=localize(url);return local&&local!==url?'url('+quote+local+quote+')':match}));
+  el.setAttribute('style',style.replace(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi,(match,quote,url)=>{const local=localize(url);return local&&local!==url?'url('+quote+local+quote+')':match}));
  });
  return {total:list.length,cached,failed,remaining:Math.max(0,list.length-cached),complete:failed.length===0&&cached>=list.length,priority_images:priorityList.length};
 }
