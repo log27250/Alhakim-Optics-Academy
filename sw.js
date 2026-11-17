@@ -1,5 +1,5 @@
-/* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v3-all-assets-offline-2026-11-17';
+/* HAKIM OPTICS ACADEMY — verified offline shell and complete image bundle */
+const CACHE_NAME='alhakim-academy-v4-verified-all-assets-2026-11-17';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
@@ -7,24 +7,31 @@ const CORE=[
  './offline-assets.json','./manifest.webmanifest','./offline.html',
  './icon-192.png','./icon-512.png','./assets/alhakim-logo.png'
 ];
+const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function fetchAndCache(cache,path){
  const url=new URL(path,self.registration.scope).href;
- const response=await fetch(url,{cache:'reload'});
- if(!response.ok)throw new Error('Offline asset unavailable: '+path+' ('+response.status+')');
- await cache.put(url,response.clone());
- return true;
+ let lastError;
+ for(let attempt=1;attempt<=3;attempt++){
+  try{
+   const response=await fetch(url,{cache:'reload'});
+   if(!response.ok)throw new Error('HTTP '+response.status);
+   await cache.put(url,response.clone());
+   return true;
+  }catch(error){lastError=error;if(attempt<3)await sleep(350*attempt)}
+ }
+ throw new Error('Offline asset unavailable: '+path+' ('+(lastError?.message||'download failed')+')');
 }
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{
   const cache=await caches.open(CACHE_NAME);
   try{
-   // Do not activate a partial release. The previous cache remains untouched on failure.
    for(const path of CORE)await fetchAndCache(cache,path);
-   // Pre-cache every bundled academy image/diagram so lessons remain illustrated offline.
-   const manifestResponse=await cache.match(new URL('./offline-assets.json',self.registration.scope).href);
+   const manifestURL=new URL('./offline-assets.json',self.registration.scope).href;
+   const manifestResponse=await cache.match(manifestURL);
    if(!manifestResponse)throw new Error('Offline asset manifest is missing');
    const manifest=await manifestResponse.json();
    const assets=Array.isArray(manifest.images)?[...new Set(manifest.images)]:[];
+   if(!assets.length||Number(manifest.image_count)!==assets.length)throw new Error('Offline asset manifest is invalid');
    let assetsCached=0;
    const assetsFailed=[];
    for(let i=0;i<assets.length;i+=4){
@@ -34,14 +41,19 @@ self.addEventListener('install',event=>{
      else assetsFailed.push({path:assets[i+index],error:String(result.reason?.message||result.reason||'download failed')});
     });
    }
+   if(assetsFailed.length||assetsCached!==assets.length){
+    const sample=assetsFailed.slice(0,8).map(x=>x.path).join(', ');
+    throw new Error('Offline image bundle incomplete: '+assetsCached+'/'+assets.length+' cached. '+sample);
+   }
    await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({
     version:CACHE_NAME,images:assetsCached,assets_total:assets.length,assets_cached:assetsCached,
-    assets_failed:assetsFailed,assets_complete:assetsFailed.length===0,installed_at:new Date().toISOString()
+    assets_failed:[],assets_complete:true,installed_at:new Date().toISOString()
    }),{headers:{'Content-Type':'application/json'}}));
    await self.skipWaiting();
   }catch(error){
+   // This cache has a unique version; never delete the currently active worker's cache.
    await caches.delete(CACHE_NAME);
-   console.error('Atomic offline install aborted; previous version preserved.',error);
+   console.error('Offline install aborted; previous active version preserved.',error);
    throw error;
   }
  })());
@@ -49,8 +61,10 @@ self.addEventListener('install',event=>{
 self.addEventListener('activate',event=>{
  event.waitUntil((async()=>{
   const cache=await caches.open(CACHE_NAME);
-  const marker=await cache.match(new URL(COMPLETE_KEY,self.registration.scope).href);
-  if(!marker)throw new Error('Refusing to activate an incomplete offline cache');
+  const markerResponse=await cache.match(new URL(COMPLETE_KEY,self.registration.scope).href);
+  if(!markerResponse)throw new Error('Refusing to activate an incomplete offline cache');
+  const marker=await markerResponse.json();
+  if(!marker.assets_complete||marker.assets_cached!==marker.assets_total)throw new Error('Refusing to activate an incomplete image bundle');
   const keys=await caches.keys();
   await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&key!==CACHE_NAME&&key!==MEDIA_CACHE).map(key=>caches.delete(key)));
   await self.clients.claim();
@@ -76,7 +90,7 @@ self.addEventListener('fetch',event=>{
   const offlineMedia=await mediaCache.match(event.request);
   if(offlineMedia)return offlineMedia;
   const navigation=event.request.mode==='navigate';
-  const appShell=navigation||/\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
+  const appShell=navigation||/\\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
   if(appShell)return networkFirst(event.request,cache);
   const cached=await cache.match(event.request,{ignoreSearch:true});
   if(cached)return cached;
