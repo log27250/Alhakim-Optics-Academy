@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — atomic offline shell + curriculum illustrations */
-const CACHE_NAME='alhakim-academy-v2-138-pediatric-offline-photos';
+const CACHE_NAME='alhakim-academy-v3-all-assets-offline-2026-11-17';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
@@ -20,9 +20,24 @@ self.addEventListener('install',event=>{
   try{
    // Do not activate a partial release. The previous cache remains untouched on failure.
    for(const path of CORE)await fetchAndCache(cache,path);
-   // Teaching images are cached gradually by the app after the interface is ready.
-   // Never block a release update on downloading the entire image library.
-   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({version:CACHE_NAME,images:0,installed_at:new Date().toISOString()}),{headers:{'Content-Type':'application/json'}}));
+   // Pre-cache every bundled academy image/diagram so lessons remain illustrated offline.
+   const manifestResponse=await cache.match(new URL('./offline-assets.json',self.registration.scope).href);
+   if(!manifestResponse)throw new Error('Offline asset manifest is missing');
+   const manifest=await manifestResponse.json();
+   const assets=Array.isArray(manifest.images)?[...new Set(manifest.images)]:[];
+   let assetsCached=0;
+   const assetsFailed=[];
+   for(let i=0;i<assets.length;i+=4){
+    const batch=await Promise.allSettled(assets.slice(i,i+4).map(path=>fetchAndCache(cache,path)));
+    batch.forEach((result,index)=>{
+     if(result.status==='fulfilled')assetsCached++;
+     else assetsFailed.push({path:assets[i+index],error:String(result.reason?.message||result.reason||'download failed')});
+    });
+   }
+   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({
+    version:CACHE_NAME,images:assetsCached,assets_total:assets.length,assets_cached:assetsCached,
+    assets_failed:assetsFailed,assets_complete:assetsFailed.length===0,installed_at:new Date().toISOString()
+   }),{headers:{'Content-Type':'application/json'}}));
    await self.skipWaiting();
   }catch(error){
    await caches.delete(CACHE_NAME);
