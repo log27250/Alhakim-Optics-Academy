@@ -425,3 +425,16 @@ html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
 .portal-founder-photo{width:76px;height:76px;object-fit:cover;border-radius:50%;border:3px solid #e5b83e;box-shadow:0 4px 14px #092b5530;background:#eaf3ff}
 .portal-founder small{line-height:1.6}
 @media(max-width:560px){.portal-founder-photo{width:66px;height:66px}}
+
+
+/* Scientific Library administration and catalogue */
+.library-admin-list,.library-link-list{display:grid;gap:12px;margin-top:16px}
+.library-admin-list .reference-card{border:1px solid #dce6ef}
+.library-link-row{display:flex!important;align-items:center;gap:12px;padding:10px 12px;border:1px solid #e0e8f0;border-radius:9px;background:#fff}
+.library-link-row input{width:18px;height:18px;flex:0 0 auto}
+#libraryItemForm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#libraryItemForm label{display:flex;flex-direction:column;gap:6px;font-weight:700;color:#244765}
+#libraryItemForm input,#libraryItemForm select,#libraryItemForm textarea{width:100%;min-width:0;padding:11px;border:1px solid #ccd9e5;border-radius:9px;background:#fff;color:#18344e;font:inherit}
+#libraryItemForm textarea{resize:vertical}
+#libraryItemForm label:nth-child(1),#libraryItemForm label:nth-child(9),#libraryItemForm label:nth-child(10),#libraryItemForm label:nth-child(13),#libraryItemForm .admin-actions{grid-column:1/-1}
+@media(max-width:650px){#libraryItemForm{grid-template-columns:1fr}#libraryItemForm label,#libraryItemForm .admin-actions{grid-column:1}}
