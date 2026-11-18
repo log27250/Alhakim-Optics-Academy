@@ -347,7 +347,7 @@ async function loadHomepageSettings(){
  }else HOME_COURSES=[];
 }
 function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="eager" onerror="this.style.display=\'none\'">':''}
-function founderImage(url,name){const src=url||'./assets/founder-photo.jpg';return '<img class="founder-photo" src="'+esc(src)+'" data-founder-photo alt="'+esc(name||'المؤسس')+'" loading="eager" onerror="if(this.dataset.fallback!=="1"){this.dataset.fallback="1";this.src="./assets/founder-photo.jpg"}else{this.style.display="none"}">'}
+function founderImage(url,name){const src=url||'./assets/founder-photo.jpg';return '<img class="founder-photo" src="'+esc(src)+'" data-founder-photo alt="'+esc(name||'المؤسس')+'" loading="eager" onerror="this.onerror=null;this.src=\'./assets/founder-photo.jpg\'">'}
 function renderHome(){
  document.body.classList.add('home-screen');
  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
