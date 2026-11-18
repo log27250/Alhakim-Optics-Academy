@@ -419,3 +419,9 @@ html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
 .slide-content{direction:ltr!important;text-align:left!important;unicode-bidi:plaintext}
 .slide-content>ul,.slide-content>ol,.slide-content>table{direction:ltr!important;text-align:left!important}
 .slide-content table th[dir=rtl],.slide-content table td[dir=rtl]{direction:rtl!important;text-align:right!important}
+
+/* Founder identity remains visible on the offline welcome portal. */
+.portal-founder{display:flex;flex-direction:column;align-items:center;gap:5px;margin-top:12px}
+.portal-founder-photo{width:76px;height:76px;object-fit:cover;border-radius:50%;border:3px solid #e5b83e;box-shadow:0 4px 14px #092b5530;background:#eaf3ff}
+.portal-founder small{line-height:1.6}
+@media(max-width:560px){.portal-founder-photo{width:66px;height:66px}}
