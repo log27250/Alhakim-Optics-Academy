@@ -319,17 +319,35 @@ function applyWelcomePortalSettings(){
  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=String(value??'')};
  set('portalFounderName',s.founder_name);
  set('portalFounderTitle',s.founder_title);
+ const portalPhoto=document.getElementById('portalFounderPhoto');
+ if(portalPhoto){portalPhoto.alt=s.founder_name||'المؤسس';portalPhoto.src=s.founder_photo_url||'./assets/founder-photo.jpg';portalPhoto.onerror=()=>{if(portalPhoto.dataset.fallback!=='1'){portalPhoto.dataset.fallback='1';portalPhoto.src='./assets/founder-photo.jpg'}else portalPhoto.hidden=true};portalPhoto.hidden=false}
  const topic=Number(s.topic_count??650),refs=Number(s.reference_count??30);
  set('portalTopicCount',(s.topic_count_prefix||'أكثر من ')+topic.toLocaleString('en-US'));
  set('portalReferenceCount',(s.reference_count_prefix||'أكثر من ')+refs.toLocaleString('en-US'));
 }
+async function saveOfflineHomepageSettings(settings){
+ const safe={...HOME_DEFAULTS,...(settings||{})};
+ const value={founder_name:safe.founder_name,founder_title:safe.founder_title,founder_photo_url:safe.founder_photo_url||'./assets/founder-photo.jpg',logo_url:safe.logo_url||'./assets/alhakim-logo.png',show_founder:safe.show_founder!==false,settings:safe,updated_at:new Date().toISOString()};
+ const db=await openOfflineDB();
+ try{await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'homepage_settings',value, synced_at:value.updated_at});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)})}finally{db.close()}
+}
+async function readOfflineHomepageSettings(){
+ const db=await openOfflineDB();
+ try{return await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('homepage_settings');req.onsuccess=()=>resolve(req.result?.value?.settings||req.result?.value||null);req.onerror=()=>reject(req.error)})}finally{db.close()}
+}
 async function loadHomepageSettings(){
- try{const rows=await rest('academy_homepage_settings','select=settings&id=eq.1');if(rows?.[0]?.settings)HOME_SETTINGS={...HOME_DEFAULTS,...rows[0].settings}}
- catch(e){console.info('Homepage settings unavailable; using defaults:',e.message)}
- try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
+ // Hydrate the last saved identity before trying the network, so the portal never starts with an empty founder profile offline.
+ try{const saved=await readOfflineHomepageSettings();if(saved)HOME_SETTINGS={...HOME_DEFAULTS,...saved}}catch(e){console.info('Offline homepage identity unavailable:',e.message)}
+ if(navigator.onLine){
+  try{
+   const rows=await rest('academy_homepage_settings','select=settings&id=eq.1');
+   if(rows?.[0]?.settings){HOME_SETTINGS={...HOME_DEFAULTS,...rows[0].settings};await saveOfflineHomepageSettings(HOME_SETTINGS)}
+  }catch(e){console.info('Homepage settings unavailable; using last offline copy:',e.message)}
+  try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
+ }else HOME_COURSES=[];
 }
 function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="eager" onerror="this.style.display=\'none\'">':''}
-function founderImage(url,name){return url?homeImage(url,name,'founder-photo'):'<div class="founder-photo founder-photo-placeholder" role="img" aria-label="صورة المؤسس غير مضافة بعد"><span>د. ل</span></div>'}
+function founderImage(url,name){const src=url||'./assets/founder-photo.jpg';return '<img class="founder-photo" src="'+esc(src)+'" data-founder-photo alt="'+esc(name||'المؤسس')+'" loading="eager" onerror="if(this.dataset.fallback!=="1"){this.dataset.fallback="1";this.src="./assets/founder-photo.jpg"}else{this.style.display="none"}">'}
 function renderHome(){
  document.body.classList.add('home-screen');
  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
@@ -1367,7 +1385,7 @@ async function adminHomepageSettings(useDefaults=false){
  };
  document.getElementById('hs_preview').onclick=()=>{try{HOME_SETTINGS=read();applyWelcomePortalSettings();renderHome()}catch(e){document.getElementById('hs_message').textContent=e.message}};
  document.getElementById('hs_reset').onclick=()=>{if(!confirm('استعادة التصميم الافتراضي؟ لن يتم الحفظ إلا بعد الضغط على حفظ ونشر.'))return;HOME_SETTINGS={...HOME_DEFAULTS};adminHomepageSettings(true)};
- form.onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('hs_message');msg.textContent='جارٍ حفظ الإعدادات…';try{const settings=read();const r=await fetch(`${SUPABASE_URL}/rest/v1/academy_homepage_settings`,{method:'POST',headers:{...authHeaders(),Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({id:1,settings,updated_by:session.user.id,updated_at:new Date().toISOString()})});const body=await r.json().catch(()=>[]);if(!r.ok)throw Error(body.message||body.details||'تعذر حفظ الإعدادات');HOME_SETTINGS=settings;applyWelcomePortalSettings();msg.textContent='تم حفظ ونشر إعدادات الواجهة بنجاح. ستظهر التغييرات لجميع الزوار.';}catch(err){msg.textContent=err.message}};
+ form.onsubmit=async e=>{e.preventDefault();const msg=document.getElementById('hs_message');msg.textContent='جارٍ حفظ الإعدادات…';try{const settings=read();const r=await fetch(`${SUPABASE_URL}/rest/v1/academy_homepage_settings`,{method:'POST',headers:{...authHeaders(),Prefer:'resolution=merge-duplicates,return=representation'},body:JSON.stringify({id:1,settings,updated_by:session.user.id,updated_at:new Date().toISOString()})});const body=await r.json().catch(()=>[]);if(!r.ok)throw Error(body.message||body.details||'تعذر حفظ الإعدادات');HOME_SETTINGS=settings;await saveOfflineHomepageSettings(settings);applyWelcomePortalSettings();renderHome();msg.textContent='تم حفظ ونشر إعدادات الواجهة بنجاح، وحُفظت هوية المؤسس محلياً للعمل دون إنترنت.';}catch(err){msg.textContent=err.message}};
 }
 function adminQuestionForm(){if(!adminGuard())return;pageShell('إضافة سؤال للامتحان','أدخل سؤالاً موثقاً وحدد أربعة خيارات والإجابة الصحيحة.',`<form id="questionForm" class="content-card"><label>القسم<select id="qDept">${DB.departments.map(d=>`<option value="${esc(d.code)}">${esc(d.code)} — ${esc(d.name_en)}</option>`).join('')}</select></label><label>نص السؤال<textarea id="qStem" required></textarea></label>${[0,1,2,3].map(i=>`<label>الخيار ${i+1}<input id="qOpt${i}" required></label>`).join('')}<label>رمز الإجابة الصحيحة<select id="qCorrect"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select></label><label>التفسير العلمي<textarea id="qExplain"></textarea></label><label>المستوى<select id="qDifficulty"><option>basic</option><option selected>intermediate</option><option>advanced</option></select></label><button class="primary">حفظ السؤال</button><p id="qMsg" class="form-message"></p></form>`);document.getElementById('questionForm').onsubmit=async e=>{e.preventDefault();const options=['A','B','C','D'].map((v,i)=>({value:v,label:document.getElementById('qOpt'+i).value.trim()}));try{const r=await fetch(`${SUPABASE_URL}/rest/v1/academy_exam_questions`,{method:'POST',headers:{...authHeaders(),Prefer:'return=representation'},body:JSON.stringify({department_code:document.getElementById('qDept').value,question_text:document.getElementById('qStem').value.trim(),options,correct_option:document.getElementById('qCorrect').value,explanation:document.getElementById('qExplain').value.trim(),difficulty:document.getElementById('qDifficulty').value,is_active:true})});if(!r.ok){const b=await r.json();throw Error(b.message||'تعذر حفظ السؤال')}document.getElementById('qMsg').textContent='تم حفظ السؤال.';e.target.reset()}catch(err){document.getElementById('qMsg').textContent=err.message}}}
 async function adminCertificates(){
