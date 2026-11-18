@@ -692,7 +692,7 @@ function initLectureDeck(){
 function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return '';return first(ref,['url','doi','link','href'])}return ''}
 function refLabel(ref){return typeof ref==='object'?first(ref,['title','name','citation'],'مرجع علمي'):String(ref)}
 const ACADEMY_READABLE_REFERENCE_IDS=new Set(['423c98e5-8bf4-4ef1-ba66-32e5f0787934','4380825f-f67e-479b-8661-1a0c12ab76bf','d490838f-d39e-42f8-8bbc-0317d9757d3d']);
-function isAcademyReadableReference(ref){return !!ref&&(String(ref.academy_readability||'')==='available'||(!!ref.file_path&&['free_full_text','free_pdf_download'].includes(String(ref.access_type||'')))||(ACADEMY_READABLE_REFERENCE_IDS.has(String(ref.id))&&/^https?:\/\//i.test(referenceUrl(ref))&&/\\.pdf(?:$|[?#])/i.test(referenceUrl(ref))))}\nfunction academyReadabilityLabel(ref){return isAcademyReadableReference(ref)?'📗 مراجع متاحة':'🔒 مراجع غير متاحة'}
+function isAcademyReadableReference(ref){return !!ref&&(String(ref.academy_readability||'')==='available'||(!!ref.file_path&&['free_full_text','free_pdf_download'].includes(String(ref.access_type||'')))||(ACADEMY_READABLE_REFERENCE_IDS.has(String(ref.id))&&/^https?:\/\//i.test(referenceUrl(ref))&&/\.pdf(?:$|[?#])/i.test(referenceUrl(ref))))}\nfunction academyReadabilityLabel(ref){return isAcademyReadableReference(ref)?'📗 مراجع متاحة':'🔒 مراجع غير متاحة'}
 function referenceLink(ref){return isAcademyReadableReference(ref)?'<button type="button" class="primary reference-open-button" onclick="openAcademyReference(\''+esc(ref.id)+'\')">📖 اقرأ المرجع كاملاً داخل الأكاديمية</button>':''}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
 async function academyPdfSignedUrl(path){
