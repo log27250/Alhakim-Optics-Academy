@@ -733,7 +733,14 @@ async function drawAcademyPdf(path,title,externalPdfUrl){
   host.oncontextmenu=e=>e.preventDefault();
   host.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&['p','s','c'].includes(e.key.toLowerCase())){e.preventDefault();e.stopPropagation()}};
   await renderPage();
- }catch(error){host.innerHTML='<div class="notice pdf-error">'+esc(error.message||'تعذر عرض ملف PDF')+'</div>'}
+ }catch(error){
+  const fallbackUrl=externalPdfUrl||'';
+  if(fallbackUrl&&/^https:\/\//i.test(fallbackUrl)){
+   host.innerHTML='<div class="pdf-reader-toolbar"><span>عرض مباشر للملف</span><a class="secondary" href="'+esc(fallbackUrl)+'" target="_blank" rel="noopener">فتح المرجع في عارض PDF</a></div><iframe class="academy-pdf-fallback" title="'+esc(title)+'" src="'+esc(fallbackUrl)+'#toolbar=1&navpanes=0&view=FitH" loading="eager" referrerpolicy="no-referrer" style="display:block;width:100%;height:75vh;min-height:520px;border:0;background:#fff"></iframe><p class="notice">تعذر تشغيل قارئ PDF.js بسبب قيود الاتصال بالمصدر؛ جربنا عرض الملف مباشرة داخل الصفحة. إذا لم يظهر هنا، استخدم زر فتح المرجع في عارض PDF.</p>';
+  }else{
+   host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF: '+esc(error.message||'خطأ غير معروف')+'</div>';
+  }
+ }
 }
 async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير متاح للقراءة الكاملة حالياً، لذلك لا يظهر ضمن مكتبة الطالب.');return;}
