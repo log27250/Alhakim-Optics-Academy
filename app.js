@@ -745,6 +745,8 @@ async function drawAcademyPdf(path,title,externalPdfUrl){
 async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير متاح للقراءة الكاملة حالياً، لذلك لا يظهر ضمن مكتبة الطالب.');return;}
  const external=referenceUrl(ref),hasPdf=!!ref.file_path,source=external.startsWith('http');
+ const proxyIds={'d490838f-d39e-42f8-8bbc-0317d9757d3d':'tfos-dews-ii','4380825f-f67e-479b-8661-1a0c12ab76bf':'byu-physics-optics','423c98e5-8bf4-4ef1-ba66-32e5f0787934':'imi-accommodation-binocular'};
+ const viewerUrl=proxyIds[String(ref.id)]?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+proxyIds[String(ref.id)]:external;
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
@@ -753,7 +755,7 @@ async function openAcademyReference(id){
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref));
- else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),external);
+ else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl);
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
 function renderLibrary(){
