@@ -424,7 +424,7 @@ async function showDepartment(code){
   <button class="home-return section-back" onclick="showPage('departments')" aria-label="العودة إلى الأقسام">▦ <span>العودة إلى الأقسام</span></button>
   <div class="content-card">
    <span class="tag">${esc(code)}</span>
-   ${code==='EINS'?'<div class="notice" style="margin:12px 0"><b>التعلم دون إنترنت</b><p id="offlineSectionStatus">جارٍ التحقق من حالة الحفظ…</p><button type="button" class="primary" id="downloadOfflineSection" onclick="downloadDepartmentOffline(\'EINS\')">حفظ القسم كاملاً للعمل دون إنترنت</button></div>':''}
+   ${code==='EINS'?'<div class="notice" style="margin:12px 0"><b>التعلم دون إنترنت</b><p id="offlineSectionStatus">جارٍ التحقق من حالة الحفظ…</p><button type="button" class="primary" id="downloadOfflineSection" onclick="downloadDepartmentOffline(\'EINS\').catch(()=>{})">حفظ القسم كاملاً للعمل دون إنترنت</button></div>':''}
    <h3>محاضرات القسم المنشورة (${ls.length})</h3>
    ${lessonList(ls,false)}
    ${examPanel}
