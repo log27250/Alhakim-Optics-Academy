@@ -6,7 +6,7 @@ let DB=null,dataSource='local',session=null,profile=null,deferredInstallPrompt=n
 const HOME_DEFAULTS={
  logo_url:'./assets/alhakim-logo.png',
  founder_photo_url:'',
- founder_name:'د. لقمان بابكر الشيخ',
+ founder_name:'لقمان بابكر',
  founder_title:'بكالوريوس الشرف علوم البصريات — جامعة غرب كردفان',
  topic_count:650,reference_count:30,
  welcome_title:'مرحباً بك في مستقبل البصريات!',
