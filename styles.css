@@ -438,3 +438,8 @@ html[dir="ltr"] .data-table th,html[dir="ltr"] .data-table td{text-align:left}
 #libraryItemForm textarea{resize:vertical}
 #libraryItemForm label:nth-child(1),#libraryItemForm label:nth-child(9),#libraryItemForm label:nth-child(10),#libraryItemForm label:nth-child(13),#libraryItemForm .admin-actions{grid-column:1/-1}
 @media(max-width:650px){#libraryItemForm{grid-template-columns:1fr}#libraryItemForm label,#libraryItemForm .admin-actions{grid-column:1}}
+
+
+.library-filters{display:grid;grid-template-columns:minmax(0,2fr) minmax(190px,1fr);gap:12px;margin:0 0 18px}
+.library-filters input,.library-filters select{width:100%;padding:12px;border:1px solid #cbd9e6;border-radius:10px;background:#fff;font:inherit;color:#18344e}
+@media(max-width:600px){.library-filters{grid-template-columns:1fr}}
