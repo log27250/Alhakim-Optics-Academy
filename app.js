@@ -710,12 +710,40 @@ async function loadPdfJs(){
 }
 async function drawAcademyPdf(path,title,externalPdfUrl){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
+ host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ تجهيز صفحات المرجع...</span></div><div class="notice">يتم عرض صفحات PDF داخل الأكاديمية.</div>';
  try{
   const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);
-  const safeUrl=esc(url);
-  host.innerHTML='<div class="pdf-reader-toolbar"><span>قارئ PDF المدمج</span><a class="secondary" href="'+safeUrl+'" target="_blank" rel="noopener">فتح المرجع في عارض PDF</a></div><iframe class="academy-pdf-fallback" title="'+esc(title)+'" src="'+safeUrl+'#toolbar=1&navpanes=0&view=FitH" loading="eager" referrerpolicy="no-referrer" allow="fullscreen" style="display:block;width:100%;height:78vh;min-height:560px;border:0;background:#fff"></iframe><p class="notice">إذا لم يظهر الملف داخل الإطار، استخدم زر «فتح المرجع في عارض PDF». يعتمد العرض هنا على عارض PDF المدمج في المتصفح ولا يحتاج إلى تحميل PDF.js.</p>';
+  const pdfjs=await loadPdfJs();
+  const loadingTask=pdfjs.getDocument({url,withCredentials:false,disableRange:false,rangeChunkSize:65536});
+  const pdf=await loadingTask.promise;
+  host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button><a class="secondary" href="'+esc(url)+'" target="_blank" rel="noopener">فتح ملف PDF</a></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
+  const pages=host.querySelector('#academyPdfPages');
+  let scale=1.15;
+  async function renderPages(){
+   pages.innerHTML='';
+   for(let number=1;number<=pdf.numPages;number++){
+    const page=await pdf.getPage(number);
+    const base=page.getViewport({scale:1});
+    const width=Math.min(pages.clientWidth||900,1000);
+    const viewport=page.getViewport({scale:Math.min(scale,width/base.width)});
+    const canvas=document.createElement('canvas');
+    canvas.className='academy-pdf-page';
+    canvas.width=Math.floor(viewport.width);
+    canvas.height=Math.floor(viewport.height);
+    canvas.style.width=viewport.width+'px';
+    canvas.style.maxWidth='100%';
+    canvas.style.height='auto';
+    const context=canvas.getContext('2d',{alpha:false});
+    pages.appendChild(canvas);
+    await page.render({canvasContext:context,viewport}).promise;
+   }
+  }
+  host.querySelector('#academyPdfZoomIn').addEventListener('click',()=>{scale=Math.min(2.5,scale+0.15);renderPages().catch(showError)});
+  host.querySelector('#academyPdfZoomOut').addEventListener('click',()=>{scale=Math.max(0.65,scale-0.15);renderPages().catch(showError)});
+  await renderPages();
+  function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
  }catch(error){
-  host.innerHTML='<div class="notice pdf-error">تعذر تجهيز رابط المرجع: '+esc(error.message||'خطأ غير معروف')+'</div>';
+  host.innerHTML='<div class="notice pdf-error">تعذر تحميل المرجع داخل الأكاديمية: '+esc(error.message||'خطأ غير معروف')+'. تحقق من اتصال الإنترنت أو توفر ملف المرجع.</div>';
  }
 }
 async function openAcademyReference(id){
