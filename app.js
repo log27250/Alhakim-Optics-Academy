@@ -67,19 +67,18 @@ async function publicRpc(name,args={}){const r=await fetch(`${SUPABASE_URL}/rest
 const OFFLINE_DB_NAME='alhakim-academy-offline';
 let offlineQuestionBanks=new Map(),offlineMediaMap=new Map();
 const OFFLINE_MEDIA_CACHE='alhakim-academy-media-v1';
-function openOfflineDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(OFFLINE_DB_NAME,4);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('lesson_questions'))db.createObjectStore('lesson_questions',{keyPath:'lesson_id'});if(!db.objectStoreNames.contains('academy_meta'))db.createObjectStore('academy_meta',{keyPath:'key'});if(!db.objectStoreNames.contains('media_map'))db.createObjectStore('media_map',{keyPath:'source_url'});if(!db.objectStoreNames.contains('offline_sections'))db.createObjectStore('offline_sections',{keyPath:'code'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+function openOfflineDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(OFFLINE_DB_NAME,3);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('lesson_questions'))db.createObjectStore('lesson_questions',{keyPath:'lesson_id'});if(!db.objectStoreNames.contains('academy_meta'))db.createObjectStore('academy_meta',{keyPath:'key'});if(!db.objectStoreNames.contains('media_map'))db.createObjectStore('media_map',{keyPath:'source_url'})};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
 async function saveOfflineQuestionBanks(records){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('lesson_questions','readwrite'),store=tx.objectStore('lesson_questions');records.forEach(x=>{store.put(x);offlineQuestionBanks.set(String(x.lesson_id),x.questions)});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineQuestionBank(lessonId){const key=String(lessonId);if(offlineQuestionBanks.has(key))return offlineQuestionBanks.get(key);try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('lesson_questions','readonly').objectStore('lesson_questions').get(key);req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();if(value?.questions){offlineQuestionBanks.set(key,value.questions);return value.questions}}catch(e){console.warn('Offline question bank unavailable:',e)}return null}
 function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')+'-'+value.length.toString(16)}
 async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
-async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER,lessonScope=null){
+async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)throw Error('لا يمكن حفظ الصور دون اتصال.');
  const urls=new Set(),add=raw=>{const v=String(raw||'').trim().replace(/^['"]|['"]$/g,'');if(!v||/^(data:|blob:|#)/i.test(v))return;try{const u=new URL(v,location.href);if(/^https?:$/.test(u.protocol)&&u.origin!==location.origin)urls.add(u.href)}catch(_){}};
  const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
- const lessonList=Array.isArray(lessonScope)?lessonScope:DB.lessons;
  const home=HOME_SETTINGS||HOME_DEFAULTS;
- if(!lessonScope)[home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
- for(const lesson of lessonList){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
+ [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
+ for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
    doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});
    for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
@@ -87,7 +86,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER,l
   }
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
- const pediatricPriority=lessonScope?[]:[...new Set(DB.lessons.filter(l=>/^PED-/i.test(String(l.code||''))).flatMap(l=>{const found=[];for(const raw of [l.content_en,l.content_ar]){const source=String(raw||'');for(const m of source.matchAll(/!\\[[^\\]]*\\]\\(([^)\\s]+)(?:\\s+[^)]*)?\\)/g)){try{const u=new URL(m[1],location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}const doc=new DOMParser().parseFromString(source,'text/html');doc.querySelectorAll('img[src],source[src],image[href],image').forEach(n=>{const rawUrl=n.getAttribute('src')||n.getAttribute('href')||n.getAttribute('xlink:href');if(rawUrl){try{const u=new URL(rawUrl,location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}})}return found}))];
+ const pediatricPriority=[...new Set(DB.lessons.filter(l=>/^PED-/i.test(String(l.code||''))).flatMap(l=>{const found=[];for(const raw of [l.content_en,l.content_ar]){const source=String(raw||'');for(const m of source.matchAll(/!\\[[^\\]]*\\]\\(([^)\\s]+)(?:\\s+[^)]*)?\\)/g)){try{const u=new URL(m[1],location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}const doc=new DOMParser().parseFromString(source,'text/html');doc.querySelectorAll('img[src],source[src],image[href],image').forEach(n=>{const rawUrl=n.getAttribute('src')||n.getAttribute('href')||n.getAttribute('xlink:href');if(rawUrl){try{const u=new URL(rawUrl,location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}})}return found}))];
  const prioritySources=[...pediatricPriority,
   'https://commons.wikimedia.org/wiki/Special:FilePath/Cavernous%20sinus.jpg?width=1100',
   'https://commons.wikimedia.org/wiki/Special:FilePath/Slit%20lamp%20view%20of%20Cataract%20in%20Human%20Eye.png?width=1100',
@@ -200,26 +199,6 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER,l
   el.setAttribute('style',style.replace(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi,(match,quote,url)=>{const local=localize(url);return local&&local!==url?'url('+quote+local+quote+')':match}));
  });
  return {total:list.length,cached,failed,remaining:Math.max(0,list.length-cached),complete:failed.length===0&&cached>=list.length,priority_images:priorityList.length};
-}
-async function readOfflineSectionStatus(code){
- try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('offline_sections','readonly').objectStore('offline_sections').get(String(code));req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('Offline section status unavailable:',e);return null}
-}
-async function updateOfflineSectionStatus(code){
- const box=document.getElementById('offlineSectionStatus');if(!box)return;const state=await readOfflineSectionStatus(code);if(!document.getElementById('offlineSectionStatus'))return;
- if(state?.complete)box.textContent='✓ القسم محفوظ على هذا الجهاز: '+state.lesson_count+' محاضرة و'+state.images_cached+' صورة. آخر حفظ: '+new Date(state.cached_at).toLocaleString();
- else box.textContent='يتطلب الحفظ الأول اتصالاً بالإنترنت. بعد اكتمال التنزيل يمكن فتح المحاضرات المحفوظة دون اتصال.';
-}
-async function downloadDepartmentOffline(code){
- if(!navigator.onLine)throw Error('اتصل بالإنترنت أولاً لإتمام الحفظ الأول للقسم.');if(!window.caches||!window.indexedDB)throw Error('هذا المتصفح لا يدعم التخزين المحلي المطلوب.');
- const lessons=DB.lessons.filter(l=>l.department_code===code&&canViewLesson(l)&&String(l.status||'').toLowerCase()==='published');if(!lessons.length)throw Error('لم يتم العثور على محاضرات منشورة لهذا القسم.');
- const button=document.getElementById('downloadOfflineSection'),status=document.getElementById('offlineSectionStatus');if(button){button.disabled=true;button.textContent='جارٍ حفظ المحاضرات والصور…'}if(status)status.textContent='جارٍ حفظ النصوص والمراجع والصور على هذا الجهاز. لا تغلق الصفحة حتى يكتمل التنزيل.';
- try{let questionSets=await Promise.all(lessons.map(l=>readOfflineQuestionBank(l.id)));if(questionSets.some(q=>!Array.isArray(q))) {await refreshOfflineQuestionBanks();questionSets=await Promise.all(lessons.map(l=>readOfflineQuestionBank(l.id)))}if(questionSets.some(q=>!Array.isArray(q)))throw Error('لم يكتمل حفظ بنك الأسئلة الخاص بكل محاضرات القسم.');const questionCount=questionSets.reduce((n,q)=>n+q.length,0);await saveOfflineCurriculum(DB);const urls=new Set(),add=raw=>{const value=String(raw||'').trim();if(!value||/^(data:|blob:|#)/i.test(value))return;try{const u=new URL(value,location.href);if(/^https?:$/.test(u.protocol)&&u.origin!==location.origin)urls.add(u.href)}catch(_){}};
-  for(const lesson of lessons){for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');doc.querySelectorAll('img[src],source[src],image[href],image').forEach(el=>{add(el.getAttribute('src'));add(el.getAttribute('href'));add(el.getAttribute('xlink:href'));(el.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);}}
-  const imageReport=await cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER,lessons);const media=await caches.open(OFFLINE_MEDIA_CACHE),missing=[];for(const src of urls){const local=offlineMediaMap.get(src);if(!local||!(await media.match(local)))missing.push(src)}
-  if(missing.length)throw Error('لم يكتمل حفظ كل صور القسم: '+(urls.size-missing.length)+' من '+urls.size+'. أعد المحاولة بعد التأكد من استقرار الإنترنت.');
-  const db=await openOfflineDB(),record={code:String(code),complete:true,lesson_count:lessons.length,questions_cached:questionCount,images_total:urls.size,images_cached:urls.size,global_images_failed:Number(imageReport.failed?.length||0),cached_at:new Date().toISOString()};await new Promise((resolve,reject)=>{const tx=db.transaction('offline_sections','readwrite');tx.objectStore('offline_sections').put(record);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();
-  if(status)status.textContent='✓ اكتمل الحفظ: '+lessons.length+' محاضرة، و'+questionCount+' سؤال، وجميع الصور المرتبطة بها ('+urls.size+'). المحتوى متاح الآن دون اتصال على هذا الجهاز.';if(button){button.textContent='✓ تم حفظ القسم دون إنترنت';button.disabled=false}return record;
- }catch(error){if(status)status.textContent='تعذر إكمال الحفظ: '+error.message;if(button){button.disabled=false;button.textContent='إعادة محاولة حفظ القسم دون إنترنت'}throw error}
 }
 async function saveOfflineCurriculum(value){const db=await openOfflineDB();await new Promise((resolve,reject)=>{const tx=db.transaction('academy_meta','readwrite');tx.objectStore('academy_meta').put({key:'curriculum',value,synced_at:new Date().toISOString()});tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close()}
 async function readOfflineCurriculum(){try{const db=await openOfflineDB();const value=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('curriculum');req.onsuccess=()=>resolve(req.result?.value||null);req.onerror=()=>reject(req.error)});db.close();return value}catch(e){console.warn('IndexedDB curriculum cache unavailable:',e);return null}}
@@ -425,12 +404,10 @@ async function showDepartment(code){
   <button class="home-return section-back" onclick="showPage('departments')" aria-label="العودة إلى الأقسام">▦ <span>العودة إلى الأقسام</span></button>
   <div class="content-card">
    <span class="tag">${esc(code)}</span>
-   ${code==='EINS'?'<div class="notice" style="margin:12px 0"><b>التعلم دون إنترنت</b><p id="offlineSectionStatus">جارٍ التحقق من حالة الحفظ…</p><button type="button" class="primary" id="downloadOfflineSection" onclick="downloadDepartmentOffline(\'EINS\').catch(()=>{})">حفظ القسم كاملاً للعمل دون إنترنت</button></div>':''}
    <h3>محاضرات القسم المنشورة (${ls.length})</h3>
    ${lessonList(ls,false)}
    ${examPanel}
   </div>`);
- if(code==='EINS')updateOfflineSectionStatus(code);
 }
 
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
