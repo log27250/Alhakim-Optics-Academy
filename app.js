@@ -763,7 +763,9 @@ async function openAcademyReference(id){
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
 function renderLibrary(){
- const refs=(DB.reference_catalog||[]).filter(r=>r.status!=='archived'&&r.status!=='draft').slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
+ const allRefs=(DB.reference_catalog||[]).filter(r=>r.status!=='archived'&&r.status!=='draft');
+ const term=String(window.librarySearchTerm||'').toLowerCase().trim(),kind=String(window.libraryTypeFilter||'');
+ const refs=allRefs.filter(r=>(!kind||r.resource_type===kind)&&(!term||[r.title,r.authors,r.journal,r.publisher,r.doi,...(r.keywords||[])].join(' ').toLowerCase().includes(term))).slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
  const intro='المكتبة العلمية لأكاديمية الحكيم: كتب ومراجع سريرية وأبحاث وأوراق علمية ودراسات وإرشادات موثوقة.';
  const cards=refs.map(r=>{
   const url=referenceUrl(r), readable=isAcademyReadableReference(r), hasFile=!!r.file_path;
@@ -771,8 +773,10 @@ function renderLibrary(){
   const action=readable?referenceLink(r):(url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر الرسمي ↗</a>':(hasFile?'<span class="notice">ملف مرفق — يلزم التحقق من صلاحية عرضه.</span>':'<span class="notice">لا يوجد رابط وصول مسجل حالياً.</span>'));
   return '<article class="reference-card"><span class="tag">'+esc(referenceTypeLabel(r.resource_type))+'</span><h3>'+esc(refLabel(r))+'</h3><p><b>المؤلفون:</b> '+esc(first(r,['authors'],'غير محدد'))+'</p><p><b>سنة النشر:</b> '+esc(first(r,['publication_year'],'غير محدد'))+'</p><p><b>المجلة/الناشر:</b> '+esc(first(r,['journal','publisher'],'غير محدد'))+'</p>'+(r.abstract?'<p>'+esc(r.abstract)+'</p>':'')+(r.doi?'<p><b>DOI:</b> '+esc(r.doi)+'</p>':'')+'<p class="reference-access"><b>الوصول:</b> '+esc(access)+'</p>'+action+'</article>';
  }).join('');
- return pageShell('المكتبة العلمية | Scientific Library','إجمالي المراجع المسجلة: '+refs.length+'. يمكنك فتح المصدر الرسمي لكل مرجع عند توفر رابط.','<div class="reference-grid">'+(cards||'<div class="notice">لم يتم تسجيل مراجع بعد.</div>')+'</div>');
+ return pageShell('المكتبة العلمية | Scientific Library',intro+' إجمالي المواد المطابقة: '+refs.length+' من '+allRefs.length+'.','<div class="library-filters"><input id="librarySearch" type="search" placeholder="ابحث بالعنوان أو المؤلف أو DOI أو الكلمات المفتاحية" value="'+esc(window.librarySearchTerm||'')+'" oninput="filterScientificLibrary()"><select id="libraryType" onchange="filterScientificLibrary()"><option value="">جميع أنواع المواد</option>'+[['book','كتب علمية'],['clinical_reference','مراجع سريرية'],['research_article','بحوث علمية'],['scientific_paper','أوراق علمية'],['previous_study','دراسات سابقة'],['clinical_guideline','إرشادات سريرية'],['systematic_review','مراجعات منهجية']].map(([v,t])=>'<option value="'+v+'" '+(kind===v?'selected':'')+'>'+t+'</option>').join('')+'</select></div><div class="reference-grid">'+(cards||'<div class="notice">لا توجد مواد تطابق البحث الحالي.</div>')+'</div>');
 }
+
+function filterScientificLibrary(){window.librarySearchTerm=document.getElementById('librarySearch')?.value||'';window.libraryTypeFilter=document.getElementById('libraryType')?.value||'';renderLibrary()}
 
 /* Lecture narration controls: browser-native speech synthesis. */
 const lectureNarrators=new Map();
