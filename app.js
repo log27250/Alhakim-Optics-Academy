@@ -706,11 +706,12 @@ async function loadPdfJs(){
  if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs').then(mod=>{window.pdfjsLib=mod;mod.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';return mod});
  return window.hakimPdfJsPromise;
 }
-async function drawAcademyPdf(path,title){
+async function drawAcademyPdf(path,title,externalPdfUrl){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
- host.innerHTML='<div class="pdf-loading" role="status">جارٍ تجهيز المحاضرة الآمنة…</div>';
+ host.innerHTML='<div class="pdf-loading" role="status">جارٍ تجهيز المرجع داخل الأكاديمية…</div>';
  try{
-  const [pdfjs,url]=await Promise.all([loadPdfJs(),academyPdfSignedUrl(path)]);
+  const pdfjs=await loadPdfJs();
+  const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);
   const pdf=await pdfjs.getDocument({url}).promise;let pageNumber=1,scale=1,renderTask=null;
   host.innerHTML='<div class="pdf-reader-toolbar"><button type="button" id="pdfPrev">السابق</button><span id="pdfPageStatus">1 / '+pdf.numPages+'</span><button type="button" id="pdfNext">التالي</button><button type="button" id="pdfZoomOut">−</button><button type="button" id="pdfZoomIn">＋</button><span class="pdf-protection-label">عرض تعليمي محمي</span></div><div class="pdf-canvas-stage" id="pdfCanvasStage"><canvas id="academyPdfCanvas" aria-label="'+esc(title)+'"></canvas></div><div class="pdf-reader-footer">لا توجد أزرار تنزيل أو طباعة. لا يمكن تقنياً منع تصوير الشاشة أو التقاط المحتوى بوسائل خارجية.</div>';
   const canvas=document.getElementById('academyPdfCanvas'),ctx=canvas.getContext('2d',{alpha:false});
@@ -738,11 +739,12 @@ async function openAcademyReference(id){
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
- else if(source&&/\\.pdf(?:$|[?#])/i.test(external))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF — PDF Document</b><span>المصدر المنشور الأصلي</span></div><iframe class="reference-external-pdf" src="'+esc(external)+'#view=FitH" title="'+esc(refLabel(ref))+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:78vh;min-height:520px;border:0;border-radius:12px;background:#fff"></iframe><p><a class="primary reference-source" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح ملف PDF في نافذة مستقلة ↗</a></p></div>';
- else if(source)content='<div class="notice">هذا المرجع مرتبط بصفحة الناشر الرسمية.</div><p><a class="primary reference-source" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح صفحة الناشر الرسمية ↗</a></p>';
+ else if(source&&/\.pdf(?:$|[?#])/i.test(external))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية — PDF.js</b><span>يُعرض المرجع هنا دون فتح المتصفح الخارجي.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
+ else if(source)content='<div class="notice">هذا المرجع ليس ملف PDF مباشراً، لذلك لن نفتح موقعاً خارجياً. يلزم توفير نسخة PDF منشورة ومصرح بها لعرضه داخل الأكاديمية.</div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref));
+ else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),external);
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
 function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','افتح المراجع المرفقة داخل قارئ PDF الآمن.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح للعرض الآمن':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
