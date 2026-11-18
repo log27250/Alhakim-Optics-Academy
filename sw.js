@@ -1,11 +1,11 @@
 /* HAKIM OPTICS ACADEMY — verified offline shell and complete image bundle */
-const CACHE_NAME='alhakim-academy-v4-verified-all-assets-2026-11-17';
+const CACHE_NAME='alhakim-academy-v5-founder-identity-offline-2026-11-18';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
  './','./index.html','./styles.css','./app.js','./clinical-cases.js',
  './offline-assets.json','./manifest.webmanifest','./offline.html',
- './icon-192.png','./icon-512.png','./assets/alhakim-logo.png'
+ './icon-192.png','./icon-512.png','./assets/alhakim-logo.png','./assets/founder-photo.jpg'
 ];
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function fetchAndCache(cache,path){
