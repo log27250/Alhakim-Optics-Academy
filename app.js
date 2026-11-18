@@ -710,36 +710,12 @@ async function loadPdfJs(){
 }
 async function drawAcademyPdf(path,title,externalPdfUrl){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
- host.innerHTML='<div class="pdf-loading" role="status">جارٍ تجهيز المرجع داخل الأكاديمية…</div>';
  try{
-  const pdfjs=await loadPdfJs();
   const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);
-  const pdf=await pdfjs.getDocument({url}).promise;let pageNumber=1,scale=1,renderTask=null;
-  host.innerHTML='<div class="pdf-reader-toolbar"><button type="button" id="pdfPrev">السابق</button><span id="pdfPageStatus">1 / '+pdf.numPages+'</span><button type="button" id="pdfNext">التالي</button><button type="button" id="pdfZoomOut">−</button><button type="button" id="pdfZoomIn">＋</button><span class="pdf-protection-label">عرض تعليمي محمي</span></div><div class="pdf-canvas-stage" id="pdfCanvasStage"><canvas id="academyPdfCanvas" aria-label="'+esc(title)+'"></canvas></div><div class="pdf-reader-footer">لا توجد أزرار تنزيل أو طباعة. لا يمكن تقنياً منع تصوير الشاشة أو التقاط المحتوى بوسائل خارجية.</div>';
-  const canvas=document.getElementById('academyPdfCanvas'),ctx=canvas.getContext('2d',{alpha:false});
-  async function renderPage(){
-   if(renderTask){try{renderTask.cancel();await renderTask.promise}catch(e){}}
-   const page=await pdf.getPage(pageNumber),stage=document.getElementById('pdfCanvasStage'),base=page.getViewport({scale:1});
-   const fit=Math.max(.5,Math.min(2.2,(stage.clientWidth-24)/base.width)),viewport=page.getViewport({scale:fit*scale}),ratio=Math.min(window.devicePixelRatio||1,2);
-   canvas.width=Math.floor(viewport.width*ratio);canvas.height=Math.floor(viewport.height*ratio);canvas.style.width=viewport.width+'px';canvas.style.height=viewport.height+'px';ctx.setTransform(ratio,0,0,ratio,0,0);
-   renderTask=page.render({canvasContext:ctx,viewport});await renderTask.promise;
-   document.getElementById('pdfPageStatus').textContent=pageNumber+' / '+pdf.numPages;
-   document.getElementById('pdfPrev').disabled=pageNumber<=1;document.getElementById('pdfNext').disabled=pageNumber>=pdf.numPages;
-  }
-  document.getElementById('pdfPrev').onclick=()=>{if(pageNumber>1){pageNumber--;renderPage()}};
-  document.getElementById('pdfNext').onclick=()=>{if(pageNumber<pdf.numPages){pageNumber++;renderPage()}};
-  document.getElementById('pdfZoomIn').onclick=()=>{scale=Math.min(2.2,scale+.15);renderPage()};
-  document.getElementById('pdfZoomOut').onclick=()=>{scale=Math.max(.7,scale-.15);renderPage()};
-  host.oncontextmenu=e=>e.preventDefault();
-  host.onkeydown=e=>{if((e.ctrlKey||e.metaKey)&&['p','s','c'].includes(e.key.toLowerCase())){e.preventDefault();e.stopPropagation()}};
-  await renderPage();
+  const safeUrl=esc(url);
+  host.innerHTML='<div class="pdf-reader-toolbar"><span>قارئ PDF المدمج</span><a class="secondary" href="'+safeUrl+'" target="_blank" rel="noopener">فتح المرجع في عارض PDF</a></div><iframe class="academy-pdf-fallback" title="'+esc(title)+'" src="'+safeUrl+'#toolbar=1&navpanes=0&view=FitH" loading="eager" referrerpolicy="no-referrer" allow="fullscreen" style="display:block;width:100%;height:78vh;min-height:560px;border:0;background:#fff"></iframe><p class="notice">إذا لم يظهر الملف داخل الإطار، استخدم زر «فتح المرجع في عارض PDF». يعتمد العرض هنا على عارض PDF المدمج في المتصفح ولا يحتاج إلى تحميل PDF.js.</p>';
  }catch(error){
-  const fallbackUrl=externalPdfUrl||'';
-  if(fallbackUrl&&/^https:\/\//i.test(fallbackUrl)){
-   host.innerHTML='<div class="pdf-reader-toolbar"><span>عرض مباشر للملف</span><a class="secondary" href="'+esc(fallbackUrl)+'" target="_blank" rel="noopener">فتح المرجع في عارض PDF</a></div><iframe class="academy-pdf-fallback" title="'+esc(title)+'" src="'+esc(fallbackUrl)+'#toolbar=1&navpanes=0&view=FitH" loading="eager" referrerpolicy="no-referrer" style="display:block;width:100%;height:75vh;min-height:520px;border:0;background:#fff"></iframe><p class="notice">تعذر تشغيل قارئ PDF.js بسبب قيود الاتصال بالمصدر؛ جربنا عرض الملف مباشرة داخل الصفحة. إذا لم يظهر هنا، استخدم زر فتح المرجع في عارض PDF.</p>';
-  }else{
-   host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF: '+esc(error.message||'خطأ غير معروف')+'</div>';
-  }
+  host.innerHTML='<div class="notice pdf-error">تعذر تجهيز رابط المرجع: '+esc(error.message||'خطأ غير معروف')+'</div>';
  }
 }
 async function openAcademyReference(id){
