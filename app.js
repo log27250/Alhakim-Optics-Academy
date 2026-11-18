@@ -691,7 +691,7 @@ function initLectureDeck(){
 
 function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return '';return first(ref,['url','doi','link','href'])}return ''}
 function refLabel(ref){return typeof ref==='object'?first(ref,['title','name','citation'],'مرجع علمي'):String(ref)}
-function referenceLink(ref){const id=esc(ref?.id||'');return '<div class="reference-actions"><button class="secondary" type="button" onclick="openAcademyReference(\''+id+'\')">فتح المرجع</button></div>'}
+function referenceLink(ref){return '<div class="reference-citation-note">مرجع علمي للاستزادة — بيانات ببليوغرافية فقط</div>'}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
 async function academyPdfSignedUrl(path){
  if(!session?.access_token)throw Error('يجب تسجيل الدخول لعرض ملفات المحاضرات.');
@@ -747,7 +747,7 @@ async function openAcademyReference(id){
  else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),external);
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
-function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('المراجع العلمية','افتح المراجع المرفقة داخل قارئ PDF الآمن.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p>${esc(first(r,['authors'],'') )} · ${esc(first(r,['publication_year'],'') )} · ${esc(first(r,['publisher'],'') )}</p><small class="tag">${r.file_path?'PDF متاح للعرض الآمن':'بيانات مرجع — PDF غير مرفق'}</small>${referenceLink(r)}</article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
+function renderLibrary(){const refs=DB.reference_catalog||[];return pageShell('مكتبة المراجع العلمية','فهرس ببليوغرافي للمراجع المعتمدة في علوم البصريات وطب العيون. تُعرض بيانات الكتب والمراجع فقط دون فتح ملفات أو تنزيلها.',`<div class="reference-grid">${refs.map(r=>`<article class="reference-card"><h3>${esc(refLabel(r))}</h3><p><b>المؤلفون:</b> ${esc(first(r,['authors'],'غير محدد'))}</p><p><b>سنة النشر:</b> ${esc(first(r,['publication_year'],'غير محدد'))}</p><p><b>الناشر:</b> ${esc(first(r,['publisher'],'غير محدد'))}</p></article>`).join('')||'<div class="notice">لا توجد مراجع مضافة بعد.</div>'}</div>`)}
 
 /* Lecture narration controls: browser-native speech synthesis. */
 const lectureNarrators=new Map();
