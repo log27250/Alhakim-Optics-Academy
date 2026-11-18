@@ -763,10 +763,15 @@ async function openAcademyReference(id){
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
 function renderLibrary(){
- const refs=(DB.reference_catalog||[]).filter(isAcademyReadableReference).filter((r,i,a)=>a.findIndex(x=>referenceUrl(x)===referenceUrl(r))===i);
- const intro='مراجع علمية كاملة يمكن فتح ملفها وقراءته داخل الأكاديمية. لا تظهر هنا صفحات الشراء أو المراجع التي لا تتوفر لها نسخة PDF قابلة للفتح.';
- const cards=refs.map(r=>'<article class="reference-card"><h3>'+esc(refLabel(r))+'</h3><p><b>المؤلفون:</b> '+esc(first(r,['authors'],'غير محدد'))+'</p><p><b>سنة النشر:</b> '+esc(first(r,['publication_year'],'غير محدد'))+'</p><p><b>الناشر:</b> '+esc(first(r,['publisher'],'غير محدد'))+'</p>'+referenceLink(r)+'</article>').join('');
- return pageShell('مكتبة المراجع العلمية',intro,'<div class="reference-grid">'+(cards||'<div class="notice">لا توجد حالياً مراجع اجتازت اختبار الفتح والقراءة الكاملة.</div>')+'</div>');
+ const refs=(DB.reference_catalog||[]).slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
+ const intro='فهرس المراجع العلمية للأكاديمية. تظهر هنا الكتب والمراجع والإرشادات المتاحة، مع توضيح طريقة الوصول. المراجع التي لا تملك الأكاديمية حق استضافتها تُفتح من موقع الناشر الرسمي.';
+ const cards=refs.map(r=>{
+  const url=referenceUrl(r), readable=isAcademyReadableReference(r), hasFile=!!r.file_path;
+  const access=String(r.access_license||'حالة الوصول غير محددة — راجع موقع الناشر.');
+  const action=readable?referenceLink(r):(url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر الرسمي ↗</a>':(hasFile?'<span class="notice">ملف مرفق — يلزم التحقق من صلاحية عرضه.</span>':'<span class="notice">لا يوجد رابط وصول مسجل حالياً.</span>'));
+  return '<article class="reference-card"><h3>'+esc(refLabel(r))+'</h3><p><b>المؤلفون:</b> '+esc(first(r,['authors'],'غير محدد'))+'</p><p><b>سنة النشر:</b> '+esc(first(r,['publication_year'],'غير محدد'))+'</p><p><b>الناشر:</b> '+esc(first(r,['publisher'],'غير محدد'))+'</p><p class="reference-access"><b>الوصول:</b> '+esc(access)+'</p>'+action+'</article>';
+ }).join('');
+ return pageShell('مكتبة المراجع العلمية','إجمالي المراجع المسجلة: '+refs.length+'. يمكنك فتح المصدر الرسمي لكل مرجع عند توفر رابط.','<div class="reference-grid">'+(cards||'<div class="notice">لم يتم تسجيل مراجع بعد.</div>')+'</div>');
 }
 
 /* Lecture narration controls: browser-native speech synthesis. */
