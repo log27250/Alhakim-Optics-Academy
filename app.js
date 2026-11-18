@@ -962,7 +962,7 @@ function renderLectureContentWithIllustration(l){
  // Rewrite every supported image source in the detached lesson document before rendering.
  // This is essential because the page-level cache pass cannot reach this not-yet-attached DOM.
  const localizeLessonSource=raw=>{try{const source=new URL(String(raw||'').trim(),location.href).href;return offlineMediaMap.get(source)||raw}catch(_){return raw}};
- body.querySelectorAll('img[src],source[src],image[href],image[xlink\:href]').forEach(el=>{
+ body.querySelectorAll('img[src],source[src],image[href],image[xlink\\:href]').forEach(el=>{
   for(const attr of ['src','href','xlink:href']){
    const raw=el.getAttribute(attr);
    if(raw){const local=localizeLessonSource(raw);if(local&&local!==raw)el.setAttribute(attr,local)}
