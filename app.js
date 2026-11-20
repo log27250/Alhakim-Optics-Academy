@@ -1993,6 +1993,8 @@ const ACADEMY_UI_TRANSLATIONS={
  'دخول الطلاب':'Student Login',
  'تعليم متخصص في علوم البصريات':'Specialized Optometry Education',
  'كل ما تحتاجه في مكان واحد':'Everything you need in one place',
+ 'المكتبة العلمية':'Scientific Library',
+ 'الدورات والشهادات':'Courses & Certificates',
  'مناهج ومحاضرات منظمة في تخصصات البصريات':'Structured curricula and lectures across optometry disciplines',
  'مراجع متاحة وأبحاث وأوراق علمية':'Available references, research and scientific papers',
  'تدريب تفاعلي ومراجعة للاستعداد للامتحانات':'Interactive practice and exam preparation',
