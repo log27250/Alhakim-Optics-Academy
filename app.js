@@ -750,7 +750,7 @@ async function loadPdfJs(){
  if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs').then(mod=>{window.pdfjsLib=mod;mod.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';return mod});
  return window.hakimPdfJsPromise;
 }
-async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl){
+async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFallbackUrl){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
  if(!navigator.onLine){if(offlineFileUrl){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(offlineFileUrl)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته للقراءة دون إنترنت. اتصل بالإنترنت مرة واحدة ليتاح حفظه محلياً.</div>';return}
  host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ تجهيز صفحات المرجع...</span></div><div class="notice">يتم عرض صفحات PDF داخل الأكاديمية.</div>';
@@ -786,7 +786,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl){
   await renderPages();
   function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
  }catch(error){
-  const fallbackUrl=String(externalPdfUrl||'');
+  // First try the publisher's original PDF URL in the native iframe. The proxy may be blocked by a publisher edge rule even when the browser can display the PDF directly.\n  const fallbackUrl=String(sourceFallbackUrl||externalPdfUrl||'');
   if(fallbackUrl){
    host.innerHTML='<div class="notice" style="margin-bottom:12px">تعذر جلب صفحات PDF عبر PDF.js بسبب قيود الاتصال من موقع الناشر. نعرض ملف الناشر مباشرة داخل الأكاديمية كخيار بديل.</div><div class="pdf-reader-toolbar"><a class="secondary" href="'+esc(fallbackUrl)+'" target="_blank" rel="noopener noreferrer">فتح / حفظ ملف PDF من الناشر ↗</a></div><iframe title="'+esc(title||'PDF')+'" src="'+esc(fallbackUrl)+'" style="width:100%;height:78vh;border:1px solid #d7e1ed;border-radius:12px;background:#fff" loading="eager"></iframe>';
   }else{
@@ -808,7 +808,7 @@ async function openAcademyReference(id){
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&/\.pdf(?:$|[?#])/i.test(external)?'<button type="button" class="secondary" onclick="downloadAcademyReference(\''+esc(ref.id)+'\')">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
- else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url);
+ else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external);
 }
 async function downloadAcademyReference(id){
  const ref=findAcademyReference(id);
