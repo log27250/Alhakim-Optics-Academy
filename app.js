@@ -1984,28 +1984,8 @@ const ACADEMY_UI_TRANSLATIONS={
  'تسليم الامتحان وتصحيح الإجابات':'Submit Exam & Grade Answers',
  'إلغاء والعودة للقسم':'Cancel and Return to Department',
  'مراجع المحاضرة':'Lecture References','المراجع':'References',
- 'اللغة':'Language',
- 'بوابتك المتكاملة':'Your complete gateway',
- 'لعلوم البصريات':'to Optometry',
- 'تعلّم علم البصريات بمنهجية واضحة، واستكشف المحاضرات والمراجع العلمية، وطوّر مهاراتك من خلال التدريب والاختبارات التفاعلية.':'Learn optometry through a structured approach. Explore lectures and scientific references, and develop your skills through interactive practice and assessments.',
- 'استكشف الأكاديمية':'Explore the Academy',
- 'تسجيل الدخول / إنشاء حساب':'Sign In / Create Account',
- 'دخول الطلاب':'Student Login',
- 'تعليم متخصص في علوم البصريات':'Specialized Optometry Education',
- 'كل ما تحتاجه في مكان واحد':'Everything you need in one place',
- 'المكتبة العلمية':'Scientific Library',
- 'الدورات والشهادات':'Courses & Certificates',
- 'مناهج ومحاضرات منظمة في تخصصات البصريات':'Structured curricula and lectures across optometry disciplines',
- 'مراجع متاحة وأبحاث وأوراق علمية':'Available references, research and scientific papers',
- 'تدريب تفاعلي ومراجعة للاستعداد للامتحانات':'Interactive practice and exam preparation',
- 'مسارات ودورات تعليمية متخصصة':'Specialized learning pathways and courses',
- 'تأسيس وإشراف':'Founded and supervised by',
- 'تعلّم دون اتصال':'Learn Offline',
- 'تعمل الدروس والمكتبة دون اتصال بعد فتح الأكاديمية أول مرة. تسجيل الحساب والاشتراكات يتطلبان الإنترنت.':'Lessons and the library work offline after the first visit. Account access and subscriptions require an internet connection.',
- 'موضوعاً علمياً':'Scientific topics',
- 'مرجعاً علمياً':'Scientific references',
- 'معاً نحو معرفة أعمق ورؤية أوضح':'Together towards deeper knowledge and clearer vision',
- 'تخطي شاشة الترحيب':'Skip Welcome Screen'
+ 'اللغة':'Language'
+};
 const ACADEMY_UI_REVERSE=Object.fromEntries(Object.entries(ACADEMY_UI_TRANSLATIONS).map(([a,b])=>[b,a]));
 let academyLanguage=localStorage.getItem('hakim_academy_language')==='en'?'en':'ar';
 function translateAcademyUi(root=document){
