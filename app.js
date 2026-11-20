@@ -862,21 +862,23 @@ async function drawAcademyTextReference(ref){
    const walk=(node)=>{
     Array.from(node.children||[]).forEach(child=>{
      const name=(child.localName||child.tagName||'').toLowerCase();
-     if(name==='sec'){
-      const title=Array.from(child.children).find(x=>(x.localName||'').toLowerCase()==='title');
-      if(title){const h=document.createElement('h3');h.textContent=title.textContent.trim();root.appendChild(h)}
+     if(name==='sec'||name==='book-part'||name==='chapter'||name==='section'){
+      const title=Array.from(child.children||[]).find(x=>['title','chapter-title','book-part-title'].includes((x.localName||'').toLowerCase()));
+      if(title&&title.textContent.trim()){const h=document.createElement('h3');h.textContent=title.textContent.trim();root.appendChild(h)}
       walk(child);
      }else if(name==='p'){
       const value=child.textContent.trim();if(value){const p=document.createElement('p');p.textContent=value;root.appendChild(p)}
      }else if(name==='list'){
       const ul=document.createElement('ul');
-      Array.from(child.children).filter(x=>(x.localName||'').toLowerCase()==='list-item').forEach(item=>{
+      Array.from(child.children||[]).filter(x=>['list-item','item'].includes((x.localName||'').toLowerCase())).forEach(item=>{
        const li=document.createElement('li');li.textContent=item.textContent.trim();ul.appendChild(li);
       });
       if(ul.children.length)root.appendChild(ul);
      }else if(name==='fig'){
-      const caption=Array.from(child.children).find(x=>(x.localName||'').toLowerCase()==='caption');
+      const caption=Array.from(child.children||[]).find(x=>(x.localName||'').toLowerCase()==='caption');
       if(caption){const p=document.createElement('p');p.textContent='Figure: '+caption.textContent.trim();root.appendChild(p)}
+     }else if(name!=='title'&&name!=='chapter-title'&&name!=='book-part-title'){
+      walk(child);
      }
     });
    };
@@ -889,7 +891,7 @@ async function drawAcademyTextReference(ref){
   root.querySelectorAll('p,li').forEach(x=>x.style.cssText='font-size:1rem;line-height:1.85;margin:8px 0;white-space:pre-wrap');
   host.replaceChildren(root);
  }catch(error){
-  host.innerHTML='<div class="notice pdf-error">تعذر عرض النص الكامل داخل القارئ: '+esc(error?.message||'خطأ غير معروف')+'. يمكنك فتح النص من المصدر العلمي الرسمي.</div><p><a class="secondary" href="'+esc(referenceUrl(ref))+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p>';
+  host.innerHTML='<div class="notice pdf-error">تعذر عرض النص الكامل داخل القارئ: '+esc(error?.message||'خطأ غير معروف')+'. لم يتم تحويلك إلى أي موقع خارجي. أعد المحاولة عند توفر الاتصال بالإنترنت أو أبلغ إدارة الأكاديمية عن المرجع.</div>';
  }
 }
 async function openAcademyReference(id){
