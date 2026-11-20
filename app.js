@@ -1467,21 +1467,29 @@ async function purgeRemovedOfflineReferenceAssets(previousReferences=[],currentR
 }
 function adminReferenceUploadSettings(){
  if(!adminGuard())return;
- pageShell('إعدادات المكتبة ورفع المراجع','ارفع ملفات PDF مباشرة من الهاتف أو الكمبيوتر. كل ملف يصبح مرجعاً مستقلاً في المكتبة.',`
+ pageShell('إعدادات المكتبة ورفع المراجع','ارفع ملف PDF من ملفات الهاتف أو الكمبيوتر. بعد الحفظ والتحقق، يُحفظ محلياً ليُفتح داخل الأكاديمية دون إنترنت.',`
  <div class="content-card">
   <div class="admin-actions"><button class="secondary" onclick="adminReferences()">العودة إلى المكتبة</button></div>
-  <div class="notice">اختر ملفاً واحداً أو عدة ملفات PDF. سيتم استخدام اسم الملف عنواناً أولياً للمرجع، ويمكنك تعديل بياناته لاحقاً. الحد الأقصى 50 ميجابايت لكل ملف.</div>
+  <div class="notice">اختر ملف PDF من جهازك. الحد الأقصى الحالي 50 ميغابايت لكل ملف. بعد اكتمال الحفظ والمزامنة المحلية يصبح المرجع متاحاً للقراءة دون إنترنت على هذا الجهاز.</div>
   <form id="referenceUploadSettingsForm" onsubmit="uploadReferenceBatch(event)">
-   <label>ملفات المراجع PDF *<input id="referenceBatchFiles" type="file" accept="application/pdf,.pdf" multiple required></label>
-   <label>تصنيف الملفات
-    <select id="referenceBatchType">
-     <option value="book">كتاب علمي</option><option value="clinical_reference">مرجع سريري</option><option value="research_article">بحث علمي</option><option value="scientific_paper">ورقة علمية</option><option value="previous_study">دراسة سابقة</option><option value="clinical_guideline">إرشادات سريرية</option><option value="systematic_review">مراجعة منهجية</option>
+   <label>ملف PDF من الهاتف أو الكمبيوتر *
+    <input id="referenceBatchFiles" type="file" accept="application/pdf,.pdf" multiple required>
+   </label>
+   <label>مكان حفظ المرجع في المكتبة *
+    <select id="referenceBatchType" required>
+     <option value="clinical_reference">مرجع متاح</option>
+     <option value="research_article">بحث</option>
+     <option value="scientific_paper">ورقة علمية</option>
     </select>
    </label>
-   <label>لغة الملفات<select id="referenceBatchLanguage"><option value="en">English</option><option value="ar">العربية</option><option value="multi">متعددة اللغات</option></select></label>
-   <label>ملاحظة الترخيص وحقوق الاستخدام<input id="referenceBatchLicense" maxlength="300" placeholder="مثال: Open Access — CC BY 4.0"></label>
-   <p class="muted">ارفع فقط الملفات التي تملك حق استخدامها وإتاحتها. لن تُقبل الملفات غير بصيغة PDF.</p>
-   <div class="admin-actions"><button class="primary" type="submit" id="referenceBatchSubmit">رفع الملفات وإضافتها للمكتبة</button></div>
+   <label>لغة الملفات
+    <select id="referenceBatchLanguage"><option value="en">English</option><option value="ar">العربية</option><option value="multi">متعددة اللغات</option></select>
+   </label>
+   <label>ملاحظة الترخيص وحقوق الاستخدام
+    <input id="referenceBatchLicense" maxlength="300" placeholder="مثال: Open Access — CC BY 4.0">
+   </label>
+   <p class="muted">هذه الخاصية متاحة لحساب مالك الأكاديمية فقط. ارفع الملفات التي تملك حق استخدامها وإتاحتها.</p>
+   <div class="admin-actions"><button class="primary" type="submit" id="referenceBatchSubmit">حفظ المرجع في المكتبة وعلى هذا الجهاز</button></div>
    <p id="referenceBatchStatus" class="form-message" aria-live="polite"></p>
   </form>
  </div>`);
@@ -1490,44 +1498,111 @@ async function verifyUploadedPdfFile(file){
  const head=new Uint8Array(await file.slice(0,1024).arrayBuffer());
  if(!new TextDecoder().decode(head).includes('%PDF-'))throw Error('الملف لا يحتوي على ترويسة PDF صحيحة.');
  const pdfjs=await loadPdfJs();
- const task=pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer())});
- const pdf=await task.promise;
- if(!pdf.numPages)throw Error('ملف PDF لا يحتوي على صفحات قابلة للعرض.');
- return pdf.numPages;
+ const data=new Uint8Array(await file.arrayBuffer());
+ const task=pdfjs.getDocument({data});
+ let pdf;
+ try{
+  pdf=await task.promise;
+  if(!pdf.numPages)throw Error('ملف PDF لا يحتوي على صفحات قابلة للعرض.');
+  return pdf.numPages;
+ }finally{
+  try{await pdf?.destroy()}catch(_){}
+  try{await task.destroy()}catch(_){}
+ }
 }
 async function uploadReferenceBatch(event){
- event.preventDefault();if(!adminGuard())return;
- const input=document.getElementById('referenceBatchFiles'),files=Array.from(input?.files||[]);
- const status=document.getElementById('referenceBatchStatus'),button=document.getElementById('referenceBatchSubmit');
- if(!files.length){if(status)status.textContent='اختر ملف PDF واحداً على الأقل.';return}
- const invalid=files.find(f=>f.type!=='application/pdf'&&!/\\.pdf$/i.test(f.name)||f.size>50*1024*1024);
- if(invalid){if(status)status.textContent='الملف '+invalid.name+' غير صالح أو يتجاوز 50 ميجابايت.';return}
- if(!confirm('تأكيد رفع '+files.length+' ملف PDF إلى مكتبة الأكاديمية؟ تأكد من امتلاك حقوق إتاحتها.'))return;
- const type=document.getElementById('referenceBatchType').value,language=document.getElementById('referenceBatchLanguage').value,license=document.getElementById('referenceBatchLicense').value.trim();
- button.disabled=true;let done=0,failed=[];
+ event.preventDefault();
+ if(!adminGuard()){alert('رفع المراجع متاح لحساب مالك الأكاديمية فقط.');return}
+ const input=document.getElementById('referenceBatchFiles');
+ const files=Array.from(input?.files||[]);
+ const status=document.getElementById('referenceBatchStatus');
+ const button=document.getElementById('referenceBatchSubmit');
+ if(!files.length){if(status)status.textContent='اختر ملف PDF واحداً على الأقل من ملفات الجهاز.';return}
+ const maxBytes=50*1024*1024;
+ const invalid=files.find(file=>{
+  const isPdf=file.type==='application/pdf'||/\.pdf$/i.test(file.name);
+  return !isPdf||file.size>maxBytes||file.size===0;
+ });
+ if(invalid){
+  if(status)status.textContent='الملف '+invalid.name+' غير صالح أو يتجاوز الحد الحالي (50 ميغابايت).';
+  return;
+ }
+ if(!confirm('تأكيد حفظ '+files.length+' ملف PDF في مكتبة الأكاديمية؟ سيتم حفظ نسخة محلية للعمل دون إنترنت على هذا الجهاز.'))return;
+ const type=document.getElementById('referenceBatchType').value;
+ const language=document.getElementById('referenceBatchLanguage').value;
+ const license=document.getElementById('referenceBatchLicense').value.trim();
+ button.disabled=true;
+ let done=0;
+ const failed=[];
  try{
   for(let i=0;i<files.length;i++){
-   const file=files[i],verifiedPages=await verifyUploadedPdfFile(file),safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/^\\.+/,'').slice(-100)||'reference.pdf';
-   const path='uploads/'+Date.now()+'-'+i+'-'+safeName;
-   if(status)status.textContent='تم التحقق من PDF ('+verifiedPages+' صفحة). جارٍ رفع '+(i+1)+' من '+files.length+': '+file.name;
-   const upload=await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':'application/pdf','x-upsert':'false'},body:file});
-   const uploadBody=await upload.json().catch(()=>({}));
-   if(!upload.ok)throw Error(uploadBody.message||uploadBody.error||'فشل رفع '+file.name);
-   const title=file.name.replace(/\\.pdf$/i,'').replace(/[_-]+/g,' ').trim()||file.name;
-   const payload={title,resource_type:type,language,access_type:'free_pdf_download',access_license:license||null,status:'published',academy_readability:'available',file_path:path,file_name:file.name,file_size:file.size,pdf_updated_at:new Date().toISOString(),updated_at:new Date().toISOString(),keywords:[]};
-   const saved=await authorizedFetch(SUPABASE_URL+'/rest/v1/references',{method:'POST',headers:{...authHeaders(),'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(payload)});
-   const savedBody=await saved.json().catch(()=>({}));
-   if(!saved.ok){
-    await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+path,{method:'DELETE',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token}});
-    throw Error(savedBody.message||savedBody.details||'رُفع الملف لكن تعذر إنشاء سجل المرجع '+file.name);
+   const file=files[i];
+   let storagePath='';
+   let savedId='';
+   let localCacheKey='';
+   try{
+    if(status)status.textContent='فحص ملف PDF '+(i+1)+' من '+files.length+': '+file.name;
+    const verifiedPages=await verifyUploadedPdfFile(file);
+    const safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/^\.+/,'').slice(-100)||'reference.pdf';
+    storagePath='uploads/'+Date.now()+'-'+i+'-'+safeName;
+    if(status)status.textContent='الملف سليم ('+verifiedPages+' صفحة). جارٍ رفعه إلى المكتبة…';
+    const upload=await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+storagePath,{
+     method:'POST',
+     headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':'application/pdf','x-upsert':'false'},
+     body:file
+    });
+    const uploadBody=await upload.json().catch(()=>({}));
+    if(!upload.ok)throw Error(uploadBody.message||uploadBody.error||'فشل رفع '+file.name);
+    const title=file.name.replace(/\.pdf$/i,'').replace(/[_-]+/g,' ').trim()||file.name;
+    const payload={
+     title,resource_type:type,language,access_type:'free_pdf_download',access_license:license||null,
+     status:'published',academy_readability:'available',file_path:storagePath,file_name:file.name,
+     file_size:file.size,pdf_updated_at:new Date().toISOString(),updated_at:new Date().toISOString(),keywords:[]
+    };
+    const saved=await authorizedFetch(SUPABASE_URL+'/rest/v1/references',{
+     method:'POST',
+     headers:{...authHeaders(),'Content-Type':'application/json','Prefer':'return=representation'},
+     body:JSON.stringify(payload)
+    });
+    const savedBody=await saved.json().catch(()=>({}));
+    if(!saved.ok)throw Error(savedBody.message||savedBody.details||'رُفع الملف لكن تعذر إنشاء سجل المرجع '+file.name);
+    const savedRef=Array.isArray(savedBody)?savedBody[0]:savedBody;
+    if(!savedRef?.id)throw Error('لم تُرجع قاعدة البيانات معرّف المرجع بعد الحفظ.');
+    savedId=String(savedRef.id);
+    if(!window.caches)throw Error('المتصفح لا يدعم حفظ ملفات PDF محلياً؛ لم نعتبر المرجع جاهزاً للعمل دون إنترنت.');
+    localCacheKey=new URL('./__offline_references__/'+offlineMediaHash(savedId),location.href).href;
+    const mediaCache=await caches.open(OFFLINE_MEDIA_CACHE);
+    await mediaCache.put(localCacheKey,new Response(file,{status:200,headers:{'Content-Type':'application/pdf','Content-Length':String(file.size),'X-Academy-Reference-Id':savedId}}));
+    const offlineRef={...savedRef,offline_file_url:localCacheKey};
+    DB.reference_catalog=Array.isArray(DB.reference_catalog)?DB.reference_catalog:[];
+    DB.reference_catalog=DB.reference_catalog.filter(ref=>String(ref.id)!==savedId);
+    DB.reference_catalog.unshift(offlineRef);
+    await saveOfflineCurriculum(DB);
+    try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}
+    done++;
+    if(status)status.textContent='تم حفظ '+done+' من '+files.length+' ملفاً، مع نسخة محلية تعمل دون إنترنت: '+file.name;
+   }catch(fileError){
+    if(savedId){
+     try{await authorizedFetch(SUPABASE_URL+'/rest/v1/references?id=eq.'+encodeURIComponent(savedId),{method:'DELETE',headers:authHeaders()})}catch(_){}
+    }
+    if(localCacheKey&&window.caches){try{const cache=await caches.open(OFFLINE_MEDIA_CACHE);await cache.delete(localCacheKey)}catch(_){}}
+    if(storagePath){
+     try{await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+storagePath,{method:'DELETE',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token}})}catch(_){}
+    }
+    failed.push(file.name+': '+(fileError.message||'تعذر الحفظ'));
    }
-   done++;
   }
-  if(status)status.textContent='اكتمل رفع '+done+' ملفاً بنجاح. جارٍ تحديث المكتبة…';
-  await loadContent();adminReferences();
- }catch(error){
-  if(status)status.textContent='تم رفع '+done+' ملفاً. تعذر إكمال الباقي: '+(error.message||'خطأ غير معروف');
- }finally{if(button)button.disabled=false}
+  try{await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}catch(cacheError){failed.push('تعذر تثبيت فهرس المكتبة محلياً: '+cacheError.message)}
+  if(status){
+   status.textContent=done===files.length
+    ?'اكتمل الحفظ بنجاح. '+done+' ملف PDF محفوظ داخل المكتبة وعلى هذا الجهاز ويمكن فتحه دون إنترنت.'
+    :'تم حفظ '+done+' ملفاً. '+(failed.length?'تعذر حفظ: '+failed.join(' | '):'');
+  }
+  if(done)await loadContent();
+  adminReferences();
+ }finally{
+  if(button)button.disabled=false;
+ }
 }
 async function adminReferences(){
  if(!adminGuard())return;
