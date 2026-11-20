@@ -302,7 +302,9 @@ async function loadContent(){
  // Start image archiving only after the refreshed curriculum has rendered.
  if(!cloudError&&dataSource==='supabase'&&navigator.onLine){
   setTimeout(async()=>{try{
-   const [imagesSync,referenceFilesSync]=await Promise.all([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[])]);
+   const [imageResult,referenceResult]=await Promise.allSettled([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[])]);
+   const imagesSync=imageResult.status==='fulfilled'?imageResult.value:{total:0,cached:0,failed:[{error:imageResult.reason?.message||'image cache failed'}],complete:false};
+   const referenceFilesSync=referenceResult.status==='fulfilled'?referenceResult.value:{cached:0,failed:1};
    const previous=await readFullSyncReport()||{};
    const allOfflineAssetsReady=imagesSync.complete&&referenceFilesSync.failed===0;
    await saveFullSyncReport({...previous,complete:allOfflineAssetsReady,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,reference_files_cached:referenceFilesSync.cached,reference_files_failed:referenceFilesSync.failed,images_sync_status:allOfflineAssetsReady?'complete':'partial',synced_at:new Date().toISOString()});
@@ -732,6 +734,8 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
    try{response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'})}
    catch(error){if(!isExternalPdf)throw error;response=await fetch(source,{mode:'no-cors',credentials:'omit',cache:'no-store'})}
    if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
+   const contentType=response.headers?.get('content-type')||'';
+   if(response.type!=='opaque'&&/(?:text\\/html|application\\/json)/i.test(contentType))throw Error('The returned file is not a PDF ('+contentType+').');
    await cache.put(localUrl,response.clone());
    ref.offline_file_url=localUrl;cached++;
   }catch(error){failed++;console.warn('Could not cache Library PDF for offline reading:',ref.title,error.message)}
@@ -796,7 +800,7 @@ async function openAcademyReference(id){
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
- else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl);
+ else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url);
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
 function renderLibrary(){
