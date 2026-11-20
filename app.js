@@ -24,7 +24,7 @@ const HOME_DEFAULTS={
  quick_links:[
   {label:'الأقسام',icon:'▤',page:'departments',visible:true},
   {label:'المهارات',icon:'🩺',page:'clinical-hub',visible:true},
-  {label:'المراجع',icon:'▣',page:'library',visible:true},
+  {label:'المكتبة',icon:'📚',page:'library',visible:true},
   {label:'الدورات التدريبية',icon:'🎓',page:'courses',visible:true},
   {label:'تقدمي الدراسي',icon:'↗',page:'progress',visible:true}
  ]
@@ -705,7 +705,7 @@ function initLectureDeck(){
 function referenceUrl(ref){if(typeof ref==='object'&&ref){if(ref.file_path)return '';return first(ref,['url','doi','link','href'])}return ''}
 function refLabel(ref){return typeof ref==='object'?first(ref,['title','name','citation'],'مرجع علمي'):String(ref)}
 const ACADEMY_READABLE_REFERENCE_IDS=new Set(['423c98e5-8bf4-4ef1-ba66-32e5f0787934','4380825f-f67e-479b-8661-1a0c12ab76bf','d490838f-d39e-42f8-8bbc-0317d9757d3d']);
-function isAcademyReadableReference(ref){return !!ref&&(String(ref.academy_readability||'')==='available'||(!!ref.file_path&&['free_full_text','free_pdf_download'].includes(String(ref.access_type||'')))||(ACADEMY_READABLE_REFERENCE_IDS.has(String(ref.id))&&/^https?:\/\//i.test(referenceUrl(ref))&&/\.pdf(?:$|[?#])/i.test(referenceUrl(ref))))}
+function isAcademyReadableReference(ref){if(!ref)return false;const status=String(ref.academy_readability||'').toLowerCase();if(status==='available')return true;if(status==='unavailable')return false;return (!!ref.file_path&&['free_full_text','free_pdf_download'].includes(String(ref.access_type||'')))||(ACADEMY_READABLE_REFERENCE_IDS.has(String(ref.id))&&/^https?:\/\//i.test(referenceUrl(ref))&&/\.pdf(?:$|[?#])/i.test(referenceUrl(ref)))}
 function academyReadabilityLabel(ref){return isAcademyReadableReference(ref)?'📗 مراجع متاحة':'🔒 مراجع غير متاحة'}
 function referenceLink(ref){return isAcademyReadableReference(ref)?'<button type="button" class="primary reference-open-button" onclick="openAcademyReference(\''+esc(ref.id)+'\')">📖 اقرأ المرجع كاملاً داخل الأكاديمية</button>':''}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
@@ -805,22 +805,77 @@ async function openAcademyReference(id){
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url);
 }
-async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
-function renderLibrary(){
- const allRefs=(DB.reference_catalog||[]).filter(r=>r.status!=='archived'&&r.status!=='draft');
- const term=String(window.librarySearchTerm||'').toLowerCase().trim(),kind=String(window.libraryTypeFilter||'');
- const refs=allRefs.filter(r=>(!kind||r.resource_type===kind)&&(!term||[r.title,r.authors,r.journal,r.publisher,r.doi,...(r.keywords||[])].join(' ').toLowerCase().includes(term))).slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
- const intro='المكتبة العلمية لأكاديمية الحكيم: كتب ومراجع سريرية وأبحاث وأوراق علمية ودراسات وإرشادات موثوقة.';
- const iconLegend='<div class="library-icon-legend"><span>📗 مراجع متاحة</span><span>🔒 مراجع غير متاحة</span><span>🔬 بحوث</span><span>📄 أوراق علمية</span><span>📊 دراسات</span></div>';
- const cards=refs.map(r=>{
-  const url=referenceUrl(r), readable=isAcademyReadableReference(r), hasFile=!!r.file_path;
-  const access=String(r.access_license||r.access_type||'حالة الوصول غير محددة — راجع موقع الناشر.'), academyStatus=academyReadabilityLabel(r);
-  const action=readable?referenceLink(r):(url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر الرسمي ↗</a>':(hasFile?'<span class="notice">ملف مرفق — يلزم التحقق من صلاحية عرضه.</span>':'<span class="notice">لا يوجد رابط وصول مسجل حالياً.</span>'));
-  return '<article class="reference-card"><span class="tag">'+esc(referenceTypeLabel(r.resource_type))+'</span><p class="reference-academy-status"><b>حالة القراءة داخل الأكاديمية:</b> '+esc(academyStatus)+'</p><h3>'+esc(refLabel(r))+'</h3><p><b>المؤلفون:</b> '+esc(first(r,['authors'],'غير محدد'))+'</p><p><b>سنة النشر:</b> '+esc(first(r,['publication_year'],'غير محدد'))+'</p><p><b>المجلة/الناشر:</b> '+esc(first(r,['journal','publisher'],'غير محدد'))+'</p>'+(r.abstract?'<p>'+esc(r.abstract)+'</p>':'')+(r.doi?'<p><b>DOI:</b> '+esc(r.doi)+'</p>':'')+'<p class="reference-access"><b>الوصول:</b> '+esc(access)+'</p>'+action+'</article>';
- }).join('');
- return pageShell('المكتبة العلمية | Scientific Library',intro+' إجمالي المواد المطابقة: '+refs.length+' من '+allRefs.length+'.',iconLegend+'<div class="library-filters"><input id="librarySearch" type="search" placeholder="ابحث بالعنوان أو المؤلف أو DOI أو الكلمات المفتاحية" value="'+esc(window.librarySearchTerm||'')+'" oninput="filterScientificLibrary()"><select id="libraryType" onchange="filterScientificLibrary()"><option value="">جميع أنواع المواد</option>'+[['book','كتب علمية'],['clinical_reference','مراجع سريرية'],['research_article','بحوث علمية'],['scientific_paper','أوراق علمية'],['previous_study','دراسات سابقة'],['clinical_guideline','إرشادات سريرية'],['systematic_review','مراجعات منهجية']].map(([v,t])=>'<option value="'+v+'" '+(kind===v?'selected':'')+'>'+t+'</option>').join('')+'</select></div><div class="reference-grid">'+(cards||'<div class="notice">لا توجد مواد تطابق البحث الحالي.</div>')+'</div>');
+async function downloadAcademyReference(id){
+ const ref=findAcademyReference(id);
+ if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير مصنف كمرجع متاح داخل الأكاديمية.');return}
+ try{
+  let url=referenceUrl(ref);
+  if(ref.file_path)url=await academyPdfSignedUrl(ref.file_path);
+  if(!url){alert('لا يوجد ملف قابل للتنزيل لهذا المرجع.');return}
+  const response=await fetch(url);
+  if(!response.ok)throw Error('تعذر تنزيل الملف ('+response.status+').');
+  const blob=await response.blob();
+  const ext=(blob.type||'').includes('pdf')||/\.pdf(?:$|[?#])/i.test(url)?'pdf':'html';
+  const safeName=String(ref.title||'academy-reference').replace(/[^\p{L}\p{N}\-_ ]/gu,'').trim().replace(/\s+/g,'-').slice(0,90)||'academy-reference';
+  const objectUrl=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=objectUrl;a.download=safeName+'.'+ext;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(objectUrl),1500);
+ }catch(error){alert('تعذر التنزيل المباشر: '+(error?.message||'خطأ غير معروف')+'\nيمكنك فتح المصدر الرسمي من بطاقة المرجع.')}
 }
-
+function renderLibrary(view='home'){
+ window.libraryView=view;
+ const allRefs=(DB.reference_catalog||[]).filter(r=>r.status!=='archived'&&r.status!=='draft');
+ const researchTypes=['research_article','systematic_review','previous_study'];
+ const paperTypes=['scientific_paper'];
+ const referenceTypes=['book','clinical_reference','clinical_guideline'];
+ const refsOnly=allRefs.filter(r=>referenceTypes.includes(String(r.resource_type||'')));
+ const research=allRefs.filter(r=>researchTypes.includes(String(r.resource_type||'')));
+ const papers=allRefs.filter(r=>paperTypes.includes(String(r.resource_type||'')));
+ const sortRefs=list=>list.slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
+ const card=(icon,title,count,desc,action)=>'<button type="button" class="library-category-card" onclick="'+action+'"><span class="library-category-icon">'+icon+'</span><b>'+title+'</b><strong>'+count+'</strong><small>'+desc+'</small><span class="card-arrow">استعراض المحتوى ←</span></button>';
+ const back='<button type="button" class="home-return" onclick="renderLibrary(\'home\')">← العودة إلى المكتبة</button>';
+ if(view==='home'){
+  const body='<div class="library-category-grid">'+
+   card('📚','المراجع',refsOnly.length,'كتب ومراجع سريرية وإرشادات علمية',"renderLibrary('references')")+
+   card('🔬','الأبحاث العلمية',research.length,'بحوث منشورة ومراجعات منهجية',"renderLibrary('research')")+
+   card('📄','الأوراق العلمية',papers.length,'أوراق علمية منشورة',"renderLibrary('papers')")+
+   '</div>';
+  return pageShell('المكتبة العلمية | Scientific Library','مصادر أكاديمية مصنفة في أقسام مستقلة لتسهيل الوصول والقراءة.',body);
+ }
+ if(view==='references'){
+  const available=refsOnly.filter(isAcademyReadableReference),unavailable=refsOnly.filter(r=>!isAcademyReadableReference(r));
+  return pageShell('المراجع','اختر نوع الوصول إلى المراجع العلمية.',back+'<div class="library-category-grid">'+
+   card('📗','المراجع المتاحة',available.length,'تُفتح مباشرة داخل الأكاديمية مع خيار تحميل',"renderLibrary('available')")+
+   card('🔒','المراجع غير المتاحة',unavailable.length,'تظهر بيانات المرجع ورابط موقعه الرسمي',"renderLibrary('unavailable')")+
+   '</div>');
+ }
+ let title='',list=[];
+ if(view==='available'){title='المراجع المتاحة';list=refsOnly.filter(isAcademyReadableReference)}
+ else if(view==='unavailable'){title='المراجع غير المتاحة';list=refsOnly.filter(r=>!isAcademyReadableReference(r))}
+ else if(view==='research'){title='الأبحاث العلمية';list=research}
+ else if(view==='papers'){title='الأوراق العلمية';list=papers}
+ else {title='المكتبة العلمية';list=allRefs}
+ list=sortRefs(list);
+ const term=String(window.librarySearchTerm||'').toLowerCase().trim();
+ if(term)list=list.filter(r=>[r.title,r.authors,r.journal,r.publisher,r.doi,...(r.keywords||[])].join(' ').toLowerCase().includes(term));
+ const cards=list.map(r=>{
+  const url=referenceUrl(r),readable=isAcademyReadableReference(r);
+  const access=String(r.access_license||r.access_type||'حالة الوصول غير محددة');
+  let action='';
+  if(view==='available'){
+   action=referenceLink(r)+'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل المرجع</button>';
+  }else if(view==='unavailable'){
+   action=url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">🌐 الموقع الرسمي للناشر ↗</a>':'<span class="notice">لا يوجد رابط رسمي مسجل لهذا المرجع.</span>';
+  }else if(readable){
+   action=referenceLink(r)+'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل</button>';
+  }else{
+   action=url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر الرسمي ↗</a>':'<span class="notice">لا يوجد رابط مصدر مسجل.</span>';
+  }
+  return '<article class="reference-card"><span class="tag">'+esc(referenceTypeLabel(r.resource_type))+'</span><h3>'+esc(refLabel(r))+'</h3><p><b>المؤلفون:</b> '+esc(first(r,['authors'],'غير محدد'))+'</p><p><b>سنة النشر:</b> '+esc(first(r,['publication_year'],'غير محدد'))+'</p><p><b>المجلة/الناشر:</b> '+esc(first(r,['journal','publisher'],'غير محدد'))+'</p>'+(r.abstract?'<p>'+esc(r.abstract)+'</p>':'')+(r.doi?'<p><b>DOI:</b> '+esc(r.doi)+'</p>':'')+'<p class="reference-access"><b>الوصول:</b> '+esc(access)+'</p><div class="library-reference-actions">'+action+'</div></article>';
+ }).join('');
+ const filters='<div class="library-filters"><input id="librarySearch" type="search" placeholder="ابحث بالعنوان أو المؤلف أو DOI" value="'+esc(window.librarySearchTerm||'')+'" oninput="filterScientificLibrary()"></div>';
+ return pageShell(title,'عدد المواد: '+list.length+'.',back+filters+'<div class="reference-grid">'+(cards||'<div class="notice">لا توجد مواد في هذا القسم حالياً.</div>')+'</div>');
+}
 function filterScientificLibrary(){window.librarySearchTerm=document.getElementById('librarySearch')?.value||'';window.libraryTypeFilter=document.getElementById('libraryType')?.value||'';renderLibrary()}
 
 /* Lecture narration controls: browser-native speech synthesis. */
