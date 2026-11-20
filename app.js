@@ -805,62 +805,83 @@ async function loadPdfJs(){
  })();
  return window.hakimPdfJsPromise;
 }
-async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFallbackUrl){
+async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFallbackUrl,referenceId){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
- if(!navigator.onLine){if(offlineFileUrl){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(offlineFileUrl)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته للقراءة دون إنترنت. اتصل بالإنترنت مرة واحدة ليتاح حفظه محلياً.</div>';return}
- host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ تجهيز صفحات المرجع...</span></div><div class="notice">يتم عرض صفحات PDF داخل الأكاديمية.</div>';
- try{
-  const pdfjs=await loadPdfJs();
-  let loadingTask;
-  if(offlineFileUrl&&window.caches){
-   const cache=await caches.open(OFFLINE_MEDIA_CACHE);
-   const stored=await cache.match(offlineFileUrl);
-   if(stored){const bytes=await stored.arrayBuffer();loadingTask=pdfjs.getDocument({data:new Uint8Array(bytes)});}
+ const cacheKey=offlineFileUrl||(referenceId?new URL('./__offline_references__/'+offlineMediaHash(String(referenceId)),location.href).href:'');
+ if(!navigator.onLine){
+  if(cacheKey&&window.caches){
+   try{
+    const cache=await caches.open(OFFLINE_MEDIA_CACHE),stored=await cache.match(cacheKey);
+    if(stored){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(cacheKey)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}
+   }catch(error){console.warn('Offline PDF cache lookup failed:',error)}
   }
-  if(!loadingTask){const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);loadingTask=pdfjs.getDocument({url,withCredentials:false,disableRange:false,rangeChunkSize:65536});}
-  const pdf=await loadingTask.promise;
+  host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته على هذا الجهاز بعد. افتح المرجع مرة واحدة مع الاتصال بالإنترنت لحفظه محلياً.</div>';return;
+ }
+ host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ جلب ملف PDF والتحقق منه...</span></div><div class="notice">يتم تجهيز صفحات المرجع داخل الأكاديمية.</div>';
+ try{
+  let pdfBytes=null;
+  if(cacheKey&&window.caches){
+   try{
+    const cache=await caches.open(OFFLINE_MEDIA_CACHE),stored=await cache.match(cacheKey);
+    if(stored)pdfBytes=await stored.arrayBuffer();
+   }catch(error){console.warn('Cached PDF read failed; trying secure cloud fetch:',error)}
+  }
+  if(!pdfBytes&&path){
+   if(!session?.access_token)throw Error('يجب تسجيل الدخول لقراءة هذا المرجع.');
+   const safe=String(path).split('/').map(encodeURIComponent).join('/');
+   const response=await authorizedFetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+safe,{
+    method:'GET',headers:{Accept:'application/pdf,application/octet-stream;q=0.9'}
+   });
+   if(!response.ok){const detail=await response.text().catch(()=> '');throw Error('تعذر جلب ملف المرجع من التخزين (HTTP '+response.status+'). '+detail.slice(0,180))}
+   const contentType=String(response.headers.get('content-type')||'').toLowerCase();
+   const blob=await response.blob();
+   if(!blob.size)throw Error('وصل ملف PDF فارغ من التخزين.');
+   pdfBytes=await blob.arrayBuffer();
+   const signature=new TextDecoder().decode(new Uint8Array(pdfBytes,0,Math.min(5,pdfBytes.byteLength)));
+   if(signature!=='%PDF-')throw Error('الملف الموجود في التخزين لا يحمل ترويسة PDF صحيحة ('+contentType+').');
+   if(cacheKey&&window.caches){
+    const cache=await caches.open(OFFLINE_MEDIA_CACHE);
+    await cache.put(cacheKey,new Response(pdfBytes.slice(0),{status:200,headers:{'Content-Type':'application/pdf','Content-Length':String(pdfBytes.byteLength),'X-Academy-Reference-Id':String(referenceId||'')}}));
+    if(offlineFileUrl!==cacheKey&&referenceId){
+     const ref=findAcademyReference(referenceId);if(ref)ref.offline_file_url=cacheKey;
+     try{await saveOfflineCurriculum(DB);localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(cacheError){console.warn('PDF saved locally but catalogue update failed:',cacheError)}
+    }
+   }
+  }
+  if(!pdfBytes&&externalPdfUrl){
+   const response=await fetch(externalPdfUrl,{mode:'cors',credentials:'omit',cache:'no-store'});
+   if(!response.ok)throw Error('تعذر جلب المرجع من المصدر (HTTP '+response.status+').');
+   const blob=await response.blob();pdfBytes=await blob.arrayBuffer();
+   const signature=new TextDecoder().decode(new Uint8Array(pdfBytes,0,Math.min(5,pdfBytes.byteLength)));
+   if(signature!=='%PDF-')throw Error('المصدر لم يُرجع ملف PDF صالحاً.');
+   if(cacheKey&&window.caches)await (await caches.open(OFFLINE_MEDIA_CACHE)).put(cacheKey,new Response(pdfBytes.slice(0),{headers:{'Content-Type':'application/pdf'}}));
+  }
+  if(!pdfBytes)throw Error('لم يتم العثور على ملف PDF صالح لهذا المرجع.');
+  const pdfjs=await loadPdfJs();
+  const pdf=await pdfjs.getDocument({data:new Uint8Array(pdfBytes)}).promise;
   host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
-  const pages=host.querySelector('#academyPdfPages');
-  let scale=1.15;
-  let renderVersion=0;
+  const pages=host.querySelector('#academyPdfPages');let scale=1.15,renderVersion=0;
   async function renderPages(){
-   const version=++renderVersion;
-   pages.innerHTML='';
+   const version=++renderVersion;pages.innerHTML='';
    const renderOne=async number=>{
     if(version!==renderVersion||!pages.isConnected)return;
-    const page=await pdf.getPage(number);
-    const base=page.getViewport({scale:1});
-    const width=Math.min(pages.clientWidth||900,1000);
-    const viewport=page.getViewport({scale:Math.min(scale,width/base.width)});
-    const canvas=document.createElement('canvas');
-    canvas.className='academy-pdf-page';
-    canvas.dataset.page=String(number);
-    canvas.width=Math.floor(viewport.width);
-    canvas.height=Math.floor(viewport.height);
-    canvas.style.width=viewport.width+'px';
-    canvas.style.maxWidth='100%';
-    canvas.style.height='auto';
-    const context=canvas.getContext('2d',{alpha:false});
-    pages.appendChild(canvas);
+    const page=await pdf.getPage(number),base=page.getViewport({scale:1});
+    const width=Math.min(pages.clientWidth||900,1000),viewport=page.getViewport({scale:Math.min(scale,width/base.width)});
+    const canvas=document.createElement('canvas');canvas.className='academy-pdf-page';canvas.dataset.page=String(number);
+    canvas.width=Math.floor(viewport.width);canvas.height=Math.floor(viewport.height);
+    canvas.style.width=viewport.width+'px';canvas.style.maxWidth='100%';canvas.style.height='auto';
+    const context=canvas.getContext('2d',{alpha:false});pages.appendChild(canvas);
     await page.render({canvasContext:context,viewport}).promise;
    };
    const firstBatch=Math.min(3,pdf.numPages);
    for(let number=1;number<=firstBatch;number++)await renderOne(number);
    if(pdf.numPages>firstBatch){
-    const progress=document.createElement('div');
-    progress.className='notice';
-    progress.textContent='تم فتح الصفحات الأولى. جارٍ تجهيز بقية الصفحات تدريجياً...';
-    pages.appendChild(progress);
-    setTimeout(async()=>{
-     try{
-      for(let number=firstBatch+1;number<=pdf.numPages;number++){
-       if(version!==renderVersion||!pages.isConnected)return;
-       await renderOne(number);
-       if(number%4===0)await new Promise(resolve=>setTimeout(resolve,0));
-      }
-      if(version===renderVersion&&progress.isConnected)progress.remove();
-     }catch(error){if(version===renderVersion)showError(error)}
-    },40);
+    const progress=document.createElement('div');progress.className='notice';
+    progress.textContent='تم فتح الصفحات الأولى. جارٍ تجهيز بقية الصفحات تدريجياً...';pages.appendChild(progress);
+    setTimeout(async()=>{try{
+     for(let number=firstBatch+1;number<=pdf.numPages;number++){if(version!==renderVersion||!pages.isConnected)return;await renderOne(number);if(number%4===0)await new Promise(resolve=>setTimeout(resolve,0))}
+     if(version===renderVersion&&progress.isConnected)progress.remove();
+    }catch(error){if(version===renderVersion)showError(error)}},40);
    }
   }
   host.querySelector('#academyPdfZoomIn').addEventListener('click',()=>{scale=Math.min(2.5,scale+0.15);renderPages().catch(showError)});
@@ -868,6 +889,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   await renderPages();
   function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
  }catch(error){
+  console.error('Academy PDF reader failed:',error);
   host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF داخل قارئ الأكاديمية: '+esc(error?.message||'خطأ غير معروف')+'. لم يتم فتح أي رابط خارجي. أعد المحاولة عند توفر الاتصال أو أبلغ إدارة الأكاديمية عن المرجع.</div>';
  }
 }
@@ -957,8 +979,8 @@ async function openAcademyReference(id){
  else if(source)content='<div class="notice">هذا المصدر لا يدعم حالياً القراءة الداخلية الكاملة؛ لذلك لن نعرض رابطاً خارجياً أو نحتسبه ضمن المراجع المتاحة. '+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'')+'</div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&isPdf?'<button type="button" class="secondary" onclick="downloadAcademyReference(\''+esc(ref.id)+'\')">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
- if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
- else if(source&&isPdf)await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external);
+ if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url,'',ref.id);
+ else if(source&&isPdf)await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external,ref.id);
  else if(source&&(isPmc||/\/books\/NBK\d+/i.test(external)))await drawAcademyTextReference(ref);
 }
 async function downloadAcademyReference(id){
