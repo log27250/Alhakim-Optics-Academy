@@ -723,7 +723,7 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
  const cache=await caches.open(OFFLINE_MEDIA_CACHE);let cached=0,failed=0;
  for(const ref of references){
   if(!isAcademyReadableReference(ref))continue;
-  const external=referenceUrl(ref),isExternalPdf=/\\.pdf(?:$|[?#])/i.test(external);
+  const external=referenceUrl(ref),isExternalPdf=external.toLowerCase().split('?')[0].split('#')[0].endsWith('.pdf');
   if(!ref.file_path&&!isExternalPdf)continue;
   try{
    const key=String(ref.id||ref.file_path||external);
@@ -735,7 +735,7 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
    catch(error){if(!isExternalPdf)throw error;response=await fetch(source,{mode:'no-cors',credentials:'omit',cache:'no-store'})}
    if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
    const contentType=response.headers?.get('content-type')||'';
-   if(response.type!=='opaque'&&/(?:text\\/html|application\\/json)/i.test(contentType))throw Error('The returned file is not a PDF ('+contentType+').');
+   if(response.type!=='opaque'&&(contentType.includes('text/html')||contentType.includes('application/json')))throw Error('The returned file is not a PDF ('+contentType+').');
    await cache.put(localUrl,response.clone());
    ref.offline_file_url=localUrl;cached++;
   }catch(error){failed++;console.warn('Could not cache Library PDF for offline reading:',ref.title,error.message)}
