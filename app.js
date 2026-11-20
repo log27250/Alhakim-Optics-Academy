@@ -833,8 +833,14 @@ async function drawAcademyTextReference(ref){
   const endpoint=pmcidMatch
    ?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml'
    :'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?bookid='+encodeURIComponent(bookMatch[1].toUpperCase())+'&format=bookxml';
-  const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
-  if(!response.ok)throw Error('HTTP '+response.status);
+  const textCache=('caches' in window)?await caches.open('alhakim-academy-reference-text-v1'):null;
+  let response=textCache?await textCache.match(endpoint):null;
+  if(!response){
+   if(!navigator.onLine)throw Error('هذا النص لم تتم مزامنته بعد للقراءة دون إنترنت. افتحه مرة واحدة مع الاتصال ليُحفظ محلياً.');
+   response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   if(textCache)await textCache.put(endpoint,response.clone());
+  }
   const xmlText=await response.text();
   const doc=new DOMParser().parseFromString(xmlText,'application/xml');
   if(doc.querySelector('parsererror'))throw Error('تعذر قراءة ملف النص العلمي.');
@@ -968,12 +974,13 @@ function renderLibrary(view='home'){
   const url=referenceUrl(r),readable=isAcademyReadableReference(r);
   const access=String(r.access_license||r.access_type||'حالة الوصول غير محددة');
   let action='';
+  const downloadable=!!r.file_path||isAcademyPdfReference(r);
   if(view==='available'){
-   action=referenceLink(r)+'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل المرجع</button>';
+   action=referenceLink(r)+(downloadable?'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل PDF</button>':'');
   }else if(view==='unavailable'){
    action=url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">🌐 الموقع الرسمي للناشر ↗</a>':'<span class="notice">لا يوجد رابط رسمي مسجل لهذا المرجع.</span>';
   }else if(readable){
-   action=referenceLink(r)+'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل</button>';
+   action=referenceLink(r)+(downloadable?'<button type="button" class="secondary reference-open-button" onclick="downloadAcademyReference(\''+esc(r.id)+'\')">⬇ تحميل PDF</button>':'');
   }else{
    action=url?'<a class="secondary reference-open-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">فتح المصدر الرسمي ↗</a>':'<span class="notice">لا يوجد رابط مصدر مسجل.</span>';
   }
