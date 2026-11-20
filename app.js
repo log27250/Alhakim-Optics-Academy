@@ -275,7 +275,9 @@ async function loadContent(){
    restAll('lesson_references','select=lesson_id,reference_id')
   ]);
   if(referenceResult.status==='fulfilled'&&Array.isArray(referenceResult.value)){
+   const previousReferences=[...(DB.reference_catalog||[])];
    DB.reference_catalog=referenceResult.value.map(x=>({...x}));
+   await purgeRemovedOfflineReferenceAssets(previousReferences,DB.reference_catalog);
   }else{
    console.warn('Scientific Library refresh failed; preserving its last verified offline copy:',referenceResult.reason);
   }
@@ -1430,7 +1432,7 @@ async function renderAdmin(){
  try{[stats.questions,stats.certificates,stats.attempts]=await Promise.all(['academy_exam_questions','academy_certificates','academy_exam_attempts'].map(async t=>(await rest(t,'select=id')).length))}catch(e){}
  pageShell('نافذة إدارة الأكاديمية','مرحباً بك في لوحة تحكم أكاديمية الحكيم. اختر المجال الذي تريد إدارته.',`
  <div class="admin-grid">
-  <button class="quick-card" onclick="adminReferences()"><b>إدارة المكتبة العلمية</b><small>إضافة وتعديل الكتب والأبحاث والدراسات والأوراق العلمية وربطها بالمحاضرات.</small></button>
+  <button class="quick-card" onclick="adminReferences()"><b>إدارة المكتبة العلمية</b><small>إضافة وتعديل الكتب والأبحاث والدراسات والأوراق العلمية وربطها بالمحاضرات.</small></button>\n  <button class="quick-card" onclick="adminReferenceUploadSettings()"><b>إعدادات المكتبة ورفع المراجع من الهاتف</b><small>رفع ملفات PDF متعددة مباشرة من الهاتف وإضافتها إلى المكتبة.</small></button>
   <button class="quick-card" onclick="adminHomepageSettings()"><b>إدارة الواجهة الرئيسية</b><small>الشعار، الصور، بيانات المؤسس، النصوص، الألوان والاختصارات.</small></button>
   <button class="quick-card" onclick="adminCourses()"><b>إدارة الدورات</b><small>عرض الدورات المنشورة ومراجعة بياناتها.</small></button>
   <button class="quick-card" onclick="adminSubscriptions()"><b>إدارة الاشتراكات</b><small>متابعة اشتراكات الطلاب وحالاتها.</small></button><button class="quick-card" onclick="adminPaymentMethods()"><b>إعدادات وسائل الدفع</b><small>إضافة وتعديل وإيقاف وسائل الدفع وحساباتها.</small></button>
@@ -1445,6 +1447,24 @@ async function renderAdmin(){
  <div class="notice">تظل الدروس والموضوعات الأساسية متاحة مجاناً. إدارة الاشتراكات تخص الدورات والشهادات فقط.</div>`);
 }
 
+
+async function purgeRemovedOfflineReferenceAssets(previousReferences=[],currentReferences=[]){
+ if(!window.caches)return;
+ const keep=new Set((currentReferences||[]).map(r=>String(r.id)));
+ const removed=(previousReferences||[]).filter(r=>!keep.has(String(r.id)));
+ if(!removed.length)return;
+ try{
+  const textCache=await caches.open('alhakim-academy-reference-text-v2');
+  for(const ref of removed)await textCache.delete(academyReferenceCacheKey(ref,'text'));
+  const mediaCache=await caches.open(OFFLINE_MEDIA_CACHE);
+  for(const ref of removed){
+   if(isAcademyPdfReference(ref)){
+    const key=new URL('./__offline_references__/'+offlineMediaHash(String(ref.id)),location.href).href;
+    await mediaCache.delete(key);
+   }
+  }
+ }catch(error){console.warn('Could not purge removed offline reference files:',error)}
+}
 function adminReferenceUploadSettings(){
  if(!adminGuard())return;
  pageShell('إعدادات المكتبة ورفع المراجع','ارفع ملفات PDF مباشرة من الهاتف أو الكمبيوتر. كل ملف يصبح مرجعاً مستقلاً في المكتبة.',`
