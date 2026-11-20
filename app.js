@@ -826,7 +826,7 @@ async function drawAcademyTextReference(ref){
  const host=document.getElementById('academyTextReader');if(!host)return;
  host.innerHTML='<div class="notice">جارٍ جلب النص الكامل من مستودع النصوص العلمية المفتوحة...</div>';
  try{
-  const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+encodeURIComponent(ref.id)+'&format=xml';
+  const pmcidMatch=String(referenceUrl(ref)||'').match(/PMC\\d+/i);if(!pmcidMatch)throw Error('لا يوجد معرف PMC صالح لهذا النص الكامل.');const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml';
   const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
   if(!response.ok)throw Error('HTTP '+response.status);
   const xmlText=await response.text();
@@ -882,7 +882,7 @@ async function drawAcademyTextReference(ref){
 }
 async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير متاح للقراءة الكاملة حالياً، لذلك لا يظهر ضمن مكتبة الطالب.');return;}
- const external=referenceUrl(ref),hasPdf=!!ref.file_path,isPdf=isAcademyPdfReference(ref),isPmc=/pmc\.ncbi\.nlm\.nih\.gov\/articles\/PMC\d+/i.test(external),source=external.startsWith('http');
+ const external=referenceUrl(ref),hasPdf=!!ref.file_path,isPdf=isAcademyPdfReference(ref),isPmc=/\/articles\/PMC\d+|\/pmc\/articles\/PMC\d+/i.test(external),source=external.startsWith('http');
  const proxyIds={'d490838f-d39e-42f8-8bbc-0317d9757d3d':'tfos-dews-ii','4380825f-f67e-479b-8661-1a0c12ab76bf':'byu-physics-optics','423c98e5-8bf4-4ef1-ba66-32e5f0787934':'imi-accommodation-binocular','643738e1-0c9e-4d9d-b8a7-eff81ab0ed11':'643738e1-0c9e-4d9d-b8a7-eff81ab0ed11','39ef5221-6c72-42ab-adc7-ab4a302b0b38':'39ef5221-6c72-42ab-adc7-ab4a302b0b38','a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d':'a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d','1f3c5546-2933-45f0-a4e4-f0493a918d1b':'1f3c5546-2933-45f0-a4e4-f0493a918d1b','3b50e04a-1994-4b48-8eea-e2cd60cfc33e':'3b50e04a-1994-4b48-8eea-e2cd60cfc33e','ba700f4e-172f-49ee-afab-95b6378daf56':'ba700f4e-172f-49ee-afab-95b6378daf56','33a06d40-563d-41fc-b7a8-8f9a4302a038':'33a06d40-563d-41fc-b7a8-8f9a4302a038','13ed22b5-2dd8-48dd-bee4-9369a9b2a073':'13ed22b5-2dd8-48dd-bee4-9369a9b2a073','93d0339e-a089-465e-a86c-f6afc31058dd':'93d0339e-a089-465e-a86c-f6afc31058dd','bcfae4b3-a6c7-4f71-a0e2-826f3b63c861':'bcfae4b3-a6c7-4f71-a0e2-826f3b63c861','c732bd34-6599-41a9-bef0-3bd70bedc2a2':'c732bd34-6599-41a9-bef0-3bd70bedc2a2','8647bec5-6d6c-40ab-8c8a-fffdf49dab57':'8647bec5-6d6c-40ab-8c8a-fffdf49dab57','6fc000c5-f086-41e9-a856-b0606021bd79':'6fc000c5-f086-41e9-a856-b0606021bd79','6bbfbe27-2fd1-4cec-9d45-88223960cff8':'6bbfbe27-2fd1-4cec-9d45-88223960cff8'};
  const viewerUrl=proxyIds[String(ref.id)]?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+proxyIds[String(ref.id)]:external;
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
