@@ -876,7 +876,7 @@ function renderLibrary(view='home'){
  const filters='<div class="library-filters"><input id="librarySearch" type="search" placeholder="ابحث بالعنوان أو المؤلف أو DOI" value="'+esc(window.librarySearchTerm||'')+'" oninput="filterScientificLibrary()"></div>';
  return pageShell(title,'عدد المواد: '+list.length+'.',back+filters+'<div class="reference-grid">'+(cards||'<div class="notice">لا توجد مواد في هذا القسم حالياً.</div>')+'</div>');
 }
-function filterScientificLibrary(){window.librarySearchTerm=document.getElementById('librarySearch')?.value||'';window.libraryTypeFilter=document.getElementById('libraryType')?.value||'';renderLibrary()}
+function filterScientificLibrary(){window.librarySearchTerm=document.getElementById('librarySearch')?.value||'';renderLibrary(window.libraryView||'home')}
 
 /* Lecture narration controls: browser-native speech synthesis. */
 const lectureNarrators=new Map();
