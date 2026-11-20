@@ -807,17 +807,21 @@ async function loadPdfJs(){
 }
 async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFallbackUrl,referenceId){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
+ if(host.dataset.pdfObjectUrl){try{URL.revokeObjectURL(host.dataset.pdfObjectUrl)}catch(_){}delete host.dataset.pdfObjectUrl}
  const cacheKey=offlineFileUrl||(referenceId?new URL('./__offline_references__/'+offlineMediaHash(String(referenceId)),location.href).href:'');
+ const showNativePdf=url=>{
+  host.innerHTML='<div class="pdf-reader-toolbar"><span>قارئ PDF الأصلي</span><a class="secondary" href="'+esc(url)+'" target="_blank" rel="noopener">فتح في عارض PDF</a></div><iframe title="'+esc(title||'PDF')+'" src="'+esc(url)+'" type="application/pdf" style="display:block;width:100%;height:82vh;min-height:620px;border:0;background:#fff" loading="eager"></iframe>';
+ };
  if(!navigator.onLine){
   if(cacheKey&&window.caches){
    try{
     const cache=await caches.open(OFFLINE_MEDIA_CACHE),stored=await cache.match(cacheKey);
-    if(stored){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(cacheKey)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}
+    if(stored){showNativePdf(cacheKey);return}
    }catch(error){console.warn('Offline PDF cache lookup failed:',error)}
   }
   host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته على هذا الجهاز بعد. افتح المرجع مرة واحدة مع الاتصال بالإنترنت لحفظه محلياً.</div>';return;
  }
- host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ جلب ملف PDF والتحقق منه...</span></div><div class="notice">يتم تجهيز صفحات المرجع داخل الأكاديمية.</div>';
+ host.innerHTML='<div class="notice">جارٍ جلب ملف PDF الأصلي وتجهيزه للعرض...</div>';
  try{
   let pdfBytes=null;
   if(cacheKey&&window.caches){
@@ -857,40 +861,15 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
    if(cacheKey&&window.caches)await (await caches.open(OFFLINE_MEDIA_CACHE)).put(cacheKey,new Response(pdfBytes.slice(0),{headers:{'Content-Type':'application/pdf'}}));
   }
   if(!pdfBytes)throw Error('لم يتم العثور على ملف PDF صالح لهذا المرجع.');
-  const pdfjs=await loadPdfJs();
-  const pdf=await pdfjs.getDocument({data:new Uint8Array(pdfBytes)}).promise;
-  host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
-  const pages=host.querySelector('#academyPdfPages');let scale=1.15,renderVersion=0;
-  async function renderPages(){
-   const version=++renderVersion;pages.innerHTML='';
-   const renderOne=async number=>{
-    if(version!==renderVersion||!pages.isConnected)return;
-    const page=await pdf.getPage(number),base=page.getViewport({scale:1});
-    const width=Math.min(pages.clientWidth||900,1000),viewport=page.getViewport({scale:Math.min(scale,width/base.width)});
-    const canvas=document.createElement('canvas');canvas.className='academy-pdf-page';canvas.dataset.page=String(number);
-    canvas.width=Math.floor(viewport.width);canvas.height=Math.floor(viewport.height);
-    canvas.style.width=viewport.width+'px';canvas.style.maxWidth='100%';canvas.style.height='auto';
-    const context=canvas.getContext('2d',{alpha:false});pages.appendChild(canvas);
-    await page.render({canvasContext:context,viewport}).promise;
-   };
-   const firstBatch=Math.min(3,pdf.numPages);
-   for(let number=1;number<=firstBatch;number++)await renderOne(number);
-   if(pdf.numPages>firstBatch){
-    const progress=document.createElement('div');progress.className='notice';
-    progress.textContent='تم فتح الصفحات الأولى. جارٍ تجهيز بقية الصفحات تدريجياً...';pages.appendChild(progress);
-    setTimeout(async()=>{try{
-     for(let number=firstBatch+1;number<=pdf.numPages;number++){if(version!==renderVersion||!pages.isConnected)return;await renderOne(number);if(number%4===0)await new Promise(resolve=>setTimeout(resolve,0))}
-     if(version===renderVersion&&progress.isConnected)progress.remove();
-    }catch(error){if(version===renderVersion)showError(error)}},40);
-   }
-  }
-  host.querySelector('#academyPdfZoomIn').addEventListener('click',()=>{scale=Math.min(2.5,scale+0.15);renderPages().catch(showError)});
-  host.querySelector('#academyPdfZoomOut').addEventListener('click',()=>{scale=Math.max(0.65,scale-0.15);renderPages().catch(showError)});
-  await renderPages();
-  function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
+  const signature=new TextDecoder().decode(new Uint8Array(pdfBytes,0,Math.min(5,pdfBytes.byteLength)));
+  if(signature!=='%PDF-')throw Error('البيانات المستلمة ليست ملف PDF صالحاً.');
+  const pdfBlob=new Blob([pdfBytes],{type:'application/pdf'});
+  const objectUrl=URL.createObjectURL(pdfBlob);
+  host.dataset.pdfObjectUrl=objectUrl;
+  showNativePdf(objectUrl);
  }catch(error){
-  console.error('Academy PDF reader failed:',error);
-  host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF داخل قارئ الأكاديمية: '+esc(error?.message||'خطأ غير معروف')+'. لم يتم فتح أي رابط خارجي. أعد المحاولة عند توفر الاتصال أو أبلغ إدارة الأكاديمية عن المرجع.</div>';
+  console.error('Academy native PDF reader failed:',error);
+  host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF الأصلي داخل الأكاديمية: '+esc(error?.message||'خطأ غير معروف')+'. أعد المحاولة عند توفر الاتصال أو أبلغ إدارة الأكاديمية عن المرجع.</div>';
  }
 }
 async function drawAcademyTextReference(ref){
