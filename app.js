@@ -763,15 +763,19 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button><a class="secondary" href="'+esc(url)+'" target="_blank" rel="noopener">فتح ملف PDF</a></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
   const pages=host.querySelector('#academyPdfPages');
   let scale=1.15;
+  let renderVersion=0;
   async function renderPages(){
+   const version=++renderVersion;
    pages.innerHTML='';
-   for(let number=1;number<=pdf.numPages;number++){
+   const renderOne=async number=>{
+    if(version!==renderVersion||!pages.isConnected)return;
     const page=await pdf.getPage(number);
     const base=page.getViewport({scale:1});
     const width=Math.min(pages.clientWidth||900,1000);
     const viewport=page.getViewport({scale:Math.min(scale,width/base.width)});
     const canvas=document.createElement('canvas');
     canvas.className='academy-pdf-page';
+    canvas.dataset.page=String(number);
     canvas.width=Math.floor(viewport.width);
     canvas.height=Math.floor(viewport.height);
     canvas.style.width=viewport.width+'px';
@@ -780,6 +784,24 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
     const context=canvas.getContext('2d',{alpha:false});
     pages.appendChild(canvas);
     await page.render({canvasContext:context,viewport}).promise;
+   };
+   const firstBatch=Math.min(3,pdf.numPages);
+   for(let number=1;number<=firstBatch;number++)await renderOne(number);
+   if(pdf.numPages>firstBatch){
+    const progress=document.createElement('div');
+    progress.className='notice';
+    progress.textContent='تم فتح الصفحات الأولى. جارٍ تجهيز بقية الصفحات تدريجياً...';
+    pages.appendChild(progress);
+    setTimeout(async()=>{
+     try{
+      for(let number=firstBatch+1;number<=pdf.numPages;number++){
+       if(version!==renderVersion||!pages.isConnected)return;
+       await renderOne(number);
+       if(number%4===0)await new Promise(resolve=>setTimeout(resolve,0));
+      }
+      if(version===renderVersion&&progress.isConnected)progress.remove();
+     }catch(error){if(version===renderVersion)showError(error)}
+    },40);
    }
   }
   host.querySelector('#academyPdfZoomIn').addEventListener('click',()=>{scale=Math.min(2.5,scale+0.15);renderPages().catch(showError)});
