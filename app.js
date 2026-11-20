@@ -898,14 +898,14 @@ async function openAcademyReference(id){
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
  else if(source&&isPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية — PDF.js</b><span>يُعرض المرجع هنا دون فتح المتصفح الخارجي.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
- else if(source&&(isPmc||/\\/books\\/NBK\\d+/i.test(external)))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص الكامل داخل الأكاديمية</b><span>يتم عرض النص العلمي من خدمة النصوص المفتوحة.</span></div><div id="academyTextReader" class="academy-text-reader"><div class="notice">جارٍ تجهيز النص الكامل...</div></div></div>';
+ else if(source&&(isPmc||/\/books\/NBK\d+/i.test(external)))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص الكامل داخل الأكاديمية</b><span>يتم عرض النص العلمي من خدمة النصوص المفتوحة.</span></div><div id="academyTextReader" class="academy-text-reader"><div class="notice">جارٍ تجهيز النص الكامل...</div></div></div>';
  else if(source&&!navigator.onLine)content='<div class="notice">بيانات المرجع والملخص محفوظة داخل المكتبة، لكن صفحة الناشر الكاملة تحتاج إلى اتصال بالإنترنت.</div>'+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'');
  else if(source)content='<div class="notice">هذا المصدر لا يدعم حالياً القراءة الداخلية الكاملة؛ لذلك لن نعرض رابطاً خارجياً أو نحتسبه ضمن المراجع المتاحة. '+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'')+'</div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&isPdf?'<button type="button" class="secondary" onclick="downloadAcademyReference(\''+esc(ref.id)+'\')">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&isPdf)await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external);
- else if(source&&(isPmc||/\\/books\\/NBK\\d+/i.test(external)))await drawAcademyTextReference(ref);
+ else if(source&&(isPmc||/\/books\/NBK\d+/i.test(external)))await drawAcademyTextReference(ref);
 }
 async function downloadAcademyReference(id){
  const ref=findAcademyReference(id);
