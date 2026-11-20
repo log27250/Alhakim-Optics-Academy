@@ -386,7 +386,7 @@ function renderHome(){
     ${founderImage(s.founder_photo_url,s.founder_name)}
     <div><small>المؤسس: والعضو المنتدب</small><h2>${esc(s.founder_name)}</h2><p>${esc(s.founder_title)}</p></div>
    </div>
-   <nav class="home-shortcuts">${quick.map((x,i)=>`<button onclick="showPage('${esc(x.page)}')"><span class="shortcut-number">${i+1}</span><span class="shortcut-icon">${esc(x.icon||'▣')}</span><b>${esc(x.label)}</b></button>`).join('')}</nav>
+   <nav class="home-shortcuts">${quick.map((x,i)=>`<button onclick="showPage('${esc(x.page)}')"><span class="shortcut-number">${i+1}</span><span class="shortcut-icon">${esc(x.icon||'▣')}</span><b>${esc(x.page==='library'?'المكتبة':x.label)}</b></button>`).join('')}</nav>
   </section>
   <section class="home-columns">
    <aside class="home-academy-side" ${s.show_academy_card===false?'hidden':''}>
