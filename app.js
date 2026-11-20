@@ -769,9 +769,10 @@ async function cacheOfflineTextReferences(references=DB?.reference_catalog||[]){
  const cache=await caches.open('alhakim-academy-reference-text-v2');
  let cached=0,failed=0,skipped=0;
  for(const ref of references){
-  if(!isAcademyReadableReference(ref)||isAcademyPdfReference(ref)){skipped++;continue}
+  if(!isAcademyReadableReference(ref))continue;
+  if(isAcademyPdfReference(ref)){skipped++;continue}
   const endpoint=academyTextReferenceEndpoint(ref);
-  if(!endpoint){skipped++;continue}
+  if(!endpoint){failed++;console.warn('Readable full-text reference has no supported offline source:',ref.title);continue}
   const key=academyReferenceCacheKey(ref,'text');
   try{
    if(await cache.match(key)){ref.offline_text_url=key;cached++;continue}
