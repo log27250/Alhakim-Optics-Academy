@@ -1444,12 +1444,68 @@ async function renderAdmin(){
  <div class="stats"><div class="stat"><b>${stats.questions}</b><small>سؤالاً في البنك</small></div><div class="stat"><b>${stats.attempts}</b><small>محاولة امتحان</small></div><div class="stat"><b>${stats.certificates}</b><small>شهادة صادرة</small></div></div>
  <div class="notice">تظل الدروس والموضوعات الأساسية متاحة مجاناً. إدارة الاشتراكات تخص الدورات والشهادات فقط.</div>`);
 }
+
+function adminReferenceUploadSettings(){
+ if(!adminGuard())return;
+ pageShell('إعدادات المكتبة ورفع المراجع','ارفع ملفات PDF مباشرة من الهاتف أو الكمبيوتر. كل ملف يصبح مرجعاً مستقلاً في المكتبة.',`
+ <div class="content-card">
+  <div class="admin-actions"><button class="secondary" onclick="adminReferences()">العودة إلى المكتبة</button></div>
+  <div class="notice">اختر ملفاً واحداً أو عدة ملفات PDF. سيتم استخدام اسم الملف عنواناً أولياً للمرجع، ويمكنك تعديل بياناته لاحقاً. الحد الأقصى 50 ميجابايت لكل ملف.</div>
+  <form id="referenceUploadSettingsForm" onsubmit="uploadReferenceBatch(event)">
+   <label>ملفات المراجع PDF *<input id="referenceBatchFiles" type="file" accept="application/pdf,.pdf" multiple required></label>
+   <label>تصنيف الملفات
+    <select id="referenceBatchType">
+     <option value="book">كتاب علمي</option><option value="clinical_reference">مرجع سريري</option><option value="research_article">بحث علمي</option><option value="scientific_paper">ورقة علمية</option><option value="previous_study">دراسة سابقة</option><option value="clinical_guideline">إرشادات سريرية</option><option value="systematic_review">مراجعة منهجية</option>
+    </select>
+   </label>
+   <label>لغة الملفات<select id="referenceBatchLanguage"><option value="en">English</option><option value="ar">العربية</option><option value="multi">متعددة اللغات</option></select></label>
+   <label>ملاحظة الترخيص وحقوق الاستخدام<input id="referenceBatchLicense" maxlength="300" placeholder="مثال: Open Access — CC BY 4.0"></label>
+   <p class="muted">ارفع فقط الملفات التي تملك حق استخدامها وإتاحتها. لن تُقبل الملفات غير بصيغة PDF.</p>
+   <div class="admin-actions"><button class="primary" type="submit" id="referenceBatchSubmit">رفع الملفات وإضافتها للمكتبة</button></div>
+   <p id="referenceBatchStatus" class="form-message" aria-live="polite"></p>
+  </form>
+ </div>`);
+}
+async function uploadReferenceBatch(event){
+ event.preventDefault();if(!adminGuard())return;
+ const input=document.getElementById('referenceBatchFiles'),files=Array.from(input?.files||[]);
+ const status=document.getElementById('referenceBatchStatus'),button=document.getElementById('referenceBatchSubmit');
+ if(!files.length){if(status)status.textContent='اختر ملف PDF واحداً على الأقل.';return}
+ const invalid=files.find(f=>f.type!=='application/pdf'&&!/\\.pdf$/i.test(f.name)||f.size>50*1024*1024);
+ if(invalid){if(status)status.textContent='الملف '+invalid.name+' غير صالح أو يتجاوز 50 ميجابايت.';return}
+ if(!confirm('تأكيد رفع '+files.length+' ملف PDF إلى مكتبة الأكاديمية؟ تأكد من امتلاك حقوق إتاحتها.'))return;
+ const type=document.getElementById('referenceBatchType').value,language=document.getElementById('referenceBatchLanguage').value,license=document.getElementById('referenceBatchLicense').value.trim();
+ button.disabled=true;let done=0,failed=[];
+ try{
+  for(let i=0;i<files.length;i++){
+   const file=files[i],safeName=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'_').replace(/^\\.+/,'').slice(-100)||'reference.pdf';
+   const path='uploads/'+Date.now()+'-'+i+'-'+safeName;
+   if(status)status.textContent='جارٍ رفع '+(i+1)+' من '+files.length+': '+file.name;
+   const upload=await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+path,{method:'POST',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token,'Content-Type':'application/pdf','x-upsert':'false'},body:file});
+   const uploadBody=await upload.json().catch(()=>({}));
+   if(!upload.ok)throw Error(uploadBody.message||uploadBody.error||'فشل رفع '+file.name);
+   const title=file.name.replace(/\\.pdf$/i,'').replace(/[_-]+/g,' ').trim()||file.name;
+   const payload={title,resource_type:type,language,access_type:'free_pdf_download',access_license:license||null,status:'published',academy_readability:'available',file_path:path,file_name:file.name,file_size:file.size,pdf_updated_at:new Date().toISOString(),updated_at:new Date().toISOString(),keywords:[]};
+   const saved=await authorizedFetch(SUPABASE_URL+'/rest/v1/references',{method:'POST',headers:{...authHeaders(),'Content-Type':'application/json','Prefer':'return=representation'},body:JSON.stringify(payload)});
+   const savedBody=await saved.json().catch(()=>({}));
+   if(!saved.ok){
+    await fetch(SUPABASE_URL+'/storage/v1/object/academy-references/'+path,{method:'DELETE',headers:{apikey:SUPABASE_ANON_JWT,Authorization:'Bearer '+session.access_token}});
+    throw Error(savedBody.message||savedBody.details||'رُفع الملف لكن تعذر إنشاء سجل المرجع '+file.name);
+   }
+   done++;
+  }
+  if(status)status.textContent='اكتمل رفع '+done+' ملفاً بنجاح. جارٍ تحديث المكتبة…';
+  await loadContent();adminReferences();
+ }catch(error){
+  if(status)status.textContent='تم رفع '+done+' ملفاً. تعذر إكمال الباقي: '+(error.message||'خطأ غير معروف');
+ }finally{if(button)button.disabled=false}
+}
 async function adminReferences(){
  if(!adminGuard())return;
  try{
   const refs=await restAll('references','select=*&order=updated_at.desc.nullslast,publication_year.desc');
   const lessons=DB.lessons||[];
-  pageShell('إدارة المكتبة العلمية','إضافة وتحرير الكتب والأبحاث والدراسات والإرشادات وربطها بالمحاضرات.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><button class="primary" onclick="adminReferenceForm()">＋ إضافة مادة علمية</button></div><div class="notice">أضف بيانات ببليوغرافية دقيقة وروابط المصدر الأصلي. لا ترفع أو تعِد توزيع الكتب المحمية بحقوق النشر.</div><div class="library-admin-list">${refs.map(r=>`<article class="reference-card"><div class="admin-actions"><span class="tag">${esc(referenceTypeLabel(r.resource_type))}</span><span class="tag">${esc(r.status||'published')}</span><span class="tag">${esc(academyReadabilityLabel(r))}</span></div><h3>${esc(r.title)}</h3><p>${esc(r.authors||'')} · ${esc(r.publication_year||'')} · ${esc(r.journal||r.publisher||'')}</p><p>${esc(r.doi||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminReferenceForm('${esc(r.id)}')">تعديل</button><button class="secondary" onclick="toggleReferenceArchive('${esc(r.id)}','${esc(r.status||'published')}')">${r.status==='archived'?'إعادة نشر':'أرشفة'}</button><button class="secondary" onclick="adminReferenceLinks('${esc(r.id)}')">ربط بمحاضرة</button></div></article>`).join('')||'<p>لا توجد مواد علمية بعد.</p>'}</div></div>`);
+  pageShell('إدارة المكتبة العلمية','إضافة وتحرير الكتب والأبحاث والدراسات والإرشادات وربطها بالمحاضرات.',`<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderAdmin()">العودة إلى لوحة الإدارة</button><button class="primary" onclick="adminReferenceUploadSettings()">إعدادات المكتبة ورفع المراجع من الهاتف</button><button class="secondary" onclick="adminReferenceForm()">＋ إضافة بيانات مرجع</button></div><div class="notice">أضف بيانات ببليوغرافية دقيقة وروابط المصدر الأصلي. لا ترفع أو تعِد توزيع الكتب المحمية بحقوق النشر.</div><div class="library-admin-list">${refs.map(r=>`<article class="reference-card"><div class="admin-actions"><span class="tag">${esc(referenceTypeLabel(r.resource_type))}</span><span class="tag">${esc(r.status||'published')}</span><span class="tag">${esc(academyReadabilityLabel(r))}</span></div><h3>${esc(r.title)}</h3><p>${esc(r.authors||'')} · ${esc(r.publication_year||'')} · ${esc(r.journal||r.publisher||'')}</p><p>${esc(r.doi||'')}</p><div class="admin-actions"><button class="secondary" onclick="adminReferenceForm('${esc(r.id)}')">تعديل</button><button class="secondary" onclick="toggleReferenceArchive('${esc(r.id)}','${esc(r.status||'published')}')">${r.status==='archived'?'إعادة نشر':'أرشفة'}</button><button class="secondary" onclick="adminReferenceLinks('${esc(r.id)}')">ربط بمحاضرة</button></div></article>`).join('')||'<p>لا توجد مواد علمية بعد.</p>'}</div></div>`);
  }catch(e){pageShell('إدارة المكتبة العلمية','تعذر تحميل المكتبة.',`<div class="notice">${esc(e.message)}</div><button class="secondary" onclick="renderAdmin()">رجوع</button>`)}
 }
 function referenceTypeLabel(type){return ({book:'📚 كتاب علمي',clinical_reference:'📖 مرجع سريري',research_article:'🔬 بحوث',scientific_paper:'📄 أوراق علمية',previous_study:'📊 دراسات',clinical_guideline:'📋 إرشادات سريرية',systematic_review:'🧾 مراجعات منهجية'})[type]||'📚 مادة علمية'}
