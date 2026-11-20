@@ -810,7 +810,8 @@ function renderLibrary(){
  const allRefs=(DB.reference_catalog||[]).filter(r=>r.status!=='archived'&&r.status!=='draft');
  const term=String(window.librarySearchTerm||'').toLowerCase().trim(),kind=String(window.libraryTypeFilter||'');
  const refs=allRefs.filter(r=>(!kind||r.resource_type===kind)&&(!term||[r.title,r.authors,r.journal,r.publisher,r.doi,...(r.keywords||[])].join(' ').toLowerCase().includes(term))).slice().sort((a,b)=>String(b.publication_year||'').localeCompare(String(a.publication_year||''))||refLabel(a).localeCompare(refLabel(b)));
- const intro='المكتبة العلمية لأكاديمية الحكيم: كتب ومراجع سريرية وأبحاث وأوراق علمية ودراسات وإرشادات موثوقة.';\n const iconLegend='<div class="library-icon-legend"><span>📗 مراجع متاحة</span><span>🔒 مراجع غير متاحة</span><span>🔬 بحوث</span><span>📄 أوراق علمية</span><span>📊 دراسات</span></div>';
+ const intro='المكتبة العلمية لأكاديمية الحكيم: كتب ومراجع سريرية وأبحاث وأوراق علمية ودراسات وإرشادات موثوقة.';
+ const iconLegend='<div class="library-icon-legend"><span>📗 مراجع متاحة</span><span>🔒 مراجع غير متاحة</span><span>🔬 بحوث</span><span>📄 أوراق علمية</span><span>📊 دراسات</span></div>';
  const cards=refs.map(r=>{
   const url=referenceUrl(r), readable=isAcademyReadableReference(r), hasFile=!!r.file_path;
   const access=String(r.access_license||r.access_type||'حالة الوصول غير محددة — راجع موقع الناشر.'), academyStatus=academyReadabilityLabel(r);
