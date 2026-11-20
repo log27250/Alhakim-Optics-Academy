@@ -826,13 +826,19 @@ async function drawAcademyTextReference(ref){
  const host=document.getElementById('academyTextReader');if(!host)return;
  host.innerHTML='<div class="notice">جارٍ جلب النص الكامل من مستودع النصوص العلمية المفتوحة...</div>';
  try{
-  const pmcidMatch=String(referenceUrl(ref)||'').match(/PMC\d+/i);if(!pmcidMatch)throw Error('لا يوجد معرف PMC صالح لهذا النص الكامل.');const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml';
+  const sourceUrl=String(referenceUrl(ref)||'');
+  const pmcidMatch=sourceUrl.match(/PMC\d+/i);
+  const bookMatch=sourceUrl.match(/books\/(NBK\d+)/i);
+  if(!pmcidMatch&&!bookMatch)throw Error('لا يوجد معرّف نص كامل صالح لهذا المرجع.');
+  const endpoint=pmcidMatch
+   ?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml'
+   :'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?bookid='+encodeURIComponent(bookMatch[1].toUpperCase())+'&format=bookxml';
   const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
   if(!response.ok)throw Error('HTTP '+response.status);
   const xmlText=await response.text();
   const doc=new DOMParser().parseFromString(xmlText,'application/xml');
   if(doc.querySelector('parsererror'))throw Error('تعذر قراءة ملف النص العلمي.');
-  const articleTitle=doc.getElementsByTagName('article-title')[0]?.textContent?.trim()||ref.title||'Full text';
+  const articleTitle=doc.getElementsByTagName('article-title')[0]?.textContent?.trim()||doc.getElementsByTagName('book-title')[0]?.textContent?.trim()||doc.getElementsByTagName('chapter-title')[0]?.textContent?.trim()||ref.title||'Full text';
   const root=document.createElement('article');root.className='academy-text-article';
   const heading=document.createElement('h2');heading.textContent=articleTitle;root.appendChild(heading);
   const makeBlock=(label,items)=>{
@@ -845,7 +851,7 @@ async function drawAcademyTextReference(ref){
   const abstract=doc.getElementsByTagName('abstract')[0];
   const abstractText=abstract?Array.from(abstract.getElementsByTagName('p')).map(x=>x.textContent.trim()).filter(Boolean):[];
   makeBlock('Abstract',abstractText);
-  const body=doc.getElementsByTagName('body')[0];
+  const body=doc.getElementsByTagName('body')[0]||doc.getElementsByTagName('book-body')[0]||doc.getElementsByTagName('book-part')[0]||doc.documentElement;
   if(body){
    const walk=(node)=>{
     Array.from(node.children||[]).forEach(child=>{
@@ -889,14 +895,14 @@ async function openAcademyReference(id){
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
  else if(source&&isPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية — PDF.js</b><span>يُعرض المرجع هنا دون فتح المتصفح الخارجي.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
- else if(source&&isPmc)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص الكامل داخل الأكاديمية</b><span>يتم عرض النص العلمي من خدمة النصوص المفتوحة.</span></div><div id="academyTextReader" class="academy-text-reader"><div class="notice">جارٍ تجهيز النص الكامل...</div></div></div>';
+ else if(source&&(isPmc||/\\/books\\/NBK\\d+/i.test(external)))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص الكامل داخل الأكاديمية</b><span>يتم عرض النص العلمي من خدمة النصوص المفتوحة.</span></div><div id="academyTextReader" class="academy-text-reader"><div class="notice">جارٍ تجهيز النص الكامل...</div></div></div>';
  else if(source&&!navigator.onLine)content='<div class="notice">بيانات المرجع والملخص محفوظة داخل المكتبة، لكن صفحة الناشر الكاملة تحتاج إلى اتصال بالإنترنت.</div>'+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'');
- else if(source)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص العلمي داخل الأكاديمية</b><span>المصدر الكامل مفتوح الوصول. إذا منع الناشر العرض المضمّن، استخدم رابط المصدر الرسمي أدناه.</span></div><iframe class="academy-reference-frame" title="'+esc(refLabel(ref))+'" src="'+esc(external)+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;min-height:78vh;border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe><p><a class="secondary" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p></div>';
+ else if(source)content='<div class="notice">هذا المصدر لا يدعم حالياً القراءة الداخلية الكاملة؛ لذلك لن نعرض رابطاً خارجياً أو نحتسبه ضمن المراجع المتاحة. '+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'')+'</div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&isPdf?'<button type="button" class="secondary" onclick="downloadAcademyReference(\''+esc(ref.id)+'\')">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&isPdf)await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external);
- else if(source&&isPmc)await drawAcademyTextReference(ref);
+ else if(source&&(isPmc||/\\/books\\/NBK\\d+/i.test(external)))await drawAcademyTextReference(ref);
 }
 async function downloadAcademyReference(id){
  const ref=findAcademyReference(id);
