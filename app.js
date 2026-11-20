@@ -786,7 +786,12 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl){
   await renderPages();
   function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
  }catch(error){
-  host.innerHTML='<div class="notice pdf-error">تعذر تحميل المرجع داخل الأكاديمية: '+esc(error.message||'خطأ غير معروف')+'. تحقق من اتصال الإنترنت أو توفر ملف المرجع.</div>';
+  const fallbackUrl=String(externalPdfUrl||'');
+  if(fallbackUrl){
+   host.innerHTML='<div class="notice" style="margin-bottom:12px">تعذر جلب صفحات PDF عبر PDF.js بسبب قيود الاتصال من موقع الناشر. نعرض ملف الناشر مباشرة داخل الأكاديمية كخيار بديل.</div><div class="pdf-reader-toolbar"><a class="secondary" href="'+esc(fallbackUrl)+'" target="_blank" rel="noopener noreferrer">فتح / حفظ ملف PDF من الناشر ↗</a></div><iframe title="'+esc(title||'PDF')+'" src="'+esc(fallbackUrl)+'" style="width:100%;height:78vh;border:1px solid #d7e1ed;border-radius:12px;background:#fff" loading="eager"></iframe>';
+  }else{
+   host.innerHTML='<div class="notice pdf-error">تعذر تحميل ملف المرجع من التخزين الآمن: '+esc(error.message||'خطأ غير معروف')+'. أعد المحاولة مع الاتصال بالإنترنت.</div>';
+  }
  }
 }
 async function openAcademyReference(id){
@@ -812,15 +817,19 @@ async function downloadAcademyReference(id){
   let url=referenceUrl(ref);
   if(ref.file_path)url=await academyPdfSignedUrl(ref.file_path);
   if(!url){alert('لا يوجد ملف قابل للتنزيل لهذا المرجع.');return}
+  // External publisher PDFs may reject cross-origin fetch (CORS). Open the official PDF
+  // directly so the browser's native PDF viewer can save it without a failed fetch.
+  if(!ref.file_path){
+   const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.download='';document.body.appendChild(a);a.click();a.remove();return;
+  }
   const response=await fetch(url);
   if(!response.ok)throw Error('تعذر تنزيل الملف ('+response.status+').');
   const blob=await response.blob();
-  const ext=(blob.type||'').includes('pdf')||/\.pdf(?:$|[?#])/i.test(url)?'pdf':'html';
   const safeName=String(ref.title||'academy-reference').replace(/[^\p{L}\p{N}\-_ ]/gu,'').trim().replace(/\s+/g,'-').slice(0,90)||'academy-reference';
   const objectUrl=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=objectUrl;a.download=safeName+'.'+ext;document.body.appendChild(a);a.click();a.remove();
+  a.href=objectUrl;a.download=safeName+'.pdf';document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(objectUrl),1500);
- }catch(error){alert('تعذر التنزيل المباشر: '+(error?.message||'خطأ غير معروف')+'\nيمكنك فتح المصدر الرسمي من بطاقة المرجع.')}
+ }catch(error){alert('تعذر تنزيل الملف: '+(error?.message||'خطأ غير معروف')+'\nيمكنك فتح ملف PDF من موقع الناشر وحفظه من عارض PDF.')}
 }
 function renderLibrary(view='home'){
  window.libraryView=view;
