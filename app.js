@@ -753,7 +753,16 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
 }
 async function loadPdfJs(){
  if(window.pdfjsLib)return window.pdfjsLib;
- if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs').then(mod=>{window.pdfjsLib=mod;mod.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';return mod});
+ if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=(async()=>{
+  const cdns=[
+   {module:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs',worker:'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs'},
+   {module:'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.mjs',worker:'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs'},
+   {module:'https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.min.mjs',worker:'https://unpkg.com/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs'}
+  ];
+  let lastError;
+  for(const cdn of cdns){try{const mod=await import(cdn.module);mod.GlobalWorkerOptions.workerSrc=cdn.worker;window.pdfjsLib=mod;return mod}catch(error){lastError=error;console.warn('PDF.js CDN unavailable:',cdn.module,error?.message)}}
+  throw new Error('تعذر تحميل مكتبة قارئ PDF من مصادرها البديلة: '+(lastError?.message||'Network error'));
+ })();
  return window.hakimPdfJsPromise;
 }
 async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFallbackUrl){
