@@ -795,21 +795,81 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   }
  }
 }
+async function drawAcademyTextReference(ref){
+ const host=document.getElementById('academyTextReader');if(!host)return;
+ host.innerHTML='<div class="notice">جارٍ جلب النص الكامل من مستودع النصوص العلمية المفتوحة...</div>';
+ try{
+  const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+encodeURIComponent(ref.id)+'&format=xml';
+  const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const xmlText=await response.text();
+  const doc=new DOMParser().parseFromString(xmlText,'application/xml');
+  if(doc.querySelector('parsererror'))throw Error('تعذر قراءة ملف النص العلمي.');
+  const articleTitle=doc.getElementsByTagName('article-title')[0]?.textContent?.trim()||ref.title||'Full text';
+  const root=document.createElement('article');root.className='academy-text-article';
+  const heading=document.createElement('h2');heading.textContent=articleTitle;root.appendChild(heading);
+  const makeBlock=(label,items)=>{
+   if(!items.length)return;
+   const section=document.createElement('section');
+   const h=document.createElement('h3');h.textContent=label;section.appendChild(h);
+   for(const value of items){const p=document.createElement('p');p.textContent=value;section.appendChild(p)}
+   root.appendChild(section);
+  };
+  const abstract=doc.getElementsByTagName('abstract')[0];
+  const abstractText=abstract?Array.from(abstract.getElementsByTagName('p')).map(x=>x.textContent.trim()).filter(Boolean):[];
+  makeBlock('Abstract',abstractText);
+  const body=doc.getElementsByTagName('body')[0];
+  if(body){
+   const walk=(node)=>{
+    Array.from(node.children||[]).forEach(child=>{
+     const name=(child.localName||child.tagName||'').toLowerCase();
+     if(name==='sec'){
+      const title=Array.from(child.children).find(x=>(x.localName||'').toLowerCase()==='title');
+      if(title){const h=document.createElement('h3');h.textContent=title.textContent.trim();root.appendChild(h)}
+      walk(child);
+     }else if(name==='p'){
+      const value=child.textContent.trim();if(value){const p=document.createElement('p');p.textContent=value;root.appendChild(p)}
+     }else if(name==='list'){
+      const ul=document.createElement('ul');
+      Array.from(child.children).filter(x=>(x.localName||'').toLowerCase()==='list-item').forEach(item=>{
+       const li=document.createElement('li');li.textContent=item.textContent.trim();ul.appendChild(li);
+      });
+      if(ul.children.length)root.appendChild(ul);
+     }else if(name==='fig'){
+      const caption=Array.from(child.children).find(x=>(x.localName||'').toLowerCase()==='caption');
+      if(caption){const p=document.createElement('p');p.textContent='Figure: '+caption.textContent.trim();root.appendChild(p)}
+     }
+    });
+   };
+   walk(body);
+  }
+  if(root.children.length<=1)throw Error('لم يعثر مصدر النص على محتوى كامل قابل للعرض.');
+  root.style.cssText='background:#fff;color:#182230;padding:18px;border-radius:12px;line-height:1.85;overflow-wrap:anywhere';
+  root.querySelectorAll('h2').forEach(x=>x.style.cssText='font-size:1.35rem;line-height:1.5;margin:0 0 18px');
+  root.querySelectorAll('h3').forEach(x=>x.style.cssText='font-size:1.08rem;margin:22px 0 8px;padding-bottom:6px;border-bottom:1px solid #dce3eb');
+  root.querySelectorAll('p,li').forEach(x=>x.style.cssText='font-size:1rem;line-height:1.85;margin:8px 0;white-space:pre-wrap');
+  host.replaceChildren(root);
+ }catch(error){
+  host.innerHTML='<div class="notice pdf-error">تعذر عرض النص الكامل داخل القارئ: '+esc(error?.message||'خطأ غير معروف')+'. يمكنك فتح النص من المصدر العلمي الرسمي.</div><p><a class="secondary" href="'+esc(referenceUrl(ref))+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p>';
+ }
+}
 async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير متاح للقراءة الكاملة حالياً، لذلك لا يظهر ضمن مكتبة الطالب.');return;}
- const external=referenceUrl(ref),hasPdf=!!ref.file_path,isPdf=isAcademyPdfReference(ref),source=external.startsWith('http');
+ const external=referenceUrl(ref),hasPdf=!!ref.file_path,isPdf=isAcademyPdfReference(ref),isPmc=/pmc\.ncbi\.nlm\.nih\.gov\/articles\/PMC\d+/i.test(external),source=external.startsWith('http');
  const proxyIds={'d490838f-d39e-42f8-8bbc-0317d9757d3d':'tfos-dews-ii','4380825f-f67e-479b-8661-1a0c12ab76bf':'byu-physics-optics','423c98e5-8bf4-4ef1-ba66-32e5f0787934':'imi-accommodation-binocular','643738e1-0c9e-4d9d-b8a7-eff81ab0ed11':'643738e1-0c9e-4d9d-b8a7-eff81ab0ed11','39ef5221-6c72-42ab-adc7-ab4a302b0b38':'39ef5221-6c72-42ab-adc7-ab4a302b0b38','a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d':'a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d','1f3c5546-2933-45f0-a4e4-f0493a918d1b':'1f3c5546-2933-45f0-a4e4-f0493a918d1b','3b50e04a-1994-4b48-8eea-e2cd60cfc33e':'3b50e04a-1994-4b48-8eea-e2cd60cfc33e','ba700f4e-172f-49ee-afab-95b6378daf56':'ba700f4e-172f-49ee-afab-95b6378daf56','33a06d40-563d-41fc-b7a8-8f9a4302a038':'33a06d40-563d-41fc-b7a8-8f9a4302a038','13ed22b5-2dd8-48dd-bee4-9369a9b2a073':'13ed22b5-2dd8-48dd-bee4-9369a9b2a073','93d0339e-a089-465e-a86c-f6afc31058dd':'93d0339e-a089-465e-a86c-f6afc31058dd','bcfae4b3-a6c7-4f71-a0e2-826f3b63c861':'bcfae4b3-a6c7-4f71-a0e2-826f3b63c861','c732bd34-6599-41a9-bef0-3bd70bedc2a2':'c732bd34-6599-41a9-bef0-3bd70bedc2a2','8647bec5-6d6c-40ab-8c8a-fffdf49dab57':'8647bec5-6d6c-40ab-8c8a-fffdf49dab57','6fc000c5-f086-41e9-a856-b0606021bd79':'6fc000c5-f086-41e9-a856-b0606021bd79','6bbfbe27-2fd1-4cec-9d45-88223960cff8':'6bbfbe27-2fd1-4cec-9d45-88223960cff8'};
  const viewerUrl=proxyIds[String(ref.id)]?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+proxyIds[String(ref.id)]:external;
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
  else if(source&&isPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية — PDF.js</b><span>يُعرض المرجع هنا دون فتح المتصفح الخارجي.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
+ else if(source&&isPmc)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص الكامل داخل الأكاديمية</b><span>يتم عرض النص العلمي من خدمة النصوص المفتوحة.</span></div><div id="academyTextReader" class="academy-text-reader"><div class="notice">جارٍ تجهيز النص الكامل...</div></div></div>';
  else if(source&&!navigator.onLine)content='<div class="notice">بيانات المرجع والملخص محفوظة داخل المكتبة، لكن صفحة الناشر الكاملة تحتاج إلى اتصال بالإنترنت.</div>'+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'');
  else if(source)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص العلمي داخل الأكاديمية</b><span>المصدر الكامل مفتوح الوصول. إذا منع الناشر العرض المضمّن، استخدم رابط المصدر الرسمي أدناه.</span></div><iframe class="academy-reference-frame" title="'+esc(refLabel(ref))+'" src="'+esc(external)+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;min-height:78vh;border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe><p><a class="secondary" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p></div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&isPdf?'<button type="button" class="secondary" onclick="downloadAcademyReference(\''+esc(ref.id)+'\')">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&isPdf)await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url,external);
+ else if(source&&isPmc)await drawAcademyTextReference(ref);
 }
 async function downloadAcademyReference(id){
  const ref=findAcademyReference(id);
