@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — verified offline shell and complete image bundle */
-const CACHE_NAME='alhakim-academy-v8-pdfjs-reader-2026-11-19';
+const CACHE_NAME='alhakim-academy-v9-library-syntax-fix-2026-11-20';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
