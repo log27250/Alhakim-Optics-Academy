@@ -78,6 +78,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
  const home=HOME_SETTINGS||HOME_DEFAULTS;
  [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
+ for(const ref of DB.reference_catalog||[])['image_url','cover_image_url','thumbnail_url','preview_image_url'].forEach(k=>add(ref?.[k]));
  for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
    doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});
@@ -796,6 +797,7 @@ async function openAcademyReference(id){
  let content='';
  if(hasPdf)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF الآمن — PDF.js</b><span>رابط مؤقت بعد التحقق من جلسة الطالب.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
  else if(source&&/\.pdf(?:$|[?#])/i.test(external))content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ PDF داخل الأكاديمية — PDF.js</b><span>يُعرض المرجع هنا دون فتح المتصفح الخارجي.</span></div><div id="academyPdfViewer" class="academy-pdf-viewer" oncontextmenu="return false"></div></div>';
+ else if(source&&!navigator.onLine)content='<div class="notice">بيانات المرجع والملخص محفوظة داخل المكتبة، لكن صفحة الناشر الكاملة تحتاج إلى اتصال بالإنترنت.</div>'+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'');
  else if(source)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص العلمي داخل الأكاديمية</b><span>المصدر الكامل مفتوح الوصول. إذا منع الناشر العرض المضمّن، استخدم رابط المصدر الرسمي أدناه.</span></div><iframe class="academy-reference-frame" title="'+esc(refLabel(ref))+'" src="'+esc(external)+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;min-height:78vh;border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe><p><a class="secondary" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p></div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
