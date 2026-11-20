@@ -826,7 +826,7 @@ async function drawAcademyTextReference(ref){
  const host=document.getElementById('academyTextReader');if(!host)return;
  host.innerHTML='<div class="notice">جارٍ جلب النص الكامل من مستودع النصوص العلمية المفتوحة...</div>';
  try{
-  const pmcidMatch=String(referenceUrl(ref)||'').match(/PMC\\d+/i);if(!pmcidMatch)throw Error('لا يوجد معرف PMC صالح لهذا النص الكامل.');const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml';
+  const pmcidMatch=String(referenceUrl(ref)||'').match(/PMC\d+/i);if(!pmcidMatch)throw Error('لا يوجد معرف PMC صالح لهذا النص الكامل.');const endpoint='https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml';
   const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
   if(!response.ok)throw Error('HTTP '+response.status);
   const xmlText=await response.text();
