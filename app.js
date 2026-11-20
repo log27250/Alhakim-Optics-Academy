@@ -797,7 +797,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl){
 async function openAcademyReference(id){
  const ref=findAcademyReference(id);if(!isAcademyReadableReference(ref)){alert('هذا المرجع غير متاح للقراءة الكاملة حالياً، لذلك لا يظهر ضمن مكتبة الطالب.');return;}
  const external=referenceUrl(ref),hasPdf=!!ref.file_path,source=external.startsWith('http');
- const proxyIds={'d490838f-d39e-42f8-8bbc-0317d9757d3d':'tfos-dews-ii','4380825f-f67e-479b-8661-1a0c12ab76bf':'byu-physics-optics','423c98e5-8bf4-4ef1-ba66-32e5f0787934':'imi-accommodation-binocular'};
+ const proxyIds={'d490838f-d39e-42f8-8bbc-0317d9757d3d':'tfos-dews-ii','4380825f-f67e-479b-8661-1a0c12ab76bf':'byu-physics-optics','423c98e5-8bf4-4ef1-ba66-32e5f0787934':'imi-accommodation-binocular','643738e1-0c9e-4d9d-b8a7-eff81ab0ed11':'643738e1-0c9e-4d9d-b8a7-eff81ab0ed11','39ef5221-6c72-42ab-adc7-ab4a302b0b38':'39ef5221-6c72-42ab-adc7-ab4a302b0b38','a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d':'a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d','1f3c5546-2933-45f0-a4e4-f0493a918d1b':'1f3c5546-2933-45f0-a4e4-f0493a918d1b','3b50e04a-1994-4b48-8eea-e2cd60cfc33e':'3b50e04a-1994-4b48-8eea-e2cd60cfc33e','ba700f4e-172f-49ee-afab-95b6378daf56':'ba700f4e-172f-49ee-afab-95b6378daf56','33a06d40-563d-41fc-b7a8-8f9a4302a038':'33a06d40-563d-41fc-b7a8-8f9a4302a038','13ed22b5-2dd8-48dd-bee4-9369a9b2a073':'13ed22b5-2dd8-48dd-bee4-9369a9b2a073','93d0339e-a089-465e-a86c-f6afc31058dd':'93d0339e-a089-465e-a86c-f6afc31058dd','bcfae4b3-a6c7-4f71-a0e2-826f3b63c861':'bcfae4b3-a6c7-4f71-a0e2-826f3b63c861','c732bd34-6599-41a9-bef0-3bd70bedc2a2':'c732bd34-6599-41a9-bef0-3bd70bedc2a2','8647bec5-6d6c-40ab-8c8a-fffdf49dab57':'8647bec5-6d6c-40ab-8c8a-fffdf49dab57'};
  const viewerUrl=proxyIds[String(ref.id)]?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+proxyIds[String(ref.id)]:external;
  const details='<div class="reference-meta"><p><b>Authors:</b> '+esc(ref.authors||'Not specified')+'</p><p><b>Year:</b> '+esc(ref.publication_year||'Not specified')+'</p><p><b>Publisher:</b> '+esc(ref.publisher||'Not specified')+'</p></div>';
  let content='';
@@ -806,7 +806,7 @@ async function openAcademyReference(id){
  else if(source&&!navigator.onLine)content='<div class="notice">بيانات المرجع والملخص محفوظة داخل المكتبة، لكن صفحة الناشر الكاملة تحتاج إلى اتصال بالإنترنت.</div>'+(ref.abstract?'<section class="reference-abstract"><h3>الملخص المحفوظ — Abstract</h3><p>'+esc(ref.abstract)+'</p></section>':'');
  else if(source)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص العلمي داخل الأكاديمية</b><span>المصدر الكامل مفتوح الوصول. إذا منع الناشر العرض المضمّن، استخدم رابط المصدر الرسمي أدناه.</span></div><iframe class="academy-reference-frame" title="'+esc(refLabel(ref))+'" src="'+esc(external)+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;min-height:78vh;border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe><p><a class="secondary" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p></div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
- pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
+ pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button>'+(source&&/\\.pdf(?:$|[?#])/i.test(external)?'<button type=\"button\" class=\"secondary\" onclick=\"downloadAcademyReference(\\\''+esc(ref.id)+'\\\')\">⬇ تحميل المرجع</button>':'')+'</div>'+details+content+'</div>');
  if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl,ref.offline_file_url);
 }
@@ -820,7 +820,10 @@ async function downloadAcademyReference(id){
   // External publisher PDFs may reject cross-origin fetch (CORS). Open the official PDF
   // directly so the browser's native PDF viewer can save it without a failed fetch.
   if(!ref.file_path){
-   const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.download='';document.body.appendChild(a);a.click();a.remove();return;
+   const proxyIds={'643738e1-0c9e-4d9d-b8a7-eff81ab0ed11':'643738e1-0c9e-4d9d-b8a7-eff81ab0ed11','39ef5221-6c72-42ab-adc7-ab4a302b0b38':'39ef5221-6c72-42ab-adc7-ab4a302b0b38','a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d':'a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d','1f3c5546-2933-45f0-a4e4-f0493a918d1b':'1f3c5546-2933-45f0-a4e4-f0493a918d1b','3b50e04a-1994-4b48-8eea-e2cd60cfc33e':'3b50e04a-1994-4b48-8eea-e2cd60cfc33e','ba700f4e-172f-49ee-afab-95b6378daf56':'ba700f4e-172f-49ee-afab-95b6378daf56','33a06d40-563d-41fc-b7a8-8f9a4302a038':'33a06d40-563d-41fc-b7a8-8f9a4302a038','13ed22b5-2dd8-48dd-bee4-9369a9b2a073':'13ed22b5-2dd8-48dd-bee4-9369a9b2a073','93d0339e-a089-465e-a86c-f6afc31058dd':'93d0339e-a089-465e-a86c-f6afc31058dd','bcfae4b3-a6c7-4f71-a0e2-826f3b63c861':'bcfae4b3-a6c7-4f71-a0e2-826f3b63c861','c732bd34-6599-41a9-bef0-3bd70bedc2a2':'c732bd34-6599-41a9-bef0-3bd70bedc2a2','8647bec5-6d6c-40ab-8c8a-fffdf49dab57':'8647bec5-6d6c-40ab-8c8a-fffdf49dab57'};
+   const proxyId=proxyIds[String(ref.id)];
+   const downloadUrl=proxyId?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?id='+proxyId+'&download=1':url;
+   const a=document.createElement('a');a.href=downloadUrl;a.target='_blank';a.rel='noopener noreferrer';document.body.appendChild(a);a.click();a.remove();return;
   }
   const response=await fetch(url);
   if(!response.ok)throw Error('تعذر تنزيل الملف ('+response.status+').');
