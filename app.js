@@ -303,12 +303,13 @@ async function loadContent(){
  // Start image archiving only after the refreshed curriculum has rendered.
  if(!cloudError&&dataSource==='supabase'&&navigator.onLine){
   setTimeout(async()=>{try{
-   const [imageResult,referenceResult]=await Promise.allSettled([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[])]);
+   const [imageResult,referenceResult,textResult]=await Promise.allSettled([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[]),cacheOfflineTextReferences(DB.reference_catalog||[])]);
    const imagesSync=imageResult.status==='fulfilled'?imageResult.value:{total:0,cached:0,failed:[{error:imageResult.reason?.message||'image cache failed'}],complete:false};
    const referenceFilesSync=referenceResult.status==='fulfilled'?referenceResult.value:{cached:0,failed:1};
+   const referenceTextSync=textResult.status==='fulfilled'?textResult.value:{cached:0,failed:1,skipped:0};
    const previous=await readFullSyncReport()||{};
-   const allOfflineAssetsReady=imagesSync.complete&&referenceFilesSync.failed===0;
-   await saveFullSyncReport({...previous,complete:allOfflineAssetsReady,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,reference_files_cached:referenceFilesSync.cached,reference_files_failed:referenceFilesSync.failed,images_sync_status:allOfflineAssetsReady?'complete':'partial',synced_at:new Date().toISOString()});
+   const allOfflineAssetsReady=imagesSync.complete&&referenceFilesSync.failed===0&&referenceTextSync.failed===0;
+   await saveFullSyncReport({...previous,complete:allOfflineAssetsReady,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,reference_files_cached:referenceFilesSync.cached,reference_files_failed:referenceFilesSync.failed,reference_text_cached:referenceTextSync.cached,reference_text_failed:referenceTextSync.failed,reference_text_skipped:referenceTextSync.skipped,images_sync_status:allOfflineAssetsReady?'complete':'partial',synced_at:new Date().toISOString()});
    refreshOfflineSyncBadge();
    if(!imagesSync.complete)console.warn('Some images remain uncached:',imagesSync.failed.length,imagesSync.remaining);
   }catch(imageError){console.warn('Background image archive will retry on the next online refresh:',imageError.message)}},120);
@@ -739,17 +740,52 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
    if(await cache.match(localUrl)){ref.offline_file_url=localUrl;cached++;continue}
    const source=ref.file_path?await academyPdfSignedUrl(ref.file_path):(isExternalPdf?academyReferenceProxyUrl(ref):external);
    let response;
-   try{response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'})}
-   catch(error){if(!isExternalPdf)throw error;response=await fetch(source,{mode:'no-cors',credentials:'omit',cache:'no-store'})}
-   if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
-   const contentType=response.headers?.get('content-type')||'';
-   if(response.type!=='opaque'&&(contentType.includes('text/html')||contentType.includes('application/json')))throw Error('The returned file is not a PDF ('+contentType+').');
+   response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'});
+   if(response.type==='opaque')throw Error('The PDF response is opaque and cannot be verified or read offline.');
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const contentType=String(response.headers?.get('content-type')||'').toLowerCase();
+   if(!contentType.includes('pdf'))throw Error('The returned file is not a PDF ('+contentType+').');
    await cache.put(localUrl,response.clone());
    ref.offline_file_url=localUrl;cached++;
   }catch(error){failed++;console.warn('Could not cache Library PDF for offline reading:',ref.title,error.message)}
  }
  if(cached){await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
  return {cached,failed};
+}
+/* Archive complete PMC and NCBI Bookshelf XML payloads for true offline reading. */
+function academyTextReferenceEndpoint(ref){
+ const url=String(referenceUrl(ref)||'');
+ const pmc=url.match(/PMC\d+/i);
+ const book=url.match(/books\/(NBK\d+)/i);
+ if(pmc)return SUPABASE_URL+'/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmc[0].toUpperCase())+'&format=xml';
+ if(book)return SUPABASE_URL+'/functions/v1/academy-reference-proxy?bookid='+encodeURIComponent(book[1].toUpperCase())+'&format=bookxml';
+ return '';
+}
+function academyReferenceCacheKey(ref,kind='text'){
+ return new URL('./__offline_references_'+kind+'__/'+offlineMediaHash(String(ref.id)),location.href).href;
+}
+async function cacheOfflineTextReferences(references=DB?.reference_catalog||[]){
+ if(!navigator.onLine||!window.caches||!Array.isArray(references))return {cached:0,failed:0,skipped:0};
+ const cache=await caches.open('alhakim-academy-reference-text-v2');
+ let cached=0,failed=0,skipped=0;
+ for(const ref of references){
+  if(!isAcademyReadableReference(ref)||isAcademyPdfReference(ref)){skipped++;continue}
+  const endpoint=academyTextReferenceEndpoint(ref);
+  if(!endpoint){skipped++;continue}
+  const key=academyReferenceCacheKey(ref,'text');
+  try{
+   if(await cache.match(key)){ref.offline_text_url=key;cached++;continue}
+   const response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'no-store'});
+   if(!response.ok)throw Error('HTTP '+response.status);
+   const type=String(response.headers.get('content-type')||'').toLowerCase();
+   if(!type.includes('xml')&&!type.includes('text'))throw Error('Unexpected content type: '+type);
+   const body=await response.text();
+   if(!body||body.length<500||/<html[\s>]/i.test(body)||/<parsererror/i.test(body))throw Error('The source did not return complete XML text.');
+   await cache.put(key,new Response(body,{status:200,headers:{'Content-Type':'application/xml; charset=utf-8','X-Academy-Reference-Id':String(ref.id)}}));
+   ref.offline_text_url=key;cached++;
+  }catch(error){failed++;console.warn('Could not archive offline full text:',ref.title,error.message)}
+ }
+ return {cached,failed,skipped};
 }
 async function loadPdfJs(){
  if(window.pdfjsLib)return window.pdfjsLib;
@@ -770,9 +806,14 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
  if(!navigator.onLine){if(offlineFileUrl){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(offlineFileUrl)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته للقراءة دون إنترنت. اتصل بالإنترنت مرة واحدة ليتاح حفظه محلياً.</div>';return}
  host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ تجهيز صفحات المرجع...</span></div><div class="notice">يتم عرض صفحات PDF داخل الأكاديمية.</div>';
  try{
-  const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);
   const pdfjs=await loadPdfJs();
-  const loadingTask=pdfjs.getDocument({url,withCredentials:false,disableRange:false,rangeChunkSize:65536});
+  let loadingTask;
+  if(offlineFileUrl&&window.caches){
+   const cache=await caches.open(OFFLINE_MEDIA_CACHE);
+   const stored=await cache.match(offlineFileUrl);
+   if(stored){const bytes=await stored.arrayBuffer();loadingTask=pdfjs.getDocument({data:new Uint8Array(bytes)});}
+  }
+  if(!loadingTask){const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);loadingTask=pdfjs.getDocument({url,withCredentials:false,disableRange:false,rangeChunkSize:65536});}
   const pdf=await loadingTask.promise;
   host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
   const pages=host.querySelector('#academyPdfPages');
@@ -837,8 +878,9 @@ async function drawAcademyTextReference(ref){
   const endpoint=pmcidMatch
    ?'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?pmcid='+encodeURIComponent(pmcidMatch[0].toUpperCase())+'&format=xml'
    :'https://upmluemrhkadcffcsuzt.supabase.co/functions/v1/academy-reference-proxy?bookid='+encodeURIComponent(bookMatch[1].toUpperCase())+'&format=bookxml';
-  const textCache=('caches' in window)?await caches.open('alhakim-academy-reference-text-v1'):null;
-  let response=textCache?await textCache.match(endpoint):null;
+  const textCache=('caches' in window)?await caches.open('alhakim-academy-reference-text-v2'):null;
+  const localTextKey=academyReferenceCacheKey(ref,'text');
+  let response=textCache?(await textCache.match(localTextKey)||await textCache.match(endpoint)):null;
   if(!response){
    if(!navigator.onLine)throw Error('هذا النص لم تتم مزامنته بعد للقراءة دون إنترنت. افتحه مرة واحدة مع الاتصال ليُحفظ محلياً.');
    response=await fetch(endpoint,{method:'GET',headers:{'Accept':'application/xml,text/xml'},cache:'force-cache'});
