@@ -66,7 +66,8 @@ self.addEventListener('activate',event=>{
   const marker=await markerResponse.json();
   if(!marker.assets_complete||marker.assets_cached!==marker.assets_total)throw new Error('Refusing to activate an incomplete image bundle');
   const keys=await caches.keys();
-  await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&key!==CACHE_NAME&&key!==MEDIA_CACHE).map(key=>caches.delete(key)));
+  const PRESERVED_CACHES=new Set([CACHE_NAME,MEDIA_CACHE,'alhakim-academy-reference-text-v2']);
+  await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&!PRESERVED_CACHES.has(key)).map(key=>caches.delete(key)));
   await self.clients.claim();
  })());
 });
