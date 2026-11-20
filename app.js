@@ -765,7 +765,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   const pdfjs=await loadPdfJs();
   const loadingTask=pdfjs.getDocument({url,withCredentials:false,disableRange:false,rangeChunkSize:65536});
   const pdf=await loadingTask.promise;
-  host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button><a class="secondary" href="'+esc(url)+'" target="_blank" rel="noopener">فتح ملف PDF</a></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
+  host.innerHTML='<div class="pdf-reader-toolbar"><span>'+pdf.numPages+' صفحة</span><button type="button" class="secondary" id="academyPdfZoomOut">تصغير</button><button type="button" class="secondary" id="academyPdfZoomIn">تكبير</button></div><div id="academyPdfPages" class="academy-pdf-pages"></div>';
   const pages=host.querySelector('#academyPdfPages');
   let scale=1.15;
   let renderVersion=0;
@@ -814,12 +814,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   await renderPages();
   function showError(error){host.insertAdjacentHTML('beforeend','<div class="notice pdf-error">'+esc(error?.message||'تعذر عرض إحدى صفحات المرجع')+'</div>')}
  }catch(error){
-  // First try the publisher's original PDF URL in the native iframe. The proxy may be blocked by a publisher edge rule even when the browser can display the PDF directly.\n  const fallbackUrl=String(sourceFallbackUrl||externalPdfUrl||'');
-  if(fallbackUrl){
-   host.innerHTML='<div class="notice" style="margin-bottom:12px">تعذر جلب صفحات PDF عبر PDF.js بسبب قيود الاتصال من موقع الناشر. نعرض ملف الناشر مباشرة داخل الأكاديمية كخيار بديل.</div><div class="pdf-reader-toolbar"><a class="secondary" href="'+esc(fallbackUrl)+'" target="_blank" rel="noopener noreferrer">فتح / حفظ ملف PDF من الناشر ↗</a></div><iframe title="'+esc(title||'PDF')+'" src="'+esc(fallbackUrl)+'" style="width:100%;height:78vh;border:1px solid #d7e1ed;border-radius:12px;background:#fff" loading="eager"></iframe>';
-  }else{
-   host.innerHTML='<div class="notice pdf-error">تعذر تحميل ملف المرجع من التخزين الآمن: '+esc(error.message||'خطأ غير معروف')+'. أعد المحاولة مع الاتصال بالإنترنت.</div>';
-  }
+  host.innerHTML='<div class="notice pdf-error">تعذر عرض ملف PDF داخل قارئ الأكاديمية: '+esc(error?.message||'خطأ غير معروف')+'. لم يتم فتح أي رابط خارجي. أعد المحاولة عند توفر الاتصال أو أبلغ إدارة الأكاديمية عن المرجع.</div>';
  }
 }
 async function drawAcademyTextReference(ref){
