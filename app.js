@@ -267,22 +267,31 @@ async function loadContent(){
    try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}
    catch(e){console.info('Curriculum stored in IndexedDB; localStorage limit reached.')}
   }catch(e){console.warn('Could not save initial offline curriculum snapshot:',e)}
-  const [r,lr]=await Promise.all([
+  // Refresh the scientific library independently from lecture-reference links.
+  // A failure in lesson_references must never hide newly added Library records.
+  const [referenceResult,lessonReferenceResult]=await Promise.allSettled([
    restAll('references','select=*&order=publication_year.desc'),
    restAll('lesson_references','select=lesson_id,reference_id')
   ]);
-  const refs=r.map(x=>({...x}));
-  DB.reference_catalog=refs;
-  const refMap=new Map(refs.map(x=>[String(x.id),x])),byLesson=new Map();
-  lr.forEach(x=>{const ref=refMap.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
-  DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id))});
+  if(referenceResult.status==='fulfilled'&&Array.isArray(referenceResult.value)){
+   DB.reference_catalog=referenceResult.value.map(x=>({...x}));
+  }else{
+   console.warn('Scientific Library refresh failed; preserving its last verified offline copy:',referenceResult.reason);
+  }
+  if(lessonReferenceResult.status==='fulfilled'&&Array.isArray(lessonReferenceResult.value)){
+   const refMap=new Map((DB.reference_catalog||[]).map(x=>[String(x.id),x])),byLesson=new Map();
+   lessonReferenceResult.value.forEach(x=>{const ref=refMap.get(String(x.reference_id));if(ref){if(!byLesson.has(String(x.lesson_id)))byLesson.set(String(x.lesson_id),[]);byLesson.get(String(x.lesson_id)).push(ref)}});
+   DB.lessons.forEach(x=>{if(byLesson.has(String(x.id)))x.reference_titles=byLesson.get(String(x.id));else delete x.reference_titles});
+  }else{
+   console.warn('Lesson-to-reference links refresh failed; preserving existing links:',lessonReferenceResult.reason);
+  }
   await saveOfflineCurriculum(DB);
   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB only.')}
   const questionsSync=await refreshOfflineQuestionBanks();
   // Never hold the lecture interface while downloading the entire academy image library.
   // Lesson images render from their original URLs immediately; offline copies are saved in the background.
   const previousImageReport=await readFullSyncReport()||{};
-  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:refs.length,questions:questionsSync.questions,images_sync_status:'background',synced_at:new Date().toISOString()});
+  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,images_sync_status:'background',complete:false,synced_at:new Date().toISOString()});
   refreshOfflineSyncBadge();
 
  }catch(e){
@@ -293,9 +302,10 @@ async function loadContent(){
  // Start image archiving only after the refreshed curriculum has rendered.
  if(!cloudError&&dataSource==='supabase'&&navigator.onLine){
   setTimeout(async()=>{try{
-   const imagesSync=await cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER);
+   const [imagesSync,referenceFilesSync]=await Promise.all([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[])]);
    const previous=await readFullSyncReport()||{};
-   await saveFullSyncReport({...previous,complete:imagesSync.complete,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,images_sync_status:imagesSync.complete?'complete':'partial',synced_at:new Date().toISOString()});
+   const allOfflineAssetsReady=imagesSync.complete&&referenceFilesSync.failed===0;
+   await saveFullSyncReport({...previous,complete:allOfflineAssetsReady,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,reference_files_cached:referenceFilesSync.cached,reference_files_failed:referenceFilesSync.failed,images_sync_status:allOfflineAssetsReady?'complete':'partial',synced_at:new Date().toISOString()});
    refreshOfflineSyncBadge();
    if(!imagesSync.complete)console.warn('Some images remain uncached:',imagesSync.failed.length,imagesSync.remaining);
   }catch(imageError){console.warn('Background image archive will retry on the next online refresh:',imageError.message)}},120);
@@ -703,13 +713,40 @@ async function academyPdfSignedUrl(path){
  if(!response.ok||!data.signedURL)throw Error(data.message||data.error||'تعذر الوصول الآمن إلى ملف PDF. تحقق من إعدادات الحاوية الخاصة وسياسات الوصول.');
  return data.signedURL.startsWith('http')?data.signedURL:SUPABASE_URL+data.signedURL;
 }
+
+/* Save readable Library PDFs into the existing offline media cache.
+   The local URL is stable and remains valid after the signed Supabase URL expires. */
+async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
+ if(!navigator.onLine||!window.caches||!Array.isArray(references))return {cached:0,failed:0};
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE);let cached=0,failed=0;
+ for(const ref of references){
+  if(!isAcademyReadableReference(ref))continue;
+  const external=referenceUrl(ref),isExternalPdf=/\\.pdf(?:$|[?#])/i.test(external);
+  if(!ref.file_path&&!isExternalPdf)continue;
+  try{
+   const key=String(ref.id||ref.file_path||external);
+   const localUrl=new URL('./__offline_references__/'+offlineMediaHash(key),location.href).href;
+   if(await cache.match(localUrl)){ref.offline_file_url=localUrl;cached++;continue}
+   const source=ref.file_path?await academyPdfSignedUrl(ref.file_path):external;
+   let response;
+   try{response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'})}
+   catch(error){if(!isExternalPdf)throw error;response=await fetch(source,{mode:'no-cors',credentials:'omit',cache:'no-store'})}
+   if(response.type!=='opaque'&&!response.ok)throw Error('HTTP '+response.status);
+   await cache.put(localUrl,response.clone());
+   ref.offline_file_url=localUrl;cached++;
+  }catch(error){failed++;console.warn('Could not cache Library PDF for offline reading:',ref.title,error.message)}
+ }
+ if(cached){await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
+ return {cached,failed};
+}
 async function loadPdfJs(){
  if(window.pdfjsLib)return window.pdfjsLib;
  if(!window.hakimPdfJsPromise)window.hakimPdfJsPromise=import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs').then(mod=>{window.pdfjsLib=mod;mod.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs';return mod});
  return window.hakimPdfJsPromise;
 }
-async function drawAcademyPdf(path,title,externalPdfUrl){
+async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl){
  const host=document.getElementById('academyPdfViewer');if(!host)return;
+ if(!navigator.onLine){if(offlineFileUrl){host.innerHTML='<iframe title="'+esc(title||'PDF')+'" src="'+esc(offlineFileUrl)+'" style="width:100%;height:78vh;border:0;background:#fff" loading="eager"></iframe>';return}host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته للقراءة دون إنترنت. اتصل بالإنترنت مرة واحدة ليتاح حفظه محلياً.</div>';return}
  host.innerHTML='<div class="pdf-reader-toolbar"><span>جارٍ تجهيز صفحات المرجع...</span></div><div class="notice">يتم عرض صفحات PDF داخل الأكاديمية.</div>';
  try{
   const url=externalPdfUrl?externalPdfUrl:await academyPdfSignedUrl(path);
@@ -758,7 +795,7 @@ async function openAcademyReference(id){
  else if(source)content='<div class="reference-reader-wrap"><div class="reference-reader-heading"><b>قارئ النص العلمي داخل الأكاديمية</b><span>المصدر الكامل مفتوح الوصول. إذا منع الناشر العرض المضمّن، استخدم رابط المصدر الرسمي أدناه.</span></div><iframe class="academy-reference-frame" title="'+esc(refLabel(ref))+'" src="'+esc(external)+'" loading="lazy" referrerpolicy="no-referrer" style="width:100%;min-height:78vh;border:1px solid var(--border,#ddd);border-radius:12px;background:#fff"></iframe><p><a class="secondary" href="'+esc(external)+'" target="_blank" rel="noopener noreferrer">فتح النص الكامل لدى الناشر ↗</a></p></div>';
  else content='<div class="notice">لا يوجد ملف PDF مرفق بهذا المرجع حالياً.</div>';
  pageShell(refLabel(ref),'عرض المرجع داخل أكاديمية الحكيم','<div class="content-card"><div class="admin-actions"><button class="secondary" onclick="renderLibrary()">العودة إلى المراجع</button></div>'+details+content+'</div>');
- if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref));
+ if(hasPdf)await drawAcademyPdf(ref.file_path,refLabel(ref),'',ref.offline_file_url);
  else if(source&&/\.pdf(?:$|[?#])/i.test(external))await drawAcademyPdf('',refLabel(ref),viewerUrl);
 }
 async function downloadAcademyReference(){alert('تم إيقاف التنزيل المباشر من واجهة الطالب.')}
