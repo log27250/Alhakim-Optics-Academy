@@ -708,6 +708,11 @@ const ACADEMY_READABLE_REFERENCE_IDS=new Set(['423c98e5-8bf4-4ef1-ba66-32e5f0787
 function isAcademyReadableReference(ref){if(!ref)return false;const status=String(ref.academy_readability||'').toLowerCase();if(status==='available')return true;if(status==='unavailable')return false;return (!!ref.file_path&&['free_full_text','free_pdf_download'].includes(String(ref.access_type||'')))||(ACADEMY_READABLE_REFERENCE_IDS.has(String(ref.id))&&/^https?:\/\//i.test(referenceUrl(ref))&&/\.pdf(?:$|[?#])/i.test(referenceUrl(ref)))}
 function academyReadabilityLabel(ref){return isAcademyReadableReference(ref)?'📗 مراجع متاحة':'🔒 مراجع غير متاحة'}
 function isAcademyPdfReference(ref){return !!ref&&(!!ref.file_path||String(ref.access_type||'').toLowerCase()==='free_pdf_download'||/\.pdf(?:$|[?#])/i.test(referenceUrl(ref)));}
+const ACADEMY_PDF_PROXY_IDS=new Set(['d490838f-d39e-42f8-8bbc-0317d9757d3d','4380825f-f67e-479b-8661-1a0c12ab76bf','423c98e5-8bf4-4ef1-ba66-32e5f0787934','643738e1-0c9e-4d9d-b8a7-eff81ab0ed11','39ef5221-6c72-42ab-adc7-ab4a302b0b38','a213fba9-af1b-4c0d-a96d-2ad7f04e9e0d','1f3c5546-2933-45f0-a4e4-f0493a918d1b','3b50e04a-1994-4b48-8eea-e2cd60cfc33e','ba700f4e-172f-49ee-afab-95b6378daf56','33a06d40-563d-41fc-b7a8-8f9a4302a038','13ed22b5-2dd8-48dd-bee4-9369a9b2a073','93d0339e-a089-465e-a86c-f6afc31058dd','bcfae4b3-a6c7-4f71-a0e2-826f3b63c861','c732bd34-6599-41a9-bef0-3bd70bedc2a2','8647bec5-6d6c-40ab-8c8a-fffdf49dab57','6fc000c5-f086-41e9-a856-b0606021bd79','6bbfbe27-2fd1-4cec-9d45-88223960cff8']);
+function academyReferenceProxyUrl(ref,download=false){
+ if(!ref||!ACADEMY_PDF_PROXY_IDS.has(String(ref.id)))return referenceUrl(ref);
+ return SUPABASE_URL+'/functions/v1/academy-reference-proxy?id='+encodeURIComponent(String(ref.id))+(download?'&download=1':'');
+}
 function referenceLink(ref){return isAcademyReadableReference(ref)?'<button type="button" class="primary reference-open-button" onclick="openAcademyReference(\''+esc(ref.id)+'\')">📖 اقرأ المرجع كاملاً داخل الأكاديمية</button>':''}
 function findAcademyReference(id){return (DB.reference_catalog||[]).find(x=>String(x.id)===String(id))}
 async function academyPdfSignedUrl(path){
@@ -732,7 +737,7 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
    const key=String(ref.id||ref.file_path||external);
    const localUrl=new URL('./__offline_references__/'+offlineMediaHash(key),location.href).href;
    if(await cache.match(localUrl)){ref.offline_file_url=localUrl;cached++;continue}
-   const source=ref.file_path?await academyPdfSignedUrl(ref.file_path):external;
+   const source=ref.file_path?await academyPdfSignedUrl(ref.file_path):(isExternalPdf?academyReferenceProxyUrl(ref):external);
    let response;
    try{response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'})}
    catch(error){if(!isExternalPdf)throw error;response=await fetch(source,{mode:'no-cors',credentials:'omit',cache:'no-store'})}
