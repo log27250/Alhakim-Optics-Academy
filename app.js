@@ -81,7 +81,7 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  for(const ref of DB.reference_catalog||[])['image_url','cover_image_url','thumbnail_url','preview_image_url'].forEach(k=>add(ref?.[k]));
  for(const lesson of DB.lessons){if(!canViewLesson(lesson))continue;fields.forEach(k=>{const v=lesson[k];if(Array.isArray(v))v.forEach(add);else if(v)add(v)});
   for(const raw of [lesson.content_en,lesson.content_ar]){if(!raw)continue;const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
-   doc.querySelectorAll('img[src],img[srcset],source[src],source[srcset],image[href],image').forEach(n=>{add(n.getAttribute('src'));add(n.getAttribute('href'));add(n.getAttribute('xlink:href'));(n.getAttribute('srcset')||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]))});
+   doc.querySelectorAll('img,source,image,video,[style]').forEach(n=>{for(const attr of ['src','href','xlink:href','data-src','data-original','data-lazy-src','poster'])add(n.getAttribute(attr));for(const attr of ['srcset','data-srcset'])(n.getAttribute(attr)||'').split(',').forEach(x=>add(x.trim().split(/\s+/)[0]));const style=n.getAttribute('style')||'';for(const m of style.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2])});
    for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
@@ -685,13 +685,15 @@ function localizeOfflineMediaMarkup(markup){
  if(!markup||!offlineMediaMap.size)return String(markup||'');
  try{
   const doc=new DOMParser().parseFromString(String(markup),'text/html');
-  doc.querySelectorAll('img,source,image,[style]').forEach(el=>{
-   for(const attr of ['src','href','xlink:href']){
+  doc.querySelectorAll('img,source,image,video,[style]').forEach(el=>{
+   for(const attr of ['src','href','xlink:href','data-src','data-original','data-lazy-src','poster']){
     const raw=el.getAttribute(attr);if(raw){const local=localizeOfflineMediaUrl(raw);if(local&&local!==raw)el.setAttribute(attr,local)}
    }
-   for(const attr of ['srcset']){
-    const raw=el.getAttribute(attr);if(raw)el.setAttribute(attr,raw.split(',').map(part=>{const bits=part.trim().split(' ');if(bits[0])bits[0]=localizeOfflineMediaUrl(bits[0]);return bits.join(' ')}).join(', '));
+   for(const attr of ['srcset','data-srcset']){
+    const raw=el.getAttribute(attr);if(raw)el.setAttribute(attr,raw.split(',').map(part=>{const bits=part.trim().split(/\s+/);if(bits[0])bits[0]=localizeOfflineMediaUrl(bits[0]);return bits.join(' ')}).join(', '));
    }
+   const style=el.getAttribute('style')||'';
+   if(style.includes('url('))el.setAttribute('style',style.replace(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi,(match,quote,url)=>{const local=localizeOfflineMediaUrl(url);return local&&local!==url?'url('+quote+local+quote+')':match}));
   });
   return doc.body.innerHTML;
  }catch(_){return String(markup||'')}
@@ -750,7 +752,7 @@ async function academyPdfSignedUrl(path){
    The local URL is stable and remains valid after the signed Supabase URL expires. */
 async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
  if(!navigator.onLine||!window.caches||!Array.isArray(references))return {cached:0,failed:0};
- const cache=await caches.open(OFFLINE_MEDIA_CACHE);let cached=0,failed=0;
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE);let cached=0,failed=0,changed=false;
  for(const ref of references){
   if(!isAcademyReadableReference(ref))continue;
   const external=referenceUrl(ref),isExternalPdf=isAcademyPdfReference(ref);
@@ -758,19 +760,29 @@ async function cacheOfflineReferenceFiles(references=DB?.reference_catalog||[]){
   try{
    const key=String(ref.id||ref.file_path||external);
    const localUrl=new URL('./__offline_references__/'+offlineMediaHash(key),location.href).href;
-   if(await cache.match(localUrl)){ref.offline_file_url=localUrl;cached++;continue}
+   let stored=await cache.match(localUrl);
+   if(stored){
+    const bytes=await stored.arrayBuffer();
+    const signature=new TextDecoder().decode(new Uint8Array(bytes,0,Math.min(5,bytes.byteLength)));
+    if(signature==='%PDF-'){
+     if(ref.offline_file_url!==localUrl){ref.offline_file_url=localUrl;changed=true}
+     cached++;continue;
+    }
+    await cache.delete(localUrl);
+   }
    const source=ref.file_path?await academyPdfSignedUrl(ref.file_path):(isExternalPdf?academyReferenceProxyUrl(ref):external);
-   let response;
-   response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'});
+   const response=await fetch(source,{mode:'cors',credentials:'omit',cache:'no-store'});
    if(response.type==='opaque')throw Error('The PDF response is opaque and cannot be verified or read offline.');
    if(!response.ok)throw Error('HTTP '+response.status);
-   const contentType=String(response.headers?.get('content-type')||'').toLowerCase();
-   if(!contentType.includes('pdf'))throw Error('The returned file is not a PDF ('+contentType+').');
-   await cache.put(localUrl,response.clone());
-   ref.offline_file_url=localUrl;cached++;
+   const bytes=await response.arrayBuffer();
+   if(!bytes.byteLength)throw Error('The returned file is empty.');
+   const signature=new TextDecoder().decode(new Uint8Array(bytes,0,Math.min(5,bytes.byteLength)));
+   if(signature!=='%PDF-')throw Error('The returned file does not contain a valid PDF signature.');
+   await cache.put(localUrl,new Response(bytes,{status:200,headers:{'Content-Type':'application/pdf','Content-Length':String(bytes.byteLength),'X-Academy-Reference-Id':String(ref.id||'')}}));
+   ref.offline_file_url=localUrl;cached++;changed=true;
   }catch(error){failed++;console.warn('Could not cache Library PDF for offline reading:',ref.title,error.message)}
  }
- if(cached){await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
+ if(changed){await saveOfflineCurriculum(DB);try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(_){}}
  return {cached,failed};
 }
 /* Archive complete PMC and NCBI Bookshelf XML payloads for true offline reading. */
@@ -852,7 +864,7 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   if(cacheKey&&window.caches){
    try{
     const cache=await caches.open(OFFLINE_MEDIA_CACHE),stored=await cache.match(cacheKey);
-    if(stored)pdfBytes=await stored.arrayBuffer();
+    if(stored){pdfBytes=await stored.arrayBuffer();const sig=new TextDecoder().decode(new Uint8Array(pdfBytes,0,Math.min(5,pdfBytes.byteLength)));if(sig!=='%PDF-'){pdfBytes=null;await cache.delete(cacheKey)}}
    }catch(error){console.warn('Cached PDF read failed; trying secure cloud fetch:',error)}
   }
   if(!pdfBytes&&path){
