@@ -363,7 +363,7 @@ async function loadHomepageSettings(){
   try{HOME_COURSES=await rest('courses','select=id,title_en,title_ar,description_en,price,currency,is_published&is_published=eq.true&order=created_at.desc')}catch(e){HOME_COURSES=[]}
  }else HOME_COURSES=[];
 }
-function homeImage(url,alt,cls=''){return url?'<img class="'+cls+'" src="'+esc(url)+'" alt="'+esc(alt)+'" loading="eager" onerror="this.style.display=\'none\'">':''}
+function homeImage(url,alt,cls=''){const src=localizeOfflineMediaUrl(url);return src?'<img class="'+cls+'" src="'+esc(src)+'" alt="'+esc(alt)+'" loading="eager" onerror="this.style.display=\'none\'">':''}
 function founderImage(url,name){const src=url||'./assets/founder-photo.jpg';return '<img class="founder-photo" src="'+esc(src)+'" data-founder-photo alt="'+esc(name||'المؤسس')+'" loading="eager" onerror="this.onerror=null;this.src=\'./assets/founder-photo.jpg\'">'}
 function renderHome(){
  document.body.classList.add('home-screen');
@@ -678,8 +678,26 @@ function buildLectureSlides(html){
  emit();
  return slides.length?slides:[['<p>Lecture content is not available.</p>']];
 }
+function localizeOfflineMediaUrl(raw){
+ try{const key=new URL(String(raw||''),location.href).href;return offlineMediaMap.get(key)||raw}catch(_){return raw}
+}
+function localizeOfflineMediaMarkup(markup){
+ if(!markup||!offlineMediaMap.size)return String(markup||'');
+ try{
+  const doc=new DOMParser().parseFromString(String(markup),'text/html');
+  doc.querySelectorAll('img,source,image,[style]').forEach(el=>{
+   for(const attr of ['src','href','xlink:href']){
+    const raw=el.getAttribute(attr);if(raw){const local=localizeOfflineMediaUrl(raw);if(local&&local!==raw)el.setAttribute(attr,local)}
+   }
+   for(const attr of ['srcset']){
+    const raw=el.getAttribute(attr);if(raw)el.setAttribute(attr,raw.split(',').map(part=>{const bits=part.trim().split(' ');if(bits[0])bits[0]=localizeOfflineMediaUrl(bits[0]);return bits.join(' ')}).join(', '));
+   }
+  });
+  return doc.body.innerHTML;
+ }catch(_){return String(markup||'')}
+}
 function renderLectureDeck(slides){
- const pages=slides.map((s,i)=>'<section class="lecture-slide'+(i===0?' active':'')+'" data-slide="'+i+'" aria-hidden="'+(i!==0)+'"><div class="slide-content" dir="ltr" lang="en">'+s.join('')+'</div></section>').join('');
+ const pages=slides.map((s,i)=>'<section class="lecture-slide'+(i===0?' active':'')+'" data-slide="'+i+'" aria-hidden="'+(i!==0)+'"><div class="slide-content" dir="ltr" lang="en">'+localizeOfflineMediaMarkup(s.join(''))+'</div></section>').join('');
  return '<section class="lecture-deck" id="lectureDeck" aria-label="Lecture slides"><div class="slide-stage" id="slideStage">'+pages+'</div><div class="slide-controls"><button type="button" id="slidePrev" class="secondary" disabled>السابق</button><span id="slideCounter" aria-live="polite">1 / '+slides.length+'</span><button type="button" id="slideNext" class="primary" '+(slides.length===1?'disabled':'')+'>التالي</button></div><div class="slide-progress"><span id="slideProgress" style="width:'+(100/slides.length)+'%"></span></div></section>';
 }
 function initLectureDeck(){
@@ -816,7 +834,14 @@ async function drawAcademyPdf(path,title,externalPdfUrl,offlineFileUrl,sourceFal
   if(cacheKey&&window.caches){
    try{
     const cache=await caches.open(OFFLINE_MEDIA_CACHE),stored=await cache.match(cacheKey);
-    if(stored){showNativePdf(cacheKey);return}
+    if(stored){
+     const bytes=await stored.arrayBuffer();
+     if(!bytes.byteLength)throw Error('النسخة المحلية من ملف PDF فارغة.');
+     const signature=new TextDecoder().decode(new Uint8Array(bytes,0,Math.min(5,bytes.byteLength)));
+     if(signature!=='%PDF-')throw Error('النسخة المحلية ليست ملف PDF صالحاً.');
+     const blobUrl=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+     host.dataset.pdfObjectUrl=blobUrl;showNativePdf(blobUrl);return;
+    }
    }catch(error){console.warn('Offline PDF cache lookup failed:',error)}
   }
   host.innerHTML='<div class="notice">هذا الملف لم تتم مزامنته على هذا الجهاز بعد. افتح المرجع مرة واحدة مع الاتصال بالإنترنت لحفظه محلياً.</div>';return;
