@@ -237,6 +237,9 @@ async function loadContent(){
  DB=local;dataSource='local';
  // Render the last verified Supabase snapshot immediately; cloud refresh must never block the first screen.
  try{renderHome();connection()}catch(renderError){console.error('Initial local academy render failed:',renderError)}
+ // Offline-first: when the device has no connection, use the verified local snapshot only.
+ // Do not start REST requests, reference downloads, or background media downloads.
+ if(!navigator.onLine){renderHome();connection();return;}
  try{
   // Departments are the essential payload. Load them independently so a failure
   // in topics or lessons can never force the entire academy back to stale local data.
@@ -302,21 +305,8 @@ async function loadContent(){
   console.error('Cloud departments load failed; using saved local curriculum:',cloudError);
  }
  renderHome();connection();
- // Start image archiving only after the refreshed curriculum has rendered.
- if(!cloudError&&dataSource==='supabase'&&navigator.onLine){
-  setTimeout(async()=>{try{
-   const [imageResult,referenceResult,textResult]=await Promise.allSettled([cacheWikimediaLessonImages(Number.MAX_SAFE_INTEGER),cacheOfflineReferenceFiles(DB.reference_catalog||[]),cacheOfflineTextReferences(DB.reference_catalog||[])]);
-   const imagesSync=imageResult.status==='fulfilled'?imageResult.value:{total:0,cached:0,failed:[{error:imageResult.reason?.message||'image cache failed'}],complete:false};
-   const referenceFilesSync=referenceResult.status==='fulfilled'?referenceResult.value:{cached:0,failed:1};
-   const referenceTextSync=textResult.status==='fulfilled'?textResult.value:{cached:0,failed:1,skipped:0};
-   const previous=await readFullSyncReport()||{};
-   const allOfflineAssetsReady=imagesSync.complete&&referenceFilesSync.failed===0&&referenceTextSync.failed===0;
-   const referenceTotal=(DB.reference_catalog||[]).filter(isAcademyReadableReference).length;
-   await saveFullSyncReport({...previous,complete:allOfflineAssetsReady,reference_total:referenceTotal,images_total:imagesSync.total,images_cached:imagesSync.cached,images_failed:imagesSync.failed.length,reference_files_cached:referenceFilesSync.cached,reference_files_failed:referenceFilesSync.failed,reference_text_cached:referenceTextSync.cached,reference_text_failed:referenceTextSync.failed,reference_text_skipped:referenceTextSync.skipped,images_sync_status:allOfflineAssetsReady?'complete':'partial',synced_at:new Date().toISOString()});
-   refreshOfflineSyncBadge();
-   if(!imagesSync.complete)console.warn('Some images remain uncached:',imagesSync.failed.length,imagesSync.remaining);
-  }catch(imageError){console.warn('Background image archive will retry on the next online refresh:',imageError.message)}},120);
- }
+ // Large media is intentionally not downloaded in bulk. PDFs are cached when a student opens them;
+ // same-origin lesson assets are cached on first use by the service worker.
  if(cloudError||topicError||lessonError){
   const details=[cloudError&&('الأقسام: '+cloudError),topicError&&('الموضوعات: '+topicError),lessonError&&('المحاضرات: '+lessonError)].filter(Boolean).join(' · ');
   const notice=document.createElement('div');
