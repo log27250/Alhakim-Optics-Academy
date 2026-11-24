@@ -62,7 +62,7 @@ self.addEventListener('fetch',event=>{
   // Cache-first app shell: once installed, reopening the app does not redownload
   // index, JavaScript, CSS, manifest, or JSON assets on every visit.
   const navigation=event.request.mode==='navigate';
-  const appShell=navigation||/\\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
+  const appShell=navigation||/\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
   if(appShell){
    const cached=await cache.match(event.request,{ignoreSearch:true});
    if(cached)return cached;
