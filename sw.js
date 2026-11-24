@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — verified offline shell and complete image bundle */
-const CACHE_NAME='alhakim-academy-v25-offline-reference-archive-2026-11-20';
+const CACHE_NAME='alhakim-academy-v26-offline-first-light-shell-2026-11-24';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
@@ -24,47 +24,16 @@ async function fetchAndCache(cache,path){
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{
   const cache=await caches.open(CACHE_NAME);
-  try{
-   for(const path of CORE)await fetchAndCache(cache,path);
-   const manifestURL=new URL('./offline-assets.json',self.registration.scope).href;
-   const manifestResponse=await cache.match(manifestURL);
-   if(!manifestResponse)throw new Error('Offline asset manifest is missing');
-   const manifest=await manifestResponse.json();
-   const assets=Array.isArray(manifest.images)?[...new Set(manifest.images)]:[];
-   if(!assets.length||Number(manifest.image_count)!==assets.length)throw new Error('Offline asset manifest is invalid');
-   let assetsCached=0;
-   const assetsFailed=[];
-   for(let i=0;i<assets.length;i+=4){
-    const batch=await Promise.allSettled(assets.slice(i,i+4).map(path=>fetchAndCache(cache,path)));
-    batch.forEach((result,index)=>{
-     if(result.status==='fulfilled')assetsCached++;
-     else assetsFailed.push({path:assets[i+index],error:String(result.reason?.message||result.reason||'download failed')});
-    });
-   }
-   if(assetsFailed.length||assetsCached!==assets.length){
-    const sample=assetsFailed.slice(0,8).map(x=>x.path).join(', ');
-    throw new Error('Offline image bundle incomplete: '+assetsCached+'/'+assets.length+' cached. '+sample);
-   }
-   await cache.put(new URL(COMPLETE_KEY,self.registration.scope).href,new Response(JSON.stringify({
-    version:CACHE_NAME,images:assetsCached,assets_total:assets.length,assets_cached:assetsCached,
-    assets_failed:[],assets_complete:true,installed_at:new Date().toISOString()
-   }),{headers:{'Content-Type':'application/json'}}));
-   await self.skipWaiting();
-  }catch(error){
-   // This cache has a unique version; never delete the currently active worker's cache.
-   await caches.delete(CACHE_NAME);
-   console.error('Offline install aborted; previous active version preserved.',error);
-   throw error;
-  }
+  // Cache only the lightweight application shell. Do not bulk-download the 692-image
+  // library or every PDF during installation; media is cached on demand.
+  for(const path of CORE)await fetchAndCache(cache,path);
+  await self.skipWaiting();
  })());
 });
 self.addEventListener('activate',event=>{
  event.waitUntil((async()=>{
   const cache=await caches.open(CACHE_NAME);
-  const markerResponse=await cache.match(new URL(COMPLETE_KEY,self.registration.scope).href);
-  if(!markerResponse)throw new Error('Refusing to activate an incomplete offline cache');
-  const marker=await markerResponse.json();
-  if(!marker.assets_complete||marker.assets_cached!==marker.assets_total)throw new Error('Refusing to activate an incomplete image bundle');
+  // CORE assets were cached successfully during install; media remains on-demand.
   const keys=await caches.keys();
   const PRESERVED_CACHES=new Set([CACHE_NAME,MEDIA_CACHE,'alhakim-academy-reference-text-v2']);
   await Promise.all(keys.filter(key=>key.startsWith('alhakim-academy-')&&!PRESERVED_CACHES.has(key)).map(key=>caches.delete(key)));
@@ -90,9 +59,22 @@ self.addEventListener('fetch',event=>{
   const mediaCache=await caches.open(MEDIA_CACHE);
   const offlineMedia=await mediaCache.match(event.request);
   if(offlineMedia)return offlineMedia;
+  // Cache-first app shell: once installed, reopening the app does not redownload
+  // index, JavaScript, CSS, manifest, or JSON assets on every visit.
   const navigation=event.request.mode==='navigate';
-  const appShell=navigation||/\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
-  if(appShell)return networkFirst(event.request,cache);
+  const appShell=navigation||/\\.(?:html?|js|css|json|webmanifest)$/i.test(url.pathname);
+  if(appShell){
+   const cached=await cache.match(event.request,{ignoreSearch:true});
+   if(cached)return cached;
+   try{
+    const response=await fetch(event.request);
+    if(response.ok)await cache.put(event.request,response.clone());
+    return response;
+   }catch(_){
+    return await cache.match(new URL('./index.html',self.registration.scope).href)||
+     new Response('Offline',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}});
+   }
+  }
   const cached=await cache.match(event.request,{ignoreSearch:true});
   if(cached)return cached;
   try{
