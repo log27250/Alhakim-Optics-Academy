@@ -1,4 +1,4 @@
-/* HAKIM OPTICS ACADEMY — verified offline shell and complete image bundle */
+/* HAKIM OPTICS ACADEMY — lightweight offline-first application shell */
 const CACHE_NAME='alhakim-academy-v26-offline-first-light-shell-2026-11-24';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
