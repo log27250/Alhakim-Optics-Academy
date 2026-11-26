@@ -690,6 +690,18 @@ async function cacheLessonImagesOffline(lesson){
   for(const match of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(match[1]);
   for(const match of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(match[2]);
  }
+ // Also inspect the FINAL rendered lesson HTML. Some clinical photographs are injected
+ // by renderLectureContentWithIllustration() and do not exist in the raw database fields.
+ try{
+  const rendered=renderLectureContentWithIllustration(lesson);
+  const renderedDoc=new DOMParser().parseFromString(String(rendered||''),'text/html');
+  renderedDoc.querySelectorAll('img,source,image,video,[style]').forEach(el=>{
+   for(const attr of ['src','href','xlink:href','data-src','data-original','data-lazy-src','poster'])add(el.getAttribute(attr));
+   for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\\s+/)[0]));
+   const style=el.getAttribute('style')||'';
+   for(const match of style.matchAll(/url\\((['"]?)(https?:\\/\\/[^)'"]+)\\1\\)/gi))add(match[2]);
+  });
+ }catch(error){console.warn('Could not inspect rendered lesson images:',error)}
  if(!urls.size)return {cached:0,failed:0,total:0};
  const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB();
  let cached=0,failed=0;
