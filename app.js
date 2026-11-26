@@ -91,9 +91,9 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
    const renderedDoc=new DOMParser().parseFromString(String(rendered||''),'text/html');
    renderedDoc.querySelectorAll('img,source,image,video,[style]').forEach(el=>{
     for(const attr of ['src','href','xlink:href','data-src','data-original','data-original-src','data-lazy-src','poster'])add(el.getAttribute(attr));
-    for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\\s+/)[0]));
+    for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\s+/)[0]));
     const style=el.getAttribute('style')||'';
-    for(const match of style.matchAll(/url\\((['"]?)(https?:\\/\\/[^)'"]+)\\1\\)/gi))add(match[2]);
+    for(const match of style.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(match[2]);
    });
   }catch(error){console.warn('Could not inspect final lecture media during full sync:',lesson.id,error)}
  }
