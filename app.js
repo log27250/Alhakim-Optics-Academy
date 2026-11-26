@@ -456,6 +456,16 @@ async function showDepartment(code){
 }
 
 function searchTopic(topic,code){const normalized=String(topic||'').trim().toLowerCase();const dept=DB.departments.find(d=>d.code===code);const item=(dept?.curriculum_topics||[]).find(t=>String(t.title_en||'').trim().toLowerCase()===normalized||String(t.code||'').trim().toLowerCase()===normalized);const found=DB.lessons.filter(l=>l.department_code===code&&((item&&String(l.topic_id)===String(item.id))||String(l.title_en||'').trim().toLowerCase()===normalized));if(found.length){showLesson(found[0].id);return}pageShell(topic,'موضوع ضمن خريطة المنهج العلمي.',`<div class="content-card"><div class="notice">هذا الموضوع موجود في المنهج، لكن لا توجد محاضرة مرتبطة به حالياً. لم نعد نبحث بالتشابه الجزئي في العناوين حتى لا نفتح محاضرة غير مطابقة.</div><p>القسم: ${esc(departmentName(code))}</p></div>`)}
+function academyOfflineMediaUrl(raw){
+ try{
+  const value=String(raw||'').trim();if(!value)return '';
+  const url=new URL(value,location.href);if(url.protocol==='http:')url.protocol='https:';
+  const mapped=offlineMediaMap.get(value)||offlineMediaMap.get(url.href);
+  if(mapped)return mapped;
+  if(!navigator.onLine&&url.origin!==location.origin)return new URL('./__offline_media__/'+offlineMediaHash(url.href),location.href).href;
+  return url.href;
+ }catch(_){return String(raw||'')}
+}
 function academyImageSource(rawSrc){
  try{
   const value=String(rawSrc||'').trim();
@@ -472,7 +482,7 @@ function academyImageSource(rawSrc){
   // Resolve Wikimedia Special:FilePath for the known ophthalmoscope photo to a stable upload URL.
   if(url.hostname==='commons.wikimedia.org'&&/Special:FilePath\/Oculus(?:%20|_)Ophthalmoscope\.JPG/i.test(url.pathname)){
    const direct='https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Oculus_Ophthalmoscope.JPG/960px-Oculus_Ophthalmoscope.JPG';
-   return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||direct;
+   return academyOfflineMediaUrl(direct);
   }
   if(url.protocol==='http:')url.protocol='https:';
   if(url.hostname==='raw.githubusercontent.com'&&url.pathname.startsWith(repoPrefix)){
@@ -480,7 +490,7 @@ function academyImageSource(rawSrc){
    const local=new URL(path,document.baseURI);
    return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||offlineMediaMap.get(url.href)||local.href;
   }
-  return offlineMediaMap.get(value)||offlineMediaMap.get(originalUrl)||offlineMediaMap.get(url.href)||url.href;
+  return academyOfflineMediaUrl(url.href);
  }catch(_){return ''}
 }
 function inlineFormat(text){return esc(text).replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,(match,alt,src)=>{
@@ -747,9 +757,7 @@ async function cacheLessonImagesOffline(lesson){
  }finally{db.close()}
  return {cached,failed,total:urls.size,complete:failed===0};
 }
-function localizeOfflineMediaUrl(raw){
- try{const key=new URL(String(raw||''),location.href).href;return offlineMediaMap.get(key)||raw}catch(_){return raw}
-}
+function localizeOfflineMediaUrl(raw){return academyOfflineMediaUrl(raw)}
 function localizeOfflineMediaMarkup(markup){
  if(!markup||!offlineMediaMap.size)return String(markup||'');
  try{
@@ -1397,7 +1405,7 @@ function renderLectureContentWithIllustration(l){
  if(!body.childNodes.length){const p=doc.createElement('p');p.textContent='Lecture content is not available.';body.appendChild(p)}
  // Rewrite every supported image source in the detached lesson document before rendering.
  // This is essential because the page-level cache pass cannot reach this not-yet-attached DOM.
- const localizeLessonSource=raw=>{try{const source=new URL(String(raw||'').trim(),location.href).href;return offlineMediaMap.get(source)||raw}catch(_){return raw}};
+ const localizeLessonSource=raw=>academyOfflineMediaUrl(raw);
  body.querySelectorAll('img[src],source[src],image[href],image[xlink\\:href]').forEach(el=>{
   for(const attr of ['src','href','xlink:href']){
    const raw=el.getAttribute(attr);
