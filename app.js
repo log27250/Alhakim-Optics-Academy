@@ -74,7 +74,8 @@ function offlineMediaHash(value){let h=2166136261;for(let i=0;i<value.length;i++
 async function loadOfflineMediaMap(){try{const db=await openOfflineDB();const rows=await new Promise((resolve,reject)=>{const req=db.transaction('media_map','readonly').objectStore('media_map').getAll();req.onsuccess=()=>resolve(req.result||[]);req.onerror=()=>reject(req.error)});db.close();rows.forEach(x=>offlineMediaMap.set(x.source_url,x.local_url))}catch(e){console.info('Offline image map not available:',e.message)}}
 async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  if(!navigator.onLine||!window.caches||!Array.isArray(DB?.lessons)||!window.indexedDB)throw Error('لا يمكن حفظ الصور دون اتصال.');
- const urls=new Set(),add=raw=>{const v=String(raw||'').trim().replace(/^['"]|['"]$/g,'');if(!v||/^(data:|blob:|#)/i.test(v))return;try{const u=new URL(v,location.href);if(/^https?:$/.test(u.protocol)&&u.origin!==location.origin)urls.add(u.href)}catch(_){}};
+ await loadOfflineMediaMap();
+ const urls=new Set(),add=raw=>{const v=String(raw||'').trim().replace(/^['"]|['"]$/g,'');if(!v||/^(data:|blob:|#)/i.test(v))return;try{const u=new URL(v,location.href);if(!/^https?:$/.test(u.protocol))return;if(u.protocol==='http:')u.protocol='https:';urls.add(u.href)}catch(_){}};
  const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
  const home=HOME_SETTINGS||HOME_DEFAULTS;
  [home.logo_url,home.founder_photo_url,home.hero_image_url,home.academy_card_image_url,...(home.articles||[]).map(x=>x?.image)].forEach(add);
@@ -189,10 +190,15 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
  ].map(x=>new URL(x,location.href).href);
  const priorityList=prioritySources.filter(x=>urls.has(x));
  const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB(),failed=[],list=[...new Set([...priorityList,...urls])];let cached=0;
- let newlyDownloaded=0;for(let i=0;i<list.length&&newlyDownloaded<maxNewImages;i+=5)await Promise.allSettled(list.slice(i,i+5).map(async src=>{try{const local=new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;if(await cache.match(local)){offlineMediaMap.set(src,local);cached++;return}
+ let newlyDownloaded=0;for(let i=0;i<list.length&&newlyDownloaded<maxNewImages;i+=5)await Promise.allSettled(list.slice(i,i+5).map(async src=>{try{
+  const sourceUrl=new URL(src,location.href),local=sourceUrl.origin===location.origin?sourceUrl.href:new URL('./__offline_media__/'+offlineMediaHash(src),location.href).href;
+  if(await cache.match(local)){offlineMediaMap.set(src,local);cached++;return}
   if(newlyDownloaded>=maxNewImages)return;
-  let res;try{res=await fetch(src,{mode:'cors',credentials:'omit',cache:'default'})}catch(_){res=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'default'})}
-  if(res.type!=='opaque'&&!res.ok)throw Error('HTTP '+res.status);await cache.put(local,res.clone());offlineMediaMap.set(src,local);cached++;newlyDownloaded++;
+  let res=null,firstError=null;
+  try{res=await fetch(src,{mode:'cors',credentials:'omit',cache:'default'});if(!res.ok)throw Error('CORS fetch HTTP '+res.status)}
+  catch(error){firstError=error;if(sourceUrl.origin===location.origin)throw error;res=await fetch(src,{mode:'no-cors',credentials:'omit',cache:'default'})}
+  if(!res||(!res.ok&&res.type!=='opaque'))throw firstError||Error('Image download failed');
+  await cache.put(local,res.clone());offlineMediaMap.set(src,local);cached++;newlyDownloaded++;
  }catch(e){failed.push({url:src,error:e.message})}}));
  const records=[...offlineMediaMap].filter(([src,local])=>urls.has(src)).map(([source_url,local_url])=>({source_url,local_url,cached_at:new Date().toISOString()}));
  await new Promise((resolve,reject)=>{const tx=db.transaction('media_map','readwrite'),st=tx.objectStore('media_map');records.forEach(x=>st.put(x));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error)});db.close();
