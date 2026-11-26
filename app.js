@@ -85,6 +85,17 @@ async function cacheWikimediaLessonImages(maxNewImages=Number.MAX_SAFE_INTEGER){
    for(const m of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(m[1]);
    for(const m of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(m[2]);
   }
+  // Capture images and video sources injected only by the final lecture renderer.
+  try{
+   const rendered=renderLectureContentWithIllustration(lesson);
+   const renderedDoc=new DOMParser().parseFromString(String(rendered||''),'text/html');
+   renderedDoc.querySelectorAll('img,source,image,video,[style]').forEach(el=>{
+    for(const attr of ['src','href','xlink:href','data-src','data-original','data-original-src','data-lazy-src','poster'])add(el.getAttribute(attr));
+    for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\\s+/)[0]));
+    const style=el.getAttribute('style')||'';
+    for(const match of style.matchAll(/url\\((['"]?)(https?:\\/\\/[^)'"]+)\\1\\)/gi))add(match[2]);
+   });
+  }catch(error){console.warn('Could not inspect final lecture media during full sync:',lesson.id,error)}
  }
  // Prioritize the newly added VIS-042 through VIS-045 clinical photographs, followed by earlier clinical photographs, anatomy and perception resources.
  const pediatricPriority=[...new Set(DB.lessons.filter(l=>/^PED-/i.test(String(l.code||''))).flatMap(l=>{const found=[];for(const raw of [l.content_en,l.content_ar]){const source=String(raw||'');for(const m of source.matchAll(/!\\[[^\\]]*\\]\\(([^)\\s]+)(?:\\s+[^)]*)?\\)/g)){try{const u=new URL(m[1],location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}const doc=new DOMParser().parseFromString(source,'text/html');doc.querySelectorAll('img[src],source[src],image[href],image').forEach(n=>{const rawUrl=n.getAttribute('src')||n.getAttribute('href')||n.getAttribute('xlink:href');if(rawUrl){try{const u=new URL(rawUrl,location.href);if(/^https?:$/.test(u.protocol))found.push(u.href)}catch(_){}}})}return found}))];
@@ -211,11 +222,11 @@ async function refreshOfflineQuestionBanks(){
  if(!navigator.onLine||!Array.isArray(DB?.lessons)||!DB.lessons.length||!window.indexedDB)throw Error('لا يمكن مزامنة بنك الأسئلة دون اتصال أو دون محاضرات.');
  const ids=new Set(DB.lessons.filter(l=>!l.review_required&&String(l.status||'published')==='published').map(l=>String(l.id)));
  const [questions,options]=await Promise.all([
-  restAll('questions','select=id,lesson_id,question_en,question_ar,difficulty&is_published=eq.true&order=created_at.asc,id.asc'),
-  restAll('question_options','select=id,question_id,option_en,option_ar,display_order&order=display_order.asc')
+  restAll('questions','select=id,lesson_id,question_en,question_ar,difficulty,explanation_en,explanation_ar&is_published=eq.true&order=created_at.asc,id.asc'),
+  restAll('question_options','select=id,question_id,option_en,option_ar,is_correct,display_order&order=display_order.asc')
  ]);
- const map=new Map();options.forEach(o=>{const k=String(o.question_id);if(!map.has(k))map.set(k,[]);map.get(k).push({id:String(o.id),text:String(o.option_en||''),text_ar:String(o.option_ar||'')})});
- const byLesson=new Map();questions.forEach(q=>{const id=String(q.lesson_id||'');if(!ids.has(id))return;if(!byLesson.has(id))byLesson.set(id,[]);byLesson.get(id).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',options:map.get(String(q.id))||[]})});
+ const map=new Map();options.forEach(o=>{const k=String(o.question_id);if(!map.has(k))map.set(k,[]);map.get(k).push({id:String(o.id),text:String(o.option_en||''),text_ar:String(o.option_ar||''),is_correct:o.is_correct===true})});
+ const byLesson=new Map();questions.forEach(q=>{const id=String(q.lesson_id||'');if(!ids.has(id))return;if(!byLesson.has(id))byLesson.set(id,[]);byLesson.get(id).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',explanation_en:String(q.explanation_en||''),explanation_ar:String(q.explanation_ar||''),options:map.get(String(q.id))||[]})});
  const records=[...byLesson].map(([lesson_id,qs])=>({lesson_id,questions:qs,synced_at:new Date().toISOString()}));
  await saveOfflineQuestionBanks(records);localStorage.setItem('alhakim_question_bank_sync',new Date().toISOString());
  return {questions:questions.length,lessons:records.length};
@@ -297,8 +308,10 @@ async function loadContent(){
   // Never hold the lecture interface while downloading the entire academy image library.
   // Lesson images render from their original URLs immediately; offline copies are saved in the background.
   const previousImageReport=await readFullSyncReport()||{};
-  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,images_sync_status:'background',complete:false,synced_at:new Date().toISOString()});
+  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,questions_lessons:questionsSync.lessons,images_sync_status:'queued',complete:false,synced_at:new Date().toISOString()});
   refreshOfflineSyncBadge();
+  // Start the full media/library download automatically after the complete cloud catalogue is saved.
+  startFullOfflineSync().catch(error=>console.warn('Full offline sync will resume on the next online opening:',error));
 
  }catch(e){
   cloudError=e.message||String(e);
@@ -845,6 +858,41 @@ function academyTextReferenceEndpoint(ref){
 }
 function academyReferenceCacheKey(ref,kind='text'){
  return new URL('./__offline_references_'+kind+'__/'+offlineMediaHash(String(ref.id)),location.href).href;
+}
+let academyFullSyncPromise=null;
+async function startFullOfflineSync(){
+ if(!navigator.onLine||dataSource!=='supabase'||!Array.isArray(DB?.lessons)||!DB.lessons.length)return null;
+ if(academyFullSyncPromise)return academyFullSyncPromise;
+ academyFullSyncPromise=(async()=>{
+  const initial=await readFullSyncReport()||{};
+  await saveFullSyncReport({...initial,complete:false,images_sync_status:'downloading',sync_started_at:new Date().toISOString()});
+  try{if(navigator.storage?.persist)await navigator.storage.persist()}catch(error){console.info('Persistent offline storage was not granted:',error?.message||error)}
+  let images={cached:0,failed:0,total:0},pdfs={cached:0,failed:0},texts={cached:0,failed:0,skipped:0};
+  try{images=await cacheWikimediaLessonImages()}catch(error){images.failed=1;console.error('Bulk lesson media sync failed:',error)}
+  try{
+   if(session?.access_token)pdfs=await cacheOfflineReferenceFiles();
+   else pdfs={cached:0,failed:0,skipped:(DB.reference_catalog||[]).filter(r=>r.file_path).length};
+  }catch(error){pdfs.failed=1;console.error('Offline PDF sync failed:',error)}
+  try{texts=await cacheOfflineTextReferences()}catch(error){texts.failed=1;console.error('Offline full-text sync failed:',error)}
+  try{await saveOfflineCurriculum(DB)}catch(error){console.warn('Could not save final offline catalogue:',error)}
+  const referenceTotal=(DB.reference_catalog||[]).filter(isAcademyReadableReference).length;
+  const complete=images.failed===0&&pdfs.failed===0&&texts.failed===0&&pdfs.skipped===0;
+  const report=await saveFullSyncReport({
+   departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,
+   questions:initial.questions||0,questions_lessons:initial.questions_lessons||0,
+   references:referenceTotal,images_cached:images.cached,images_total:images.total,images_failed:images.failed,
+   reference_files_cached:pdfs.cached,reference_files_failed:pdfs.failed,
+   reference_text_cached:texts.cached,reference_text_failed:texts.failed,
+   images_sync_status:images.failed?'partial':'complete',complete,synced_at:new Date().toISOString()
+  });
+  console.info('HAKIM full offline sync report:',report);
+  return report;
+ })().catch(async error=>{
+  console.error('HAKIM full offline sync failed:',error);
+  await saveFullSyncReport({complete:false,images_sync_status:'failed',last_error:String(error?.message||error)}).catch(()=>{});
+  throw error;
+ }).finally(()=>{academyFullSyncPromise=null;refreshOfflineSyncBadge()});
+ return academyFullSyncPromise;
 }
 async function cacheOfflineTextReferences(references=DB?.reference_catalog||[]){
  if(!navigator.onLine||!window.caches||!Array.isArray(references))return {cached:0,failed:0,skipped:0};
@@ -1437,7 +1485,17 @@ async function checkLessonAnswer(questionId,optionId,button){
  const box=button.closest('.practice-question');if(!box||box.dataset.answered==='1')return;
  box.dataset.answered='1';const buttons=[...box.querySelectorAll('.option')];buttons.forEach(b=>b.disabled=true);
  try{
-  const result=await publicRpc('academy_check_lesson_answer',{p_question_id:questionId,p_option_id:optionId});
+  let result=null;
+  if(!navigator.onLine){
+   let q=null;for(const bank of offlineQuestionBanks.values()){q=(bank||[]).find(item=>String(item.id)===String(questionId));if(q)break}
+   if(!q)throw Error('بيانات التصحيح غير محفوظة على هذا الجهاز. أعد المزامنة بالإنترنت.');
+   const correct=q.options?.find(o=>o.is_correct===true);
+   const selected=q.options?.find(o=>String(o.id)===String(optionId));
+   if(!correct||!selected)throw Error('مفتاح التصحيح غير متاح في النسخة المحلية.');
+   result={is_correct:selected.is_correct===true,correct_answer:correct.text,explanation_en:q.explanation_en||'',explanation_ar:q.explanation_ar||''};
+  }else{
+   result=await publicRpc('academy_check_lesson_answer',{p_question_id:questionId,p_option_id:optionId});
+  }
   const chosen=buttons.find(b=>b.dataset.optionId===optionId);
   if(result.is_correct){chosen?.classList.add('correct')}else{chosen?.classList.add('wrong');const correct=buttons.find(b=>b.textContent.trim()===String(result.correct_answer||'').trim());correct?.classList.add('correct')}
   const ex=box.querySelector('.explanation');ex.hidden=false;
