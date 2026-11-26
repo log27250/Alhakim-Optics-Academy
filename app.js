@@ -304,12 +304,12 @@ async function loadContent(){
   }
   await saveOfflineCurriculum(DB);
   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB only.')}
-  let questionsSync={questions:0,lessons:0};
-  try{questionsSync=await refreshOfflineQuestionBanks()}catch(questionError){console.warn('Offline question bank sync failed; media sync will continue:',questionError)}
+  let questionsSync={questions:0,lessons:0,complete:false};
+  try{questionsSync=await refreshOfflineQuestionBanks();questionsSync.complete=true}catch(questionError){console.warn('Offline question bank sync failed; media sync will continue:',questionError)}
   // Never hold the lecture interface while downloading the entire academy image library.
   // Lesson images render from their original URLs immediately; offline copies are saved in the background.
   const previousImageReport=await readFullSyncReport()||{};
-  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,questions_lessons:questionsSync.lessons,images_sync_status:'queued',complete:false,synced_at:new Date().toISOString()});
+  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,questions_lessons:questionsSync.lessons,questions_sync_status:questionsSync.complete?'complete':'failed',images_sync_status:'queued',complete:false,synced_at:new Date().toISOString()});
   refreshOfflineSyncBadge();
   // Start the full media/library download automatically after the complete cloud catalogue is saved.
   startFullOfflineSync().catch(error=>console.warn('Full offline sync will resume on the next online opening:',error));
@@ -877,7 +877,7 @@ async function startFullOfflineSync(){
   try{texts=await cacheOfflineTextReferences()}catch(error){texts.failed=1;console.error('Offline full-text sync failed:',error)}
   try{await saveOfflineCurriculum(DB)}catch(error){console.warn('Could not save final offline catalogue:',error)}
   const referenceTotal=(DB.reference_catalog||[]).filter(isAcademyReadableReference).length;
-  const complete=images.failed===0&&images.cached>=images.total&&pdfs.failed===0&&texts.failed===0&&Number(pdfs.skipped||0)===0;
+  const complete=initial.questions_sync_status==='complete'&&images.failed===0&&images.cached>=images.total&&pdfs.failed===0&&texts.failed===0&&Number(pdfs.skipped||0)===0;
   const report=await saveFullSyncReport({
    departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,
    questions:initial.questions||0,questions_lessons:initial.questions_lessons||0,
