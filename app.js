@@ -1576,7 +1576,7 @@ async function loadProfile(){
  let admin=false;
  if(email===ACADEMY_ADMIN_EMAIL){try{admin=(await rpc('is_academy_admin'))===true}catch(e){console.error('Admin role verification failed:',e);admin=false}}
  profile={role:admin?'admin':'student',is_admin:admin,display_name:session.user?.user_metadata?.full_name||session.user?.user_metadata?.name||''};
- syncAdminNavigation();return profile;
+ syncAdminNavigation();startFullOfflineSync().catch(error=>console.warn('Offline content sync will resume:',error));return profile;
 }
 function signOut(){session=null;profile=null;syncAdminNavigation();localStorage.removeItem('hakim_auth_session');showPage('accounts')}
 function renderAccounts(){
