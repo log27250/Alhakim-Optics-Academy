@@ -1,5 +1,5 @@
 /* HAKIM OPTICS ACADEMY — lightweight offline-first application shell */
-const CACHE_NAME='alhakim-academy-v27-full-offline-sync-2026-11-26';
+const CACHE_NAME='alhakim-academy-v28-full-offline-sync-2026-11-26';
 const MEDIA_CACHE='alhakim-academy-media-v1';
 const COMPLETE_KEY='./__offline_install_complete__';
 const CORE=[
