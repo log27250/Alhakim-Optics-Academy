@@ -877,12 +877,12 @@ async function startFullOfflineSync(){
   try{texts=await cacheOfflineTextReferences()}catch(error){texts.failed=1;console.error('Offline full-text sync failed:',error)}
   try{await saveOfflineCurriculum(DB)}catch(error){console.warn('Could not save final offline catalogue:',error)}
   const referenceTotal=(DB.reference_catalog||[]).filter(isAcademyReadableReference).length;
-  const complete=images.failed===0&&pdfs.failed===0&&texts.failed===0&&pdfs.skipped===0;
+  const complete=images.failed===0&&images.cached>=images.total&&pdfs.failed===0&&texts.failed===0&&Number(pdfs.skipped||0)===0;
   const report=await saveFullSyncReport({
    departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,
    questions:initial.questions||0,questions_lessons:initial.questions_lessons||0,
    references:referenceTotal,images_cached:images.cached,images_total:images.total,images_failed:images.failed,
-   reference_files_cached:pdfs.cached,reference_files_failed:pdfs.failed,
+   reference_files_cached:pdfs.cached,reference_files_failed:pdfs.failed,reference_files_skipped:Number(pdfs.skipped||0),
    reference_text_cached:texts.cached,reference_text_failed:texts.failed,
    images_sync_status:images.failed?'partial':'complete',complete,synced_at:new Date().toISOString()
   });
