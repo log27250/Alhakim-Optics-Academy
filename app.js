@@ -235,7 +235,23 @@ async function refreshOfflineQuestionBanks(){
  const byLesson=new Map();questions.forEach(q=>{const id=String(q.lesson_id||'');if(!ids.has(id))return;if(!byLesson.has(id))byLesson.set(id,[]);byLesson.get(id).push({id:String(q.id),question:String(q.question_en||''),question_ar:String(q.question_ar||''),difficulty:q.difficulty||'',explanation_en:String(q.explanation_en||''),explanation_ar:String(q.explanation_ar||''),options:map.get(String(q.id))||[]})});
  const records=[...byLesson].map(([lesson_id,qs])=>({lesson_id,questions:qs,synced_at:new Date().toISOString()}));
  await saveOfflineQuestionBanks(records);localStorage.setItem('alhakim_question_bank_sync',new Date().toISOString());
- return {questions:questions.length,lessons:records.length};
+ let examQuestions=0,examSyncStatus='failed';
+ try{
+  const formalRows=await restAll('academy_exam_questions','select=id,department_code,question_text,options,correct_option,explanation,difficulty&is_active=eq.true&order=department_code.asc,id.asc');
+  const formalBank=formalRows.map(q=>{
+   const correct=String(q.correct_option??'').trim();
+   const options=(Array.isArray(q.options)?q.options:[]).map((option,index)=>{
+    const label=String(option??'');
+    return {id:String(index),value:label,label,is_correct:label===correct};
+   });
+   return {id:String(q.id),department_code:String(q.department_code||''),question:String(q.question_text||''),explanation:String(q.explanation||''),difficulty:String(q.difficulty||''),options};
+  }).filter(q=>q.department_code&&q.question&&q.options.length>=2&&q.options.some(o=>o.is_correct));
+  await saveOfflineDepartmentExamBank(formalBank);
+  examQuestions=formalBank.length;examSyncStatus=formalBank.length?'complete':'empty';
+ }catch(examError){
+  console.warn('Formal offline exam bank sync failed; lesson question banks remain available:',examError);
+ }
+ return {questions:questions.length,lessons:records.length,exam_questions:examQuestions,exam_sync_status:examSyncStatus,complete:examSyncStatus==='complete'};
 }
 
 function isUuid(v){return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(v||''))}
@@ -311,11 +327,11 @@ async function loadContent(){
   await saveOfflineCurriculum(DB);
   try{localStorage.setItem('alhakim_content_cache',JSON.stringify(DB))}catch(e){console.info('Curriculum stored in IndexedDB only.')}
   let questionsSync={questions:0,lessons:0,complete:false};
-  try{questionsSync=await refreshOfflineQuestionBanks();questionsSync.complete=true}catch(questionError){console.warn('Offline question bank sync failed; media sync will continue:',questionError)}
+  try{questionsSync=await refreshOfflineQuestionBanks()}catch(questionError){console.warn('Offline question bank sync failed; media sync will continue:',questionError)}
   // Never hold the lecture interface while downloading the entire academy image library.
   // Lesson images render from their original URLs immediately; offline copies are saved in the background.
   const previousImageReport=await readFullSyncReport()||{};
-  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,questions_lessons:questionsSync.lessons,questions_sync_status:questionsSync.complete?'complete':'failed',images_sync_status:'queued',complete:false,synced_at:new Date().toISOString()});
+  await saveFullSyncReport({...previousImageReport,departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,references:(DB.reference_catalog||[]).length,questions:questionsSync.questions,questions_lessons:questionsSync.lessons,questions_sync_status:questionsSync.questions?'complete':'failed',exam_questions:questionsSync.exam_questions||0,exam_sync_status:questionsSync.exam_sync_status||'failed',images_sync_status:'queued',complete:false,synced_at:new Date().toISOString()});
   refreshOfflineSyncBadge();
   // Start the full media/library download automatically after the complete cloud catalogue is saved.
   startFullOfflineSync().catch(error=>console.warn('Full offline sync will resume on the next online opening:',error));
@@ -891,10 +907,10 @@ async function startFullOfflineSync(){
   try{texts=await cacheOfflineTextReferences()}catch(error){texts.failed=1;console.error('Offline full-text sync failed:',error)}
   try{await saveOfflineCurriculum(DB)}catch(error){console.warn('Could not save final offline catalogue:',error)}
   const referenceTotal=(DB.reference_catalog||[]).filter(isAcademyReadableReference).length;
-  const complete=initial.questions_sync_status==='complete'&&images.failed===0&&images.cached>=images.total&&pdfs.failed===0&&texts.failed===0&&Number(pdfs.skipped||0)===0;
+  const complete=initial.questions_sync_status==='complete'&&initial.exam_sync_status==='complete'&&images.failed===0&&images.cached>=images.total&&pdfs.failed===0&&texts.failed===0&&Number(pdfs.skipped||0)===0;
   const report=await saveFullSyncReport({
    departments:DB.departments.length,topics:DB.curriculum_topic_count,lessons:DB.lessons.length,
-   questions:initial.questions||0,questions_lessons:initial.questions_lessons||0,
+   questions:initial.questions||0,questions_lessons:initial.questions_lessons||0,exam_questions:initial.exam_questions||0,exam_sync_status:initial.exam_sync_status||'failed',
    references:referenceTotal,images_cached:images.cached,images_total:images.total,images_failed:images.failed,
    reference_files_cached:pdfs.cached,reference_files_failed:pdfs.failed,reference_files_skipped:Number(pdfs.skipped||0),
    reference_text_cached:texts.cached,reference_text_failed:texts.failed,
@@ -1474,14 +1490,35 @@ function getOfflineCompletions(){try{return JSON.parse(localStorage.getItem(OFFL
 function saveOfflineCompletion(id){const rows=getOfflineCompletions();if(!rows.some(x=>String(x.lesson_id)===String(id)))rows.push({lesson_id:String(id),queued_at:new Date().toISOString()});localStorage.setItem(OFFLINE_COMPLETION_KEY,JSON.stringify(rows))}
 async function syncOfflineCompletions(){if(!navigator.onLine||!session?.access_token)return;const rows=getOfflineCompletions();if(!rows.length)return;const remaining=[];for(const item of rows){try{await rpc('academy_mark_lesson_complete',{p_lesson_id:item.lesson_id})}catch(e){remaining.push(item)}}localStorage.setItem(OFFLINE_COMPLETION_KEY,JSON.stringify(remaining));if(rows.length!==remaining.length)connection()}
 async function completeLesson(id){if(!session){alert('سجّل الدخول أولاً.');return}if(!navigator.onLine){saveOfflineCompletion(id);alert('تم حفظ إكمال الدرس على هذا الجهاز. ستتم مزامنته تلقائياً عند عودة الإنترنت.');const l=DB.lessons.find(x=>x.id===id);if(l)showDepartment(l.department_code);return}try{const r=await rpc('academy_mark_lesson_complete',{p_lesson_id:id});alert(r.message||'تم تسجيل إكمال الدرس');const l=DB.lessons.find(x=>x.id===id);if(l)showDepartment(l.department_code)}catch(e){if(e instanceof TypeError||!navigator.onLine){saveOfflineCompletion(id);alert('تعذر الاتصال بالخادم؛ حُفظ إكمال الدرس محلياً وسيتم إرساله عند عودة الإنترنت.')}else alert(e.message)}}
+async function readOfflineDepartmentExamBank(code){
+ try{
+  const db=await openOfflineDB();
+  const row=await new Promise((resolve,reject)=>{const req=db.transaction('academy_meta','readonly').objectStore('academy_meta').get('department_exam_questions');req.onsuccess=()=>resolve(req.result||null);req.onerror=()=>reject(req.error)});
+  db.close();
+  return (row?.value||[]).filter(q=>String(q.department_code)===String(code));
+ }catch(error){console.warn('Offline department exam bank unavailable:',error);return []}
+}
+async function saveOfflineDepartmentExamBank(records){
+ const db=await openOfflineDB();
+ await new Promise((resolve,reject)=>{
+  const tx=db.transaction('academy_meta','readwrite');
+  tx.objectStore('academy_meta').put({key:'department_exam_questions',value:records,synced_at:new Date().toISOString()});
+  tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);
+ });
+ db.close();
+}
 async function buildOfflineDepartmentExam(code){
- const lessons=(DB?.lessons||[]).filter(l=>String(l.department_code)===String(code)&&canViewLesson(l));
- const banks=await Promise.all(lessons.map(l=>readOfflineQuestionBank(l.id)));
- const pool=banks.flat().filter(q=>Array.isArray(q.options)&&q.options.some(o=>o.is_correct===true));
+ const officialBank=await readOfflineDepartmentExamBank(code);
+ let pool=officialBank.filter(q=>Array.isArray(q.options)&&q.options.some(o=>o.is_correct===true));
+ if(pool.length<5){
+  const lessons=(DB?.lessons||[]).filter(l=>String(l.department_code)===String(code)&&canViewLesson(l));
+  const banks=await Promise.all(lessons.map(l=>readOfflineQuestionBank(l.id)));
+  pool=banks.flat().filter(q=>Array.isArray(q.options)&&q.options.some(o=>o.is_correct===true));
+ }
  if(pool.length<5)throw Error('لم يتم حفظ عدد كافٍ من أسئلة هذا القسم على الجهاز. افتح الأكاديمية بالإنترنت وانتظر اكتمال المزامنة.');
  const shuffled=pool.slice();
  for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]]}
- const questions=shuffled.slice(0,Math.min(20,shuffled.length)).map(q=>({id:q.id,question:q.question,options:q.options.map(o=>({id:o.id,label:o.text,is_correct:o.is_correct===true}))}));
+ const questions=shuffled.slice(0,Math.min(20,shuffled.length)).map(q=>({id:q.id,question:q.question,options:q.options.map(o=>({id:o.id,value:o.value??o.id,label:o.label??o.text??o.value,is_correct:o.is_correct===true}))}));
  return {offline_local:true,attempt_id:'offline-'+Date.now(),department_code:code,exam_title_en:'Offline Practice Exam',exam_title_ar:'اختبار تدريبي دون اتصال — لا يصدر شهادة',total_questions:questions.length,pass_mark:70,questions};
 }
 async function startDepartmentExam(code){
