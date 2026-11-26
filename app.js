@@ -696,7 +696,7 @@ async function cacheLessonImagesOffline(lesson){
   const rendered=renderLectureContentWithIllustration(lesson);
   const renderedDoc=new DOMParser().parseFromString(String(rendered||''),'text/html');
   renderedDoc.querySelectorAll('img,source,image,video,[style]').forEach(el=>{
-   for(const attr of ['src','href','xlink:href','data-src','data-original','data-lazy-src','poster'])add(el.getAttribute(attr));
+   for(const attr of ['src','href','xlink:href','data-src','data-original','data-original-src','data-lazy-src','poster'])add(el.getAttribute(attr));
    for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\\s+/)[0]));
    const style=el.getAttribute('style')||'';
    for(const match of style.matchAll(/url\\((['"]?)(https?:\\/\\/[^)'"]+)\\1\\)/gi))add(match[2]);
