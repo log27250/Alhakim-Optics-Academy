@@ -668,6 +668,53 @@ function buildLectureSlides(html){
  emit();
  return slides.length?slides:[['<p>Lecture content is not available.</p>']];
 }
+async function cacheLessonImagesOffline(lesson){
+ if(!lesson||!navigator.onLine||!window.caches||!window.indexedDB)return {cached:0,failed:0,skipped:true};
+ await loadOfflineMediaMap();
+ const urls=new Set(),add=raw=>{
+  const value=String(raw||'').trim().replace(/^['"]|['"]$/g,'');
+  if(!value||/^(data:|blob:|#)/i.test(value))return;
+  try{const u=new URL(value,location.href);if(/^https?:$/.test(u.protocol)&&u.origin!==location.origin)urls.add(u.href)}catch(_){}
+ };
+ const fields=['image_url','image_urls','illustration_url','thumbnail_url','cover_image_url','featured_image_url','diagram_url'];
+ for(const key of fields){const value=lesson[key];if(Array.isArray(value))value.forEach(add);else if(value)add(value)}
+ for(const raw of [lesson.content_en,lesson.content_ar]){
+  if(!raw)continue;
+  const source=String(raw),doc=new DOMParser().parseFromString(source,'text/html');
+  doc.querySelectorAll('img,source,image,[style]').forEach(el=>{
+   for(const attr of ['src','href','xlink:href','data-src','data-original','data-lazy-src'])add(el.getAttribute(attr));
+   for(const attr of ['srcset','data-srcset'])(el.getAttribute(attr)||'').split(',').forEach(part=>add(part.trim().split(/\s+/)[0]));
+   const style=el.getAttribute('style')||'';
+   for(const match of style.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(match[2]);
+  });
+  for(const match of source.matchAll(/!\[[^\]]*\]\(([^)\s]+)(?:\s+[^)]*)?\)/g))add(match[1]);
+  for(const match of source.matchAll(/url\((['"]?)(https?:\/\/[^)'"]+)\1\)/gi))add(match[2]);
+ }
+ if(!urls.size)return {cached:0,failed:0,total:0};
+ const cache=await caches.open(OFFLINE_MEDIA_CACHE),db=await openOfflineDB();
+ let cached=0,failed=0;
+ try{
+  for(const source of urls){
+   const local=new URL('./__offline_media__/'+offlineMediaHash(source),location.href).href;
+   if(await cache.match(local)){offlineMediaMap.set(source,local);cached++;continue}
+   try{
+    let response;
+    try{response=await fetch(source,{mode:'cors',credentials:'omit'})}
+    catch(_){response=await fetch(source,{mode:'no-cors',credentials:'omit'})}
+    if(response.type!=='opaque'&&!response.ok)throw new Error('HTTP '+response.status);
+    await cache.put(local,response.clone());
+    offlineMediaMap.set(source,local);cached++;
+   }catch(error){failed++;console.warn('Lesson image could not be cached:',source,error)}
+  }
+  const records=[...urls].filter(source=>offlineMediaMap.has(source)).map(source=>({source_url:source,local_url:offlineMediaMap.get(source),cached_at:new Date().toISOString()}));
+  await new Promise((resolve,reject)=>{
+   const tx=db.transaction('media_map','readwrite'),store=tx.objectStore('media_map');
+   records.forEach(record=>store.put(record));
+   tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);
+  });
+ }finally{db.close()}
+ return {cached,failed,total:urls.size,complete:failed===0};
+}
 function localizeOfflineMediaUrl(raw){
  try{const key=new URL(String(raw||''),location.href).href;return offlineMediaMap.get(key)||raw}catch(_){return raw}
 }
@@ -1342,7 +1389,7 @@ function renderLectureContentWithIllustration(l){
  }
  return body.outerHTML;
 }
-async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const hasInlineArabic=/\*\*الشرح بالعربي:\*\*/.test(String(l.content_en||''))||(/^(?:CL|PED)-/.test(String(l.code||''))&&/[\u0600-\u06FF]/.test(String(l.content_en||'')));
+async function showLesson(id){const l=DB.lessons.find(x=>String(x.id)===String(id));await loadOfflineMediaMap();if(l&&navigator.onLine){try{await cacheLessonImagesOffline(l)}catch(e){console.warn('Could not cache lesson images for offline use:',e)}}if(!l||!canViewLesson(l)){pageShell('المحاضرة غير متاحة','هذا المحتوى ما زال قيد المراجعة العلمية.','<div class="notice">المحاضرات غير المنشورة متاحة لفريق الإدارة فقط.</div>');return;}const objectives=Array.isArray(l.learning_objectives)?l.learning_objectives.join(' · '):l.learning_objectives;const refs=Array.isArray(l.reference_titles)?l.reference_titles:[];let completion='';if(session&&isUuid(l.id)&&l.status==='published'){let done=false;try{const rows=await rest('academy_lesson_completions',`select=lesson_id&user_id=eq.${encodeURIComponent(session.user.id)}&lesson_id=eq.${encodeURIComponent(l.id)}`);done=rows.length>0}catch(e){}completion=done?'<div class="notice">✓ تم تسجيل إكمال هذا الدرس في حسابك.</div>':`<button class="primary" onclick="completeLesson('${esc(l.id)}')">تم إكمال الدرس</button><p class="muted">اضغط بعد الانتهاء من دراسة محتوى الدرس لتسجيل إنجازه.</p>`}else if(!session){completion='<div class="notice">سجّل الدخول لتسجيل إكمال الدرس وحفظ تقدمك.</div>'}else{completion='<div class="notice">هذا المحتوى محلي أو غير منشور في قاعدة البيانات؛ لا يُحتسب ضمن شروط الشهادة حتى يُنشر كسجل درس في قاعدة الأكاديمية.</div>'}const hasInlineArabic=/\*\*الشرح بالعربي:\*\*/.test(String(l.content_en||''))||(/^(?:CL|PED)-/.test(String(l.code||''))&&/[\u0600-\u06FF]/.test(String(l.content_en||'')));
  const lectureHtml=renderLectureContentWithIllustration(l);
  const slides=buildLectureSlides(lectureHtml);
  pageShell(l.title_en,departmentName(l.department_code),'<button class="home-return lecture-back" onclick="showDepartment(\''+esc(l.department_code)+'\')" aria-label="العودة إلى القسم">← <span>العودة إلى القسم</span></button><article class="lesson-detail lecture-fullscreen"><header class="lecture-cover"><div class="eyebrow">HAKIM OPTICS ACADEMY · LECTURE</div><h1>'+esc(l.title_en)+'</h1><h2>'+esc(l.title_ar||'')+'</h2><p><b>Department:</b> '+esc(departmentName(l.department_code))+' · <b>Level:</b> '+esc(l.level||'Undergraduate Optometry')+'</p></header><section class="lecture-objectives"><h2>LEARNING OBJECTIVES – أهداف المحاضرة</h2>'+(Array.isArray(l.learning_objectives)?'<ul>'+l.learning_objectives.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'<p>'+esc(objectives)+'</p>')+'</section>'+lectureAudioPanel('en',l.content_en)+(hasInlineArabic?'':lectureAudioPanel('ar',l.content_ar))+'<div class="lecture-audio-note">تشغيل، إيقاف مؤقت، متابعة، إيقاف، تنقل جملة إلى الأمام أو الخلف، والتحكم في سرعة القراءة.</div>'+renderLectureDeck(slides)+'<section class="lecture-after"><h3>أسئلة المحاضرة</h3><button class="primary" onclick="showQuiz(\''+esc(l.id)+'\')">ابدأ أسئلة المحاضرة</button><h3>تسجيل إكمال الدرس</h3>'+completion+'<h3>Suggested References</h3><div class="reference-list">'+(refs.map(referenceLink).join('')||'<p>لم تُربط مراجع مباشرة بهذه المحاضرة بعد.</p>')+'</div></section></article>');
